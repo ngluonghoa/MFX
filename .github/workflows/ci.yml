@@ -1,4 +1,4 @@
-name: Forex contract CI and artifact smoke
+name: MFX 1:1 parity CI and artifact smoke
 on:
   pull_request:
   push:
@@ -76,7 +76,7 @@ jobs:
       - name: Upload one verified CI wheel for RE5a cross-Python comparison (NOT release)
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2 pinned
         with:
-          name: forex-re5a-wheel-${{ matrix.python-version }}
+          name: mfx-baseline-wheel-${{ matrix.python-version }}
           path: .ci-wheel/*.whl
           if-no-files-found: error
           include-hidden-files: true
@@ -95,12 +95,12 @@ jobs:
       - name: Download Python 3.11 wheel from this workflow run
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0 pinned
         with:
-          name: forex-re5a-wheel-3.11
+          name: mfx-baseline-wheel-3.11
           path: .ci-cross-python/py311
       - name: Download Python 3.12 wheel from this workflow run
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0 pinned
         with:
-          name: forex-re5a-wheel-3.12
+          name: mfx-baseline-wheel-3.12
           path: .ci-cross-python/py312
       - name: Verify two Python builds are byte-identical and match exact checked-out source
         run: python -m tools.check_cross_python_artifacts .ci-cross-python/py311 .ci-cross-python/py312

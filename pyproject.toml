@@ -3,10 +3,10 @@ requires = ["setuptools==84.1.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "forex-trading-core"
+name = "mfx-forex-core"
 version = "0.1.0"
 requires-python = ">=3.11"
-description = "Forex Trading 1.0 synthetic, read-only domain contracts"
+description = "MFX cloud-only synthetic Forex 1.0 parity contracts; analysis only, no live trading"
 readme = "README.md"
 dependencies = []
 
