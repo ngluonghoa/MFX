@@ -21,7 +21,7 @@ HEX_SHA = re.compile(r"^[0-9a-f]{40}$")
 
 def git_blob_sha(data: bytes) -> str:
     payload = b"blob " + str(len(data)).encode("ascii") + b"\x00" + data
-    return hashlib.sha1(payload).hexdigest()  # noqa: S324 - Git SHA-1 object ID
+    return hashlib.sha1(payload).hexdigest()  # nosec B324 - exact Git SHA-1 object ID, not a security digest
 
 
 def _check_path(path: object) -> str:
@@ -72,7 +72,7 @@ def git_tree_sha(files: list[dict[str, Any]]) -> str:
         data = bytes(buffer)
         return hashlib.sha1(
             b"tree " + str(len(data)).encode("ascii") + b"\x00" + data
-        ).hexdigest()  # noqa: S324 - Git SHA-1 tree ID
+        ).hexdigest()  # nosec B324 - exact Git tree-object SHA-1, not a security digest
 
     return visit(root)
 
