@@ -17,6 +17,16 @@ SOURCE_TREE = "5df2058346f6dc96ed5bb02581b139fe2aa2d803"
 SOURCE_COMMIT = "7e1c1c012b1b189be5ad7b9d07756eac012a8309"
 EXCEPTION_FILE = "docs/MFX_ALLOWED_BASELINE_DELTAS.json"
 HEX_SHA = re.compile(r"^[0-9a-f]{40}$")
+# A02/P0.2 approved type-only paths: explicit narrow exceptions, never wildcards.
+A02_CHANGE_ID = "DEC-MFX-001:A02/P0.2-STRICT-TYPING"
+A02_TYPED_SOURCE_PATHS = frozenset((
+    "src/forex_trading/synthetic_drive_receipt_validation.py",
+    "src/forex_trading/google_drive_wire_contract.py",
+    "src/forex_trading/cache_core.py",
+    "src/forex_trading/synthetic_scan_workload.py",
+    "src/forex_trading/provider_delta_contract.py",
+    "src/forex_trading/synthetic_drive_scan_orchestrator.py",
+))
 
 
 def git_blob_sha(data: bytes) -> str:
@@ -115,7 +125,10 @@ def exception_entries(document: dict[str, Any]) -> dict[str, dict[str, Any]]:
         if path in result:
             raise ValueError("DUPLICATE_APPROVED_DELTA")
         if path.startswith("src/"):
-            raise ValueError("DOMAIN_SOURCE_DELTA_NOT_AUTHORIZED_AT_A01_P0_1")
+            if (path not in A02_TYPED_SOURCE_PATHS or
+                    item.get("change") != "modified" or
+                    item.get("approved_change_id") != A02_CHANGE_ID):
+                raise ValueError("DOMAIN_SOURCE_DELTA_NOT_AUTHORIZED_WITHOUT_A02_GATE")
         if item.get("change") not in ("modified", "added", "removed"):
             raise ValueError("APPROVED_DELTA_CHANGE_INVALID")
         if not isinstance(item.get("reason"), str) or not item["reason"].strip():
@@ -177,10 +190,21 @@ def assess_checkout(
         added += 1
     domain = [p for p in source if p.startswith("src/")]
     if len(domain) != 30 or any(
-        p in exceptions or actual.get(p) != (source[p]["sha"], source[p]["bytes"])
+        p not in actual or (
+            p not in exceptions and
+            actual[p] != (source[p]["sha"], source[p]["bytes"])
+        ) or (
+            p in exceptions and (
+                p not in A02_TYPED_SOURCE_PATHS or
+                exceptions[p].get("approved_change_id") != A02_CHANGE_ID
+            )
+        )
         for p in domain
     ):
         raise ValueError("FROZEN_DOMAIN_SOURCE_PARITY_LOST")
+    unchanged_domain = sum(
+        actual[p] == (source[p]["sha"], source[p]["bytes"]) for p in domain
+    )
     return {
         "kind": "MFX_A01_FROZEN_SOURCE_PATH_PARITY_QA_ONLY",
         "source_commit": SOURCE_COMMIT,
@@ -189,7 +213,9 @@ def assess_checkout(
         "identical_original_paths": identical,
         "approved_existing_path_deltas": changed,
         "approved_new_paths": added,
-        "domain_python_sources_byte_equal": len(domain),
+        "domain_python_sources_byte_equal": unchanged_domain,
+        "approved_typed_source_deltas": len(domain) - unchanged_domain,
+        "source_delta_change_id": A02_CHANGE_ID,
         "all_unapproved_path_or_byte_changes_blocked": True,
         "is_live_strategy_parity_proof": False,
         "is_signed_release": False,

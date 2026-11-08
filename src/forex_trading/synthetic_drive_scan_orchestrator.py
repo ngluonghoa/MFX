@@ -6,7 +6,7 @@ The store does not depend on this module; legacy imports remain re-exported.
 """
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Mapping
+from typing import Mapping, cast
 
 from .cache_core import (
     CandleSnapshot, IncrementalPolicy, RefreshMode,
@@ -116,7 +116,7 @@ def run_mixed_scope_synthetic_drive_scan(
             delta += 1
             bounded_rows = tuple(
                 bar for bar in oracle.closed_bars
-                if bar.key.bar_start_utc >= plan.from_utc
+                if bar.key.bar_start_utc >= cast(datetime, plan.from_utc)
             )
             rows += len(bounded_rows)
             changed = reconcile_closed_delta(

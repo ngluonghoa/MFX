@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from hashlib import md5, sha256
 from json import loads
 from re import fullmatch
+from typing import Any, cast
 
 MAX_SMOKE_BYTES = 128 * 1024
 SCHEMA = "FX_SYNTHETIC_DRIVE_SMOKE_MANIFEST_V1"
@@ -54,9 +55,9 @@ def _id(value: str, label: str) -> None:
         _reject("INVALID_" + label)
 
 
-def _load_json_no_duplicate_keys(payload: bytes) -> dict:
-    def on_pairs(pairs):
-        out = {}
+def _load_json_no_duplicate_keys(payload: bytes) -> dict[str, Any]:
+    def on_pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+        out: dict[str, Any] = {}
         for key, value in pairs:
             if key in out:
                 _reject("DUPLICATE_JSON_FIELD")
@@ -68,7 +69,7 @@ def _load_json_no_duplicate_keys(payload: bytes) -> dict:
         _reject("INVALID_SYNTHETIC_MANIFEST_JSON:" + str(exc))
     if not isinstance(parsed, dict):
         _reject("SYNTHETIC_MANIFEST_NOT_OBJECT")
-    return parsed
+    return cast(dict[str, Any], parsed)
 
 
 def _check_file(

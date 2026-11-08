@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from hashlib import sha256
 from json import dumps
-from typing import Sequence
+from typing import Sequence, cast
 
 from .market_data import (
     BarCoverage, BarLifecycle, BarSide, MarketBar, SourceQuality, Timeframe,
@@ -211,7 +211,7 @@ def plan_incremental_refresh(
         if head.observed_at_utc > decision_utc:
             raise ValueError("SOURCE_HEAD_FUTURE_OBSERVED")
         if (head.source_head_id == snapshot.source_head_claim
-                and head.complete_through_utc >= snapshot.last_closed_end_utc
+                and head.complete_through_utc >= cast(datetime, snapshot.last_closed_end_utc)
                 and head.observed_at_utc >= snapshot.checked_at_utc
                 and decision_utc - head.observed_at_utc <= policy.max_head_age):
             return result(RefreshMode.REUSE_HEAD_CLAIM, None,

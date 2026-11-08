@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from hashlib import md5, sha256
 from json import dumps, loads
 from re import fullmatch
-from typing import Callable
+from typing import Any, Callable, cast
 from urllib.parse import quote, urlencode
 
 SYNTHETIC_MAGIC = b"FX_SYNTHETIC_CACHE_V1\n"
@@ -63,7 +63,7 @@ def _json_bytes(value: object) -> bytes:
     return dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii")
 
 
-def _response_json(response: DriveWireResponse, statuses: tuple[int, ...]) -> dict:
+def _response_json(response: DriveWireResponse, statuses: tuple[int, ...]) -> dict[str, Any]:
     if not isinstance(response, DriveWireResponse):
         raise TypeError("TYPED_DRIVE_WIRE_RESPONSE_REQUIRED")
     if response.status not in statuses:
@@ -105,7 +105,7 @@ class SyntheticGoogleDriveBlobPort:
     def _name(self, partition_fingerprint: str, digest: str) -> str:
         return "fxsynthetic-v1-" + partition_fingerprint + "-" + digest + ".blob"
 
-    def _list_one(self, name: str) -> dict | None:
+    def _list_one(self, name: str) -> dict[str, Any] | None:
         # Drive filenames are not unique. Require exactly one or fail closed.
         expression = ("'" + self.folder_id + "' in parents and name = '"
                       + name + "' and trashed = false")
@@ -127,13 +127,13 @@ class SyntheticGoogleDriveBlobPort:
         return files[0] if files else None
 
     def _verify_metadata(
-        self, obj: dict, *, expected_name: str,
+        self, obj: dict[str, Any], *, expected_name: str,
         expected_md5: str, expected_size: int,
     ) -> str:
         if not isinstance(obj, dict):
             raise ValueError("DRIVE_FILE_METADATA_INVALID")
         file_id = obj.get("id")
-        _opaque_id(file_id, "FILE_ID")
+        _opaque_id(cast(str, file_id), "FILE_ID")
         if (obj.get("name") != expected_name
             or obj.get("mimeType") != _BLOB_MIME
             or obj.get("md5Checksum") != expected_md5
@@ -141,7 +141,7 @@ class SyntheticGoogleDriveBlobPort:
             or not isinstance(obj.get("parents"), list)
             or obj["parents"] != [self.folder_id]):
             raise ValueError("DRIVE_FILE_METADATA_MISMATCH")
-        return file_id
+        return cast(str, file_id)
 
     def _readback(
         self, file_id: str, *, expected_name: str,

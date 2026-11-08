@@ -11,7 +11,7 @@ from enum import Enum
 from hashlib import sha256
 from json import dumps
 from re import fullmatch
-from typing import Mapping
+from typing import Mapping, cast
 
 from .cache_core import CachePartition, RefreshMode, RefreshPlan
 from .market_data import BarSide, Timeframe
@@ -200,7 +200,7 @@ def parse_synthetic_oanda_candles(
     for row in rows:
         if not isinstance(row, Mapping):
             raise TypeError("Candle record must be a mapping")
-        stamp = parse_oanda_utc(row.get("time"))
+        stamp = parse_oanda_utc(cast(str, row.get("time")))
         if not stamp.exact:
             raise ValueError("SUBMICROSECOND_CANDLE_START_REQUIRES_EXACT_CLOCK")
         start = stamp.utc
