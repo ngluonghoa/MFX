@@ -7,14 +7,26 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "527ef016443619e8af5981abd0a1e3f5d77c91f7",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare"
+      "expected_current_sha": "ff2fa9a3873314b2e45465c3d1801cb0f31843c6",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
       "change": "added",
       "expected_current_sha": "532d951fa3efab2ff4310581d20f71eee51e9e9c",
       "reason": "A01/P0.2 golden scope, source provenance and release limitations"
+    },
+    {
+      "path": "docs/MFX_A02_F401_FROZEN_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "c575cdcae6d01247d57c7478891df3f8a6e47213",
+      "reason": "A02/P0.1 exact path/line/column/symbol inventory for 24 legacy F401 findings in frozen source"
+    },
+    {
+      "path": "docs/MFX_A02_STATIC_ANALYSIS_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "e1af34ad689ebee8cbf3032605a629dda44a319f",
+      "reason": "A02/P0.1 Cloud static analysis scope, complete source Pyflakes and 12-module strict mypy rollout; audit of historical 24 F401 baseline"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -52,6 +64,12 @@
       "reason": "MFX repository identity header, original Forex README preserved in PR #1"
     },
     {
+      "path": "tests/test_a02_pyflakes_baseline.py",
+      "change": "added",
+      "expected_current_sha": "4c103acd25fe55e5442180a17c99c71201c5e25f",
+      "reason": "A02/P0.1 seven negative/positive baseline drift tests"
+    },
+    {
       "path": "tests/test_frozen_source_baseline.py",
       "change": "added",
       "expected_current_sha": "0f400680d3a66d569b502535a6eeaf3ecc34f4db",
@@ -68,6 +86,12 @@
       "change": "added",
       "expected_current_sha": "7fc12f3da06e113613a573686dc2975794f32f01",
       "reason": "MFX-only synthetic import ownership tests, PR #2"
+    },
+    {
+      "path": "tools/check_a02_pyflakes_baseline.py",
+      "change": "added",
+      "expected_current_sha": "b8bd1237ea728c052cc1803102bec4343b0c7052",
+      "reason": "A02/P0.1 full Ruff Pyflakes F-code analysis with exact legacy F401 exception baseline"
     },
     {
       "path": "tools/check_mfx_import_ownership.py",
