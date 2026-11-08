@@ -144,8 +144,8 @@
     {
       "path": "tools/check_a02_pyflakes_baseline.py",
       "change": "added",
-      "expected_current_sha": "b8bd1237ea728c052cc1803102bec4343b0c7052",
-      "reason": "A02/P0.1 full Ruff Pyflakes F-code analysis with exact legacy F401 exception baseline"
+      "expected_current_sha": "165826cf6fbf4f3a80f7e4069b092e5717def7b0",
+      "reason": "A02/P0.1 full Ruff Pyflakes F-code analysis with exact legacy F401 exception baseline; receipt scoped to actual Pyflakes evidence only, no false claim unchanged source bytes"
     },
     {
       "path": "tools/check_mfx_import_ownership.py",
