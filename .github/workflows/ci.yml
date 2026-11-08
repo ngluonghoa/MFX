@@ -28,6 +28,10 @@ jobs:
         env:
           PYTHONPATH: src
         run: python -m unittest discover -s tests -v
+      - name: Require reproducible A03 property/fuzz suite inventory (synthetic only)
+        env:
+          PYTHONPATH: src
+        run: python tools/check_a03_property_suite.py
       - name: Verify immutable Forex source manifest and approved MFX-only deltas (A01)
         run: python tools/verify_frozen_source_baseline.py
       - name: Checkout exact frozen Forex 1.0 source (A01 golden reference)
