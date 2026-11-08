@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_APPROVED_PARITY_DELTAS",
+  "source_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate.",
+  "exceptions": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "change": "modified",
+      "expected_current_sha": "d5d1cc99d136f2fd8dbf5928da3caee03c56999f",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1"
+    },
+    {
+      "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
+      "change": "added",
+      "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
+    },
+    {
+      "path": "docs/MFX_FROZEN_SOURCE_TREE.json",
+      "change": "added",
+      "expected_current_sha": "6117e05d8069b10ad577c8e5121f2db597328431",
+      "reason": "A01/P0.1 immutable original Forex 102-blob tree baseline"
+    },
+    {
+      "path": "docs/MFX_IDENTITY_ISOLATION.md",
+      "change": "added",
+      "expected_current_sha": "f556c9619977adcabebe0ee9d80e8e7860e1c687",
+      "reason": "MFX project identity isolation policy, PR #1"
+    },
+    {
+      "path": "docs/MFX_RUNTIME_IMPORT_ISOLATION.md",
+      "change": "added",
+      "expected_current_sha": "f9fd37d3b90c0dc1941b94be9a2446577d0520cf",
+      "reason": "MFX Cloud import namespace safety policy, PR #2"
+    },
+    {
+      "path": "pyproject.toml",
+      "change": "modified",
+      "expected_current_sha": "13a5784dd137642bfafcb3ff9b190b8563595dc5",
+      "reason": "MFX-only wheel distribution metadata from PR #1"
+    },
+    {
+      "path": "README.md",
+      "change": "modified",
+      "expected_current_sha": "7cf722af48c93ea746db5a604fba08fa90ca9166",
+      "reason": "MFX repository identity header, original Forex README preserved in PR #1"
+    },
+    {
+      "path": "tests/test_frozen_source_baseline.py",
+      "change": "added",
+      "expected_current_sha": "0f400680d3a66d569b502535a6eeaf3ecc34f4db",
+      "reason": "A01/P0.1 negative/positive parity gate tests"
+    },
+    {
+      "path": "tests/test_mfx_import_ownership.py",
+      "change": "added",
+      "expected_current_sha": "7fc12f3da06e113613a573686dc2975794f32f01",
+      "reason": "MFX-only synthetic import ownership tests, PR #2"
+    },
+    {
+      "path": "tools/check_mfx_import_ownership.py",
+      "change": "added",
+      "expected_current_sha": "6d48289e9c94f6a2f76aa001d2cf693037452f2b",
+      "reason": "MFX-only Cloud venv import ownership guard, PR #2"
+    },
+    {
+      "path": "tools/verify_frozen_source_baseline.py",
+      "change": "added",
+      "expected_current_sha": "c2e0008ce1648a820ab070e66306b58c1c79f158",
+      "reason": "A01/P0.1 offline original Git tree/byte parity and exception validator"
+    }
+  ]
+}
