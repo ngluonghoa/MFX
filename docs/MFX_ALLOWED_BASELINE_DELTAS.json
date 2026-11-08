@@ -2,13 +2,13 @@
   "schema_version": 1,
   "kind": "MFX_APPROVED_PARITY_DELTAS",
   "source_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
-  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update. A02/P0.2 permits only six explicit typed-source paths with approved_change_id DEC-MFX-001:A02/P0.2-STRICT-TYPING, pinned Git blobs and independent golden/CI tests; the original 102 blob/source reference remains frozen and unchanged. A03/P0.1 adds only exact SHA-pinned CI/tests/tools/docs for seeded synthetic property QA, with no new src changes. A03/P0.2 new mutation code is test/tools/Docs-only, never tracked domain src. New paths and CI changes exact SHA-pinned.",
+  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update. A02/P0.2 permits only six explicit typed-source paths with approved_change_id DEC-MFX-001:A02/P0.2-STRICT-TYPING, pinned Git blobs and independent golden/CI tests; the original 102 blob/source reference remains frozen and unchanged. A03/P0.1 adds only exact SHA-pinned CI/tests/tools/docs for seeded synthetic property QA, with no new src changes. A03/P0.2 new mutation code is test/tools/Docs-only, never tracked domain src. New paths and CI changes exact SHA-pinned. A03/P0.3 permits only QA test, tool, scope, and CI changes with exact Git blob SHA; tracked domain sources unchanged.",
   "exceptions": [
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "cc6fd8ad74a844d78a0129dd2dec10ac110646cd",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step; A03/P0.2 ephemeral 17 mutation sentinel CI gate"
+      "expected_current_sha": "e520bf44bc107f62f3c01a59349f982267376e68",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step; A03/P0.2 ephemeral 17 mutation sentinel CI gate; A03/P0.3 stateful fuzz corpus CI budget"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -45,6 +45,12 @@
       "change": "added",
       "expected_current_sha": "5c57adcc47e2925be7d09e7e399d50b677b76c09",
       "reason": "A03/P0.1 approved synthetic property/fuzz limits and deferred mutation/TP-SL real testing; red CI 42505111055 fixed Decimal numeric test oracle, no source algorithm change"
+    },
+    {
+      "path": "docs/MFX_A03_STATEFUL_FUZZ_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "e56251dca46d4d0f645dff390b711cfb10e273a4",
+      "reason": "A03/P0.3 stateful replay scope and explicit coverage/TP-SL nonclaims"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -148,6 +154,12 @@
       "reason": "A03/P0.1 24 seeded BID/ASK, time causality, DST, EMA and cache metamorphic tests (synthetic read-only); red CI 42505111055 fixed Decimal numeric test oracle, no source algorithm change"
     },
     {
+      "path": "tests/test_a03_stateful_fuzz.py",
+      "change": "added",
+      "expected_current_sha": "669a44b983c1d2067ea527bb42a9500b543f0f3b",
+      "reason": "A03/P0.3 eight-seed 16-step deterministic read-only stateful model fuzz and shrinker tests"
+    },
+    {
       "path": "tests/test_frozen_source_baseline.py",
       "change": "added",
       "expected_current_sha": "0f400680d3a66d569b502535a6eeaf3ecc34f4db",
@@ -178,6 +190,12 @@
       "reason": "A03/P0.1 fail-closed inventory of fixed seeded 24-test property suite"
     },
     {
+      "path": "tools/check_a03_stateful_fuzz_budget.py",
+      "change": "added",
+      "expected_current_sha": "918942b9e93210d712268547d57b67d1ce24603d",
+      "reason": "A03/P0.3 CI guard that verifies seed corpus, 16-step budget, 7 method discovery, no trading"
+    },
+    {
       "path": "tools/check_mfx_import_ownership.py",
       "change": "added",
       "expected_current_sha": "6d48289e9c94f6a2f76aa001d2cf693037452f2b",
@@ -198,8 +216,8 @@
     {
       "path": "tools/run_a03_mutation_sentinels.py",
       "change": "added",
-      "expected_current_sha": "7c4d36eec8838f95b6b7c132244fba3bc52c4456",
-      "reason": "A03/P0.2 cloud ephemeral 17-mutation fail-closed sentinel runner and measured receipt; red QA 42506501239 name-validator fix C03B to C05, no mutation injection yet"
+      "expected_current_sha": "b28749fc81cbee87f930abf6c245a9bfd90adfe2",
+      "reason": "A03/P0.2 cloud ephemeral 17-mutation fail-closed sentinel runner and measured receipt; red QA 42506501239 name-validator fix C03B to C05, no mutation injection yet; baseline A03 control suite expanded 29 to 36 methods"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
