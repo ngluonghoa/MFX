@@ -27,7 +27,7 @@ SRC_PACKAGE = ROOT / "src" / "forex_trading"
 TESTS = ROOT / "tests"
 PREFIX = "test_a03_seeded_properties.A03SeededReadOnlyProperties."
 ORACLE = "test_a03_mutation_oracles.A03IndependentMutationOracles."
-CONTROL_TEST_COUNT = 29
+CONTROL_TEST_COUNT = 36
 SOURCE_MODULES = frozenset((
     "quotes.py", "market_data.py", "cache_core.py",
     "cache_dependency.py", "cache_indicators.py",
