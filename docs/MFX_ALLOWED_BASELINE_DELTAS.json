@@ -7,14 +7,20 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "527ef016443619e8af5981abd0a1e3f5d77c91f7",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare"
+      "expected_current_sha": "b04345ea02ce1db1b4ddbf2f858021f0203c6f6a",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
       "change": "added",
       "expected_current_sha": "532d951fa3efab2ff4310581d20f71eee51e9e9c",
       "reason": "A01/P0.2 golden scope, source provenance and release limitations"
+    },
+    {
+      "path": "docs/MFX_A02_STATIC_ANALYSIS_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "2031572c8e75216f7400522968cab99796895faf",
+      "reason": "A02/P0.1 Cloud static analysis scope, complete source Pyflakes and 12-module strict mypy rollout"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
