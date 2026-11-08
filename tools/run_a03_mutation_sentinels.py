@@ -96,7 +96,7 @@ MUTANTS: tuple[Mutation, ...] = (
              "incoming.revision_number <= old.revision_number",
              "incoming.revision_number < old.revision_number",
              ORACLE + "test_same_revision_rejected_even_if_known_later"),
-    Mutation("C03B_SAME_KNOWN_TIME_CORRECTION_ACCEPTED", "cache_core.py",
+    Mutation("C05_SAME_KNOWN_TIME_CORRECTION_ACCEPTED", "cache_core.py",
              "incoming.first_known_utc <= old.first_known_utc",
              "incoming.first_known_utc < old.first_known_utc",
              ORACLE + "test_higher_revision_rejected_if_not_known_later"),
