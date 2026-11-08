@@ -304,7 +304,8 @@ class A03StatefulSyntheticFuzz(unittest.TestCase):
         )
         # Hypothetical failing predicate used only to exercise the reducer;
         # it never changes the application code or data permissions.
-        failure = lambda changed: "A" in changed and "B" in changed
+        def failure(changed):
+            return "A" in changed and "B" in changed
         original = ("X", "B", "A", "Y", "Z")
         one = minimize_changed_nodes(nodes, original, failure)
         two = minimize_changed_nodes(nodes, original, failure)
