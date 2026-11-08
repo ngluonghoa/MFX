@@ -198,8 +198,8 @@
     {
       "path": "tools/run_a03_mutation_sentinels.py",
       "change": "added",
-      "expected_current_sha": "a8d53db10ac0dbaffdfe7543d6004aab4418ebeb",
-      "reason": "A03/P0.2 cloud ephemeral 17-mutation fail-closed sentinel runner and measured receipt"
+      "expected_current_sha": "7c4d36eec8838f95b6b7c132244fba3bc52c4456",
+      "reason": "A03/P0.2 cloud ephemeral 17-mutation fail-closed sentinel runner and measured receipt; red QA 42506501239 name-validator fix C03B to C05, no mutation injection yet"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
