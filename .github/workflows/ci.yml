@@ -51,8 +51,8 @@ jobs:
         run: ruff check --select E9,F63,F7,F82 src tests tools
       - name: Reject broad syntax and indentation issues
         run: ruff check --select E4,E7 src tests tools
-      - name: Full Pyflakes over all frozen Python domain modules (A02)
-        run: ruff check --select F src/forex_trading
+      - name: Full Pyflakes 30-module check with exact frozen legacy F401 baseline (A02)
+        run: python tools/check_a02_pyflakes_baseline.py
       - name: Strict mypy static typing for 12 source contract modules (A02)
         run: |
           python -m mypy --strict --python-version 3.11 --show-error-codes --no-incremental \
