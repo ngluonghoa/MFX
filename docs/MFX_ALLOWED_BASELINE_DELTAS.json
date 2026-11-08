@@ -37,8 +37,8 @@
     {
       "path": "docs/MFX_A03_PROPERTY_METAMORPHIC_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "b921da9f929101fd6a17d6e62d291ab0fedc1b29",
-      "reason": "A03/P0.1 approved synthetic property/fuzz limits and deferred mutation/TP-SL real testing"
+      "expected_current_sha": "5c57adcc47e2925be7d09e7e399d50b677b76c09",
+      "reason": "A03/P0.1 approved synthetic property/fuzz limits and deferred mutation/TP-SL real testing; red CI 42505111055 fixed Decimal numeric test oracle, no source algorithm change"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -132,8 +132,8 @@
     {
       "path": "tests/test_a03_seeded_properties.py",
       "change": "added",
-      "expected_current_sha": "811ab87324dc3779276970c082b4c35cd8e768a6",
-      "reason": "A03/P0.1 24 seeded BID/ASK, time causality, DST, EMA and cache metamorphic tests (synthetic read-only)"
+      "expected_current_sha": "556d2a817976c48919188b70d93bba9c1153516d",
+      "reason": "A03/P0.1 24 seeded BID/ASK, time causality, DST, EMA and cache metamorphic tests (synthetic read-only); red CI 42505111055 fixed Decimal numeric test oracle, no source algorithm change"
     },
     {
       "path": "tests/test_frozen_source_baseline.py",
