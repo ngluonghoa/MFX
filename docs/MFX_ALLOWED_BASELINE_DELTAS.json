@@ -156,8 +156,8 @@
     {
       "path": "tests/test_a03_stateful_fuzz.py",
       "change": "added",
-      "expected_current_sha": "669a44b983c1d2067ea527bb42a9500b543f0f3b",
-      "reason": "A03/P0.3 eight-seed 16-step deterministic read-only stateful model fuzz and shrinker tests"
+      "expected_current_sha": "6bb687c38f0ce6f1fa022b5894edd3db0d21544f",
+      "reason": "A03/P0.3 eight-seed 16-step deterministic read-only stateful model fuzz and shrinker tests; red PR CI 42508342609 E731 style-only fix with no changed scenario logic"
     },
     {
       "path": "tests/test_frozen_source_baseline.py",
