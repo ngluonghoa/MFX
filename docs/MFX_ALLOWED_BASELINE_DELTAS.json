@@ -2,13 +2,13 @@
   "schema_version": 1,
   "kind": "MFX_APPROVED_PARITY_DELTAS",
   "source_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
-  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update. A02/P0.2 permits only six explicit typed-source paths with approved_change_id DEC-MFX-001:A02/P0.2-STRICT-TYPING, pinned Git blobs and independent golden/CI tests; the original 102 blob/source reference remains frozen and unchanged. A03/P0.1 adds only exact SHA-pinned CI/tests/tools/docs for seeded synthetic property QA, with no new src changes.",
+  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update. A02/P0.2 permits only six explicit typed-source paths with approved_change_id DEC-MFX-001:A02/P0.2-STRICT-TYPING, pinned Git blobs and independent golden/CI tests; the original 102 blob/source reference remains frozen and unchanged. A03/P0.1 adds only exact SHA-pinned CI/tests/tools/docs for seeded synthetic property QA, with no new src changes. A03/P0.2 new mutation code is test/tools/Docs-only, never tracked domain src. New paths and CI changes exact SHA-pinned.",
   "exceptions": [
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "ca7a71ad818f51d69d9b9bedc2b5a8a9bffd2652",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step"
+      "expected_current_sha": "cc6fd8ad74a844d78a0129dd2dec10ac110646cd",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step; A03/P0.2 ephemeral 17 mutation sentinel CI gate"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -33,6 +33,12 @@
       "change": "added",
       "expected_current_sha": "e1af34ad689ebee8cbf3032605a629dda44a319f",
       "reason": "A02/P0.1 Cloud static analysis scope, complete source Pyflakes and 12-module strict mypy rollout; audit of historical 24 F401 baseline"
+    },
+    {
+      "path": "docs/MFX_A03_MUTATION_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "2ec949dcfa53feee00bcf57d399485d86a4f9b06",
+      "reason": "A03/P0.2 immutable source/no-trade boundaries, mutation score scope and CI gate"
     },
     {
       "path": "docs/MFX_A03_PROPERTY_METAMORPHIC_SCOPE.md",
@@ -130,6 +136,12 @@
       "reason": "A02/P0.1 seven negative/positive baseline drift tests"
     },
     {
+      "path": "tests/test_a03_mutation_oracles.py",
+      "change": "added",
+      "expected_current_sha": "86dbae7819509faf7c8e689cbafcf4301051958e",
+      "reason": "A03/P0.2 five independent oracle tests for quotes, EMA and cache revision causality"
+    },
+    {
       "path": "tests/test_a03_seeded_properties.py",
       "change": "added",
       "expected_current_sha": "556d2a817976c48919188b70d93bba9c1153516d",
@@ -182,6 +194,12 @@
       "change": "added",
       "expected_current_sha": "26586324948f5c9c21d501f044fe440409ebfd0c",
       "reason": "A01/P0.2 deterministic typed golden fixture renderer for original vs MFX"
+    },
+    {
+      "path": "tools/run_a03_mutation_sentinels.py",
+      "change": "added",
+      "expected_current_sha": "a8d53db10ac0dbaffdfe7543d6004aab4418ebeb",
+      "reason": "A03/P0.2 cloud ephemeral 17-mutation fail-closed sentinel runner and measured receipt"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
