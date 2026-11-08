@@ -2,13 +2,19 @@
   "schema_version": 1,
   "kind": "MFX_APPROVED_PARITY_DELTAS",
   "source_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
-  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate.",
+  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update.",
   "exceptions": [
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "d5d1cc99d136f2fd8dbf5928da3caee03c56999f",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1"
+      "expected_current_sha": "527ef016443619e8af5981abd0a1e3f5d77c91f7",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare"
+    },
+    {
+      "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "532d951fa3efab2ff4310581d20f71eee51e9e9c",
+      "reason": "A01/P0.2 golden scope, source provenance and release limitations"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -52,6 +58,12 @@
       "reason": "A01/P0.1 negative/positive parity gate tests"
     },
     {
+      "path": "tests/test_golden_contracts.py",
+      "change": "added",
+      "expected_current_sha": "0cec3f13e370d9f2c29122828e7528a86a9d00cb",
+      "reason": "A01/P0.2 negative/positive golden parity comparator tests"
+    },
+    {
       "path": "tests/test_mfx_import_ownership.py",
       "change": "added",
       "expected_current_sha": "7fc12f3da06e113613a573686dc2975794f32f01",
@@ -62,6 +74,18 @@
       "change": "added",
       "expected_current_sha": "6d48289e9c94f6a2f76aa001d2cf693037452f2b",
       "reason": "MFX-only Cloud venv import ownership guard, PR #2"
+    },
+    {
+      "path": "tools/compare_golden_contracts.py",
+      "change": "added",
+      "expected_current_sha": "bf9bcf44c37cfd1c2843b4ac89d0fe67588da8a0",
+      "reason": "A01/P0.2 fail-closed golden snapshot schema/output/reason comparator"
+    },
+    {
+      "path": "tools/render_golden_contract.py",
+      "change": "added",
+      "expected_current_sha": "26586324948f5c9c21d501f044fe440409ebfd0c",
+      "reason": "A01/P0.2 deterministic typed golden fixture renderer for original vs MFX"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
