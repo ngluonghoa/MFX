@@ -32,6 +32,8 @@ jobs:
         env:
           PYTHONPATH: src
         run: python tools/check_a03_property_suite.py
+      - name: A03/P0.2 targeted mutation adequacy on ephemeral source copy (17 sentinel mutants)
+        run: python tools/run_a03_mutation_sentinels.py
       - name: Verify immutable Forex source manifest and approved MFX-only deltas (A01)
         run: python tools/verify_frozen_source_baseline.py
       - name: Checkout exact frozen Forex 1.0 source (A01 golden reference)
