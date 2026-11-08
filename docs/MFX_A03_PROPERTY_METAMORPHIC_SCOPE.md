@@ -19,6 +19,12 @@ Test groups:
 
 `tools/check_a03_property_suite.py` fails if the suite file, declared seed, 96-case range or discovered 24 test methods disappear. The regular `python -m unittest discover -s tests -v` runs all properties and existing tests on both Python versions, while a dedicated CI inventory step adds `MFX_A03_SEEDED_PROPERTY_SUITE_PRESENT` receipt.
 
+## Red-to-green numeric invariant calibration (preserve CI evidence)
+
+Initial PR CI [run 42505111055](https://github.com/ngluonghoa/MFX/actions/runs/42505111055) executed **636 test methods** on both Python versions and failed four deterministic `test_ema_constant_prices_are_fixed_points` subtests at indices 40, 44, 77, 91. All other new test methods passed. The legacy EMA's finite 28-digit `Decimal` weighted recurrence can accumulate rounding differences of magnitude about `1E-27`, so the original new test's exact constant-price equality was mathematically overstrict for that existing numeric representation. The `ema_full` / `ema_recompute` exact parity checks still pass and are unchanged.
+
+A03/P0.1 updates **only the constant-price property** to require the absolute error to remain at or below `1E-25` per EMA point. The CI red receipt stays recorded; no changes to original Forex or current MFX `src/` code. This is a declared test-oracle numeric tolerance, not a redefinition of market signal precision or approval of real backtesting/trading. Any result outside the declared bound fails CI. The threshold must be reviewed if source numeric precision or context changes.
+
 ## Explicit not-yet-implemented A03 components
 
 A03/P0.1 is **not full A03**. No external provider call or live bid/ask source is used. No Hypothesis/coverage-guided fuzz engine, source-mutant survival score, autonomous mutation campaign, production scheduler, genuine tick-level fill TP/SL engine, economic backtest, or real trade validation is claimed. A03/P0.2 should add a controlled mutation adequacy campaign and broader adversarial verification; true TP/SL and execution validation must wait for actual executable, qualified detector and market-data contracts. Do not invent numeric trading results.
