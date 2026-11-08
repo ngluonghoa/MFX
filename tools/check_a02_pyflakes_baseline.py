@@ -109,8 +109,7 @@ def main() -> None:
               **receipt,
               "all_new_F_codes_blocked": True,
               "legacy_F401_exceptions_exact": True,
-              "all_source_bytes_immutable_under_A01": True,
-              "full_mypy_strict_30_modules": False,
+              "this_receipt_only_covers_pyflakes": True,
               "may_deploy_or_trade": False,
           }, sort_keys=True))
 
