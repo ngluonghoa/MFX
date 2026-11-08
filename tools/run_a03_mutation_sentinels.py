@@ -27,7 +27,7 @@ SRC_PACKAGE = ROOT / "src" / "forex_trading"
 TESTS = ROOT / "tests"
 PREFIX = "test_a03_seeded_properties.A03SeededReadOnlyProperties."
 ORACLE = "test_a03_mutation_oracles.A03IndependentMutationOracles."
-CONTROL_TEST_COUNT = 27
+CONTROL_TEST_COUNT = 29
 SOURCE_MODULES = frozenset((
     "quotes.py", "market_data.py", "cache_core.py",
     "cache_dependency.py", "cache_indicators.py",
@@ -95,7 +95,11 @@ MUTANTS: tuple[Mutation, ...] = (
     Mutation("C03_SAME_REVISION_CORRECTION_ACCEPTED", "cache_core.py",
              "incoming.revision_number <= old.revision_number",
              "incoming.revision_number < old.revision_number",
-             PREFIX + "test_same_revision_changed_cache_value_is_rejected"),
+             ORACLE + "test_same_revision_rejected_even_if_known_later"),
+    Mutation("C03B_SAME_KNOWN_TIME_CORRECTION_ACCEPTED", "cache_core.py",
+             "incoming.first_known_utc <= old.first_known_utc",
+             "incoming.first_known_utc < old.first_known_utc",
+             ORACLE + "test_higher_revision_rejected_if_not_known_later"),
     Mutation("C04_DIRTY_DEPENDENCY_DISABLED", "cache_dependency.py",
              "if any(p in affected for p in node.parents):",
              "if False:",
@@ -124,7 +128,7 @@ def replace_once(content: str, expected: str, changed: str) -> str:
 
 
 def validate_mutations() -> None:
-    if len(MUTANTS) != 16:
+    if len(MUTANTS) != 17:
         raise ValueError("A03_MUTANT_COUNT_CHANGED")
     ids = [m.mutation_id for m in MUTANTS]
     if len(ids) != len(set(ids)):
