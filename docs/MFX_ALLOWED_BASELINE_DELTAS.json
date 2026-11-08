@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "ff2fa9a3873314b2e45465c3d1801cb0f31843c6",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore"
+      "expected_current_sha": "1611e809ade7be5b424afa45d404b00052304191",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -21,6 +21,12 @@
       "change": "added",
       "expected_current_sha": "c575cdcae6d01247d57c7478891df3f8a6e47213",
       "reason": "A02/P0.1 exact path/line/column/symbol inventory for 24 legacy F401 findings in frozen source"
+    },
+    {
+      "path": "docs/MFX_A02_FULL_MYPY_AUDIT.md",
+      "change": "added",
+      "expected_current_sha": "d72ffb365850c716c1750379ec9cee616a04dd44",
+      "reason": "A02/P0.2 30-module mypy strict diagnostic audit scope, no source editing"
     },
     {
       "path": "docs/MFX_A02_STATIC_ANALYSIS_SCOPE.md",
