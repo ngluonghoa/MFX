@@ -8,12 +8,13 @@ latency, provider API quotas or actual network savings.
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+from typing import cast
 
 from .cache_core import (
     CachePartition, CandleSnapshot, IncrementalPolicy, RefreshMode,
     SourceHeadClaim, plan_incremental_refresh, reconcile_closed_delta,
 )
-from .market_data import BarSide
+from .market_data import BarSide, MarketBar
 from .quotes import ensure_utc
 
 
@@ -139,11 +140,11 @@ def run_synthetic_five_minute_sweep(
             supports_bounded_range=supports_bounded_range, head=entry.head_claim,
         )
         count_full += len(oracle.closed_bars)
-        fetch_rows = ()
+        fetch_rows: tuple[MarketBar, ...] = ()
         if plan.mode is RefreshMode.DELTA_WINDOW:
             count_delta += 1
             fetch_rows = tuple(
-                b for b in oracle.closed_bars if b.key.bar_start_utc >= plan.from_utc
+                b for b in oracle.closed_bars if b.key.bar_start_utc >= cast(datetime, plan.from_utc)
             )
         elif plan.mode is RefreshMode.REUSE_HEAD_CLAIM:
             count_head += 1
