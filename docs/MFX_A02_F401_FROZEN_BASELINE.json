@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A02_FROZEN_SOURCE_F401_EXCEPTION_BASELINE",
+  "source_repo": "ngluonghoa/forex-trading-1-0",
+  "source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "source_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+  "ruff_version": "0.13.0",
+  "evidence_workflow_run": 42500403313,
+  "evidence_job_id": 128791696749,
+  "original_source_modules": 30,
+  "allowed_code": "F401",
+  "records": [
+    {
+      "path": "src/forex_trading/account_data_review.py",
+      "row": 19,
+      "column": 5,
+      "symbol": ".source_qualification.LicensedUse"
+    },
+    {
+      "path": "src/forex_trading/cache_core.py",
+      "row": 11,
+      "column": 20,
+      "symbol": "typing.Sequence"
+    },
+    {
+      "path": "src/forex_trading/cache_storage_review.py",
+      "row": 9,
+      "column": 32,
+      "symbol": "datetime.timedelta"
+    },
+    {
+      "path": "src/forex_trading/cache_storage_review.py",
+      "row": 15,
+      "column": 25,
+      "symbol": ".cache_core.CachePartition"
+    },
+    {
+      "path": "src/forex_trading/source_calendar.py",
+      "row": 7,
+      "column": 38,
+      "symbol": "datetime.timedelta"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 12,
+      "column": 5,
+      "symbol": ".cache_core.CandleSnapshot"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 12,
+      "column": 21,
+      "symbol": ".cache_core.IncrementalPolicy"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 12,
+      "column": 40,
+      "symbol": ".cache_core.RefreshMode"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 13,
+      "column": 5,
+      "symbol": ".cache_core.plan_incremental_refresh"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 13,
+      "column": 31,
+      "symbol": ".cache_core.reconcile_closed_delta"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 16,
+      "column": 5,
+      "symbol": ".cache_storage_review.SyntheticGenerationManifest"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 16,
+      "column": 34,
+      "symbol": ".cache_storage_review.make_synthetic_generation"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 17,
+      "column": 5,
+      "symbol": ".cache_storage_review.validate_synthetic_generation_chain"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 19,
+      "column": 26,
+      "symbol": ".market_data.BarSide"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 19,
+      "column": 35,
+      "symbol": ".market_data.Timeframe"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 20,
+      "column": 21,
+      "symbol": ".quotes.ensure_utc"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 21,
+      "column": 28,
+      "symbol": ".scan_contract.ScanMode"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 21,
+      "column": 38,
+      "symbol": ".scan_contract.ScanSelection"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 21,
+      "column": 53,
+      "symbol": ".scan_contract.plan_scan_selection"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 23,
+      "column": 5,
+      "symbol": ".synthetic_drive_cache_store.SyntheticCacheAction"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 23,
+      "column": 27,
+      "symbol": ".synthetic_drive_cache_store.SyntheticChunk"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 23,
+      "column": 43,
+      "symbol": ".synthetic_drive_cache_store.SyntheticDriveCacheStaging"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 26,
+      "column": 5,
+      "symbol": ".synthetic_drive_scan_orchestrator.MixedScanResult"
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "row": 26,
+      "column": 22,
+      "symbol": ".synthetic_drive_scan_orchestrator.run_mixed_scope_synthetic_drive_scan"
+    }
+  ],
+  "policy": "Exact legacy unused-import diagnostics only. A01 frozen source SHA and A02 diagnostic row/column/symbol must match; any other F-code or added/removed/altered F401 fails CI. Several original modules are compatibility/re-export surfaces; no src changes in this PR. Updating this file requires explicit reviewed QA evidence."
+}
