@@ -1,3 +1,19 @@
+# MFX — Cloud-only Forex Trading 1.0 parity project
+
+**Project:** MFX (`ngluonghoa/MFX`) — independent from `ngluonghoa/forex-trading-1-0`.
+**Source baseline:** Forex commit `7e1c1c012b1b189be5ad7b9d07756eac012a8309`;
+initial MFX import commit `6ee5e7c07baf4ea8f06a28889175808ea53c2316`;
+original and MFX imported Git tree SHA `5df2058346f6dc96ed5bb02581b139fe2aa2d803` (102 files).
+
+**Status: research/development only.** The source code and historical 556 tests per Python 3.11/3.12 are a synthetic/read-only engineering baseline, **not** validated trading software. No broker integration, real-money orders, automated trading, approved live Forex data, LKG release, or production deployment is authorized.
+
+**Isolation:** MFX source, CI, Google Drive documentation/cache, credentials, branch/PR history and release artifacts must remain separate from the Forex Trading project. The first identity PR changes distribution metadata and CI artifact names; it intentionally retains the Python `forex_trading` import package to preserve source API parity. This is a transitional name, **not** proof that full runtime namespace isolation is complete.
+
+**Development:** GitHub Cloud and Google Drive Cloud only; no development, build, QA, cache or deployment using a user-local Mac/MOCHI/M15001. `main` is protected. All future changes enter via PR with the three required CI checks, and all 32 approved upgrade directions follow only after the 1:1 baseline.
+
+**Historical source documentation follows below unchanged for traceability.** Source repository links, PRs and releases in that section belong to Forex Trading 1.0, not independent MFX release receipts.
+
+---
 # Forex Trading 1.0
 
 ## Current checkpoint — Release Engineering RE1–RE3 (2026-11-08)
