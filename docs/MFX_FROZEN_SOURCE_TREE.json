@@ -1,0 +1,623 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_FROZEN_FOREX_SOURCE_TREE",
+  "source_repo": "ngluonghoa/forex-trading-1-0",
+  "source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "source_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+  "source_file_count": 102,
+  "source_git_history_imported": false,
+  "files": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "mode": "100644",
+      "sha": "3ac18c09f161e7c0733ef7dcc6246a142823eeec",
+      "bytes": 5022
+    },
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "sha": "596f3fd96108ae18ddfdd23d176cb4de0b7abdc4",
+      "bytes": 192
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "mode": "100644",
+      "sha": "51a8b5e5f94f5faab69a206ea6c0f08607e8801f",
+      "bytes": 1604
+    },
+    {
+      "path": "docs/FOREX_FOURTH_MILESTONE_REWIND_20261107.md",
+      "mode": "100644",
+      "sha": "01875241c80f30099c5cb2316f96ba7169e1bd6d",
+      "bytes": 4451
+    },
+    {
+      "path": "docs/FOREX_PARALLEL_CHAT_ROLLBACK_20261107.md",
+      "mode": "100644",
+      "sha": "3c1923c0e824fba0caf51ee82bf22f3018e7945b",
+      "bytes": 2523
+    },
+    {
+      "path": "docs/FOREX_ROLLBACK_DEEP_AUDIT_20261107.md",
+      "mode": "100644",
+      "sha": "08ceb21d85bb868068ce0483fced72c6d8ce8915",
+      "bytes": 3713
+    },
+    {
+      "path": "docs/FOREX_THREE_MILESTONE_REWIND_20261107.md",
+      "mode": "100644",
+      "sha": "5c15aa727636356f0ccf054104145879e7d0b0d8",
+      "bytes": 4377
+    },
+    {
+      "path": "docs/HANDOFF_REFERENCE.md",
+      "mode": "100644",
+      "sha": "c5d6c31048cd53936cf280558f31ca4e673f1259",
+      "bytes": 4516
+    },
+    {
+      "path": "docs/HANDOFF_SNAPSHOT_MANIFEST.md",
+      "mode": "100644",
+      "sha": "e63065d0ebdd53a7e653633a906a7ee1443bae8e",
+      "bytes": 29792
+    },
+    {
+      "path": "docs/M1_P01_SOURCE_TEMPORAL_CONTRACT.md",
+      "mode": "100644",
+      "sha": "a31ea9e30e8079fbeae257fbe70a95265fbe015f",
+      "bytes": 2839
+    },
+    {
+      "path": "docs/M1_P02_CALENDAR_DST_CONTRACT.md",
+      "mode": "100644",
+      "sha": "f3b2915e15157662f138b6ac44180d7965094ae4",
+      "bytes": 2765
+    },
+    {
+      "path": "docs/M1_P03_TZIF_SOURCE_CONSISTENCY.md",
+      "mode": "100644",
+      "sha": "e42759b9287bef0edeeaeb814c274c766603378d",
+      "bytes": 2644
+    },
+    {
+      "path": "docs/M1_STATUS.md",
+      "mode": "100644",
+      "sha": "7d5da90e5a4e37e7adef265645e5bd4f393d06de",
+      "bytes": 21819
+    },
+    {
+      "path": "docs/M2_P01_SOURCE_RIGHTS_REVIEW.md",
+      "mode": "100644",
+      "sha": "73740834d19a3b5d4ed2790ab94886f6ad60047d",
+      "bytes": 5164
+    },
+    {
+      "path": "docs/M2_P02_FOREX_SMART_INCREMENTAL_CACHE.md",
+      "mode": "100644",
+      "sha": "a55f371e8c5cdde4b7f37f7925e25db9a149030b",
+      "bytes": 8621
+    },
+    {
+      "path": "docs/M2_P03_PROVIDER_DELTA_AND_STORAGE_REVIEW.md",
+      "mode": "100644",
+      "sha": "739deaacd7734ef6787cbae0dbc95252ef90f606",
+      "bytes": 6562
+    },
+    {
+      "path": "docs/M2_P04_SYNTHETIC_SWEEP_AND_CUSTODY.md",
+      "mode": "100644",
+      "sha": "405b20c84a750ab49cb130b76fe7845d6313c0b9",
+      "bytes": 6021
+    },
+    {
+      "path": "docs/M2_P05_ACCOUNT_RIGHTS_STORAGE_REVIEW.md",
+      "mode": "100644",
+      "sha": "ae32444ed51929d56bc8a3957cf3c942e852c689",
+      "bytes": 8143
+    },
+    {
+      "path": "docs/M2_P06_SYNTHETIC_RIGHTS_AND_RECOVERY.md",
+      "mode": "100644",
+      "sha": "4725abe7dc295d702aaf52b1e5048db460bbfd70",
+      "bytes": 2787
+    },
+    {
+      "path": "docs/M2_P07_SELECTABLE_SCAN_MODES.md",
+      "mode": "100644",
+      "sha": "cbc3eef1d8c7533ccac515f032033b8351a7fdee",
+      "bytes": 4274
+    },
+    {
+      "path": "docs/M2_P08_GOOGLE_DRIVE_STAGING_AND_MIXED_SCAN_CACHE.md",
+      "mode": "100644",
+      "sha": "4e3c0ea088966db712b0001713ad998a0b74852c",
+      "bytes": 6422
+    },
+    {
+      "path": "docs/M2_P09_GOOGLE_DRIVE_BLOB_WIRE_CONTRACT.md",
+      "mode": "100644",
+      "sha": "56abeb1734870d13531fff4ef96d0ffd5475c6b7",
+      "bytes": 4888
+    },
+    {
+      "path": "docs/M2_P10_REAL_DRIVE_SYNTHETIC_CONNECTOR_SMOKE.md",
+      "mode": "100644",
+      "sha": "51b33c101935dd72ff235f4594b164e928caa9f4",
+      "bytes": 6036
+    },
+    {
+      "path": "docs/P2_1_MODULE_BOUNDARY_AUDIT.md",
+      "mode": "100644",
+      "sha": "751a576687ed9ff948c179d2b92d23eaebbd0b9f",
+      "bytes": 13125
+    },
+    {
+      "path": "docs/P2_2_FOREX_DATA_CONTRACT_INTERFACE_REVIEW.md",
+      "mode": "100644",
+      "sha": "d748c279f624ae19a3147fc304dcf1d9c3012a32",
+      "bytes": 20171
+    },
+    {
+      "path": "docs/RE4B_STATIC_TYPING_BASELINE.md",
+      "mode": "100644",
+      "sha": "ef9eb41457e9c8c44296ff5d651b8c56f02bac3d",
+      "bytes": 4191
+    },
+    {
+      "path": "docs/RE4C_HISTORY_BUILD_SECURITY_BASELINE.md",
+      "mode": "100644",
+      "sha": "142029f24d0d9291632e9406c0ba05384dc1ccbc",
+      "bytes": 4376
+    },
+    {
+      "path": "docs/RE4C_SECURITY_AUDIT_BASELINE.md",
+      "mode": "100644",
+      "sha": "8181535e02eb5826bc7434f72daf1d4484fc4e6b",
+      "bytes": 3950
+    },
+    {
+      "path": "docs/RE5A_CROSS_PYTHON_WHEEL_PARITY.md",
+      "mode": "100644",
+      "sha": "12bb388ceaf11da05df55aa8e293bf7411bf2489",
+      "bytes": 4094
+    },
+    {
+      "path": "docs/RELEASE_ENGINEERING_STATUS_RE1_RE3.md",
+      "mode": "100644",
+      "sha": "5a3e0caf806a2b39be235ad1ba7bf3ecfa0a9a0d",
+      "bytes": 6290
+    },
+    {
+      "path": "docs/RELEASE_ROLLBACK.md",
+      "mode": "100644",
+      "sha": "a2bbb6852609eb566e6b64323105c661ccb96f41",
+      "bytes": 1270
+    },
+    {
+      "path": "docs/source-snapshots/00_MASTER_HANDOFF.txt",
+      "mode": "100644",
+      "sha": "0c4aec46872a7201689bf7568012e5a2bd6cdd73",
+      "bytes": 522764
+    },
+    {
+      "path": "docs/source-snapshots/02_MASTER_SPEC.txt",
+      "mode": "100644",
+      "sha": "024d1f2c0d0997230e0ae97bfcf60d3880c39832",
+      "bytes": 67355
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "sha": "f42d75b210cab9263a40d609fae6f7fdae555511",
+      "bytes": 333
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "sha": "dc8b2ac492e24925ed3f1823a69e2a329428e737",
+      "bytes": 13653
+    },
+    {
+      "path": "src/forex_trading/__init__.py",
+      "mode": "100644",
+      "sha": "7d98e186c601db4e7acd51dfa4cafc6725bba691",
+      "bytes": 664
+    },
+    {
+      "path": "src/forex_trading/account_data_review.py",
+      "mode": "100644",
+      "sha": "631d660f54e5221259da1ad33acaee502c69b4ca",
+      "bytes": 11220
+    },
+    {
+      "path": "src/forex_trading/cache_core.py",
+      "mode": "100644",
+      "sha": "130a8cadae32dbf60a9115fcdd67a928bf776ca2",
+      "bytes": 12691
+    },
+    {
+      "path": "src/forex_trading/cache_dependency.py",
+      "mode": "100644",
+      "sha": "e2fac39866f8a0eb6dfd72c28db78dea7c9315e9",
+      "bytes": 5483
+    },
+    {
+      "path": "src/forex_trading/cache_indicators.py",
+      "mode": "100644",
+      "sha": "ef78fda523c411c506e761a88183b514ab8cb6a0",
+      "bytes": 2664
+    },
+    {
+      "path": "src/forex_trading/cache_storage_review.py",
+      "mode": "100644",
+      "sha": "2f97478da99c7924c3678d8767b5dc29aa7c9fa8",
+      "bytes": 9249
+    },
+    {
+      "path": "src/forex_trading/catalog.py",
+      "mode": "100644",
+      "sha": "dc0cd0d7eab7f8603071401aa51723f7e4b8ef20",
+      "bytes": 2277
+    },
+    {
+      "path": "src/forex_trading/google_drive_wire_contract.py",
+      "mode": "100644",
+      "sha": "6e236f04115b6e7bc9c39531eb581cee496c70b7",
+      "bytes": 9347
+    },
+    {
+      "path": "src/forex_trading/market_data.py",
+      "mode": "100644",
+      "sha": "c833cb86fce63493e19d224ff8a78d0f56f79cc1",
+      "bytes": 8672
+    },
+    {
+      "path": "src/forex_trading/model.py",
+      "mode": "100644",
+      "sha": "8b2755b68d19eb5b6861c12110e5d1a783608e24",
+      "bytes": 2136
+    },
+    {
+      "path": "src/forex_trading/pipeline.py",
+      "mode": "100644",
+      "sha": "42d0932872e9e0c27966089fb52794ad4fecd9f2",
+      "bytes": 1188
+    },
+    {
+      "path": "src/forex_trading/provider_delta_contract.py",
+      "mode": "100644",
+      "sha": "e2c2eebaae368c059c79c5321bc07076bf4ebcf7",
+      "bytes": 11585
+    },
+    {
+      "path": "src/forex_trading/quotes.py",
+      "mode": "100644",
+      "sha": "1442df4aea2c0e54842141cb9f5d8361e5a450bc",
+      "bytes": 3185
+    },
+    {
+      "path": "src/forex_trading/release_readiness.py",
+      "mode": "100644",
+      "sha": "827692b769e9a03d07eba2c42c808c1592b3e7d4",
+      "bytes": 7257
+    },
+    {
+      "path": "src/forex_trading/scan_contract.py",
+      "mode": "100644",
+      "sha": "1b6f94811bc73d9217671b5ad9d0d1cf560e62aa",
+      "bytes": 2727
+    },
+    {
+      "path": "src/forex_trading/scan_selection.py",
+      "mode": "100644",
+      "sha": "a42e8a84d1e179c243510e6b3d862509aa5a196f",
+      "bytes": 3151
+    },
+    {
+      "path": "src/forex_trading/side_pair.py",
+      "mode": "100644",
+      "sha": "5f66d6b374aaea4a62db911dfdce73bec94693df",
+      "bytes": 4737
+    },
+    {
+      "path": "src/forex_trading/source_calendar.py",
+      "mode": "100644",
+      "sha": "c42c7c2e20446eaf6bd18dd895805c7751660431",
+      "bytes": 7320
+    },
+    {
+      "path": "src/forex_trading/source_qualification.py",
+      "mode": "100644",
+      "sha": "d0e8ef9dec7e2eee36805e5905d47b87dea38d50",
+      "bytes": 9183
+    },
+    {
+      "path": "src/forex_trading/source_stream_binding.py",
+      "mode": "100644",
+      "sha": "d12886a0fda89970ef8aea0a6f654049ef869b29",
+      "bytes": 5533
+    },
+    {
+      "path": "src/forex_trading/synthetic_cache_failure_paths.py",
+      "mode": "100644",
+      "sha": "844ebd3896490ea9505a88c1d7e2185f6e49daa4",
+      "bytes": 7814
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_staging.py",
+      "mode": "100644",
+      "sha": "ab93de93294fa7d73412904d836850fc6bef3431",
+      "bytes": 1146
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_cache_store.py",
+      "mode": "100644",
+      "sha": "a778210ed95093b25dce99c1c563b2bef6a65cec",
+      "bytes": 6395
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_receipt_validation.py",
+      "mode": "100644",
+      "sha": "8124c7236951b8487b846404ccb3b98896e556dc",
+      "bytes": 6372
+    },
+    {
+      "path": "src/forex_trading/synthetic_drive_scan_orchestrator.py",
+      "mode": "100644",
+      "sha": "54636031a2e8f9f0d57b220eac8ecc1805976c08",
+      "bytes": 6109
+    },
+    {
+      "path": "src/forex_trading/synthetic_evidence_lineage.py",
+      "mode": "100644",
+      "sha": "7600134e42d782608724e67237388f072cc4f35c",
+      "bytes": 13691
+    },
+    {
+      "path": "src/forex_trading/synthetic_scan_workload.py",
+      "mode": "100644",
+      "sha": "23446c397fc94fe81f59dc45a012ed17a99b2a52",
+      "bytes": 7547
+    },
+    {
+      "path": "src/forex_trading/synthetic_source_custody.py",
+      "mode": "100644",
+      "sha": "4cc8d926e4ec40115b8d5d10ede4dd412473f538",
+      "bytes": 7033
+    },
+    {
+      "path": "src/forex_trading/tzif_attestation.py",
+      "mode": "100644",
+      "sha": "6049d691bc4c2fa7731a5f08870ba3334d1cba03",
+      "bytes": 5131
+    },
+    {
+      "path": "src/forex_trading/versioning.py",
+      "mode": "100644",
+      "sha": "095d8390b7b94d06885ab5369b6a387d543d09f6",
+      "bytes": 1934
+    },
+    {
+      "path": "tests/test_account_data_review.py",
+      "mode": "100644",
+      "sha": "970af8510ed2b60be0eb4e3fa2da668445c81abd",
+      "bytes": 13826
+    },
+    {
+      "path": "tests/test_build_artifact_audit.py",
+      "mode": "100644",
+      "sha": "60ed0fbc955696ab9fad4314b2ef0e7baa44a1c1",
+      "bytes": 4248
+    },
+    {
+      "path": "tests/test_cache_core.py",
+      "mode": "100644",
+      "sha": "83299eb1c06047795ba6109bac6dc75de212626a",
+      "bytes": 12722
+    },
+    {
+      "path": "tests/test_cache_dependency.py",
+      "mode": "100644",
+      "sha": "20827f301ac1fa12620b67076b0099237e5f9b9a",
+      "bytes": 7523
+    },
+    {
+      "path": "tests/test_cache_storage_review.py",
+      "mode": "100644",
+      "sha": "91fa02089c3360594a5b59ec46eca197bfde0d5f",
+      "bytes": 7657
+    },
+    {
+      "path": "tests/test_catalog.py",
+      "mode": "100644",
+      "sha": "bcbd9db05b5c74381bafb1e6bc7313d32840997d",
+      "bytes": 1388
+    },
+    {
+      "path": "tests/test_cross_python_artifacts.py",
+      "mode": "100644",
+      "sha": "72d9e3ff7307f9ae622ef51b9a1cc694f4205b2c",
+      "bytes": 5146
+    },
+    {
+      "path": "tests/test_google_drive_wire_contract.py",
+      "mode": "100644",
+      "sha": "4898a28f5739a48eb06834049cc8fb2b1837ccda",
+      "bytes": 11788
+    },
+    {
+      "path": "tests/test_history_and_build_security.py",
+      "mode": "100644",
+      "sha": "f785404dd95f8247dad62399da20f3bcb7337fa1",
+      "bytes": 3524
+    },
+    {
+      "path": "tests/test_market_data.py",
+      "mode": "100644",
+      "sha": "3480930db7e8bb4799ca999b7b34c90593fcaaf9",
+      "bytes": 8834
+    },
+    {
+      "path": "tests/test_model.py",
+      "mode": "100644",
+      "sha": "f6e31bb3745a29b1d48a7fdc5f127f5117c130cd",
+      "bytes": 1776
+    },
+    {
+      "path": "tests/test_pipeline.py",
+      "mode": "100644",
+      "sha": "63aa3afef25327497f508bc4b00687ad686f9d09",
+      "bytes": 1257
+    },
+    {
+      "path": "tests/test_provider_delta_contract.py",
+      "mode": "100644",
+      "sha": "5abb9c17536c2505dc6b9b93ea550c171e266994",
+      "bytes": 10884
+    },
+    {
+      "path": "tests/test_quotes.py",
+      "mode": "100644",
+      "sha": "cfa0c28864506d25d31b45a572877ee495477c9d",
+      "bytes": 3479
+    },
+    {
+      "path": "tests/test_release_readiness.py",
+      "mode": "100644",
+      "sha": "b3934544ec55e3bb107161b92b0eb458d110cc4b",
+      "bytes": 7853
+    },
+    {
+      "path": "tests/test_repo_secrets.py",
+      "mode": "100644",
+      "sha": "af0868f2b2f0c27cc18c05759bff0ad6c313178b",
+      "bytes": 2819
+    },
+    {
+      "path": "tests/test_scan_contract_boundary.py",
+      "mode": "100644",
+      "sha": "9c9072cf737de01c5c649b330e2a5c6dda8c2642",
+      "bytes": 3441
+    },
+    {
+      "path": "tests/test_scan_selection.py",
+      "mode": "100644",
+      "sha": "506fd090ec14cf205a843b71052a57ff478b70ca",
+      "bytes": 11421
+    },
+    {
+      "path": "tests/test_side_pair.py",
+      "mode": "100644",
+      "sha": "211bbe04777bf3051855d386dd5ef73059ccc260",
+      "bytes": 7106
+    },
+    {
+      "path": "tests/test_source_calendar.py",
+      "mode": "100644",
+      "sha": "336ea0df35b0cbde52b6b4d88701bd3b7328e2ea",
+      "bytes": 9396
+    },
+    {
+      "path": "tests/test_source_qualification.py",
+      "mode": "100644",
+      "sha": "78725aefc5161ae6096ea9d5542b949cfb7c3627",
+      "bytes": 9498
+    },
+    {
+      "path": "tests/test_source_stream_binding.py",
+      "mode": "100644",
+      "sha": "c9a8ace89f2470b2bb2215d5f0bbcb5bb82d8605",
+      "bytes": 9657
+    },
+    {
+      "path": "tests/test_synthetic_cache_boundary.py",
+      "mode": "100644",
+      "sha": "0605c1a38d2345c2ec9f602f3fafa96c32dcbed5",
+      "bytes": 6963
+    },
+    {
+      "path": "tests/test_synthetic_cache_failure_paths.py",
+      "mode": "100644",
+      "sha": "15f198174c2380d2e2ae6929d845cf42026e1d06",
+      "bytes": 10949
+    },
+    {
+      "path": "tests/test_synthetic_drive_cache_staging.py",
+      "mode": "100644",
+      "sha": "ec27344b2d0671aadee35f4754a6447b4a7a8c94",
+      "bytes": 12386
+    },
+    {
+      "path": "tests/test_synthetic_drive_receipt_validation.py",
+      "mode": "100644",
+      "sha": "f5c7409e7fe47e37fb2a4c21a26c42f0e9c2b1aa",
+      "bytes": 9567
+    },
+    {
+      "path": "tests/test_synthetic_evidence_lineage.py",
+      "mode": "100644",
+      "sha": "60ab7030f66f62ebc21c1f82b29367a06ea83628",
+      "bytes": 15750
+    },
+    {
+      "path": "tests/test_synthetic_scan_workload.py",
+      "mode": "100644",
+      "sha": "d7d88dda7bff655cd3dc75dde308a5f9779fe5af",
+      "bytes": 9428
+    },
+    {
+      "path": "tests/test_synthetic_source_custody.py",
+      "mode": "100644",
+      "sha": "74179f607729f117bf887d940304905368b7f03d",
+      "bytes": 7146
+    },
+    {
+      "path": "tests/test_tzif_attestation.py",
+      "mode": "100644",
+      "sha": "0ea629a95b67460084578c04b8b297877d7ac495",
+      "bytes": 6361
+    },
+    {
+      "path": "tests/test_versioning.py",
+      "mode": "100644",
+      "sha": "4f70bda644ce6d6051df1b857e6fc8b84d00676a",
+      "bytes": 2317
+    },
+    {
+      "path": "tools/__init__.py",
+      "mode": "100644",
+      "sha": "c57cf6d87099147df222ac0b95046e481f3549de",
+      "bytes": 78
+    },
+    {
+      "path": "tools/check_cross_python_artifacts.py",
+      "mode": "100644",
+      "sha": "21c389ea0c1f0f098be919e2c35b28709b9aad3d",
+      "bytes": 4157
+    },
+    {
+      "path": "tools/check_git_history_secrets.py",
+      "mode": "100644",
+      "sha": "56ed719106b94f79375058d126a64e830643bf81",
+      "bytes": 4515
+    },
+    {
+      "path": "tools/check_repo_secrets.py",
+      "mode": "100644",
+      "sha": "6a601801f82d196e5713d15018d65918a5bc0f6f",
+      "bytes": 3314
+    },
+    {
+      "path": "tools/verify_build_artifact.py",
+      "mode": "100644",
+      "sha": "7b68d4156fb783da9f2a1e29be752ab833b57ee6",
+      "bytes": 5345
+    },
+    {
+      "path": "tools/write_build_audit_requirements.py",
+      "mode": "100644",
+      "sha": "90297a2d1475995b4b69e6bf80d4096b6b7d5425",
+      "bytes": 1969
+    }
+  ]
+}
