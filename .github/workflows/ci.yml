@@ -73,6 +73,11 @@ jobs:
           python -m pip wheel --no-cache-dir --no-deps --wheel-dir .ci-wheel-repeat .
       - name: Verify source metadata and same-environment wheel hash parity
         run: python tools/verify_build_artifact.py .ci-wheel --repeat-wheel-dir .ci-wheel-repeat
+      - name: Assert isolated Cloud MFX wheel import ownership (NO deployment)
+        run: |
+          python -m venv .ci-mfx-venv
+          .ci-mfx-venv/bin/python -m pip install --no-index --no-deps .ci-wheel/*.whl
+          .ci-mfx-venv/bin/python tools/check_mfx_import_ownership.py
       - name: Upload one verified CI wheel for RE5a cross-Python comparison (NOT release)
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2 pinned
         with:
