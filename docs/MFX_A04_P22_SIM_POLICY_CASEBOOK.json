@@ -1,0 +1,476 @@
+{
+  "schema": "MFX_A04_P22_SIM_POLICY_AND_CASEBOOK_V1",
+  "version": "SIM:P022-B2-S2-REVIEW-001",
+  "source": {
+    "document_id": "10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA",
+    "baseline": "SOURCE_LOCKED_03_DETECTOR_AUDIT",
+    "register_schema": "MFX_A04_P21_SOURCE_PARAMETER_REVIEW_V1",
+    "register_version": "SIM:P021-RESEARCH-REVIEW-001",
+    "source_numerical_approved": false,
+    "approved_entry_detectors": 0,
+    "pending_approval_obligations": 36
+  },
+  "proposal_status": "UNAPPROVED_DESIGN_FOR_OWNER_REVIEW_ONLY",
+  "proposal_parameters": [
+    {
+      "rule_id": "B2",
+      "direction": "LONG",
+      "source_status": "SOURCE_NUMERIC_SPEC_PENDING",
+      "numeric_policy_status": "SIM_RESEARCH_PROPOSAL_NOT_APPROVED",
+      "requirements": [
+        {
+          "id": "causal_d1_h4_trend",
+          "phase": "R0",
+          "source_paragraph_index": 29,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Pre-register HH/HL versus LH/LL evidence on fully closed D1/H4; independent rule adjudication",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "confirmed_pivot_left_bars",
+          "phase": "R0",
+          "source_paragraph_index": 29,
+          "proposed_sim_value": "SIM:1_LEFT_BAR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Compare candidate left window by walk-forward and no-lookahead permutation",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "confirmed_pivot_right_bars",
+          "phase": "R0",
+          "source_paragraph_index": 29,
+          "proposed_sim_value": "SIM:1_RIGHT_BAR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Measure right-window first-observable confirmation latency; exclude early pivots",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "structural_hl_lh_invalidation",
+          "phase": "INVALIDATION",
+          "source_paragraph_index": 33,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Replay closed H1/H4 invalidation before/after trigger, independently timestamped",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_zone_origin_identity",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Bind H1 support or resistance to immutable structural origin and as-of ID",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_zone_lookback",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "proposed_sim_value": "SIM:3_CLOSED_H1_BARS",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Walk-forward sensitivity by structure age and calendar splits",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_true_range_atr_period",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "proposed_sim_value": "SIM:3_CLOSED_H1_BARS",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Pre-register ATR estimator including previous close; train-only calibration",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_near_zone_atr_multiple",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "proposed_sim_value": "SIM:0.5_ATR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Pre-register distance distributions net of spread; avoid hindsight threshold",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_zone_width_atr_multiple",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "proposed_sim_value": "SIM:0.3_ATR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Stress near/far boundary and sensitivity without reusing evaluation holdout",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "m15_early_reversal_structure",
+          "phase": "R_E",
+          "source_paragraph_index": 31,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Use closed M15 higher-low, reclaim or rejection identity and first-known clock",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "known_micro_break_confirm_rule",
+          "phase": "R_F",
+          "source_paragraph_index": 32,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Use prior-known M15/H1 micro-level; distinguish early versus confirmed rules",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "anti_chase_max_atr_multiple",
+          "phase": "R_F",
+          "source_paragraph_index": 37,
+          "proposed_sim_value": "SIM:0.5_ATR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Quantify ADR stretch and event-time spread to reject delayed entry",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "bid_ask_spread_and_cost_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 34,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Require vendor rights and broker-matched quote-side economics; otherwise research only",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "session_dst_rollover_news_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 37,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Replay instrument-specific FX session, DST, rollover and calendar incidents",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "structural_sl_tp_net_r_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 34,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Independently compute structural invalidation and informational net R, not assumed fills",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "event_expiry_and_idempotence",
+          "phase": "R_F",
+          "source_paragraph_index": 9,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Deduplicate event-origin/rule/pair/timeframe with tested expiry semantics",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "licensed_source_first_known_revision",
+          "phase": "R0",
+          "source_paragraph_index": 9,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Verify rights, retrieval, first-known, revision chain before real data storage",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "historical_walkforward_oos_qualification",
+          "phase": "QA",
+          "source_paragraph_index": 38,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Pre-register chronological OOS and regimes; no fabricated accuracy claim",
+          "independent_review_evidence": null
+        }
+      ]
+    },
+    {
+      "rule_id": "S2",
+      "direction": "SHORT",
+      "source_status": "SOURCE_NUMERIC_SPEC_PENDING",
+      "numeric_policy_status": "SIM_RESEARCH_PROPOSAL_NOT_APPROVED",
+      "requirements": [
+        {
+          "id": "causal_d1_h4_trend",
+          "phase": "R0",
+          "source_paragraph_index": 117,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Pre-register HH/HL versus LH/LL evidence on fully closed D1/H4; independent rule adjudication",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "confirmed_pivot_left_bars",
+          "phase": "R0",
+          "source_paragraph_index": 117,
+          "proposed_sim_value": "SIM:1_LEFT_BAR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Compare candidate left window by walk-forward and no-lookahead permutation",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "confirmed_pivot_right_bars",
+          "phase": "R0",
+          "source_paragraph_index": 117,
+          "proposed_sim_value": "SIM:1_RIGHT_BAR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Measure right-window first-observable confirmation latency; exclude early pivots",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "structural_hl_lh_invalidation",
+          "phase": "INVALIDATION",
+          "source_paragraph_index": 121,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Replay closed H1/H4 invalidation before/after trigger, independently timestamped",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_zone_origin_identity",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Bind H1 support or resistance to immutable structural origin and as-of ID",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_zone_lookback",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "proposed_sim_value": "SIM:3_CLOSED_H1_BARS",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Walk-forward sensitivity by structure age and calendar splits",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_true_range_atr_period",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "proposed_sim_value": "SIM:3_CLOSED_H1_BARS",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Pre-register ATR estimator including previous close; train-only calibration",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_near_zone_atr_multiple",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "proposed_sim_value": "SIM:0.5_ATR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Pre-register distance distributions net of spread; avoid hindsight threshold",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "h1_zone_width_atr_multiple",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "proposed_sim_value": "SIM:0.3_ATR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Stress near/far boundary and sensitivity without reusing evaluation holdout",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "m15_early_reversal_structure",
+          "phase": "R_E",
+          "source_paragraph_index": 119,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Use closed M15 higher-low, reclaim or rejection identity and first-known clock",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "known_micro_break_confirm_rule",
+          "phase": "R_F",
+          "source_paragraph_index": 120,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Use prior-known M15/H1 micro-level; distinguish early versus confirmed rules",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "anti_chase_max_atr_multiple",
+          "phase": "R_F",
+          "source_paragraph_index": 125,
+          "proposed_sim_value": "SIM:0.5_ATR",
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Quantify ADR stretch and event-time spread to reject delayed entry",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "bid_ask_spread_and_cost_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 122,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Require vendor rights and broker-matched quote-side economics; otherwise research only",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "session_dst_rollover_news_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 125,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Replay instrument-specific FX session, DST, rollover and calendar incidents",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "structural_sl_tp_net_r_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 122,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Independently compute structural invalidation and informational net R, not assumed fills",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "event_expiry_and_idempotence",
+          "phase": "R_F",
+          "source_paragraph_index": 9,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Deduplicate event-origin/rule/pair/timeframe with tested expiry semantics",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "licensed_source_first_known_revision",
+          "phase": "R0",
+          "source_paragraph_index": 9,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Verify rights, retrieval, first-known, revision chain before real data storage",
+          "independent_review_evidence": null
+        },
+        {
+          "id": "historical_walkforward_oos_qualification",
+          "phase": "QA",
+          "source_paragraph_index": 126,
+          "proposed_sim_value": null,
+          "approved_numeric_value": null,
+          "calibration_evidence_required": "Pre-register chronological OOS and regimes; no fabricated accuracy claim",
+          "independent_review_evidence": null
+        }
+      ]
+    }
+  ],
+  "tests": {
+    "basis": "FABRICATED_CLOSED_SIM_OHLC_WITH_P020_CAUSAL_CODE",
+    "cases": [
+      {
+        "case_id": "B2_BASELINE_BUY",
+        "rule_id": "B2",
+        "variant": "BASELINE",
+        "expected_action": "BUY",
+        "expected_reason_contains": "P018_SYNTHETIC_PARAMETRIC_PATTERN_UNVERIFIED"
+      },
+      {
+        "case_id": "S2_BASELINE_SELL",
+        "rule_id": "S2",
+        "variant": "BASELINE",
+        "expected_action": "SELL",
+        "expected_reason_contains": "P018_SYNTHETIC_PARAMETRIC_PATTERN_UNVERIFIED"
+      },
+      {
+        "case_id": "B2_INSUFFICIENT_D1",
+        "rule_id": "B2",
+        "variant": "SHORT_D1",
+        "expected_action": "NO_SIGNAL",
+        "expected_reason_contains": "P018_TREND_NOT_SUPPORTED"
+      },
+      {
+        "case_id": "S2_INSUFFICIENT_H4",
+        "rule_id": "S2",
+        "variant": "SHORT_H4",
+        "expected_action": "NO_SIGNAL",
+        "expected_reason_contains": "P018_TREND_NOT_SUPPORTED"
+      },
+      {
+        "case_id": "B2_EARLY_RIGHT_BAR",
+        "rule_id": "B2",
+        "variant": "UNCONFIRMED_RIGHT",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "FUTURE_PRICE_BAR"
+      },
+      {
+        "case_id": "S2_FUTURE_KNOWN_RIGHT",
+        "rule_id": "S2",
+        "variant": "FUTURE_RETRIEVAL",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "FUTURE_KNOWN"
+      },
+      {
+        "case_id": "B2_REAL_PROVIDER_FORGERY",
+        "rule_id": "B2",
+        "variant": "FORGED_PROVIDER",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "REJECT_REAL_MARKET_SOURCE"
+      },
+      {
+        "case_id": "S2_FAKE_LICENSE",
+        "rule_id": "S2",
+        "variant": "FORGED_LICENSE",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "REJECT_REAL_MARKET_SOURCE"
+      },
+      {
+        "case_id": "B2_OPEN_CANDLE",
+        "rule_id": "B2",
+        "variant": "OPEN_CANDLE",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "OPEN_PROVISIONAL_BAR"
+      },
+      {
+        "case_id": "S2_PARTIAL_CANDLE",
+        "rule_id": "S2",
+        "variant": "PARTIAL_CANDLE",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "INCOMPLETE_COVERAGE"
+      },
+      {
+        "case_id": "B2_MIXED_BID_SIDE",
+        "rule_id": "B2",
+        "variant": "MIXED_SIDE",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "CROSS_TIMEFRAME_OR_SIDE"
+      },
+      {
+        "case_id": "S2_OTHER_INSTRUMENT",
+        "rule_id": "S2",
+        "variant": "OTHER_INSTRUMENT",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "CROSS_TIMEFRAME_IDENTITY"
+      },
+      {
+        "case_id": "B2_FAKE_APPROVAL_VERSION",
+        "rule_id": "B2",
+        "variant": "FORGED_POLICY_VERSION",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "SIM_ONLY_UNAPPROVED"
+      },
+      {
+        "case_id": "S2_BOOLEAN_PIVOT_WINDOW",
+        "rule_id": "S2",
+        "variant": "BOOLEAN_PIVOT",
+        "expected_action": "DENIED",
+        "expected_reason_contains": "INVALID_EXPLICIT"
+      }
+    ],
+    "external_oos_performed": false
+  },
+  "independent_qualifications": {
+    "vendor_license": "MISSING",
+    "google_drive_market_cache_rights": "MISSING",
+    "broker_native_bidask": "MISSING",
+    "session_dst_validation": "MISSING",
+    "tp_sl_net_r_validation": "MISSING",
+    "real_walkforward_oos": "NOT_RUN",
+    "owner_numeric_approval": "NOT_GRANTED"
+  },
+  "permissions": {
+    "confirmed_buy_sell_alerts": false,
+    "real_market_data": false,
+    "drive_price_cache": false,
+    "broker_order_execution": false,
+    "release_ready": false
+  }
+}
