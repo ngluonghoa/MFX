@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "63262f1986281f7d6c1a4d4c35d2cab3624f84ad",
-      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
+      "expected_current_sha": "1bab6c5f35270dd48e443b6a72a297d597139115",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -263,6 +263,12 @@
       "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
     },
     {
+      "path": "docs/MFX_A04_P19_CAUSAL_DERIVATION_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "58c2eff3a37c925b544ab5ade6cf80d9b7fef854",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -290,6 +296,12 @@
       "change": "added",
       "expected_current_sha": "f2fc4a620b6971d188548f6ea527d320d4bed9d7",
       "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+    },
+    {
+      "path": "mfx_research/causal_multitf_context.py",
+      "change": "added",
+      "expected_current_sha": "834e75ab0f8fd1fbd2f49b9e3ad74f812c24ed57",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
     },
     {
       "path": "mfx_research/offline_ema_signals.py",
@@ -494,6 +506,12 @@
       "change": "added",
       "expected_current_sha": "e06e5f4fe5ebea99172a11ab9f14700da24194f5",
       "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
+    },
+    {
+      "path": "tests/test_a04_p19_causal_multitf_context.py",
+      "change": "added",
+      "expected_current_sha": "a8d46f82340a1f92c565cabce2b90990bdbceb55",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -782,6 +800,12 @@
       "change": "added",
       "expected_current_sha": "71687e17d8822c0f534782d3bdf14ae36326e3b1",
       "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
+    },
+    {
+      "path": "tools/run_a04_p19_causal_context_demo.py",
+      "change": "added",
+      "expected_current_sha": "6db3eb85404569208e8df885d1d0cbbf53e59c3a",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS; strict mypy enum-closure long tuple annotation and typed demo return corrected"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
