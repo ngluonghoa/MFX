@@ -804,8 +804,8 @@
     {
       "path": "tools/run_a04_p19_causal_context_demo.py",
       "change": "added",
-      "expected_current_sha": "1c0412aca4287ea745cc756957bf482d3aa6a50c",
-      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS"
+      "expected_current_sha": "6db3eb85404569208e8df885d1d0cbbf53e59c3a",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS; strict mypy enum-closure long tuple annotation and typed demo return corrected"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",

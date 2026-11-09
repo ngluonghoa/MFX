@@ -11,7 +11,7 @@ from forex_trading.market_data import (
     SourceQuality, Timeframe,
 )
 from mfx_research.causal_multitf_context import (
-    SyntheticDerivationParameters, SyntheticMultiTfBars,
+    DerivedResearchReceipt, SyntheticDerivationParameters, SyntheticMultiTfBars,
     derive_and_evaluate_b2_s2,
 )
 from mfx_research.offline_ema_signals import CandidateAction
@@ -61,6 +61,7 @@ def case_from_closed_bars(rule: str) -> tuple[
     UnapprovedResearchParameters,
 ]:
     """All values are invented and restricted to unit-test simulation."""
+    h1: tuple[tuple[str, str, str, str], ...]
     if rule == "B2":
         d1 = (
             ("1.090", "1.100", "1.070", "1.095"),
@@ -133,7 +134,7 @@ def case_from_closed_bars(rule: str) -> tuple[
     return bars, derive, trigger
 
 
-def evaluate_case(rule: str):
+def evaluate_case(rule: str) -> DerivedResearchReceipt:
     bars, d, p = case_from_closed_bars(rule)
     return derive_and_evaluate_b2_s2(
         rule, bars, d, p, bars.trigger_m15[-1].first_known_utc +
