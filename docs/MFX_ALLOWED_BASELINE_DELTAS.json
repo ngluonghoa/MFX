@@ -354,8 +354,8 @@
     {
       "path": "mfx_research/p022_policy_casebook.py",
       "change": "added",
-      "expected_current_sha": "f6c0dde2be1fcfa2fac78b443183f9787da9e10e",
-      "reason": "A04/P0.22 unapproved source-linked B2/S2 numeric policy proposal and 14 simulated causal positive/NO_SIGNAL/denial cases; 36/36 source approvals BLOCKED, real-data/cache/broker/release denied, no src changes"
+      "expected_current_sha": "93fc8ae177bc49de6608498923ff7f08ddbef97c",
+      "reason": "A04/P0.22 unapproved source-linked B2/S2 numeric policy proposal and 14 simulated causal positive/NO_SIGNAL/denial cases; 36/36 source approvals BLOCKED, real-data/cache/broker/release denied, no src changes; first PR CI 42635124109 showed one mypy variable-reuse error fixed without altering case outcomes"
     },
     {
       "path": "mfx_research/pullback_pilot.py",
