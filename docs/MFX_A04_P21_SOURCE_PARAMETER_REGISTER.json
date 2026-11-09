@@ -1,0 +1,360 @@
+{
+  "schema": "MFX_A04_P21_SOURCE_PARAMETER_REVIEW_V1",
+  "version": "SIM:P021-RESEARCH-REVIEW-001",
+  "source": {
+    "document_id": "10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA",
+    "baseline": "SOURCE_LOCKED_03_DETECTOR_AUDIT",
+    "source_mode": "QUALITATIVE_MANIFEST_DRAFT_SPEC_PENDING",
+    "paragraph_index_basis": "ZERO_BASED_GOOGLE_DOCS_READBACK",
+    "approved_numerical_strategy": false
+  },
+  "rules": [
+    {
+      "rule_id": "B2",
+      "direction": "LONG",
+      "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+      "approval_status": "REVIEW_ONLY_UNAPPROVED",
+      "requirements": [
+        {
+          "id": "causal_d1_h4_trend",
+          "phase": "R0",
+          "source_paragraph_index": 29,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "confirmed_pivot_left_bars",
+          "phase": "R0",
+          "source_paragraph_index": 29,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:1_LEFT_BAR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "confirmed_pivot_right_bars",
+          "phase": "R0",
+          "source_paragraph_index": 29,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:1_RIGHT_BAR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "structural_hl_lh_invalidation",
+          "phase": "INVALIDATION",
+          "source_paragraph_index": 33,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_zone_origin_identity",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_zone_lookback",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:3_CLOSED_H1_BARS",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_true_range_atr_period",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:3_CLOSED_H1_BARS",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_near_zone_atr_multiple",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:0.5_ATR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_zone_width_atr_multiple",
+          "phase": "R_C",
+          "source_paragraph_index": 30,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:0.3_ATR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "m15_early_reversal_structure",
+          "phase": "R_E",
+          "source_paragraph_index": 31,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "known_micro_break_confirm_rule",
+          "phase": "R_F",
+          "source_paragraph_index": 32,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "anti_chase_max_atr_multiple",
+          "phase": "R_F",
+          "source_paragraph_index": 37,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:0.5_ATR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "bid_ask_spread_and_cost_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 34,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "session_dst_rollover_news_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 37,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "structural_sl_tp_net_r_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 34,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "event_expiry_and_idempotence",
+          "phase": "R_F",
+          "source_paragraph_index": 9,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "licensed_source_first_known_revision",
+          "phase": "R0",
+          "source_paragraph_index": 9,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "historical_walkforward_oos_qualification",
+          "phase": "QA",
+          "source_paragraph_index": 38,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        }
+      ]
+    },
+    {
+      "rule_id": "S2",
+      "direction": "SHORT",
+      "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+      "approval_status": "REVIEW_ONLY_UNAPPROVED",
+      "requirements": [
+        {
+          "id": "causal_d1_h4_trend",
+          "phase": "R0",
+          "source_paragraph_index": 117,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "confirmed_pivot_left_bars",
+          "phase": "R0",
+          "source_paragraph_index": 117,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:1_LEFT_BAR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "confirmed_pivot_right_bars",
+          "phase": "R0",
+          "source_paragraph_index": 117,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:1_RIGHT_BAR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "structural_hl_lh_invalidation",
+          "phase": "INVALIDATION",
+          "source_paragraph_index": 121,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_zone_origin_identity",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_zone_lookback",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:3_CLOSED_H1_BARS",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_true_range_atr_period",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:3_CLOSED_H1_BARS",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_near_zone_atr_multiple",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:0.5_ATR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "h1_zone_width_atr_multiple",
+          "phase": "R_C",
+          "source_paragraph_index": 118,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:0.3_ATR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "m15_early_reversal_structure",
+          "phase": "R_E",
+          "source_paragraph_index": 119,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "known_micro_break_confirm_rule",
+          "phase": "R_F",
+          "source_paragraph_index": 120,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "anti_chase_max_atr_multiple",
+          "phase": "R_F",
+          "source_paragraph_index": 125,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": "SIM:0.5_ATR",
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "bid_ask_spread_and_cost_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 122,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "session_dst_rollover_news_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 125,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "structural_sl_tp_net_r_gate",
+          "phase": "R_F",
+          "source_paragraph_index": 122,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "event_expiry_and_idempotence",
+          "phase": "R_F",
+          "source_paragraph_index": 9,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "licensed_source_first_known_revision",
+          "phase": "R0",
+          "source_paragraph_index": 9,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        },
+        {
+          "id": "historical_walkforward_oos_qualification",
+          "phase": "QA",
+          "source_paragraph_index": 126,
+          "source_numeric_status": "SPEC_PENDING_CALIBRATION_NOT_RUN",
+          "approved_value": null,
+          "research_sim_example": null,
+          "independently_verified_evidence": null
+        }
+      ]
+    }
+  ],
+  "permissions": {
+    "confirmed_buy_sell_alerts": false,
+    "real_market_data": false,
+    "drive_price_cache": false,
+    "broker_order_execution": false,
+    "release_ready": false
+  }
+}
