@@ -31,7 +31,7 @@ jobs:
           PYTHONPATH: src
         run: |
           python -m coverage run --branch --source=src/forex_trading -m unittest discover -s tests -v
-          python -m coverage json --output=.ci-a03-coverage.json
+          python -m coverage json -o .ci-a03-coverage.json
       - name: Validate 30-source-module measured line/branch coverage report (A03)
         run: python tools/check_a03_coverage.py
       - name: Require reproducible A03 property/fuzz suite inventory (synthetic only)
