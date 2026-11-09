@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "6bbeaf4607ae6599baa70c2cc61ab50058761d77",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step; A03/P0.2 ephemeral 17 mutation sentinel CI gate; A03/P0.3 stateful fuzz corpus CI budget; A03/P0.4 pinned coverage/Hypothesis CI-only tools; first red PR CI 42551169888 coverage output flag corrected"
+      "expected_current_sha": "4d579532e52c94ea79dc52c37a3810bd7636ba89",
+      "reason": "A03/P0.5 print measured branch gap inventory after prior baseline guard"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -51,6 +51,12 @@
       "change": "added",
       "expected_current_sha": "2ec949dcfa53feee00bcf57d399485d86a4f9b06",
       "reason": "A03/P0.2 immutable source/no-trade boundaries, mutation score scope and CI gate"
+    },
+    {
+      "path": "docs/MFX_A03_P05_MEASURED_GAP_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "8f83420cdb3d3725ec5db588d2ca6d9d75de97fa",
+      "reason": "A03/P0.5 bounded stage-1 QA scope, limitations and rollback protocol"
     },
     {
       "path": "docs/MFX_A03_PROPERTY_METAMORPHIC_SCOPE.md",
@@ -202,6 +208,12 @@
       "reason": "MFX-only synthetic import ownership tests, PR #2"
     },
     {
+      "path": "tests/test_p05_measured_gap_safety.py",
+      "change": "added",
+      "expected_current_sha": "c453da42aace61fc55f987d58994451ce1cc5c00",
+      "reason": "A03/P0.5: 17 synthetic provider/cache/lineage negative boundary tests; no src changes"
+    },
+    {
       "path": "tools/check_a02_pyflakes_baseline.py",
       "change": "added",
       "expected_current_sha": "165826cf6fbf4f3a80f7e4069b092e5717def7b0",
@@ -242,6 +254,12 @@
       "change": "added",
       "expected_current_sha": "26586324948f5c9c21d501f044fe440409ebfd0c",
       "reason": "A01/P0.2 deterministic typed golden fixture renderer for original vs MFX"
+    },
+    {
+      "path": "tools/report_a03_p05_gaps.py",
+      "change": "added",
+      "expected_current_sha": "a124ac7507e915c837981f7115485eaae2d33cb6",
+      "reason": "A03/P0.5: fail-closed real coverage.py missing-arc receipt for five measured weak modules"
     },
     {
       "path": "tools/run_a03_mutation_sentinels.py",
