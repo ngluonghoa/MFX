@@ -61,3 +61,18 @@ detector numerical and TP/SL rule implementations, original-vs-MFX
 economic parity, OOS evidence, signed release rollback and an
 individually authorized protected-main PR. This work remains separate
 from Forex Trading 1.0 and MOCHIFX.
+
+## Initial RED CI evidence (2026-11-09 ICT)
+
+PR #20 initial run 42583897701: both Python 3.11 and Python 3.12
+ran 814/814 synthetic unit methods PASS, same 28-case matrix, seven
+pure existing-source documentation candidates and 21 forbidden
+replacements BLOCKED, same SHA256
+`068353f91a8131f5f7750c77e46ad041c1e046af9c54a1e557a616c23ab9d463`.
+Strict mypy on 15 A04 tools rejected 14 Optional narrowing errors
+from unpacking untrusted JSON dictionaries in one tuple and one
+intentional malformed-reference negative case. Refactored to four
+separate typed dict reads with explicit isinstance checks and a
+test-only `cast(ReferenceFunction,...)` for malformed-reference
+injection, no ignores, runtime action or semantic change. The
+RED run is retained and is NOT a merge qualification.

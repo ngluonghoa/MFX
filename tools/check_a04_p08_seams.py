@@ -6,7 +6,7 @@ from dataclasses import replace
 from hashlib import sha256
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from tools.a04_adapter_conformance import PortSchema
 from tools.a04_p08_seam_review import (
@@ -47,11 +47,12 @@ def _json(path: Path) -> dict[str, Any]:
 def source_pins() -> SourceBindingPins:
     """Bind the seven references to previously observed GitHub CI evidence."""
     p02, p03, p06, p07 = (_json(p) for p in (P02, P03, P06, P07))
-    a, b, c, d = (
-        p02.get("measured"), p03.get("observed"),
-        p06.get("observed"), p07.get("observed"),
-    )
-    if not all(isinstance(x, dict) for x in (a, b, c, d)):
+    a = p02.get("measured")
+    b = p03.get("observed")
+    c = p06.get("observed")
+    d = p07.get("observed")
+    if (not isinstance(a, dict) or not isinstance(b, dict)
+            or not isinstance(c, dict) or not isinstance(d, dict)):
         raise ValueError("A04P8_PREVIOUS_OBSERVATION_MISSING")
     if (p02.get("kind") != "MFX_A04_P02_PINNED_SYNTHETIC_GOLDEN_GROUP_BASELINE"
             or p03.get("kind") != "MFX_A04_P03_PINNED_DECLARATIVE_SCHEMA_MATRIX"
@@ -121,7 +122,8 @@ def measure_matrix() -> dict[str, Any]:
     ema = good[ReferenceFunction.EMA_FULL]
     negative = [
         ("wrong_project", replace(quote, project_id="FOREX")),
-        ("unknown_reference", replace(quote, reference="provider.unknown")),
+        ("unknown_reference", replace(
+            quote, reference=cast(ReferenceFunction, "provider.unknown"))),
         ("provider_role_swapped", replace(quote, kind=PluginKind.INDICATOR)),
         ("tp_engine_role", replace(quote, kind=PluginKind.TP_POLICY)),
         ("wrong_plugin_id", replace(quote, plugin_id="external.livebroker")),

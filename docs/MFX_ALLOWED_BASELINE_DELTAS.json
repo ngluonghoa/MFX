@@ -163,8 +163,8 @@
     {
       "path": "docs/MFX_A04_P08_MINIMAL_ADAPTER_SEAM_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "c9433b3a8044362f54f2de9ca8c97eb7761ac261",
-      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
+      "expected_current_sha": "59fe5921caa3975eb5c36f3293a0720115cce269",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; initial CI 42583897701 strict mypy Optional narrowing and intentional malformed reference test corrected with typed checks, no ignores"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -456,8 +456,8 @@
     {
       "path": "tools/check_a04_p08_seams.py",
       "change": "added",
-      "expected_current_sha": "f2825c7a7149617b8576f21c105e333d3586d0e2",
-      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
+      "expected_current_sha": "dd6b365aec116ad1c55b1949fdf02057de2cda9a",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; initial CI 42583897701 strict mypy Optional narrowing and intentional malformed reference test corrected with typed checks, no ignores"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",
