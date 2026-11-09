@@ -138,13 +138,13 @@ def verify_casebook(data: object) -> dict[str, int | bool | str]:
                 "independent_review_evidence",
             }, "field")
             name, phase, bidx, sidx = REQUIREMENTS[pos]
-            for key, expected in (
+            for key, expected_field_value in (
                 ("id", name), ("phase", phase),
                 ("source_paragraph_index", bidx if index == 0 else sidx),
                 ("approved_numeric_value", None),
                 ("independent_review_evidence", None),
             ):
-                _equal(row[key], expected, rid + "." + name + "." + key)
+                _equal(row[key], expected_field_value, rid + "." + name + "." + key)
             sim = row["proposed_sim_value"]
             if sim is not None:
                 if (not isinstance(sim, str) or not sim.startswith("SIM:")
