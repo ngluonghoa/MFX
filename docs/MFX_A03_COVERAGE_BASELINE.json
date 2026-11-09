@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A03_P0_4_FROZEN_COVERAGE_MINIMA",
+  "coverage_version": "7.10.7",
+  "source_modules": 30,
+  "scope": "GitHub Actions Ubuntu 24.04 Python3.11/3.12; coverage run --branch --source=src/forex_trading -m unittest discover -s tests; synthetic-only; no trading authority",
+  "baseline_measured_commit": "cd3910450558edbd5f7541025561cf3d02917792",
+  "baseline_measurement_run": 42551298052,
+  "original_source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "mfx_locked_original_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
+  "minimum": {
+    "covered_lines": 2529,
+    "covered_branches": 956,
+    "num_statements": 2683,
+    "num_branches": 1112
+  },
+  "observed_percentages": {
+    "line_coverage": 94.26,
+    "branch_coverage": 85.97
+  },
+  "guarded_modules": {
+    "quotes.py": {
+      "covered_lines": 59,
+      "covered_branches": 23
+    },
+    "market_data.py": {
+      "covered_lines": 150,
+      "covered_branches": 53
+    },
+    "cache_core.py": {
+      "covered_lines": 178,
+      "covered_branches": 58
+    },
+    "cache_dependency.py": {
+      "covered_lines": 75,
+      "covered_branches": 32
+    },
+    "cache_indicators.py": {
+      "covered_lines": 31,
+      "covered_branches": 21
+    },
+    "source_calendar.py": {
+      "covered_lines": 116,
+      "covered_branches": 58
+    },
+    "provider_delta_contract.py": {
+      "covered_lines": 191,
+      "covered_branches": 66
+    }
+  },
+  "purpose": "Fail-closed measured nonregression thresholds. Baseline derived from BOTH PR jobs in run 42551298052, exact identical values. Do not interpret as global mutation score, TP/SL correctness, market-data license, trading readiness or executable 18-zone validation.",
+  "policy": "Any decrease below overall measured covered lines/branches or guarded core-module covered lines/branches fails CI. Increasing counts and new tests require measured change record in subsequent governed PR. No relaxation without user-authorized QA change."
+}
