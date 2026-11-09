@@ -606,8 +606,8 @@
     {
       "path": "tests/test_a04_p24_structure_event_gate.py",
       "change": "added",
-      "expected_current_sha": "f229bdedc75252e6d1e9adb2e07719000889a834",
-      "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
+      "expected_current_sha": "010f5d54374ad3e4c3460bde8a4eda786cfd18b3",
+      "reason": "A04/P0.24 pre-registered 20 SIM-only B2/S2 structural/replay tests, corrected neutral 3-bar missing-pivot oracle and accepted explicit source denials; no original source or real signal approval"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
