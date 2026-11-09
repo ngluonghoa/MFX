@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "c89be73dbe26fbe211f6740510cdaccfd354a5da",
-      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
+      "expected_current_sha": "95a777a76baf2de26da256d7afbceff3057b0a38",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -111,6 +111,12 @@
       "change": "added",
       "expected_current_sha": "94b02a5ec93e9e97c9c52c94269ce10600f05b57",
       "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; red CI 42568122304 canonical tuple order assertion corrected to canonical bytes/hash; strict mypy red 42568230247 resolved by explicit dict[str, Any] report typing (no noqa/ignore); pinned observed exact cross-Python 14-case migration compatibility SHA and 11 blocked outcomes from CI 42568341516"
+    },
+    {
+      "path": "docs/MFX_A04_P04_CANARY_AND_ROLLBACK_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "d7ce821a605696db7441cf3270bb1bfa9b71d86c",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -238,6 +244,12 @@
       "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; comparator-only fixture extended from base 40 to exact 50; original immutable source golden remains required in CI; A04/P0.2 pinned actual exact 50 golden group hashes and graph SHA from CI 42564185516, with negative drift/authority guard"
     },
     {
+      "path": "tests/test_a04_canary_git_rollback.py",
+      "change": "added",
+      "expected_current_sha": "03231ad3f7254e292822dda312afb58aae6391dd",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -284,6 +296,12 @@
       "change": "added",
       "expected_current_sha": "e69bc813b26fde19e2c46149670ff1ed0a8b7267",
       "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
+    },
+    {
+      "path": "tools/a04_canary_contract.py",
+      "change": "added",
+      "expected_current_sha": "e54336b4b0e814a56016115d77ce490ae6116f99",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
     },
     {
       "path": "tools/a04_contract_migration.py",
@@ -368,6 +386,12 @@
       "change": "added",
       "expected_current_sha": "c98a1a9668d7a0369e439952179991a87b7c5b9a",
       "reason": "A03/P0.2 cloud ephemeral 17-mutation fail-closed sentinel runner and measured receipt; red QA 42506501239 name-validator fix C03B to C05, no mutation injection yet; baseline A03 control suite expanded 29 to 36 methods; mutation baseline suite 36 to 47 including 11 tests"
+    },
+    {
+      "path": "tools/run_a04_canary_git_drill.py",
+      "change": "added",
+      "expected_current_sha": "f67ca0be860cf3bc74ef8abffee50636bfecdafc",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
