@@ -342,8 +342,8 @@
     {
       "path": "mfx_research/source_parameter_review.py",
       "change": "added",
-      "expected_current_sha": "602ca9f82dc21316bcc6d66b3cfe61f0acfa1c38",
-      "reason": "A04/P0.21 evidence-linked, 36/36 BLOCKED B2/S2 source numeric obligations, 14 SIM-only research examples, strict fail-closed review-only registry, fake local approval/real-data/cache/trade denied, original 30 src modules frozen"
+      "expected_current_sha": "bf89f8739f3f32462f36e9aee438849a23646b31",
+      "reason": "A04/P0.21 evidence-linked, 36/36 BLOCKED B2/S2 source numeric obligations, 14 SIM-only research examples, strict fail-closed review-only registry, fake local approval/real-data/cache/trade denied, original 30 src modules frozen; strict mypy initial CI run 42629603294 rejected heterogeneous expected value variable inference, use distinct expected_field_value to preserve semantic checks"
     },
     {
       "path": "mfx_research/zone_catalog_gate.py",

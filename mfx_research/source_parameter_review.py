@@ -167,14 +167,14 @@ def verify_parameter_review_register(data: object) -> ReviewGateReceipt:
                 "research_sim_example", "independently_verified_evidence",
             })
             name, phase, b_index, s_index = REQUIREMENTS[idx]
-            for key, expected in (
+            for key, expected_field_value in (
                 ("id", name), ("phase", phase),
                 ("source_paragraph_index", b_index if pos == 0 else s_index),
                 ("source_numeric_status", "SPEC_PENDING_CALIBRATION_NOT_RUN"),
                 ("approved_value", None),
                 ("independently_verified_evidence", None),
             ):
-                _exact(field[key], expected, rule_id + "." + name + "." + key)
+                _exact(field[key], expected_field_value, rule_id + "." + name + "." + key)
             proposed = field["research_sim_example"]
             if proposed is not None:
                 if (not isinstance(proposed, str)
