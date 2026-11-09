@@ -202,7 +202,11 @@ def explore() -> dict[str, Any]:
     if (len(seen) < 10 or len(corpus) < 5 or len(union) < 20 or
             rejected_expected < 5 or len(seen) > MAX_CASES):
         raise ValueError("P05_FEEDBACK_BUDGET_OR_NOVELTY_NOT_MET")
-    digest = sha256(json.dumps(corpus, sort_keys=True,
+    # Coverage's arc locations and built-in exception wording can vary by
+    # Python minor version. A corpus identity must hash the accepted INPUTS,
+    # not interpreter-specific arc annotations or diagnostics.
+    accepted_input_ids = sorted(item["input_sha256"] for item in corpus)
+    digest = sha256(json.dumps(accepted_input_ids, sort_keys=True,
                                separators=(",", ":")).encode("utf-8")).hexdigest()
     return {
         "kind": "A03_P0_5B_OBSERVED_ARC_FEEDBACK_SYNTHETIC_PARSER_ONLY",

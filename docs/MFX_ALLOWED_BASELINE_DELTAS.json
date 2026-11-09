@@ -55,8 +55,8 @@
     {
       "path": "docs/MFX_A03_P05_FEEDBACK_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "1aebb7407da84a9dfb8da03aa00aa22bdefab604",
-      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO"
+      "expected_current_sha": "01c269a3b752629a5b8fcbaaf4481436232545e9",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO; first P0.5b CI 42558478998 revealed Python-specific diagnostic-induced corpus hash drift, normalized to accepted-input IDs"
     },
     {
       "path": "docs/MFX_A03_P05_MEASURED_GAP_SCOPE.md",
@@ -276,8 +276,8 @@
     {
       "path": "tools/run_a03_coverage_feedback.py",
       "change": "added",
-      "expected_current_sha": "d764c5d3fe8b20dbea8c96a48d5059cc656f1252",
-      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO"
+      "expected_current_sha": "0bd4229885c91ac1c1f5eae4c970f7bd86638259",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO; first P0.5b CI 42558478998 revealed Python-specific diagnostic-induced corpus hash drift, normalized to accepted-input IDs"
     },
     {
       "path": "tools/run_a03_mutation_sentinels.py",

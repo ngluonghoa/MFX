@@ -23,3 +23,13 @@ readback; do not fabricate or equate executed arcs with 30-module branch totals.
 
 First red runs retained for QA. Do NOT merge until exact-head PR CI 3/3
 and independently verify post-main CI 3/3. Cloud-only, zero broker/orders.
+
+## Real first-run cross-Python audit (P0.5b)
+PR first run 42558478998: 681 unit methods on both Python versions PASS,
+80 candidates / 17 feedback-interesting corpus entries / 118 observed arcs.
+The first `corpus_sha256` also included interpreter-specific exception
+diagnostics and arc counts; it DIVERGED between Python3.11 and Python3.12.
+This is not silently accepted as deterministic cross-version reproducibility.
+The revised corpus identity hashes only the sorted set of accepted input payload
+SHA256 digests. CI must verify that resulting digest is identical across both
+Python versions before pinning any new baseline or merging.
