@@ -666,8 +666,8 @@
     {
       "path": "tests/test_a04_p27_signal_source_audit.py",
       "change": "added",
-      "expected_current_sha": "de9874807932889e17b8bf0d939757a1fdbc3dbc",
-      "reason": "A04/P0.27 20 prerecorded original Forex source 18-label qualitative gates; stricter independent B2 HH/HL micro-high BUY vs S2 LH/LL micro-low SELL source semantics. No numeric approvals, src edits, provider/cache/broker IO or verified real alert."
+      "expected_current_sha": "6ae0aff5d10b793f06ccfbb1a00129c7c3c00d25",
+      "reason": "A04/P0.27 20 prereg original 03 source review groups, additional exact B2 HH/HL vs S2 LH/LL and FX-S9 compression vs FX-S10 momentum qualitative guards; research only, no source numeric approval/real IO"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
