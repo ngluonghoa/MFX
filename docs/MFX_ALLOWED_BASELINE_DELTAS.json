@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "a50558107d69f32006887ec2b9b073fe6949924f",
-      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes"
+      "expected_current_sha": "54d350b6a8a3e3513828687081c845f795f163f2",
+      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes; first red CI 42561574548 [import-untyped] fixed through explicit MYPYPATH=src without source changes"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -85,8 +85,8 @@
     {
       "path": "docs/MFX_A04_P01_TYPED_PLUGIN_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "10ae9a870e851e394c7811dc0c28f92a25489fbf",
-      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes"
+      "expected_current_sha": "c5605d151e14d70ec95ef65ba2597c86ab0bbde5",
+      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes; first red CI 42561574548 [import-untyped] fixed through explicit MYPYPATH=src without source changes"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",

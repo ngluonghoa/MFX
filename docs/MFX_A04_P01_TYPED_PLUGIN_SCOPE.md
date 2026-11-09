@@ -64,3 +64,13 @@ orders, no signed release or trading. Next A04/P0.2 should define safe
 runtime-free adapter conformance checks and differential golden scaffolding,
 then evaluate actual migration in a separately approved source-delta
 governance upgrade; do not bypass existing `src/` exceptions silently.
+
+## CI red evidence
+Initial PR run 42561574548: all 700 unit tests per Python PASS, but
+isolated mypy check of the new `tools/a04_plugin_contracts.py` initially
+reported `[import-untyped]` for the internal `forex_trading.market_data`
+dependency because mypy did not know the `src/` source search path.
+Adjusted the Cloud-only mypy step to explicitly set `MYPYPATH=src`.
+This does not add a py.typed claim, change installed package metadata,
+modify source contracts or suppress import errors. Preserve the initial
+red CI record and require a full new PR-run success.
