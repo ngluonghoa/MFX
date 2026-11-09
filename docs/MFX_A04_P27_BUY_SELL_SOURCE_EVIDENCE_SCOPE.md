@@ -4,7 +4,7 @@
 
 ## Original source vs design candidates vs usable signals
 
-Authoritative direct readback: [SOURCE_LOCKED_03_DETECTOR_AUDIT](https://docs.google.com/document/d/10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA/edit) (281 paragraphs, 0-based indexes), and original `src/forex_trading/catalog.py` with Git blob `dc0cd0d7eab7f8603071401aa51723f7e4b8ef20`, whose docstring explicitly says taxonomy is **NOT executable signal predicates**. `docs/MFX_A04_P27_SOURCE_EVIDENCE_MATRIX.json` captures verbatim original headings, R0 context, R_C/WATCH, R_E/EARLY, R_F/CONFIRM and status paragraphs with source indices for **every one of the 18 labels**. Its Git blob SHA is pinned as `fbacde33cba58e75e49edc6fd1e490df5f1d5f79`; no original document was edited.
+Authoritative direct readback: [SOURCE_LOCKED_03_DETECTOR_AUDIT](https://docs.google.com/document/d/10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA/edit) (281 paragraphs, 0-based indexes), and original `src/forex_trading/catalog.py` with Git blob `dc0cd0d7eab7f8603071401aa51723f7e4b8ef20`, whose docstring explicitly says taxonomy is **NOT executable signal predicates**. `docs/MFX_A04_P27_SOURCE_EVIDENCE_MATRIX.json` captures verbatim original headings, R0 context, R_C/WATCH, R_E/EARLY, R_F/CONFIRM and status paragraphs with source indices for **every one of the 18 labels**. Its Git blob SHA is pinned as `d07f54e845e134c98b8bcbb5342a8f47df7c5f8a`; no original document was edited.
 
 | Current original taxonomy | Label IDs | Actual status | Potential action if separately source-approved |
 |---|---|---|---|
