@@ -1,0 +1,559 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P12_SYNTHETIC_FAIL_CLOSED_PROVENANCE_QUOTE_CLOCK",
+  "frozen_forex_source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "mfx_initial_exact_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
+  "p11_crosswalk_git_blob_sha": "8965ce6794dbac4abb850c6d18e25acdc358b4a7",
+  "p11_frozen_field_obligations": 58,
+  "scenario_count": 32,
+  "source_and_rights_evidence": "SYNTHETIC_ONLY_NO_LICENCED_VENDOR_FEED_OR_STORAGE_RIGHTS",
+  "base_fixture": {
+    "fixture_kind": "SYNTHETIC_UNTRUSTED_NO_VENDOR_DATA",
+    "symbol": "SIM:EURUSD",
+    "timeframe": "M15",
+    "price_basis": "SIMULATED_NATIVE_BID_ASK",
+    "bid": "1.1000",
+    "ask": "1.1002",
+    "bid_native_simulated": true,
+    "ask_native_simulated": true,
+    "broker_product_matched_simulated": true,
+    "quote_observed_utc": "2026-11-09T09:00:00Z",
+    "bar_closed_utc": "2026-11-09T08:45:00Z",
+    "first_known_utc": "2026-11-09T08:45:02Z",
+    "revision_known_utc": "2026-11-09T08:45:03Z",
+    "decision_utc": "2026-11-09T09:00:05Z",
+    "max_age_seconds": 120,
+    "calendar_state": "CONFIRMED_SIMULATED_UTC",
+    "source_state": "AVAILABLE_SIMULATED",
+    "rights_reference": "SYNTHETIC_ONLY_NO_VENDOR_ENTITLEMENT",
+    "external_rights_verified": false,
+    "drive_retention_verified": false,
+    "can_trade": false
+  },
+  "scenarios": [
+    {
+      "id": "clean_structural_but_no_vendor_entitlement",
+      "changes": {},
+      "drop": [],
+      "extra": {},
+      "expected_reason": "BLOCKED_EXTERNAL_RIGHTS_UNVERIFIED"
+    },
+    {
+      "id": "indicative_not_native_bidask",
+      "changes": {
+        "price_basis": "INDICATIVE_OHLCV"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "INDICATIVE_NOT_EXECUTION"
+    },
+    {
+      "id": "broker_product_mismatch",
+      "changes": {
+        "broker_product_matched_simulated": false
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "BROKER_PRODUCT_MISMATCH"
+    },
+    {
+      "id": "native_bid_missing",
+      "changes": {
+        "bid_native_simulated": false
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "NATIVE_BID_MISSING"
+    },
+    {
+      "id": "native_ask_missing",
+      "changes": {
+        "ask_native_simulated": false
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "NATIVE_ASK_MISSING"
+    },
+    {
+      "id": "crossed_bid_ask",
+      "changes": {
+        "ask": "1.0999"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "CROSSED_BID_ASK"
+    },
+    {
+      "id": "nonpositive_bid",
+      "changes": {
+        "bid": "0"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "INVALID_BID_ASK"
+    },
+    {
+      "id": "nan_bid",
+      "changes": {
+        "bid": "NaN"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "INVALID_BID_ASK"
+    },
+    {
+      "id": "float_not_decimal_string",
+      "changes": {
+        "bid": 1.1
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "INVALID_BID_ASK"
+    },
+    {
+      "id": "future_quote",
+      "changes": {
+        "quote_observed_utc": "2026-11-09T09:00:06Z"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "FUTURE_QUOTE"
+    },
+    {
+      "id": "stale_quote",
+      "changes": {
+        "quote_observed_utc": "2026-11-09T08:50:00Z"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "STALE_QUOTE"
+    },
+    {
+      "id": "future_first_known",
+      "changes": {
+        "first_known_utc": "2026-11-09T09:00:06Z"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "FUTURE_FIRST_KNOWN"
+    },
+    {
+      "id": "provisional_bar",
+      "changes": {
+        "bar_closed_utc": "2026-11-09T09:00:06Z"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "BAR_NOT_CLOSED"
+    },
+    {
+      "id": "future_revision",
+      "changes": {
+        "revision_known_utc": "2026-11-09T09:00:06Z"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "FUTURE_REVISION"
+    },
+    {
+      "id": "first_known_before_close",
+      "changes": {
+        "first_known_utc": "2026-11-09T08:44:59Z"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "FIRST_KNOWN_BEFORE_BAR_CLOSE"
+    },
+    {
+      "id": "revision_before_first_known",
+      "changes": {
+        "revision_known_utc": "2026-11-09T08:45:01Z"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "REVISION_BEFORE_FIRST_KNOWN"
+    },
+    {
+      "id": "calendar_dst_unverified",
+      "changes": {
+        "calendar_state": "UNVERIFIED_DST"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "CALENDAR_UNVERIFIED"
+    },
+    {
+      "id": "non_utc_offset_timestamp",
+      "changes": {
+        "first_known_utc": "2026-11-09T15:45:02+07:00"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "INVALID_UTC_TIMESTAMP"
+    },
+    {
+      "id": "unsupported_timeframe",
+      "changes": {
+        "timeframe": "S1"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "UNSUPPORTED_TIMEFRAME"
+    },
+    {
+      "id": "unqualified_real_symbol",
+      "changes": {
+        "symbol": "EURUSD"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "NON_SYNTHETIC_SYMBOL"
+    },
+    {
+      "id": "rights_reference_missing",
+      "changes": {
+        "rights_reference": ""
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "RIGHTS_REFERENCE_MISSING"
+    },
+    {
+      "id": "source_rate_limited",
+      "changes": {
+        "source_state": "RATE_LIMITED"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "SOURCE_RATE_LIMITED"
+    },
+    {
+      "id": "source_missing",
+      "changes": {
+        "source_state": "MISSING"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "SOURCE_MISSING"
+    },
+    {
+      "id": "forged_vendor_entitlement",
+      "changes": {
+        "external_rights_verified": true
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "FORGED_VENDOR_ENTITLEMENT"
+    },
+    {
+      "id": "forged_drive_retention",
+      "changes": {
+        "drive_retention_verified": true
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "FORGED_DRIVE_RETENTION"
+    },
+    {
+      "id": "forged_trade_authority",
+      "changes": {
+        "can_trade": true
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "FORGED_TRADING_AUTHORITY"
+    },
+    {
+      "id": "omitted_required_ask",
+      "changes": {},
+      "drop": [
+        "ask"
+      ],
+      "extra": {},
+      "expected_reason": "SCHEMA_KEYS_INVALID"
+    },
+    {
+      "id": "unexpected_runtime_field",
+      "changes": {},
+      "drop": [],
+      "extra": {
+        "runtime_enabled": true
+      },
+      "expected_reason": "SCHEMA_KEYS_INVALID"
+    },
+    {
+      "id": "invalid_staleness_threshold",
+      "changes": {
+        "max_age_seconds": -1
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "INVALID_STALENESS_POLICY"
+    },
+    {
+      "id": "impossible_calendar_timestamp",
+      "changes": {
+        "decision_utc": "2026-02-30T09:00:05Z"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "INVALID_UTC_TIMESTAMP"
+    },
+    {
+      "id": "external_fixture_kind",
+      "changes": {
+        "fixture_kind": "REAL_MARKET"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "NON_SYNTHETIC_FIXTURE_BLOCKED"
+    },
+    {
+      "id": "unsupported_source_state",
+      "changes": {
+        "source_state": "UNKNOWN"
+      },
+      "drop": [],
+      "extra": {},
+      "expected_reason": "SOURCE_UNVERIFIED"
+    }
+  ],
+  "absolute_denials": {
+    "real_market_data_observed": false,
+    "vendor_entitlement_verified": false,
+    "broker_native_bidask_qualified": false,
+    "first_known_real_feed_qualified": false,
+    "drive_cache_writes_authorized": false,
+    "runtime_plugin_activated": false,
+    "release_signed": false,
+    "broker_trades_authorized": false
+  },
+  "acceptance_label": "NEGATIVE_CONTRACT_SIMULATION_ONLY_NOT_PRODUCTION",
+  "decision": "NO_RUNTIME_NO_SOURCE_EDITS_NO_VENDOR_OR_TRADE_AUTHORITY",
+  "results": [
+    {
+      "scenario_id": "clean_structural_but_no_vendor_entitlement",
+      "reason_code": "BLOCKED_EXTERNAL_RIGHTS_UNVERIFIED",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "indicative_not_native_bidask",
+      "reason_code": "INDICATIVE_NOT_EXECUTION",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "broker_product_mismatch",
+      "reason_code": "BROKER_PRODUCT_MISMATCH",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "native_bid_missing",
+      "reason_code": "NATIVE_BID_MISSING",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "native_ask_missing",
+      "reason_code": "NATIVE_ASK_MISSING",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "crossed_bid_ask",
+      "reason_code": "CROSSED_BID_ASK",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "nonpositive_bid",
+      "reason_code": "INVALID_BID_ASK",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "nan_bid",
+      "reason_code": "INVALID_BID_ASK",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "float_not_decimal_string",
+      "reason_code": "INVALID_BID_ASK",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "future_quote",
+      "reason_code": "FUTURE_QUOTE",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "stale_quote",
+      "reason_code": "STALE_QUOTE",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "future_first_known",
+      "reason_code": "FUTURE_FIRST_KNOWN",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "provisional_bar",
+      "reason_code": "BAR_NOT_CLOSED",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "future_revision",
+      "reason_code": "FUTURE_REVISION",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "first_known_before_close",
+      "reason_code": "FIRST_KNOWN_BEFORE_BAR_CLOSE",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "revision_before_first_known",
+      "reason_code": "REVISION_BEFORE_FIRST_KNOWN",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "calendar_dst_unverified",
+      "reason_code": "CALENDAR_UNVERIFIED",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "non_utc_offset_timestamp",
+      "reason_code": "INVALID_UTC_TIMESTAMP",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "unsupported_timeframe",
+      "reason_code": "UNSUPPORTED_TIMEFRAME",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "unqualified_real_symbol",
+      "reason_code": "NON_SYNTHETIC_SYMBOL",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "rights_reference_missing",
+      "reason_code": "RIGHTS_REFERENCE_MISSING",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "source_rate_limited",
+      "reason_code": "SOURCE_RATE_LIMITED",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "source_missing",
+      "reason_code": "SOURCE_MISSING",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "forged_vendor_entitlement",
+      "reason_code": "FORGED_VENDOR_ENTITLEMENT",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "forged_drive_retention",
+      "reason_code": "FORGED_DRIVE_RETENTION",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "forged_trade_authority",
+      "reason_code": "FORGED_TRADING_AUTHORITY",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "omitted_required_ask",
+      "reason_code": "SCHEMA_KEYS_INVALID",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "unexpected_runtime_field",
+      "reason_code": "SCHEMA_KEYS_INVALID",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "invalid_staleness_threshold",
+      "reason_code": "INVALID_STALENESS_POLICY",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "impossible_calendar_timestamp",
+      "reason_code": "INVALID_UTC_TIMESTAMP",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "external_fixture_kind",
+      "reason_code": "NON_SYNTHETIC_FIXTURE_BLOCKED",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    },
+    {
+      "scenario_id": "unsupported_source_state",
+      "reason_code": "SOURCE_UNVERIFIED",
+      "source_kind": "SYNTHETIC_ONLY",
+      "may_write_real_cache": false,
+      "may_trade": false
+    }
+  ]
+}
