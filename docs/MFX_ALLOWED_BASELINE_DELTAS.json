@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "15e83bc384c1a6683e05cfe1bdde23f1ee9648a5",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step; A03/P0.2 ephemeral 17 mutation sentinel CI gate; A03/P0.3 stateful fuzz corpus CI budget; A03/P0.4 pinned coverage/Hypothesis CI-only tools"
+      "expected_current_sha": "6bbeaf4607ae6599baa70c2cc61ab50058761d77",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step; A03/P0.2 ephemeral 17 mutation sentinel CI gate; A03/P0.3 stateful fuzz corpus CI budget; A03/P0.4 pinned coverage/Hypothesis CI-only tools; first red PR CI 42551169888 coverage output flag corrected"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
