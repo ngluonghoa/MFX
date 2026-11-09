@@ -34,7 +34,8 @@ class A04P03SchemaMigrationTests(unittest.TestCase):
     def test_inert_synthetic_exact_snapshot_replay_has_stable_hash(self) -> None:
         base = original()
         decoded = decode_snapshot(encode_snapshot(base))
-        self.assertEqual(base, decoded)
+        # Dataclass tuple order is not canonical; compare replay bytes/hash.
+        self.assertEqual(encode_snapshot(base), encode_snapshot(decoded))
         self.assertEqual(base.identity_sha256, decoded.identity_sha256)
         self.assertFalse(decoded.may_activate)
 

@@ -45,3 +45,12 @@ observed evidence and limitations. A04 overall remains PARTIAL.
 NEXT: A04/P0.4 can address contract-level backward compatibility and
 canary/rollback protocol; actual source wiring needs an independent
 authorized PR and strict source-delta gate.
+
+## Initial PR CI red record
+First run 42568122304: 739 unit methods per Python; one isolated
+P0.3 assertion compared dataclass tuple ordering before/after canonical
+JSON replay, which is not a valid schema identity test. Canonical
+serializer deliberately sorts five schema records. Updated the synthetic
+QA assertion to compare exact canonical encoded bytes and SHA256 digest
+instead of Python tuple ordering. No source or actual adapter modified.
+Retain this red record; require fresh exact-head CI.
