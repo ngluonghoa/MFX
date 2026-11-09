@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "1f3dd56dc339bb30825f11cc186c5b2b9e028de1",
-      "reason": "A04/P0.23 pre-registered 21-method synthetic B2/S2 source-safe independent pivot/boundary QA; draft PR ONLY; no src changes, original 36/36 quantitative rules UNAPPROVED and P0.22 independent postmain push gate pending; no feed/cache/broker/release"
+      "expected_current_sha": "f1e1362f62e2699c7895f1815c43d96e6e201d64",
+      "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -305,6 +305,12 @@
       "reason": "A04/P0.23 26 pre-registered B2/S2 SIM-only QA methods; now P0.22 independent main push run42635627691 3/3 verified, no source numeric approval/feeds/broker; exact SHA and no src changes"
     },
     {
+      "path": "docs/MFX_A04_P24_STRUCTURE_EVENT_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "b9429fe3a9cabbae8a221f3cdbac9c009ba79c06",
+      "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -356,6 +362,12 @@
       "change": "added",
       "expected_current_sha": "93fc8ae177bc49de6608498923ff7f08ddbef97c",
       "reason": "A04/P0.22 unapproved source-linked B2/S2 numeric policy proposal and 14 simulated causal positive/NO_SIGNAL/denial cases; 36/36 source approvals BLOCKED, real-data/cache/broker/release denied, no src changes; first PR CI 42635124109 showed one mypy variable-reuse error fixed without altering case outcomes"
+    },
+    {
+      "path": "mfx_research/p024_structure_event_gate.py",
+      "change": "added",
+      "expected_current_sha": "154f0f22d87e27eb4ec8570800c8a7e6c3d2d6b1",
+      "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -590,6 +602,12 @@
       "change": "added",
       "expected_current_sha": "2c0270c5b42442ed2b40b9f90657b794cb97e015",
       "reason": "A04/P0.23 draft-only, 26 pre-registered grouped B2/S2 synthetic causal and threshold oracles incl five Issue35 addendum before implementation; 36/36 numeric source approvals BLOCKED; P0.22 postmain push QA still unverified; no src or market IO"
+    },
+    {
+      "path": "tests/test_a04_p24_structure_event_gate.py",
+      "change": "added",
+      "expected_current_sha": "010f5d54374ad3e4c3460bde8a4eda786cfd18b3",
+      "reason": "A04/P0.24 pre-registered 20 SIM-only B2/S2 structural/replay tests, corrected neutral 3-bar missing-pivot oracle and accepted explicit source denials; no original source or real signal approval"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -908,6 +926,12 @@
       "change": "added",
       "expected_current_sha": "b223c3115d852f360b57e3a1d5b9c42e2aeb55b5",
       "reason": "A04/P0.23 26 pre-registered B2/S2 SIM-only QA methods; now P0.22 independent main push run42635627691 3/3 verified, no source numeric approval/feeds/broker; exact SHA and no src changes"
+    },
+    {
+      "path": "tools/run_a04_p24_structure_event_demo.py",
+      "change": "added",
+      "expected_current_sha": "24d4db7a319b6df206fdc3c1f720d243928b0d17",
+      "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
