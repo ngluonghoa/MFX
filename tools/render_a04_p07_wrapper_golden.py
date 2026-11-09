@@ -6,14 +6,56 @@ with MFX src PYTHONPATH in GitHub Actions. No runtime plugin/real provider.
 from __future__ import annotations
 
 import argparse
-from dataclasses import replace
+from dataclasses import fields, is_dataclass, replace
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
+from enum import Enum
+from functools import partial
 import json
 from pathlib import Path
 from typing import Any, Callable
 
-from tools.render_golden_contract import record
+def _stable(value: Any) -> Any:
+    """Exact typed serialization used for wrapper and direct source outputs."""
+    if isinstance(value, Enum):
+        return value.value
+    if isinstance(value, Decimal):
+        return str(value)
+    if isinstance(value, datetime):
+        return value.isoformat()
+    if isinstance(value, timedelta):
+        return value.total_seconds()
+    if is_dataclass(value) and not isinstance(value, type):
+        return {f.name: _stable(getattr(value, f.name)) for f in fields(value)}
+    if isinstance(value, (tuple, list)):
+        return [_stable(v) for v in value]
+    if isinstance(value, dict):
+        return {str(_stable(k)): _stable(v) for k, v in sorted(
+            value.items(), key=lambda item: str(_stable(item[0])),
+        )}
+    if isinstance(value, (str, int, float, bool)) or value is None:
+        return value
+    raise TypeError("A04P07_UNSUPPORTED_SOURCE_OUTPUT")
+
+
+def record(
+    results: list[dict[str, Any]], name: str, action: Callable[[], Any],
+    *, expected_error: type[Exception] | None = None,
+) -> None:
+    """Locally strictly typed receipt; no dependency on legacy golden CLI."""
+    try:
+        value = action()
+    except (ValueError, TypeError) as err:
+        if expected_error is None or type(err) is not expected_error:
+            raise
+        outcome = {"error_type": type(err).__name__, "reason": str(err)}
+    else:
+        if expected_error is not None:
+            raise AssertionError("A04P07_EXPECTED_SOURCE_ERROR_MISSING:" + name)
+        outcome = {"value": _stable(value)}
+    results.append({"id": name, "outcome": outcome})
+
+
 from tools.a04_p07_readonly_wrappers import (
     readonly_quote, readonly_bar, readonly_asof, readonly_ema,
     readonly_ema_recompute, readonly_catalog_counts,
@@ -63,10 +105,8 @@ def render(source_root: Path) -> dict[str, Any]:
     for intent in ActionIntent:
         paired(
             "quote." + intent.value.lower(),
-            lambda intent=intent: readonly_quote(
-                quote, intent, t + 2 * minute, 5 * minute),
-            lambda intent=intent: indicative_price(
-                quote, intent, t + 2 * minute, 5 * minute),
+            partial(readonly_quote, quote, intent, t + 2 * minute, 5 * minute),
+            partial(indicative_price, quote, intent, t + 2 * minute, 5 * minute),
         )
     quote_errors: tuple[tuple[str, Quote, datetime, timedelta], ...] = (
         ("future_known", quote, t, 5 * minute),
@@ -78,10 +118,8 @@ def render(source_root: Path) -> dict[str, Any]:
     for name, q, when, age in quote_errors:
         paired(
             "quote.reject_" + name,
-            lambda q=q, when=when, age=age:
-                readonly_quote(q, ActionIntent.ENTRY_LONG, when, age),
-            lambda q=q, when=when, age=age:
-                indicative_price(q, ActionIntent.ENTRY_LONG, when, age),
+            partial(readonly_quote, q, ActionIntent.ENTRY_LONG, when, age),
+            partial(indicative_price, q, ActionIntent.ENTRY_LONG, when, age),
             error=ValueError,
         )
 
@@ -130,14 +168,12 @@ def render(source_root: Path) -> dict[str, Any]:
     for name, sample, when, enabled, htf in bars:
         paired(
             "bar." + name,
-            lambda sample=sample, when=when, enabled=enabled, htf=htf:
-                readonly_bar(sample, when,
-                             conditional_m5_early_enabled=enabled,
-                             htf_context_first_known_utc=htf),
-            lambda sample=sample, when=when, enabled=enabled, htf=htf:
-                evaluate_closed_bar(sample, when,
-                                    conditional_m5_early_enabled=enabled,
-                                    htf_context_first_known_utc=htf),
+            partial(readonly_bar, sample, when,
+                    conditional_m5_early_enabled=enabled,
+                    htf_context_first_known_utc=htf),
+            partial(evaluate_closed_bar, sample, when,
+                    conditional_m5_early_enabled=enabled,
+                    htf_context_first_known_utc=htf),
         )
 
     corrected = bar(revision=2, known=t + 22 * minute)
@@ -151,10 +187,8 @@ def render(source_root: Path) -> dict[str, Any]:
     for name, revisions, when, error in asof:
         paired(
             "asof." + name,
-            lambda revisions=revisions, when=when:
-                readonly_asof(revisions, when),
-            lambda revisions=revisions, when=when:
-                select_asof_revision(revisions, when),
+            partial(readonly_asof, revisions, when),
+            partial(select_asof_revision, revisions, when),
             error=error,
         )
 
@@ -172,10 +206,8 @@ def render(source_root: Path) -> dict[str, Any]:
     for name, series, period, error in full:
         paired(
             "ema." + name,
-            lambda series=series, period=period:
-                readonly_ema(series, period),
-            lambda series=series, period=period:
-                ema_full(series, period),
+            partial(readonly_ema, series, period),
+            partial(ema_full, series, period),
             error=error,
         )
     prior = ema_full(closes, 3)
@@ -187,10 +219,8 @@ def render(source_root: Path) -> dict[str, Any]:
     ):
         paired(
             "ema." + name,
-            lambda series=series, checkpoint=checkpoint, dirty=dirty:
-                readonly_ema_recompute(series, 3, checkpoint, dirty),
-            lambda series=series, checkpoint=checkpoint, dirty=dirty:
-                ema_recompute(series, 3, checkpoint, dirty),
+            partial(readonly_ema_recompute, series, 3, checkpoint, dirty),
+            partial(ema_recompute, series, 3, checkpoint, dirty),
             error=error,
         )
 

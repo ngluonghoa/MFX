@@ -58,3 +58,18 @@ Both Python runners rejected this before any new wrapper parity could be
 certified. Removed that unmatched parenthesis, changed no source/Forex
 files, and kept this RED historical CI receipt. A fresh full run and
 cross-root exact output/error parity are required before pinning or merge.
+
+## Second PR red CI: strict mypy helper dependency
+GitHub Actions run 42580566038: both Python3.11 and 3.12 ran
+801/801 unit methods successfully; exact frozen Forex/MFX 34-case
+wrapper output and error reasons all passed, with identical measured
+case SHA `6ccb082b7940a3bb5c2c27d86151cde1874c6f791eb02cfeac12cf94c2ff49f5`
+and snapshot SHA `b4aca14200ec2312970850a7c3500b2d73d3045e012575ca3f15c724aca00485`.
+Strict mypy then caught 17 diagnostics: five from importing the
+historical A01 golden renderer (a CLI not previously strict typed),
+and twelve from default-bound lambda inference. Removed the
+runtime import of that CLI in P0.7 and introduced a locally typed
+pure serialization/receipt helper preserving the same output
+structure. Switched default-bound lambdas to `functools.partial`
+for explicit input types, no `# type: ignore` or relaxed CI gate.
+The RED run remains in QA history; source/runtime unchanged.
