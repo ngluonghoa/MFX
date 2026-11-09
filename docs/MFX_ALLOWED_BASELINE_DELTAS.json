@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "f7ae3411a4d48b156e0ecf8f43470396243e0948",
-      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; A04/P0.5 frozen actual cross-Python 28-case/23-blocked SHA from CI 42574766022 + tamper tests"
+      "expected_current_sha": "a123380e93fdc30c29da76fb363264e4d2ee6667",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; pinned exact 30 real src SHA/14 AST symbol signatures/16 exports/import graph from GitHub Actions 42577505263"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -135,6 +135,18 @@
       "change": "added",
       "expected_current_sha": "f7b242a6d97f8ca82de84d2e5cd977c5618fb7bd",
       "reason": "A04/P0.5 measured offline schema/protected-main planning 28-case pinned SHA and no-runtime evidence from successful GitHub CI 42574766022"
+    },
+    {
+      "path": "docs/MFX_A04_P06_REAL_SOURCE_SEAM_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "02c47aea57b470d32cfc8a639d6c21fa2051b978",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; 42577321465 typed AST function/class signature intermediate fix without semantic change; pinned exact 30 real src SHA/14 AST symbol signatures/16 exports/import graph from GitHub Actions 42577505263"
+    },
+    {
+      "path": "docs/MFX_A04_P06_RUNTIME_SEAM_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "1a2549b569c9c014640c1b7eeb7d9a209c61b41a",
+      "reason": "A04/P0.6 exact 30 real source module SHA256, 14 AST signature claims, export and dependency map measured on both GitHub Python runners"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -274,6 +286,12 @@
       "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; A04/P0.5 frozen actual cross-Python 28-case/23-blocked SHA from CI 42574766022 + tamper tests"
     },
     {
+      "path": "tests/test_a04_p06_runtime_seams.py",
+      "change": "added",
+      "expected_current_sha": "11363dca04b56abf5e7279b8fd7fc011d91664eb",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; pinned exact 30 real src SHA/14 AST symbol signatures/16 exports/import graph from GitHub Actions 42577505263"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -340,6 +358,12 @@
       "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
     },
     {
+      "path": "tools/a04_p06_runtime_seams.py",
+      "change": "added",
+      "expected_current_sha": "b369b5fc7e3f9f6e4f6b3c98fce78c310642adb1",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; 42577321465 typed AST function/class signature intermediate fix without semantic change"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -380,6 +404,12 @@
       "change": "added",
       "expected_current_sha": "cf89407c3bbab4348c062934ada9e03e683bf6d0",
       "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; initial PR red 42574581730 strict mypy resolved by distinct Recovery vs Integration typed loop variables"
+    },
+    {
+      "path": "tools/check_a04_p06_runtime_seams.py",
+      "change": "added",
+      "expected_current_sha": "21b8f4b6c1d2f8e05a07a4f56cf68a9617f17706",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",

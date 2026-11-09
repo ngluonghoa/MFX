@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P06_PINNED_REAL_SOURCE_AST_INVENTORY",
+  "original_forex_source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "initial_102_blob_MFX_source_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
+  "measured_github_run": 42577505263,
+  "measured_pr_head": "52042d23cf8ff78ab128d15295c1c7f5f2519574",
+  "python311_job": 129028434372,
+  "python312_job": 129028434413,
+  "observed": {
+    "source_module_count": 30,
+    "source_file_sha256": {
+      "__init__.py": "8030ee55155268fc34436c1db3292b3c6e643102649e158b28e84175f41b2fa9",
+      "account_data_review.py": "eaabdcff71cb0df66c49b1138827821b0272ea6e5e18013baa06e3574ecf662e",
+      "cache_core.py": "15da03e36407a98382a10b7b93f33393eb3c3d4cbe8563f4479b2abc6a9d5be1",
+      "cache_dependency.py": "9abc2a32a60f673d0eaf5168cdc8e188a7a0f92444f68c733a71ff3be58e7934",
+      "cache_indicators.py": "35986a2fb81eb03c1eb8e77e1c4b48d6811644148f5ac5887ff95ec9ee58c1ca",
+      "cache_storage_review.py": "89b9ae5a017cddf19408a79a470fc28ca2f7e54030d17de15f765f9917e77e97",
+      "catalog.py": "53faf59694e4f52c0ba4d5035607d1fcdeb2569072ba340be7d0ad703632ce50",
+      "google_drive_wire_contract.py": "73936ddbbce624b96d15b08a686fb00a8dd145ccc363d4c39053df181d65a34b",
+      "market_data.py": "8a96808ebac3f81dace244069da3758c71fc66529b53c74f5ec0b28313fe63b0",
+      "model.py": "9f4b3e0c3fa4159648e874c416d18ca07adea9393ea808dce391a8adc0becf81",
+      "pipeline.py": "c1d6305241e38d1ab43e0379f67d91a67b1e05225133dfac8c4c9ad134dae37f",
+      "provider_delta_contract.py": "5a58e265db9fa29c9d31271550a87542f06ba73dd3d25d66fd6c83fa5e3a873f",
+      "quotes.py": "ae2dd1e6f332e51f6d753764d4b4e3c05267c18fca463e7e56259265cb49fbc6",
+      "release_readiness.py": "c88a1e1cedbfe220a6aeceac946ef65bad1ee14f58de7d95d0111e11c0c52629",
+      "scan_contract.py": "5def991d40e8321d7e6f6e620bace0eb94d62a77c67fbd212b50fd340460b7e2",
+      "scan_selection.py": "0f3b0c4532db1b85ec529f2ee720a8e0fa2ccda6114d14cd7b152af89a2bb81f",
+      "side_pair.py": "f5c945d1abf3cb765b755b0903c823020f7851f866a104b436f85232f493b5c3",
+      "source_calendar.py": "a53e2133d19d87892729975aff4fa4ba6e600c9e7dea489447d754548ce3e802",
+      "source_qualification.py": "3fdfeeafb75567a8f1a08556243d05bc70cced3295c9d093d7e7c68ffa9ba5a0",
+      "source_stream_binding.py": "639855668a634be68ed1aa9aa213385a26da2f55289745d26011a93dfa993132",
+      "synthetic_cache_failure_paths.py": "3fa50a8b13fd9fae3f22c6541fa46cc3a124b0e44a59a99188c848f6abb34d94",
+      "synthetic_drive_cache_staging.py": "35a611c42645dcf9edfeecadd97aefe69ad7b8d922fcfdd7ca15aa2db2af2b04",
+      "synthetic_drive_cache_store.py": "47f47141d83a5ea48d7a22973361c2b44e97770302ea95f7e19b6b2ed790a484",
+      "synthetic_drive_receipt_validation.py": "cec6d02fe3553e17d452dc9121d5849b7e4b3a98f26a6b3735b41d956c075074",
+      "synthetic_drive_scan_orchestrator.py": "d5d0ce17ed7b779ae305c3571e905886ccbc2d69e9949a70afaff54623df5605",
+      "synthetic_evidence_lineage.py": "b9e74b1d017293b69dc1221c2ac6d56b0344802f4cfba87ba246f78343202b0e",
+      "synthetic_scan_workload.py": "11832dca39c3e7dbf4f192d33ba9e55389c0be3b2b70c3fac8eda47e9cc91819",
+      "synthetic_source_custody.py": "b422c3b48e7ab35e2882480ff725449d7d64a587fb76248dd134498f7f1ffa20",
+      "tzif_attestation.py": "48a6a0e9c225bddfe7aef43c9c59a6cda49818a6b5ee6bfbb85d17c577c2e8b4",
+      "versioning.py": "0daf5782461cb24207a547a98a54ee89a16233c2bc19755c8cc0bf6f4f886b81"
+    },
+    "all_source_metadata_sha256": "b0a958e27aaf8ad83dcc62285298fc81aec419136efdf14802c68e3814aad66b",
+    "relative_import_graph_sha256": "734f1fda1e590ab1e5341e53b05ce31631b139f0108f7407227c87088b65cb47",
+    "package_name": "mfx-forex-core",
+    "pyproject_bytes_sha256": "983d21beb619afb5862d85fb4e22ef21b72118a098aecc0ff183c5006242ecb7",
+    "public_export_count": 16,
+    "public_export_names": [
+      "ZONES",
+      "catalog_counts",
+      "validate_catalog",
+      "ActionIntent",
+      "Direction",
+      "Horizon",
+      "SignalStage",
+      "ZonePurpose",
+      "IndicativePrice",
+      "PriceSide",
+      "Quote",
+      "QuoteQuality",
+      "indicative_price",
+      "ExecutionProfile",
+      "RollbackAssessment",
+      "assess_rollback"
+    ],
+    "candidate_readonly_symbol_count": 14,
+    "verified_source_symbol_anchors": {
+      "detector_catalog_or_synthetic_only": [
+        {
+          "declaration_kind": "function",
+          "module": "catalog",
+          "signature_sha256": "62631925fa84b627c9ddf2426a6721af1a26ea49d7bec1db4c723ac9d23be7b8",
+          "symbol": "validate_catalog"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "catalog",
+          "signature_sha256": "87e6785503f41cbde33d49631679cd501176f06137e7bbdf387f03b2bab4cdf1",
+          "symbol": "catalog_counts"
+        },
+        {
+          "declaration_kind": "class",
+          "module": "model",
+          "signature_sha256": "14d58fd42b09a4723dc4043c51a5e52713919129e07340ed403e0da40060b41c",
+          "symbol": "SignalDisplay"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "scan_selection",
+          "signature_sha256": "37e968dfd5cd6f7a430f995be354bcf9c3f5114ab0ce63104f257c3cdf5a84f0",
+          "symbol": "run_selected_synthetic_scan"
+        }
+      ],
+      "indicator_ema_only": [
+        {
+          "declaration_kind": "function",
+          "module": "cache_indicators",
+          "signature_sha256": "fb9f77390acb19aee714455a91567e497afe57d8eedbed253fd0a2ee7555b087",
+          "symbol": "ema_full"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "cache_indicators",
+          "signature_sha256": "cd30c0348a77ce492ca22ae1ba39d05656294bdcf4fa1bf480f967cb7931ad3c",
+          "symbol": "ema_recompute"
+        }
+      ],
+      "provider_review_only": [
+        {
+          "declaration_kind": "function",
+          "module": "market_data",
+          "signature_sha256": "7de44623ebd0fbf61fb3e215690b3f4959830393b620c4c1215b2243aa70d4d7",
+          "symbol": "select_asof_revision"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "market_data",
+          "signature_sha256": "1f73b33a7d808575a8c1ad3b713df64d2efbf620b1c41432ca6e4fb72366ea93",
+          "symbol": "evaluate_closed_bar"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "source_qualification",
+          "signature_sha256": "dd48e75a1b143aab2c53296e7c53f7b9e692d9fbe44c8eabcd674a90406758cc",
+          "symbol": "assess_source_for_m2_review"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "source_stream_binding",
+          "signature_sha256": "91ad732d2e154f02929388019508e176c1c0e88908f7c78eaf089f4c6afc10d6",
+          "symbol": "qualify_snapshot_binding"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "side_pair",
+          "signature_sha256": "e9765e8de76acf990ee3b2901e42cb82da9d229296c6457413fac6ccd6dfb8df",
+          "symbol": "assess_bid_ask_side_pair"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "quotes",
+          "signature_sha256": "2c46167927ffb33cdfc3f5d1eeffd2c9fa000855c720e0acad8098a5f3e8c9e4",
+          "symbol": "indicative_price"
+        }
+      ],
+      "tp_policy_release_review_only": [
+        {
+          "declaration_kind": "function",
+          "module": "release_readiness",
+          "signature_sha256": "f2281ac5de091cfa6273265434f052d71fac9851b464931af21fc9b6f83aa426",
+          "symbol": "review_release_candidate"
+        },
+        {
+          "declaration_kind": "function",
+          "module": "release_readiness",
+          "signature_sha256": "1b14d7392d8972530b26f65c8ed0cbb13a50bb4cb7d3e4eff5194ac85b66307e",
+          "symbol": "preview_full_profile_rollback"
+        }
+      ]
+    },
+    "role_landing_status": {
+      "detector": "CATALOG_AND_SYNTHETIC_SCAN_ONLY_NO_18_ZONE_ENGINE_PROOF",
+      "indicator": "EMA_NUMERIC_HELPERS_EXIST_NO_PLUGIN_INTERFACE",
+      "provider": "READ_ONLY_SOURCE_REVIEW_FUNCTIONS_EXIST_NO_ADAPTER",
+      "tp_policy": "RELEASE_AND_ROLLBACK_REVIEW_ONLY_NO_TP_SL_ENGINE_PROOF"
+    }
+  },
+  "required_false_flags": [
+    "dynamic_plugin_loader_used",
+    "a04_tool_imported_by_source",
+    "new_runtime_adapter_wired",
+    "native_bid_ask_vendor_entitlement_verified",
+    "numeric_18_zone_detector_verified",
+    "executable_tp_sl_policy_verified",
+    "provider_io_performed",
+    "trades_or_release_authorized"
+  ],
+  "evidence_scope": "Read actual MFX source AST only, 30 tracked top-level Python files, 14 selected declaration anchors, 16 __all__ exports; no source imported or executed; static inventory not runtime reachability or economics proof."
+}
