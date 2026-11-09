@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P02_PINNED_SYNTHETIC_GOLDEN_GROUP_BASELINE",
+  "frozen_forex_source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "reference_source_git_tree": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+  "first_measured_github_run": 42564185516,
+  "python311_job": 128986976145,
+  "python312_job": 128986975861,
+  "evidence_scope": "SYNTHETIC_ONLY; NO_EXECUTED_ADAPTER; NO_DETECTOR_OR_TP_NUMERIC; NO_REAL_MARKET_DATA_OR_TRADES",
+  "measured": {
+    "synthetic_scenario_count": 50,
+    "contract_group_count": 8,
+    "contract_groups": {
+      "bar": {
+        "scenario_count": 10,
+        "source_and_candidate_sha256": "620f3cc9a4bf4b9a0951175ae30269e01e318a0b0ffdbbe1581e551fdc5bfe48"
+      },
+      "cache": {
+        "scenario_count": 10,
+        "source_and_candidate_sha256": "8e04bfe4426a00cbd4d85f301de5b2d45b9f1b2f59f48f35117dc0b60cdd48c9"
+      },
+      "catalog": {
+        "scenario_count": 4,
+        "source_and_candidate_sha256": "559f5e75db41c7113f37eacd6ced28a6fdad12897251decc58f2990944c9296d"
+      },
+      "pipeline": {
+        "scenario_count": 3,
+        "source_and_candidate_sha256": "a698696c5bf22e73ed6c3679f9e812936f4bf4c3ff324cecda70b54fc6fb99c3"
+      },
+      "quote": {
+        "scenario_count": 8,
+        "source_and_candidate_sha256": "18abf5c918d0c0fe3b294a79e718231c3008579773255652c6b2cd97f86920ea"
+      },
+      "scan": {
+        "scenario_count": 7,
+        "source_and_candidate_sha256": "bf850ac06b3c2fa5e65a8ffd37bedbd2c1e1d7be15cab7f50db7f7c5d85f8d64"
+      },
+      "signal": {
+        "scenario_count": 4,
+        "source_and_candidate_sha256": "9397afae2d7a67ee62ae6d6051398845296616ae5defa16c833b1b975088a61e"
+      },
+      "version": {
+        "scenario_count": 4,
+        "source_and_candidate_sha256": "df55ac3e6c70c47d62b76d26169f2ef300d853b4827b039a3bac7e12b3049032"
+      }
+    },
+    "adapter_graph_sha256": "fee5c25ab04139a3da502ebc372d981946c1e1e22965fb36987915220cff9ebe",
+    "adapter_declared_port_count": 4,
+    "frozen_golden_sha256": "747d029192e080f88b214c76967fa9b91c8e1283f6a4464673cb2bff0b4eabb2"
+  },
+  "expected_false_flags": [
+    "adapter_implementation_executed",
+    "detector_or_tp_execution_tested",
+    "licensed_real_data_used",
+    "may_cache_real_data",
+    "may_deploy_or_trade"
+  ]
+}
