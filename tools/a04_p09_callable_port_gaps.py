@@ -80,7 +80,8 @@ def _tuple_strings(node: ast.AST) -> tuple[str, ...]:
             not isinstance(x, ast.Constant) or not isinstance(x.value, str)
             for x in node.elts):
         raise ValueError("A04P09_UNTRUSTED_FIELD_AST")
-    names = tuple(x.value for x in node.elts if isinstance(x, ast.Constant))
+    names = tuple(str(x.value) for x in node.elts
+                  if isinstance(x, ast.Constant))
     if len(set(names)) != len(names):
         raise ValueError("A04P09_DUPLICATE_PORT_FIELD")
     return names

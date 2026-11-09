@@ -175,8 +175,8 @@
     {
       "path": "docs/MFX_A04_P09_REAL_CALLABLE_PORT_GAP_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "e70c921cef68a636a799ec34c5f26adda5452383",
-      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained"
+      "expected_current_sha": "c52fe058e084b8d57f21b1e7105ac6cf8391a5cf",
+      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained; initial red CI 42586933457 strict mypy AST string tuple narrowing fixed, no source change"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -426,8 +426,8 @@
     {
       "path": "tools/a04_p09_callable_port_gaps.py",
       "change": "added",
-      "expected_current_sha": "17162defcc9e96bd581ce0b9ac90209cb520a359",
-      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained"
+      "expected_current_sha": "b79eb430138c6b5ffb54edf301e021ba710fbdf6",
+      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained; initial red CI 42586933457 strict mypy AST string tuple narrowing fixed, no source change"
     },
     {
       "path": "tools/a04_plugin_contracts.py",

@@ -56,3 +56,30 @@ mandatory. First CI `--bootstrap-measure` is observation ONLY; after
 Python3.11 and 3.12 match and all jobs green, pin exact gap rows SHA
 and add fail-closed tampering tests. Require final exact-head PR
 3/3 and independent postmain 3/3 before Docs checkpoint.
+
+## Initial GitHub CI RED and measured actual ABI gaps
+PR #21 initial cloud Actions run https://github.com/ngluonghoa/MFX/actions/runs/42586933457:
+Python 3.11 job 129058898462 and Python 3.12 job 129058898114
+each 829/829 unittest methods PASS; identical static AST
+seven-source/five-future-schema gap rows SHA256
+`06d3abb44df35cccf10c889aaa59f358f73d01937cbbc7529970c1c248e18cba`,
+future port field shape SHA256
+`e12cd296e96e2a9d0b34f658b1eb9477cdb08e748a4836c10396d4e21c623083`.
+Strict mypy found ONE typing error in tuple extraction of ast.Constant
+strings: AST's generic value type could not narrow across the
+comprehension. Explicit string conversion after independently
+checking every AST Constant is a string retains same outputs
+without disabling mypy, adding a source edit or changing safety
+logic. Original RED run retained; fresh 3/3 green bootstrap remains
+mandatory before any SHA pin or merge.
+
+Measured source missing fields, all GAPS not integration readiness:
+- Provider quote/evaluate/as-of: no direct instrument_version,
+  price_basis, rights_policy_ref or timeframe input named arguments;
+  source returns IndicativePrice, ReadOnlyBarGate and MarketBar|None
+- EMA full/recompute: no first_known_utc, price_basis, quality,
+  source_revision; returns tuple[Decimal, ...], not feature-set packet
+- Catalog counts/validate: no asof_utc, feature_set_id or quality;
+  returns taxonomy dict or None, NOT numerical detector candidates.
+No directly compatible seven function/port pairs, no executable
+TP_POLICY reference in the seven-function approved scope.
