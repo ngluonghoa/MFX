@@ -22,12 +22,18 @@ jobs:
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Install pinned A03 CI-only coverage and shrinkable fuzz tools
+        run: python -m pip install coverage==7.10.7 hypothesis==6.142.4
       - name: Bytecode compile
         run: python -m compileall -q src tests
-      - name: Synthetic unit and negative tests
+      - name: Synthetic unit and negative tests with real source branch coverage (A03)
         env:
           PYTHONPATH: src
-        run: python -m unittest discover -s tests -v
+        run: |
+          python -m coverage run --branch --source=src/forex_trading -m unittest discover -s tests -v
+          python -m coverage json --output=.ci-a03-coverage.json
+      - name: Validate 30-source-module measured line/branch coverage report (A03)
+        run: python tools/check_a03_coverage.py
       - name: Require reproducible A03 property/fuzz suite inventory (synthetic only)
         env:
           PYTHONPATH: src
