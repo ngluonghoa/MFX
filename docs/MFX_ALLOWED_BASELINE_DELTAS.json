@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "d97430580a4e64757e4b16b5d57ca57df07c7b2d",
-      "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
+      "expected_current_sha": "1bae1b843ac3e9132965d869b2fbadbdd1269d6e",
+      "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -209,6 +209,18 @@
       "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
     },
     {
+      "path": "docs/MFX_A04_P12_QUALIFICATION_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "0070513aa1fbb2f5c14e813007fa2edcc0560701",
+      "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
+    },
+    {
+      "path": "docs/MFX_A04_P12_SYNTHETIC_GATE_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "b28a79961c20921af0f5984f7735f22f4dd03bc1",
+      "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -382,6 +394,12 @@
       "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
     },
     {
+      "path": "tests/test_a04_p12_synthetic_qualification.py",
+      "change": "added",
+      "expected_current_sha": "5b3725b5cc18b486c59dced83262756dabbb6217",
+      "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -484,6 +502,12 @@
       "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
     },
     {
+      "path": "tools/a04_p12_synthetic_qualification.py",
+      "change": "added",
+      "expected_current_sha": "eb81e912f330920ba4e49280de5e4ecdd2b19fc9",
+      "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -554,6 +578,12 @@
       "change": "added",
       "expected_current_sha": "c65ca2d1fc8a78391640675c4876144d966439e2",
       "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
+    },
+    {
+      "path": "tools/check_a04_p12_synthetic_qualification.py",
+      "change": "added",
+      "expected_current_sha": "bd389b599ef3c3ce989d9029763e0f4471c9cdf3",
+      "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",
