@@ -666,8 +666,8 @@
     {
       "path": "tests/test_a04_p27_signal_source_audit.py",
       "change": "added",
-      "expected_current_sha": "a2441373b4760b7ed1ebd712f12b4da9d98af900",
-      "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
+      "expected_current_sha": "de9874807932889e17b8bf0d939757a1fdbc3dbc",
+      "reason": "A04/P0.27 20 prerecorded original Forex source 18-label qualitative gates; stricter independent B2 HH/HL micro-high BUY vs S2 LH/LL micro-low SELL source semantics. No numeric approvals, src edits, provider/cache/broker IO or verified real alert."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
