@@ -151,8 +151,8 @@
     {
       "path": "docs/MFX_A04_P07_SOURCE_WRAPPER_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "1e158f41cff65b4d0ed156b51fef4dc6c23c186d",
-      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; initial red CI 42580347359 uncovered unmatched comparator bracket; fixed without src changes; exact frozen-source 34-case parity observed 42580566038; strict mypy fixed via typed local receipt helper and partial"
+      "expected_current_sha": "7b38e708fda7d7daa44a8081193465c56637c92e",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; initial red CI 42580347359 uncovered unmatched comparator bracket; fixed without src changes; exact frozen-source 34-case parity observed 42580566038; strict mypy fixed via typed local receipt helper and partial; red 42580882400 Ruff E402 fixed by moving tools wrapper import ahead of typed helper defs"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -456,8 +456,8 @@
     {
       "path": "tools/render_a04_p07_wrapper_golden.py",
       "change": "added",
-      "expected_current_sha": "d7a8596901610139ac047bea6aa980ccb51e1b88",
-      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; exact frozen-source 34-case parity observed 42580566038; strict mypy fixed via typed local receipt helper and partial"
+      "expected_current_sha": "7f3ed16c29b9ae7d1a1f81ab2d876074d20e5a12",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; exact frozen-source 34-case parity observed 42580566038; strict mypy fixed via typed local receipt helper and partial; red 42580882400 Ruff E402 fixed by moving tools wrapper import ahead of typed helper defs"
     },
     {
       "path": "tools/render_golden_contract.py",

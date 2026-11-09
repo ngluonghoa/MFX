@@ -73,3 +73,11 @@ pure serialization/receipt helper preserving the same output
 structure. Switched default-bound lambdas to `functools.partial`
 for explicit input types, no `# type: ignore` or relaxed CI gate.
 The RED run remains in QA history; source/runtime unchanged.
+
+## Third PR red: Ruff E402 import placement
+Run 42580882400: exact original Forex vs MFX 34/34 scenarios and
+801/801 unit methods both Python versions PASS; CI rejected one
+new P0.7 module-level import appearing below its locally typed helper
+definitions (Ruff E402). Moved the import before the helper functions,
+without any functional change. This RED run is retained. Require fresh
+3/3 PR bootstrap with mypy strict before SHA pinning.

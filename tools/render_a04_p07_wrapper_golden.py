@@ -15,6 +15,13 @@ import json
 from pathlib import Path
 from typing import Any, Callable
 
+from tools.a04_p07_readonly_wrappers import (
+    readonly_quote, readonly_bar, readonly_asof, readonly_ema,
+    readonly_ema_recompute, readonly_catalog_counts,
+    readonly_catalog_validate,
+)
+
+
 def _stable(value: Any) -> Any:
     """Exact typed serialization used for wrapper and direct source outputs."""
     if isinstance(value, Enum):
@@ -55,12 +62,6 @@ def record(
         outcome = {"value": _stable(value)}
     results.append({"id": name, "outcome": outcome})
 
-
-from tools.a04_p07_readonly_wrappers import (
-    readonly_quote, readonly_bar, readonly_asof, readonly_ema,
-    readonly_ema_recompute, readonly_catalog_counts,
-    readonly_catalog_validate,
-)
 
 SCOPE = "CI_ONLY_EXISTING_PURE_SOURCE_FUNCTIONS_NO_ADAPTER_RUNTIME"
 
