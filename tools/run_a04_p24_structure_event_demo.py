@@ -1,13 +1,17 @@
 """Hosted A04/P0.24 SIM-only causal structural and replay gates (no IO)."""
 from __future__ import annotations
 
+from datetime import timedelta
 import json
 import unittest
 
+from mfx_research.confirmed_swings import derive_swing_b2_s2_research
 from mfx_research.p024_structure_event_gate import (
-    ResearchEventStatus, StructureStatus,
+    ResearchEventStatus, SimEventKey, SimEventLedger, SimStructurePolicy,
+    StructureStatus, buffer_sim_event, derive_sim_structure,
 )
-from tests.test_a04_p24_structure_event_gate import gate, structure
+from tools.run_a04_p19_causal_context_demo import case_from_closed_bars
+from tools.run_a04_p20_confirmed_swing_demo import case_confirmed
 
 
 def main() -> None:
@@ -22,8 +26,27 @@ def main() -> None:
         raise ValueError("P024_CAUSAL_STRUCTURE_EVENT_ORACLE_FAILED")
     actions: list[str] = []
     for rule in ("B2", "S2"):
-        scan = structure(rule)
-        research_event = gate(rule)
+        bars, swing_policy = case_confirmed(rule)
+        _, zone_policy, trigger_policy = case_from_closed_bars(rule)
+        decision = bars.trigger_m15[-1].first_known_utc + timedelta(seconds=1)
+        scan = derive_sim_structure(
+            rule, bars, swing_policy,
+            SimStructurePolicy("SIM:P024-DEMO"), decision,
+        )
+        triggered = derive_swing_b2_s2_research(
+            rule, bars, swing_policy, zone_policy, trigger_policy,
+            decision, origin_event_id="SIM:P024-DEMO-" + rule,
+        )
+        signal = triggered.signal
+        key = SimEventKey(
+            instrument_version=signal.instrument_version,
+            rule_id=rule, origin_event_id=signal.origin_event_id,
+            policy_version=signal.parameter_version,
+        )
+        research_event = buffer_sim_event(
+            scan, signal, key, SimEventLedger("SIM:P024-DEMO"),
+            decision, ttl_seconds=600,
+        )
         if (scan.status is not StructureStatus.INTACT
                 or research_event.status is not ResearchEventStatus.BUFFERED
                 or scan.may_send_confirmed_signal
