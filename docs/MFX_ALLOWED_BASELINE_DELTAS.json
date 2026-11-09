@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "20887378b6ba234f0c131082cfc5bf0c01ea304e",
-      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker"
+      "expected_current_sha": "de5dead4299c44284872b46acc320074cdcc7270",
+      "reason": "A04/P0.21 evidence-linked, 36/36 BLOCKED B2/S2 source numeric obligations, 14 SIM-only research examples, strict fail-closed review-only registry, fake local approval/real-data/cache/trade denied, original 30 src modules frozen"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -275,6 +275,18 @@
       "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker"
     },
     {
+      "path": "docs/MFX_A04_P21_POLICY_REVIEW_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "3dc295bf2c31938edeca5360fa301fc8db3e9388",
+      "reason": "A04/P0.21 evidence-linked, 36/36 BLOCKED B2/S2 source numeric obligations, 14 SIM-only research examples, strict fail-closed review-only registry, fake local approval/real-data/cache/trade denied, original 30 src modules frozen"
+    },
+    {
+      "path": "docs/MFX_A04_P21_SOURCE_PARAMETER_REGISTER.json",
+      "change": "added",
+      "expected_current_sha": "ef88e20271ad93c34d9d09c0cc6148f67d321929",
+      "reason": "A04/P0.21 evidence-linked, 36/36 BLOCKED B2/S2 source numeric obligations, 14 SIM-only research examples, strict fail-closed review-only registry, fake local approval/real-data/cache/trade denied, original 30 src modules frozen"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -326,6 +338,12 @@
       "change": "added",
       "expected_current_sha": "ed1b2901398663391f15d09248e554b3b14a85c2",
       "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade; first CI RED 42615772051 returned mixed-source before explicit OANDA/unlicensed-source reason, reordered fail-closed rejection before identity; no src/runtime change"
+    },
+    {
+      "path": "mfx_research/source_parameter_review.py",
+      "change": "added",
+      "expected_current_sha": "bf89f8739f3f32462f36e9aee438849a23646b31",
+      "reason": "A04/P0.21 evidence-linked, 36/36 BLOCKED B2/S2 source numeric obligations, 14 SIM-only research examples, strict fail-closed review-only registry, fake local approval/real-data/cache/trade denied, original 30 src modules frozen; strict mypy initial CI run 42629603294 rejected heterogeneous expected value variable inference, use distinct expected_field_value to preserve semantic checks"
     },
     {
       "path": "mfx_research/zone_catalog_gate.py",
@@ -530,6 +548,12 @@
       "change": "added",
       "expected_current_sha": "e6a22bdfb3499b95703576a0c180b34eacb34b75",
       "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker; initial PR CI RED 42623985698 single test expected FUTURE_KNOWN but source correctly rejects FUTURE_PRICE_BAR before right bar close, corrected assertion"
+    },
+    {
+      "path": "tests/test_a04_p21_source_parameter_review.py",
+      "change": "added",
+      "expected_current_sha": "17b9c909604a3f00281a74492090a09f80cd532b",
+      "reason": "A04/P0.21 evidence-linked, 36/36 BLOCKED B2/S2 source numeric obligations, 14 SIM-only research examples, strict fail-closed review-only registry, fake local approval/real-data/cache/trade denied, original 30 src modules frozen"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -830,6 +854,12 @@
       "change": "added",
       "expected_current_sha": "242216d3ff8de58f73333cfbea49a18f660f69a4",
       "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker"
+    },
+    {
+      "path": "tools/run_a04_p21_policy_review_demo.py",
+      "change": "added",
+      "expected_current_sha": "681ab80340af2e4dbbe9206e6695af8f456c91a3",
+      "reason": "A04/P0.21 evidence-linked, 36/36 BLOCKED B2/S2 source numeric obligations, 14 SIM-only research examples, strict fail-closed review-only registry, fake local approval/real-data/cache/trade denied, original 30 src modules frozen"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
