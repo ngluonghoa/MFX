@@ -301,8 +301,8 @@
     {
       "path": "docs/MFX_A04_P23_CAUSAL_SENSITIVITY_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "bd4ca88fc419f430affed9d0dd1f842d41228726",
-      "reason": "A04/P0.23 pre-registered 21-method synthetic B2/S2 source-safe independent pivot/boundary QA; draft PR ONLY; no src changes, original 36/36 quantitative rules UNAPPROVED and P0.22 independent postmain push gate pending; no feed/cache/broker/release"
+      "expected_current_sha": "79b327da3f93c45420af2f9c640b670f9651e582",
+      "reason": "A04/P0.23 draft-only, 26 pre-registered grouped B2/S2 synthetic causal and threshold oracles incl five Issue35 addendum before implementation; 36/36 numeric source approvals BLOCKED; P0.22 postmain push QA still unverified; no src or market IO"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -588,8 +588,8 @@
     {
       "path": "tests/test_a04_p23_sensitivity_boundaries.py",
       "change": "added",
-      "expected_current_sha": "08388fa1ec6c1f18cb5e5f16dfba11a06be10aa5",
-      "reason": "A04/P0.23 pre-registered 21-method synthetic B2/S2 source-safe independent pivot/boundary QA; draft PR ONLY; no src changes, original 36/36 quantitative rules UNAPPROVED and P0.22 independent postmain push gate pending; no feed/cache/broker/release"
+      "expected_current_sha": "2c0270c5b42442ed2b40b9f90657b794cb97e015",
+      "reason": "A04/P0.23 draft-only, 26 pre-registered grouped B2/S2 synthetic causal and threshold oracles incl five Issue35 addendum before implementation; 36/36 numeric source approvals BLOCKED; P0.22 postmain push QA still unverified; no src or market IO"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -906,8 +906,8 @@
     {
       "path": "tools/run_a04_p23_sensitivity_demo.py",
       "change": "added",
-      "expected_current_sha": "10d11aab5741f427d44681604dcaf7db8cf6bf8c",
-      "reason": "A04/P0.23 pre-registered 21-method synthetic B2/S2 source-safe independent pivot/boundary QA; draft PR ONLY; no src changes, original 36/36 quantitative rules UNAPPROVED and P0.22 independent postmain push gate pending; no feed/cache/broker/release"
+      "expected_current_sha": "916b5ddb098250241a11537a51530a20f0eddcb4",
+      "reason": "A04/P0.23 draft-only, 26 pre-registered grouped B2/S2 synthetic causal and threshold oracles incl five Issue35 addendum before implementation; 36/36 numeric source approvals BLOCKED; P0.22 postmain push QA still unverified; no src or market IO"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
