@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "1bae1b843ac3e9132965d869b2fbadbdd1269d6e",
-      "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
+      "expected_current_sha": "20aa791dfe5d52fbcca4fd3413eb1668ccefd645",
+      "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -221,6 +221,18 @@
       "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
     },
     {
+      "path": "docs/MFX_A04_P13_EVIDENCE_INTAKE_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "a6cd9e44d957b8f07558041e9c725cfd9468afd9",
+      "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
+    },
+    {
+      "path": "docs/MFX_A04_P13_EVIDENCE_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "f7c6eb4eb2fd657f0c767be002163986aaa4a32e",
+      "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -400,6 +412,12 @@
       "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
     },
     {
+      "path": "tests/test_a04_p13_evidence_intake.py",
+      "change": "added",
+      "expected_current_sha": "51cc7b1dc3d7d89967fc7c211737ff89f415fad0",
+      "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -508,6 +526,12 @@
       "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
     },
     {
+      "path": "tools/a04_p13_evidence_intake.py",
+      "change": "added",
+      "expected_current_sha": "63ad06ec46692af91310947f743cdc1c182ba567",
+      "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -584,6 +608,12 @@
       "change": "added",
       "expected_current_sha": "bd389b599ef3c3ce989d9029763e0f4471c9cdf3",
       "reason": "A04/P0.12 32 independent synthetic-only fail-closed fixture cases for causal price side/BIDASK/right/closed bar/source revision; 0 runtime/real cache/source edits"
+    },
+    {
+      "path": "tools/check_a04_p13_evidence_intake.py",
+      "change": "added",
+      "expected_current_sha": "73f3b9224b678360417ab00d58e0d41ae2adc608",
+      "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",
