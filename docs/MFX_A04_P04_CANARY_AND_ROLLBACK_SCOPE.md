@@ -68,3 +68,14 @@ A04 overall remains PARTIAL. A04/P0.5 may formalize protected-main
 recovery SOP, differential schema selection and architecture
 integration decision, but no source modification without separate
 approval and postmain parity gates.
+
+## First GitHub Actions red evidence
+PR #16 initial bootstrap Actions run 42572072272 executed 757
+synthetic unittest methods and a real isolated no-remotes Git
+commit/commit/revert drill. The A04 strict mypy step rejected ten
+uses of Optional dict fields in the new pinned-receipt validator.
+Corrected solely by explicit independent isinstance checks of each
+mapping, retaining the exact fail-closed validation. No ignore,
+no disabled typing and no source/runtime changes. Retain this red
+run; require a fresh 3/3 green bootstrap before using measured
+SHA in the pinned baseline.

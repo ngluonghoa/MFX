@@ -115,8 +115,8 @@
     {
       "path": "docs/MFX_A04_P04_CANARY_AND_ROLLBACK_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "d7ce821a605696db7441cf3270bb1bfa9b71d86c",
-      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
+      "expected_current_sha": "8952d3ff0ab38be5898923809c4cb54229b37bc9",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; first red CI 42572072272 strict mypy Optional dict narrowed by explicit isinstance gates"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -390,8 +390,8 @@
     {
       "path": "tools/run_a04_canary_git_drill.py",
       "change": "added",
-      "expected_current_sha": "f67ca0be860cf3bc74ef8abffee50636bfecdafc",
-      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
+      "expected_current_sha": "41391b1dc85c55bdf8e02c513e40a292dc900ef2",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; first red CI 42572072272 strict mypy Optional dict narrowed by explicit isinstance gates"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",

@@ -328,7 +328,12 @@ def verify_pinned_a04_p04_receipt(
     canary = measured.get("canary")
     git = measured.get("git")
     wanted_c, wanted_g = expected.get("canary"), expected.get("git")
-    if not all(isinstance(x, dict) for x in (canary, git, wanted_c, wanted_g)):
+    if (
+        not isinstance(canary, dict)
+        or not isinstance(git, dict)
+        or not isinstance(wanted_c, dict)
+        or not isinstance(wanted_g, dict)
+    ):
         raise ValueError("A04P4_PINNED_COMPONENT_UNTYPED")
     for key in (
         "case_count", "structural_review_only_count", "blocked_count",
