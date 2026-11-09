@@ -325,7 +325,7 @@
     {
       "path": "docs/MFX_A04_P27_BUY_SELL_SOURCE_EVIDENCE_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "aa5ad07c706a9aeb12df3084530b0ac65241159b",
+      "expected_current_sha": "bdf18a4e694524cccf47625a52ea81340a788efb",
       "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
     },
     {
@@ -408,7 +408,7 @@
     {
       "path": "mfx_research/p027_signal_source_audit.py",
       "change": "added",
-      "expected_current_sha": "66a80fbfdab159c61d9bd9e55da9d23bed70d834",
+      "expected_current_sha": "3c7b7a665eec5fd5102f4bbbc90450743ede1147",
       "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
     },
     {
