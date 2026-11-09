@@ -122,6 +122,18 @@ class P027SourceProofAndApprovalIsolationTests(unittest.TestCase):
                                    for k in ("R0","R_C","R_E","R_F")),
                              (start+1,start+2,start+3,start+4))
             self.assertIn("Pullback",v["source_heading"]["text"])
+            # Independent original 03 directional semantic guard: a changed
+            # but plausible-looking R0/CONFIRM text is not source parity.
+            context=v["phases"]["R0"]["text"]
+            confirm=v["phases"]["R_F"]["text"]
+            if label=="B2":
+                self.assertIn("HH/HL",context)
+                self.assertIn("micro-high",confirm)
+            else:
+                self.assertIn("LH/LL",context)
+                self.assertIn("micro-low",confirm)
+            self.assertIn("H1",v["phases"]["R_C"]["text"])
+            self.assertIn("M15",v["phases"]["R_E"]["text"])
 
     def test_07_first_sixteen_manifest_pending_not_approved(self):
         d=fixture()
