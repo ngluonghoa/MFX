@@ -9,7 +9,11 @@ from tools.a04_p05_recovery_selection import (
     IntegrationFacts, RecoveryFacts, review_integration_readiness,
     review_protected_recovery, select_exact_schema_declaration,
 )
-from tools.check_a04_p05_recovery_gate import _seed, run_matrix
+from tools.check_a04_p05_recovery_gate import (
+    BASELINE_FILE, _seed, run_matrix, verify_pinned_report,
+)
+import json
+from copy import deepcopy
 
 SOURCE = "7e1c1c012b1b189be5ad7b9d07756eac012a8309"
 
@@ -115,6 +119,39 @@ class A04P05SafetyTests(unittest.TestCase):
             self.assertFalse(
                 review_integration_readiness(p).documentation_reviewable,
             )
+
+    def test_pinned_report_rejects_mutated_case_matrix_sha(self) -> None:
+        report = run_matrix()
+        pinned = json.loads(BASELINE_FILE.read_text(encoding="utf-8"))
+        verify_pinned_report(report, pinned)
+        forged = deepcopy(pinned)
+        forged["observed"]["case_matrix_sha256"] = "f"*64
+        with self.assertRaisesRegex(ValueError, "A04P5_PINNED_MATRIX_DRIFT"):
+            verify_pinned_report(report, forged)
+
+    def test_pinned_report_rejects_original_golden_provenance_change(self) -> None:
+        report = run_matrix()
+        pinned = json.loads(BASELINE_FILE.read_text(encoding="utf-8"))
+        forged = deepcopy(pinned)
+        forged["observed"]["previous_pinned_shas"]["golden"] = "0"*64
+        with self.assertRaisesRegex(ValueError, "A04P5_PINNED_MATRIX_DRIFT"):
+            verify_pinned_report(report, forged)
+
+    def test_pinned_report_rejects_relaxed_no_runtime_authority(self) -> None:
+        report = run_matrix()
+        pinned = json.loads(BASELINE_FILE.read_text(encoding="utf-8"))
+        with self.assertRaisesRegex(ValueError, "A04P5_UNAUTHORIZED_OPERATION"):
+            verify_pinned_report(
+                dict(report, no_real_git_write=False), pinned,
+            )
+
+    def test_pinned_report_refuses_patched_baseline_permissions(self) -> None:
+        report = run_matrix()
+        pinned = json.loads(BASELINE_FILE.read_text(encoding="utf-8"))
+        forged = deepcopy(pinned)
+        forged["required_true_flags"] = []
+        with self.assertRaisesRegex(ValueError, "A04P5_UNAUTHORIZED_BASELINE_POLICY"):
+            verify_pinned_report(report, forged)
 
     def test_full_ci_matrix_budget_remains_structural_only(self) -> None:
         report = run_matrix()

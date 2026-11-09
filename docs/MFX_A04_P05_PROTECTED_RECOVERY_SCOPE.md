@@ -79,3 +79,34 @@ typed dataclasses. Replaced ONLY the integration-loop variable names
 with `integration_facts` and `integration_result`, preserving every
 fail-closed rule and zero `src/` changes. The red run remains retained;
 require fresh 3/3 before pinning a reproducible baseline.
+
+## Evidence: cross-Python bootstrap and locked final CI
+
+First PR run 42574581730 RED: 773/773 unittest methods passed per
+Python, but the new eight-module strict mypy audit rejected reuse
+of `facts/result` identifiers across distinct Recovery and
+Integration dataclass types (8 typing errors). Repaired by distinct
+names, no ignored diagnostics and no source/runtime changes.
+
+Second PR bootstrap Actions run
+https://github.com/ngluonghoa/MFX/actions/runs/42574766022:
+3/3 PASS, both Python3.11 job 129019882717 and Python3.12 job
+129019882425 ran 773 synthetic tests; original Forex 50 golden,
+A03 17 targeted mutation sentinels, A04/P0.3 14-case schema,
+A04/P0.4 19-case canary and true disposable no-remotes Git revert,
+source SHA, strict mypy for eight A04 tooling modules, coverage
+2546/2683 source lines (94.89%) and 973/1112 branches (87.50%)
+and cross-Python wheel parity PASS.
+
+Observed identical 28-case offline P0.5 review matrix: 23 blocked,
+5 structurally reviewable ONLY (not permission). Canonical matrix
+SHA256 `6a55e6a7f04f9d20b36cdc882c021583962cba938c05b573ca148255b9b1068c`,
+same on 3.11 and 3.12; P0.3/P0.4 ancestor digests pinned.
+`docs/MFX_A04_P05_RECOVERY_SELECTION_BASELINE.json` now locks
+observed counts, SHA, provenance and six mandatory no-runtime flags.
+After this commit, bootstrap mode is removed, four negative SHA/
+authority tampering tests are added, and a fresh exact-head PR 3/3,
+followed by independent postmain 3/3, remain mandatory.
+
+No actual GitHub production rollback, runtime plug-in integration,
+market feed, broker, OOS, release or trading occurred.

@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P05_PINNED_PROTECTED_RECOVERY_SCHEMA_GATE",
+  "original_forex_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "immutable_original_mfx_102_blob_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
+  "measured_github_run": 42574766022,
+  "python311_job": 129019882717,
+  "python312_job": 129019882425,
+  "measured_pr_head": "56d5b0bd3d1953e37ffd74f3c9ca4f0c04ffbfe5",
+  "observed": {
+    "cases": 28,
+    "review_only": 5,
+    "blocked": 23,
+    "case_matrix_sha256": "6a55e6a7f04f9d20b36cdc882c021583962cba938c05b573ca148255b9b1068c",
+    "previous_pinned_shas": {
+      "canary": "4c6275ed3c8c62a0322b0a1aafbb32f8cd9bfb515e1d0f4995cbbb88b4dc5d34",
+      "golden": "747d029192e080f88b214c76967fa9b91c8e1283f6a4464673cb2bff0b4eabb2",
+      "graph": "fee5c25ab04139a3da502ebc372d981946c1e1e22965fb36987915220cff9ebe",
+      "initial": "bf3c98b939e6257fce3b8b8ddc9b32591d8baed87f05fd9d53ae683518df0c23",
+      "matrix": "85e285640914e55a700417b88a6586052c214835a9d087235569312fabe33443"
+    },
+    "synthetic_candidate_version": "1.1"
+  },
+  "required_true_flags": [
+    "no_real_git_write",
+    "no_runtime_plugin_execution",
+    "no_automatic_schema_fallback",
+    "no_source_changes",
+    "no_real_provider_io",
+    "no_trades_or_release"
+  ],
+  "scope": "Offline structural review; recovery PR drafting only, exact declared schema without version fallback, runtime integration always blocked; no actual GitHub recovery or live market trading."
+}

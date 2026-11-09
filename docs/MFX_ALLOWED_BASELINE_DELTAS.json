@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "0ffed3afae14544ce9776c74a5b55969235cc042",
-      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
+      "expected_current_sha": "f7ae3411a4d48b156e0ecf8f43470396243e0948",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; A04/P0.5 frozen actual cross-Python 28-case/23-blocked SHA from CI 42574766022 + tamper tests"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -127,8 +127,14 @@
     {
       "path": "docs/MFX_A04_P05_PROTECTED_RECOVERY_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "6dde104b143bc21fd3354a92917a245931f84068",
-      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; initial PR red 42574581730 strict mypy resolved by distinct Recovery vs Integration typed loop variables"
+      "expected_current_sha": "241b3f6e5594e31bd9e5b0daad7b5bdd69aa6c4d",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; initial PR red 42574581730 strict mypy resolved by distinct Recovery vs Integration typed loop variables; A04/P0.5 frozen actual cross-Python 28-case/23-blocked SHA from CI 42574766022 + tamper tests"
+    },
+    {
+      "path": "docs/MFX_A04_P05_RECOVERY_SELECTION_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "f7b242a6d97f8ca82de84d2e5cd977c5618fb7bd",
+      "reason": "A04/P0.5 measured offline schema/protected-main planning 28-case pinned SHA and no-runtime evidence from successful GitHub CI 42574766022"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -264,8 +270,8 @@
     {
       "path": "tests/test_a04_p05_recovery_gate.py",
       "change": "added",
-      "expected_current_sha": "9801472d3abe6c3b1d52285d4e570bcff9bde38e",
-      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
+      "expected_current_sha": "59402e51e1a30f55452d2cb4238b030cfdcc57e0",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; A04/P0.5 frozen actual cross-Python 28-case/23-blocked SHA from CI 42574766022 + tamper tests"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
