@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "6dc6c4ac269d5cf5dd2a444a332e564ae54a1755",
-      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; P0.8 measured two-Python 28-case/21-blocked/zero-runtime SHA from successful cloud run 42584149824, pinned tamper tests"
+      "expected_current_sha": "1f14a5991b10ee125f0122b5653608cd9f7522b7",
+      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained; P0.9 exact seven-source AST rows and five synthetic future port shapes measured Python 3.11/3.12 CI 42587147546; negative SHA/rights tests"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -173,6 +173,18 @@
       "reason": "A04/P0.8 immutable GitHub CI-observed 28-case source seam matrix SHA, rights and non-activation fail-closed controls, no src edits"
     },
     {
+      "path": "docs/MFX_A04_P09_CALLABLE_ABI_GAP_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "a28c2497674092e7d04dd8fd1a9baeb39746c43f",
+      "reason": "A04/P0.9 immutable GitHub CI-observed seven real source AST gap rows, five synthetic PortSchema shape fingerprints, zero runtime authority"
+    },
+    {
+      "path": "docs/MFX_A04_P09_REAL_CALLABLE_PORT_GAP_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "dc51fb12313af05d4b8bf48d52fcfa8003a6cc97",
+      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained; initial red CI 42586933457 strict mypy AST string tuple narrowing fixed, no source change; P0.9 exact seven-source AST rows and five synthetic future port shapes measured Python 3.11/3.12 CI 42587147546; negative SHA/rights tests"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -328,6 +340,12 @@
       "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; P0.8 measured two-Python 28-case/21-blocked/zero-runtime SHA from successful cloud run 42584149824, pinned tamper tests"
     },
     {
+      "path": "tests/test_a04_p09_callable_port_gaps.py",
+      "change": "added",
+      "expected_current_sha": "822fee523ce16c29ec1606b1363ae66e072c8fde",
+      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained; P0.9 exact seven-source AST rows and five synthetic future port shapes measured Python 3.11/3.12 CI 42587147546; negative SHA/rights tests"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -412,6 +430,12 @@
       "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
     },
     {
+      "path": "tools/a04_p09_callable_port_gaps.py",
+      "change": "added",
+      "expected_current_sha": "b79eb430138c6b5ffb54edf301e021ba710fbdf6",
+      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained; initial red CI 42586933457 strict mypy AST string tuple narrowing fixed, no source change"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -464,6 +488,12 @@
       "change": "added",
       "expected_current_sha": "dd6b365aec116ad1c55b1949fdf02057de2cda9a",
       "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; initial CI 42583897701 strict mypy Optional narrowing and intentional malformed reference test corrected with typed checks, no ignores"
+    },
+    {
+      "path": "tools/check_a04_p09_callable_gaps.py",
+      "change": "added",
+      "expected_current_sha": "87a32e405eca460c287a60c2c5bc4409ec63e0dc",
+      "reason": "A04/P0.9 GitHub-only measured real seven Python AST callable signatures/required port field gaps, no new source/runtime, original Forex 1:1 parity retained"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",

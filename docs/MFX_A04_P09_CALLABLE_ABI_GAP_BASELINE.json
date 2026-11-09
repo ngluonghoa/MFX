@@ -1,0 +1,414 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P09_PINNED_CALLABLE_PORT_GAPS",
+  "frozen_forex_source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "original_102_blob_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
+  "measured_github_run": 42587147546,
+  "measured_pr_head": "0ed2ca86765416a97293ebf53dbf9621fd244403",
+  "python311_job": 129059574815,
+  "python312_job": 129059575190,
+  "observed": {
+    "kind": "MFX_A04_P09_ACTUAL_AST_VS_FUTURE_PORT_SHAPE_GAPS",
+    "source_reference_count": 7,
+    "declared_future_schema_count": 5,
+    "declared_future_port_kind_count": 4,
+    "role_reference_counts": {
+      "DETECTOR": 2,
+      "INDICATOR": 2,
+      "PROVIDER": 3,
+      "TP_POLICY": 0
+    },
+    "source_to_port_direct_compatible_count": 0,
+    "required_mapper_review_count": 7,
+    "missing_tp_policy_reference_count": 1,
+    "rows_sha256": "06d3abb44df35cccf10c889aaa59f358f73d01937cbbc7529970c1c248e18cba",
+    "future_port_shapes_sha256": "e12cd296e96e2a9d0b34f658b1eb9477cdb08e748a4836c10396d4e21c623083",
+    "future_port_routes_sha256": "55727bcabe0552f7f2a7db8a870b3304071dd3b72eca0740f5a5e3c3d6bf178f",
+    "source_gap_rows": [
+      {
+        "direct_callable_port_compatible": false,
+        "future_input_schema": "PROVIDER_QUERY_V1",
+        "future_optional_input_fields": [
+          "review_label"
+        ],
+        "future_output_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+        "future_required_input_fields": [
+          "decision_utc",
+          "instrument_version",
+          "price_basis",
+          "rights_policy_ref",
+          "timeframe"
+        ],
+        "missing_required_port_input_fields": [
+          "instrument_version",
+          "price_basis",
+          "rights_policy_ref",
+          "timeframe"
+        ],
+        "needs_separately_reviewed_explicit_mapper": true,
+        "reference_function": "quotes.indicative_price",
+        "return_port_schema_fields_not_proven": [
+          "first_known_utc",
+          "price_basis",
+          "quality",
+          "source_revision"
+        ],
+        "review_status": "A04P09_STATIC_GAP_ONLY_NO_RUNTIME_COMPATIBILITY",
+        "role_vicinity_not_adapter": "PROVIDER",
+        "source_ast_signature_sha256": "2c46167927ffb33cdfc3f5d1eeffd2c9fa000855c720e0acad8098a5f3e8c9e4",
+        "source_file_sha256": "ae2dd1e6f332e51f6d753764d4b4e3c05267c18fca463e7e56259265cb49fbc6",
+        "source_only_parameter_names": [
+          "intent",
+          "max_age",
+          "quote"
+        ],
+        "source_parameters": [
+          {
+            "annotation": "Quote",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "quote",
+            "required": true
+          },
+          {
+            "annotation": "ActionIntent",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "intent",
+            "required": true
+          },
+          {
+            "annotation": "datetime",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "decision_utc",
+            "required": true
+          },
+          {
+            "annotation": "timedelta",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "max_age",
+            "required": true
+          }
+        ],
+        "source_return_annotation": "IndicativePrice"
+      },
+      {
+        "direct_callable_port_compatible": false,
+        "future_input_schema": "PROVIDER_QUERY_V1",
+        "future_optional_input_fields": [
+          "review_label"
+        ],
+        "future_output_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+        "future_required_input_fields": [
+          "decision_utc",
+          "instrument_version",
+          "price_basis",
+          "rights_policy_ref",
+          "timeframe"
+        ],
+        "missing_required_port_input_fields": [
+          "instrument_version",
+          "price_basis",
+          "rights_policy_ref",
+          "timeframe"
+        ],
+        "needs_separately_reviewed_explicit_mapper": true,
+        "reference_function": "market_data.evaluate_closed_bar",
+        "return_port_schema_fields_not_proven": [
+          "first_known_utc",
+          "price_basis",
+          "quality",
+          "source_revision"
+        ],
+        "review_status": "A04P09_STATIC_GAP_ONLY_NO_RUNTIME_COMPATIBILITY",
+        "role_vicinity_not_adapter": "PROVIDER",
+        "source_ast_signature_sha256": "1f73b33a7d808575a8c1ad3b713df64d2efbf620b1c41432ca6e4fb72366ea93",
+        "source_file_sha256": "8a96808ebac3f81dace244069da3758c71fc66529b53c74f5ec0b28313fe63b0",
+        "source_only_parameter_names": [
+          "bar",
+          "conditional_m5_early_enabled",
+          "htf_context_first_known_utc"
+        ],
+        "source_parameters": [
+          {
+            "annotation": "MarketBar | None",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "bar",
+            "required": true
+          },
+          {
+            "annotation": "datetime",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "decision_utc",
+            "required": true
+          },
+          {
+            "annotation": "bool",
+            "mode": "KEYWORD_ONLY",
+            "name": "conditional_m5_early_enabled",
+            "required": false
+          },
+          {
+            "annotation": "datetime | None",
+            "mode": "KEYWORD_ONLY",
+            "name": "htf_context_first_known_utc",
+            "required": false
+          }
+        ],
+        "source_return_annotation": "ReadOnlyBarGate"
+      },
+      {
+        "direct_callable_port_compatible": false,
+        "future_input_schema": "PROVIDER_QUERY_V1",
+        "future_optional_input_fields": [
+          "review_label"
+        ],
+        "future_output_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+        "future_required_input_fields": [
+          "decision_utc",
+          "instrument_version",
+          "price_basis",
+          "rights_policy_ref",
+          "timeframe"
+        ],
+        "missing_required_port_input_fields": [
+          "instrument_version",
+          "price_basis",
+          "rights_policy_ref",
+          "timeframe"
+        ],
+        "needs_separately_reviewed_explicit_mapper": true,
+        "reference_function": "market_data.select_asof_revision",
+        "return_port_schema_fields_not_proven": [
+          "first_known_utc",
+          "price_basis",
+          "quality",
+          "source_revision"
+        ],
+        "review_status": "A04P09_STATIC_GAP_ONLY_NO_RUNTIME_COMPATIBILITY",
+        "role_vicinity_not_adapter": "PROVIDER",
+        "source_ast_signature_sha256": "7de44623ebd0fbf61fb3e215690b3f4959830393b620c4c1215b2243aa70d4d7",
+        "source_file_sha256": "8a96808ebac3f81dace244069da3758c71fc66529b53c74f5ec0b28313fe63b0",
+        "source_only_parameter_names": [
+          "revisions"
+        ],
+        "source_parameters": [
+          {
+            "annotation": "Sequence[MarketBar]",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "revisions",
+            "required": true
+          },
+          {
+            "annotation": "datetime",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "decision_utc",
+            "required": true
+          }
+        ],
+        "source_return_annotation": "MarketBar | None"
+      },
+      {
+        "direct_callable_port_compatible": false,
+        "future_input_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+        "future_optional_input_fields": [
+          "source_note"
+        ],
+        "future_output_schema": "FEATURES_UNVERIFIED_V1",
+        "future_required_input_fields": [
+          "first_known_utc",
+          "price_basis",
+          "quality",
+          "source_revision"
+        ],
+        "missing_required_port_input_fields": [
+          "first_known_utc",
+          "price_basis",
+          "quality",
+          "source_revision"
+        ],
+        "needs_separately_reviewed_explicit_mapper": true,
+        "reference_function": "cache_indicators.ema_full",
+        "return_port_schema_fields_not_proven": [
+          "asof_utc",
+          "feature_set_id",
+          "quality"
+        ],
+        "review_status": "A04P09_STATIC_GAP_ONLY_NO_RUNTIME_COMPATIBILITY",
+        "role_vicinity_not_adapter": "INDICATOR",
+        "source_ast_signature_sha256": "fb9f77390acb19aee714455a91567e497afe57d8eedbed253fd0a2ee7555b087",
+        "source_file_sha256": "35986a2fb81eb03c1eb8e77e1c4b48d6811644148f5ac5887ff95ec9ee58c1ca",
+        "source_only_parameter_names": [
+          "closes",
+          "period"
+        ],
+        "source_parameters": [
+          {
+            "annotation": "tuple[Decimal, ...]",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "closes",
+            "required": true
+          },
+          {
+            "annotation": "int",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "period",
+            "required": true
+          }
+        ],
+        "source_return_annotation": "tuple[Decimal, ...]"
+      },
+      {
+        "direct_callable_port_compatible": false,
+        "future_input_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+        "future_optional_input_fields": [
+          "source_note"
+        ],
+        "future_output_schema": "FEATURES_UNVERIFIED_V1",
+        "future_required_input_fields": [
+          "first_known_utc",
+          "price_basis",
+          "quality",
+          "source_revision"
+        ],
+        "missing_required_port_input_fields": [
+          "first_known_utc",
+          "price_basis",
+          "quality",
+          "source_revision"
+        ],
+        "needs_separately_reviewed_explicit_mapper": true,
+        "reference_function": "cache_indicators.ema_recompute",
+        "return_port_schema_fields_not_proven": [
+          "asof_utc",
+          "feature_set_id",
+          "quality"
+        ],
+        "review_status": "A04P09_STATIC_GAP_ONLY_NO_RUNTIME_COMPATIBILITY",
+        "role_vicinity_not_adapter": "INDICATOR",
+        "source_ast_signature_sha256": "cd30c0348a77ce492ca22ae1ba39d05656294bdcf4fa1bf480f967cb7931ad3c",
+        "source_file_sha256": "35986a2fb81eb03c1eb8e77e1c4b48d6811644148f5ac5887ff95ec9ee58c1ca",
+        "source_only_parameter_names": [
+          "closes",
+          "dirty_index",
+          "period",
+          "previous_ema"
+        ],
+        "source_parameters": [
+          {
+            "annotation": "tuple[Decimal, ...]",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "closes",
+            "required": true
+          },
+          {
+            "annotation": "int",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "period",
+            "required": true
+          },
+          {
+            "annotation": "tuple[Decimal, ...]",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "previous_ema",
+            "required": true
+          },
+          {
+            "annotation": "int",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "dirty_index",
+            "required": true
+          }
+        ],
+        "source_return_annotation": "tuple[Decimal, ...]"
+      },
+      {
+        "direct_callable_port_compatible": false,
+        "future_input_schema": "FEATURES_UNVERIFIED_V1",
+        "future_optional_input_fields": [],
+        "future_output_schema": "CANDIDATES_UNVERIFIED_V1",
+        "future_required_input_fields": [
+          "asof_utc",
+          "feature_set_id",
+          "quality"
+        ],
+        "missing_required_port_input_fields": [
+          "asof_utc",
+          "feature_set_id",
+          "quality"
+        ],
+        "needs_separately_reviewed_explicit_mapper": true,
+        "reference_function": "catalog.catalog_counts",
+        "return_port_schema_fields_not_proven": [
+          "asof_utc",
+          "source_quality",
+          "zone_label"
+        ],
+        "review_status": "A04P09_STATIC_GAP_ONLY_NO_RUNTIME_COMPATIBILITY",
+        "role_vicinity_not_adapter": "DETECTOR",
+        "source_ast_signature_sha256": "87e6785503f41cbde33d49631679cd501176f06137e7bbdf387f03b2bab4cdf1",
+        "source_file_sha256": "53faf59694e4f52c0ba4d5035607d1fcdeb2569072ba340be7d0ad703632ce50",
+        "source_only_parameter_names": [
+          "zones"
+        ],
+        "source_parameters": [
+          {
+            "annotation": "tuple[ZoneDefinition, ...]",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "zones",
+            "required": true
+          }
+        ],
+        "source_return_annotation": "dict[ZonePurpose, int]"
+      },
+      {
+        "direct_callable_port_compatible": false,
+        "future_input_schema": "FEATURES_UNVERIFIED_V1",
+        "future_optional_input_fields": [],
+        "future_output_schema": "CANDIDATES_UNVERIFIED_V1",
+        "future_required_input_fields": [
+          "asof_utc",
+          "feature_set_id",
+          "quality"
+        ],
+        "missing_required_port_input_fields": [
+          "asof_utc",
+          "feature_set_id",
+          "quality"
+        ],
+        "needs_separately_reviewed_explicit_mapper": true,
+        "reference_function": "catalog.validate_catalog",
+        "return_port_schema_fields_not_proven": [
+          "asof_utc",
+          "source_quality",
+          "zone_label"
+        ],
+        "review_status": "A04P09_STATIC_GAP_ONLY_NO_RUNTIME_COMPATIBILITY",
+        "role_vicinity_not_adapter": "DETECTOR",
+        "source_ast_signature_sha256": "62631925fa84b627c9ddf2426a6721af1a26ea49d7bec1db4c723ac9d23be7b8",
+        "source_file_sha256": "53faf59694e4f52c0ba4d5035607d1fcdeb2569072ba340be7d0ad703632ce50",
+        "source_only_parameter_names": [
+          "zones"
+        ],
+        "source_parameters": [
+          {
+            "annotation": "tuple[ZoneDefinition, ...]",
+            "mode": "POSITIONAL_OR_KEYWORD",
+            "name": "zones",
+            "required": true
+          }
+        ],
+        "source_return_annotation": "None"
+      }
+    ]
+  },
+  "required_false_flags": [
+    "source_code_executed",
+    "plugin_runtime_bound",
+    "port_callables_compatible",
+    "native_bid_ask_rights_verified",
+    "numeric_18_zone_detector_verified",
+    "tp_sl_engine_verified",
+    "may_write_real_cache",
+    "may_trade_or_release"
+  ],
+  "scope": "Actual seven source Python AST call signatures vs five declared future PortSchema field sets, exact SHA-pinned rows. All seven have missing required inputs and unverified output field semantics; zero direct callable ABI compatibility, zero runtime integrations. GitHub-hosted synthetics, no source imported or executed."
+}
