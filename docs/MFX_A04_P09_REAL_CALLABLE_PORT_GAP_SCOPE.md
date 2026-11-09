@@ -83,3 +83,34 @@ Measured source missing fields, all GAPS not integration readiness:
   returns taxonomy dict or None, NOT numerical detector candidates.
 No directly compatible seven function/port pairs, no executable
 TP_POLICY reference in the seven-function approved scope.
+
+## Green cross-Python observation and pinned mandatory enforcement
+
+GitHub Actions bootstrap run
+https://github.com/ngluonghoa/MFX/actions/runs/42587147546
+**3/3 PASS**; Python 3.11 job 129059574815, Python 3.12 job
+129059575190, each 829/829 unittest methods PASS.
+Mypy strict 30 original source + 17 inert A04 tooling modules PASS.
+Original frozen 50 Forex golden + P0.7 34 source wrapper and
+P0.8 28-case no-runtime matrix preserved, 17/17 synthetic mutants,
+80-case pinned feedback, security/source SHA checks, cross-Python
+wheel parity all PASS. Measured 30 core-module coverage remains
+2546/2683 source lines (94.89%) and 973/1112 branches (87.50%).
+
+Both Python 3.11/3.12 produced IDENTICAL seven detailed ABI gap
+rows SHA256 `06d3abb44df35cccf10c889aaa59f358f73d01937cbbc7529970c1c248e18cba`,
+five synthetic future schema shape SHA256
+`e12cd296e96e2a9d0b34f658b1eb9477cdb08e748a4836c10396d4e21c623083`,
+four future role-to-port route SHA256
+`55727bcabe0552f7f2a7db8a870b3304071dd3b72eca0740f5a5e3c3d6bf178f`.
+All seven detailed source-function argument/return/gap rows now
+pinned in `docs/MFX_A04_P09_CALLABLE_ABI_GAP_BASELINE.json`;
+baseline also locks ancestors, no-runtime flags and observed CI run.
+The workflow now strictly verifies this file, with six new
+negative SHA/port/rights/compatibility/baseline tampering tests.
+A final exact-head PR 3/3 and independent postmain 3/3 remain
+required before checkpoint DONE.
+
+This is *static source signature evidence*, not automated callable
+port conformance; mapping designs cannot be promoted to working
+runtime adapters without separate review and permission.

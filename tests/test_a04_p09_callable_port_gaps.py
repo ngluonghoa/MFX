@@ -5,8 +5,8 @@ from copy import deepcopy
 import unittest
 
 from tools.a04_p09_callable_port_gaps import (
-    REFERENCE_ROLES, EXPECTED_PORTS, DENIED,
-    inspect_callable_gaps,
+    REFERENCE_ROLES, EXPECTED_PORTS, DENIED, PIN, _read_json,
+    inspect_callable_gaps, verify_pinned,
 )
 
 
@@ -90,6 +90,58 @@ class RealSourceCallablePortGaps(unittest.TestCase):
                 self.assertIs(self.report[flag], False)
         self.assertTrue(
             self.report["no_source_imported_or_executed_during_ast_audit"])
+
+    def test_measured_real_seven_source_baseline_is_exact(self) -> None:
+        pinned = _read_json(PIN)
+        verify_pinned(self.report, pinned)
+        self.assertEqual(
+            self.report["rows_sha256"],
+            "06d3abb44df35cccf10c889aaa59f358f73d01937cbbc7529970c1c248e18cba",
+        )
+
+    def test_tampered_source_row_or_source_signature_denied(self) -> None:
+        pinned = _read_json(PIN)
+        for key, replacement in (
+            ("source_return_annotation", "TrustedBIDASKBar"),
+            ("source_ast_signature_sha256", "f"*64),
+            ("source_file_sha256", "f"*64),
+        ):
+            forged = deepcopy(self.report)
+            forged["source_gap_rows"][0][key] = replacement
+            with self.subTest(key=key), self.assertRaisesRegex(
+                    ValueError, "A04P09_FROZEN_CALLABLE_PORT_SHAPE_DRIFT"):
+                verify_pinned(forged, pinned)
+
+    def test_tampered_future_schema_or_route_fingerprint_denied(self) -> None:
+        pinned = _read_json(PIN)
+        for key in ("future_port_shapes_sha256", "future_port_routes_sha256"):
+            forged = dict(self.report, **{key: "0"*64})
+            with self.subTest(key=key), self.assertRaisesRegex(
+                    ValueError, "A04P09_FROZEN_CALLABLE_PORT_SHAPE_DRIFT"):
+                verify_pinned(forged, pinned)
+
+    def test_runtime_adapter_or_data_rights_cannot_be_invented(self) -> None:
+        pinned = _read_json(PIN)
+        for flag in DENIED:
+            forged = dict(self.report, **{flag: True})
+            with self.subTest(flag=flag), self.assertRaisesRegex(
+                    ValueError, "A04P09_FORBIDDEN_RUNTIME_AUTHORITY"):
+                verify_pinned(forged, pinned)
+
+    def test_claiming_callable_compatibility_is_denied(self) -> None:
+        pinned = _read_json(PIN)
+        forged = dict(self.report, source_to_port_direct_compatible_count=1)
+        with self.assertRaisesRegex(
+                ValueError, "A04P09_FROZEN_CALLABLE_PORT_SHAPE_DRIFT"):
+            verify_pinned(forged, pinned)
+
+    def test_cannot_weaken_baseline_runtime_prohibitions(self) -> None:
+        pinned = _read_json(PIN)
+        forged = deepcopy(pinned)
+        forged["required_false_flags"] = []
+        with self.assertRaisesRegex(ValueError,
+                                    "A04P09_BASELINE_AUTHORITY_WEAKENED"):
+            verify_pinned(self.report, forged)
 
     def test_mutating_a_readonly_report_cannot_prove_compatibility(self) -> None:
         forged = deepcopy(self.report)
