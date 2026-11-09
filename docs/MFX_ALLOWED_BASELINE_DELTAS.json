@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "672d0bbe86e03f75c97086965b60e459b487527a",
-      "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
+      "expected_current_sha": "7fdc83a52ec298b04615b66a4e1c7c63e579ffdd",
+      "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -323,6 +323,18 @@
       "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
     },
     {
+      "path": "docs/MFX_A04_P27_BUY_SELL_SOURCE_EVIDENCE_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "aa5ad07c706a9aeb12df3084530b0ac65241159b",
+      "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
+    },
+    {
+      "path": "docs/MFX_A04_P27_SOURCE_EVIDENCE_MATRIX.json",
+      "change": "added",
+      "expected_current_sha": "d07f54e845e134c98b8bcbb5342a8f47df7c5f8a",
+      "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -392,6 +404,12 @@
       "change": "added",
       "expected_current_sha": "1a199c512387f943902058f30b8f2819c0a211d4",
       "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
+    },
+    {
+      "path": "mfx_research/p027_signal_source_audit.py",
+      "change": "added",
+      "expected_current_sha": "66a80fbfdab159c61d9bd9e55da9d23bed70d834",
+      "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -644,6 +662,12 @@
       "change": "added",
       "expected_current_sha": "45b34ab67c3a033bf35fbf8e5b7590e7b95fc8bd",
       "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
+    },
+    {
+      "path": "tests/test_a04_p27_signal_source_audit.py",
+      "change": "added",
+      "expected_current_sha": "a2441373b4760b7ed1ebd712f12b4da9d98af900",
+      "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -980,6 +1004,12 @@
       "change": "added",
       "expected_current_sha": "3ba035dd48ed6636676076de4465acd63ad97797",
       "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
+    },
+    {
+      "path": "tools/run_a04_p27_source_evidence_demo.py",
+      "change": "added",
+      "expected_current_sha": "3c2c14279527361cbc29d93327f4ab8ebbaa8213",
+      "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
