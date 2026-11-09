@@ -300,8 +300,8 @@
     {
       "path": "mfx_research/pullback_pilot.py",
       "change": "added",
-      "expected_current_sha": "f60abe94e6078f6ca869c04ff45390050afa61ef",
-      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
+      "expected_current_sha": "ed1b2901398663391f15d09248e554b3b14a85c2",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade; first CI RED 42615772051 returned mixed-source before explicit OANDA/unlicensed-source reason, reordered fail-closed rejection before identity; no src/runtime change"
     },
     {
       "path": "mfx_research/zone_catalog_gate.py",

@@ -167,14 +167,17 @@ def evaluate_unapproved_b2_s2(
             bar.key.aggregation_version, bar.observation.provider_id,
             bar.observation.stream_id,
         )
-        if this != identity:
-            raise ValueError("P018_MIXED_INSTRUMENT_STREAM_OR_SIDE")
+        # Reject a real/unlicensed source *before* mixed-stream diagnostics.
+        # Both are blocked, but a live-provider attempt must have an explicit
+        # authoritative fail-closed reason, even if only one bar was replaced.
         if (not bar.key.instrument_version.startswith("SIM:")
                 or not bar.observation.provider_id.startswith("SIM:")
                 or not bar.observation.stream_id.startswith("SIM:")
                 or bar.observation.license_scope_claim != "SYNTHETIC_ONLY"
                 or bar.revision_number != 1):
             raise ValueError("P018_REJECT_REAL_SOURCE_OR_REVISED_MARKET_BAR")
+        if this != identity:
+            raise ValueError("P018_MIXED_INSTRUMENT_STREAM_OR_SIDE")
         if (bar.key.bar_end_utc > decision_utc
                 or bar.observation.retrieved_at_utc > decision_utc):
             raise ValueError("P018_FUTURE_BAR_OR_RETRIEVAL")
