@@ -173,7 +173,7 @@ class P05MeasuredGapSafetyTests(unittest.TestCase):
         first = make_synthetic_generation(snap(), T + M)
         with self.assertRaisesRegex(TypeError, "SyntheticGenerationManifest"):
             make_synthetic_generation(snap(), T + 2 * M, "fake-parent")
-        with self.assertRaisesRegex(TypeError, "SyntheticGenerationManifest"):
+        with self.assertRaisesRegex(TypeError, "Previous generation manifest required"):
             validate_synthetic_generation_chain(first, "fake-parent")
         with self.assertRaisesRegex(ValueError, "INVALID_MANIFEST_DIGEST"):
             replace(first, manifest_sha256="fake-hash")

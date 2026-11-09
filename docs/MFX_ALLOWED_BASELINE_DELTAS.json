@@ -210,8 +210,8 @@
     {
       "path": "tests/test_p05_measured_gap_safety.py",
       "change": "added",
-      "expected_current_sha": "c453da42aace61fc55f987d58994451ce1cc5c00",
-      "reason": "A03/P0.5: 17 synthetic provider/cache/lineage negative boundary tests; no src changes"
+      "expected_current_sha": "43367584dc6d20057fc1cc50fab94b14a425fec7",
+      "reason": "A03/P0.5: 17 synthetic provider/cache/lineage negative boundary tests; no src changes; first red PR CI 42557175069 exposed expected regex mismatch (no source change), repaired"
     },
     {
       "path": "tools/check_a02_pyflakes_baseline.py",
