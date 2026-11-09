@@ -301,8 +301,8 @@
     {
       "path": "docs/MFX_A04_P23_CAUSAL_SENSITIVITY_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "79b327da3f93c45420af2f9c640b670f9651e582",
-      "reason": "A04/P0.23 draft-only, 26 pre-registered grouped B2/S2 synthetic causal and threshold oracles incl five Issue35 addendum before implementation; 36/36 numeric source approvals BLOCKED; P0.22 postmain push QA still unverified; no src or market IO"
+      "expected_current_sha": "9d9ec86af1b1ee8103a973bac5f08a38a1970d4b",
+      "reason": "A04/P0.23 26 pre-registered B2/S2 SIM-only QA methods; now P0.22 independent main push run42635627691 3/3 verified, no source numeric approval/feeds/broker; exact SHA and no src changes"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -906,8 +906,8 @@
     {
       "path": "tools/run_a04_p23_sensitivity_demo.py",
       "change": "added",
-      "expected_current_sha": "916b5ddb098250241a11537a51530a20f0eddcb4",
-      "reason": "A04/P0.23 draft-only, 26 pre-registered grouped B2/S2 synthetic causal and threshold oracles incl five Issue35 addendum before implementation; 36/36 numeric source approvals BLOCKED; P0.22 postmain push QA still unverified; no src or market IO"
+      "expected_current_sha": "b223c3115d852f360b57e3a1d5b9c42e2aeb55b5",
+      "reason": "A04/P0.23 26 pre-registered B2/S2 SIM-only QA methods; now P0.22 independent main push run42635627691 3/3 verified, no source numeric approval/feeds/broker; exact SHA and no src changes"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
