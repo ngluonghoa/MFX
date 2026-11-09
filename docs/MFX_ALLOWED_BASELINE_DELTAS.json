@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "f1e1362f62e2699c7895f1815c43d96e6e201d64",
-      "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
+      "expected_current_sha": "7d60dcab5edfa1da52b2131711a1b048898f59e7",
+      "reason": "A04/P0.25 mock CAS 24-method matrix, fixed strict mypy duplicate demo path without disabling checks; synthetic only"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -311,6 +311,12 @@
       "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
     },
     {
+      "path": "docs/MFX_A04_P25_MOCK_CLOUD_JOURNAL_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "436980630e4415f75731b3e5858c09948d0e9835",
+      "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -368,6 +374,12 @@
       "change": "added",
       "expected_current_sha": "154f0f22d87e27eb4ec8570800c8a7e6c3d2d6b1",
       "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
+    },
+    {
+      "path": "mfx_research/p025_mock_cloud_journal.py",
+      "change": "added",
+      "expected_current_sha": "1201d82c95261e83eb599fc00beec9f16a037fd9",
+      "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -608,6 +620,12 @@
       "change": "added",
       "expected_current_sha": "010f5d54374ad3e4c3460bde8a4eda786cfd18b3",
       "reason": "A04/P0.24 pre-registered 20 SIM-only B2/S2 structural/replay tests, corrected neutral 3-bar missing-pivot oracle and accepted explicit source denials; no original source or real signal approval"
+    },
+    {
+      "path": "tests/test_a04_p25_mock_cloud_journal.py",
+      "change": "added",
+      "expected_current_sha": "419549ddbbd54a7c611bd322c7d1dd240bb07071",
+      "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -932,6 +950,12 @@
       "change": "added",
       "expected_current_sha": "24d4db7a319b6df206fdc3c1f720d243928b0d17",
       "reason": "A04/P0.24 preregistered 20 synthetic-only B2/S2 structural invalidation/event replay grouped methods; no source numeric approval, real quote rights, provider IO, Drive cache, broker actions or release; protected original source untouched"
+    },
+    {
+      "path": "tools/run_a04_p25_mock_cloud_journal_demo.py",
+      "change": "added",
+      "expected_current_sha": "3cb795d27b7cab7692bd29b8ca897ee39d86f75f",
+      "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
