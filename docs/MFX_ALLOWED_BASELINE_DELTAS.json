@@ -103,8 +103,8 @@
     {
       "path": "docs/MFX_A04_P03_SCHEMA_MIGRATION_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "c5844768358588216bb1cf8acb76111722f85147",
-      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; red CI 42568122304 canonical tuple order assertion corrected to canonical bytes/hash"
+      "expected_current_sha": "21df7ec2efba0ec38428ba34b78c194620e02107",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; red CI 42568122304 canonical tuple order assertion corrected to canonical bytes/hash; strict mypy red 42568230247 resolved by explicit dict[str, Any] report typing (no noqa/ignore)"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -324,8 +324,8 @@
     {
       "path": "tools/check_a04_schema_matrix.py",
       "change": "added",
-      "expected_current_sha": "01a1438bcf9f225aa3b6c933b8c5fb18ab5c1b83",
-      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; matrix explicitly checks backwards minor-version anti-rollback rejection"
+      "expected_current_sha": "093f60ec5fe0df1fb87d6e49c989d101a0aa6dfa",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; matrix explicitly checks backwards minor-version anti-rollback rejection; strict mypy red 42568230247 resolved by explicit dict[str, Any] report typing (no noqa/ignore)"
     },
     {
       "path": "tools/check_mfx_import_ownership.py",

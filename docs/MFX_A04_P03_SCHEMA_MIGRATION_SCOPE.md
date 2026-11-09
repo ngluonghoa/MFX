@@ -54,3 +54,12 @@ serializer deliberately sorts five schema records. Updated the synthetic
 QA assertion to compare exact canonical encoded bytes and SHA256 digest
 instead of Python tuple ordering. No source or actual adapter modified.
 Retain this red record; require fresh exact-head CI.
+
+## Second CI red record
+Run 42568230247: 739/739 synthetic tests PASS on Python3.11.
+Four-module mypy strict scope discovered two typing-only diagnostics in
+the matrix summary guard: inferred `dict[str, object]` prevented comparison
+with integer thresholds. Fixed by declaring the report as
+`dict[str, Any]`; preserves all integer threshold checks and never
+suppresses mypy. No change to `src/` or transaction semantics. Preserve
+the red history and require fresh PR CI 3/3 before merge.

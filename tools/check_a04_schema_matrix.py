@@ -124,7 +124,7 @@ def run_matrix() -> dict[str, Any]:
     if not rollback_ok.declaration_rollback_reproducible or (
             rollback_bad.declaration_rollback_reproducible):
         raise ValueError("A04P3_ROLLBACK_FIXTURE_INTEGRITY_FAILED")
-    report = {
+    report: dict[str, Any] = {
         "kind": "MFX_A04_P03_INERT_SCHEMA_COMPATIBILITY_MATRIX",
         "schema_family_count": len(before.schemas),
         "case_count": len(observed),
