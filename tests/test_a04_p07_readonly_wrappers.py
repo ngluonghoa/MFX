@@ -4,6 +4,8 @@ from __future__ import annotations
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
+from copy import deepcopy
+import json
 import unittest
 
 from forex_trading.cache_indicators import ema_full, ema_recompute
@@ -19,7 +21,8 @@ from tools.a04_p07_readonly_wrappers import (
     readonly_quote,
 )
 from tools.compare_a04_p07_wrapper_golden import (
-    compare_wrapped, validate_wrapped_snapshot,
+    BASELINE, compare_wrapped, validate_wrapped_snapshot,
+    verify_pinned_comparison,
 )
 from tools.render_a04_p07_wrapper_golden import render
 
@@ -106,6 +109,54 @@ class ReadOnlyWrapperTests(unittest.TestCase):
         target["outcome"]["reason"] = "WRAPPER-SILENTLY-PROMOTED"
         with self.assertRaisesRegex(ValueError, "A04P07_FROZEN_FOREX_VS_MFX_WRAPPER_DRIFT"):
             compare_wrapped(original, forged)
+
+    def _pinned_receipt(self):
+        pinned = json.loads(BASELINE.read_text(encoding="utf-8"))
+        receipt = {
+            **pinned["observed"],
+            "frozen_forex_commit":
+                "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+            "wrapper_vs_direct_pass": True,
+            "original_forex_vs_mfx_pass": True,
+            "source_module_edits": False,
+            "plugin_loaded": False,
+            "real_provider_used": False,
+            "numerical_detector_or_tp_tested": False,
+            "may_release_or_trade": False,
+        }
+        return receipt, pinned
+
+    def test_pinned_receipt_matches_source_observation(self) -> None:
+        receipt, pinned = self._pinned_receipt()
+        self.assertEqual(receipt["case_count"], 34)
+        verify_pinned_comparison(receipt, pinned)
+
+    def test_pinned_receipt_rejects_case_sha_tamper(self) -> None:
+        receipt, pinned = self._pinned_receipt()
+        forged = dict(receipt, case_sha256="f"*64)
+        with self.assertRaisesRegex(ValueError, "A04P07_PINNED_WRAPPER_DRIFT"):
+            verify_pinned_comparison(forged, pinned)
+
+    def test_pinned_receipt_rejects_full_snapshot_sha_tamper(self) -> None:
+        receipt, pinned = self._pinned_receipt()
+        forged = dict(receipt, full_snapshot_sha256="f"*64)
+        with self.assertRaisesRegex(ValueError, "A04P07_PINNED_WRAPPER_DRIFT"):
+            verify_pinned_comparison(forged, pinned)
+
+    def test_pinned_receipt_cannot_grant_plugin_or_trading(self) -> None:
+        receipt, pinned = self._pinned_receipt()
+        for flag in ("plugin_loaded", "real_provider_used", "may_release_or_trade"):
+            with self.subTest(flag=flag):
+                forged = dict(receipt, **{flag: True})
+                with self.assertRaisesRegex(ValueError, "A04P07_FORBIDDEN_AUTHORITY"):
+                    verify_pinned_comparison(forged, pinned)
+
+    def test_pinned_receipt_rejects_policy_baseline_weakening(self) -> None:
+        receipt, pinned = self._pinned_receipt()
+        forged = deepcopy(pinned)
+        forged["required_false_flags"] = []
+        with self.assertRaisesRegex(ValueError, "A04P07_BASELINE_AUTHORITY_WEAKENED"):
+            verify_pinned_comparison(receipt, forged)
 
     def test_exact_comparison_denies_fake_vendor_permission(self) -> None:
         from pathlib import Path

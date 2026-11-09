@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "15eb86fa78e2949a988551443dcf1fbb44003859",
-      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
+      "expected_current_sha": "4d8d5833e9fc6690aa475f14594468f11930ea0a",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; pinned exact GitHub Actions 42581189845 two-Python 34-case frozen Forex-vs-MFX output/error SHA with fail-closed tamper tests"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -149,10 +149,16 @@
       "reason": "A04/P0.6 exact 30 real source module SHA256, 14 AST signature claims, export and dependency map measured on both GitHub Python runners"
     },
     {
+      "path": "docs/MFX_A04_P07_SOURCE_WRAPPER_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "7e7d1b54261585a5df1c45da3a159c389d8f156b",
+      "reason": "A04/P0.7 GitHub-measured immutable 34-case exact original Forex vs MFX pure wrapper output/error baseline, strict denial of runtime/trading authority"
+    },
+    {
       "path": "docs/MFX_A04_P07_SOURCE_WRAPPER_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "7b38e708fda7d7daa44a8081193465c56637c92e",
-      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; initial red CI 42580347359 uncovered unmatched comparator bracket; fixed without src changes; exact frozen-source 34-case parity observed 42580566038; strict mypy fixed via typed local receipt helper and partial; red 42580882400 Ruff E402 fixed by moving tools wrapper import ahead of typed helper defs"
+      "expected_current_sha": "00f93c74c5ca47ced916b65cece892e9e8c51b18",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; initial red CI 42580347359 uncovered unmatched comparator bracket; fixed without src changes; exact frozen-source 34-case parity observed 42580566038; strict mypy fixed via typed local receipt helper and partial; red 42580882400 Ruff E402 fixed by moving tools wrapper import ahead of typed helper defs; pinned exact GitHub Actions 42581189845 two-Python 34-case frozen Forex-vs-MFX output/error SHA with fail-closed tamper tests"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -300,8 +306,8 @@
     {
       "path": "tests/test_a04_p07_readonly_wrappers.py",
       "change": "added",
-      "expected_current_sha": "fc01f80b3fa97429d5041f8887a42e8a491428b4",
-      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
+      "expected_current_sha": "8e5917a20c80ad0a3a4d6c17298dde4a15b995e4",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; pinned exact GitHub Actions 42581189845 two-Python 34-case frozen Forex-vs-MFX output/error SHA with fail-closed tamper tests"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",

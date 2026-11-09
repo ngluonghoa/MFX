@@ -67,11 +67,11 @@ jobs:
           PYTHONPATH="$PWD/.ci-frozen-forex/src" python tools/render_golden_contract.py --source-root .ci-frozen-forex/src --output .ci-golden/reference.json
           PYTHONPATH="$PWD/src" python tools/render_golden_contract.py --source-root src --output .ci-golden/mfx.json
           python tools/compare_golden_contracts.py --reference .ci-golden/reference.json --candidate .ci-golden/mfx.json
-      - name: A04/P0.7 frozen Forex 1.0 read-only wrappers (NO live data)
+      - name: A04/P0.7 REQUIRE pinned frozen Forex vs MFX 34-case pure wrapper parity
         run: |
           PYTHONPATH="$PWD/.ci-frozen-forex/src:$PWD" python -m tools.render_a04_p07_wrapper_golden --source-root .ci-frozen-forex/src --output .ci-golden/a04-p07-frozen.json
           PYTHONPATH="$PWD/src:$PWD" python -m tools.render_a04_p07_wrapper_golden --source-root src --output .ci-golden/a04-p07-mfx.json
-          PYTHONPATH="$PWD/src:$PWD" python -m tools.compare_a04_p07_wrapper_golden --reference .ci-golden/a04-p07-frozen.json --candidate .ci-golden/a04-p07-mfx.json --bootstrap-measure
+          PYTHONPATH="$PWD/src:$PWD" python -m tools.compare_a04_p07_wrapper_golden --reference .ci-golden/a04-p07-frozen.json --candidate .ci-golden/a04-p07-mfx.json
       - name: A04/P0.2 exact frozen-source adapter declaration golden bridge (50 synthetic scenarios)
         env:
           PYTHONPATH: src:.

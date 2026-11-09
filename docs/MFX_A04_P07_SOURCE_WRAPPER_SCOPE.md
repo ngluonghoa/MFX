@@ -81,3 +81,32 @@ new P0.7 module-level import appearing below its locally typed helper
 definitions (Ruff E402). Moved the import before the helper functions,
 without any functional change. This RED run is retained. Require fresh
 3/3 PR bootstrap with mypy strict before SHA pinning.
+
+## Verified CI source-root 1:1 measurement and strict pinned gate
+
+GitHub Actions bootstrap run
+https://github.com/ngluonghoa/MFX/actions/runs/42581189845
+**3/3 PASS**, Python3.11 job 129040047899 and Python3.12 job
+129040048364 each **801/801 unittest methods PASS**, strict mypy
+30 source modules + 13 A04 tool modules PASS, original 50/50 Forex
+golden, A03 17/17 targeted mutants, pinned 80-case feedback,
+source 2546/2683 lines (94.89%) and 973/1112 branches (87.50%)
+unchanged, source-manifest/security/wheel 3/3 PASS.
+
+Original exact frozen Forex import root and MFX import root produced
+**IDENTICAL** 34-case wrapper-vs-direct and reference-vs-MFX
+observations across all five pure source function groups. Observed
+case matrix SHA256
+`6ccb082b7940a3bb5c2c27d86151cde1874c6f791eb02cfeac12cf94c2ff49f5`;
+full snapshot SHA256
+`b4aca14200ec2312970850a7c3500b2d73d3045e012575ca3f15c724aca00485`.
+These are measured directly on BOTH Python versions; now pinned in
+`docs/MFX_A04_P07_SOURCE_WRAPPER_BASELINE.json`.
+Mandatory CI no longer accepts `--bootstrap-measure`, negative SHA,
+authority and baseline weakening tests added; require final exact-head
+PR 3/3 then independent postmain 3/3 before checkpoint complete.
+
+Three earlier red CI runs were kept: syntax typo 42580347359,
+strict mypy source helper/default lambda 42580566038,
+Ruff E402 import placement 42580882400. All issues corrected
+solely in P0.7 tool code, never in original Forex or MFX source.
