@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "284765c199edd23c7c459f1b0e70b36a88dcb655",
-      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; A04/P0.4 bootstrap 42572217330 observed identical Python3.11/3.12 real disposable git revert trees and 19-case canary, locked with tamper tests"
+      "expected_current_sha": "0ffed3afae14544ce9776c74a5b55969235cc042",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -123,6 +123,12 @@
       "change": "added",
       "expected_current_sha": "a857df7d46efd3630708120df93d2c492ae76c8b",
       "reason": "A04/P0.4 CI-observed immutable 19-case canary fingerprint and isolated no-remotes real Git revert tree SHA, no protected main write"
+    },
+    {
+      "path": "docs/MFX_A04_P05_PROTECTED_RECOVERY_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "8a3a67bce338bb676eca7720e5c1d9d2d0744ffb",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -256,6 +262,12 @@
       "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; A04/P0.4 bootstrap 42572217330 observed identical Python3.11/3.12 real disposable git revert trees and 19-case canary, locked with tamper tests"
     },
     {
+      "path": "tests/test_a04_p05_recovery_gate.py",
+      "change": "added",
+      "expected_current_sha": "9801472d3abe6c3b1d52285d4e570bcff9bde38e",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -316,6 +328,12 @@
       "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
     },
     {
+      "path": "tools/a04_p05_recovery_selection.py",
+      "change": "added",
+      "expected_current_sha": "ca0e047014c531645dc8e7734162303e62368b67",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -350,6 +368,12 @@
       "change": "added",
       "expected_current_sha": "1a7e0cd2a0b6639fb78396023706752c6e95e4b6",
       "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; A04/P0.2 pinned actual exact 50 golden group hashes and graph SHA from CI 42564185516, with negative drift/authority guard"
+    },
+    {
+      "path": "tools/check_a04_p05_recovery_gate.py",
+      "change": "added",
+      "expected_current_sha": "def3fb00e0e45b00b18085befdb898e827ebda78",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",
