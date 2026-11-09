@@ -395,6 +395,139 @@ class P023IndependentCausalSensitivityTests(unittest.TestCase):
             self.assertFalse(r.may_send_confirmed_signal)
             self.assertFalse(r.signal.original_forex_numerical_parity)
 
+    def test_22_late_first_known_right_bar_cannot_backdate_pivot(self) -> None:
+        for rule in ("B2", "S2"):
+            data, policy = case_confirmed(rule)
+            original = data.daily[6]
+            close = original.key.bar_end_utc
+            late = close + timedelta(seconds=1)
+            altered = replace(
+                original,
+                first_known_utc=late,
+                observation=replace(
+                    original.observation,
+                    first_known_utc=late,
+                    retrieved_at_utc=late,
+                ),
+            )
+            prefix = data.daily[:6] + (altered,)
+            with self.assertRaisesRegex(ValueError, "FUTURE_KNOWN"):
+                detect_confirmed_swings(
+                    prefix, Timeframe.D1, policy, close,
+                )
+            mature = detect_confirmed_swings(
+                prefix, Timeframe.D1, policy, late,
+            )
+            for pivot in mature.pivots:
+                if pivot.confirmation_index == 6:
+                    self.assertEqual(pivot.confirmed_first_known_utc, late)
+
+    def test_23_exact_anti_chase_decimal_boundary_mirrored(self) -> None:
+        for rule in ("B2", "S2"):
+            bars = case_confirmed(rule)[0].trigger_m15
+            context = evaluate_case(rule).derived_context
+            _, _, old = case_from_closed_bars(rule)
+            displacement = (
+                bars[-1].close - context.known_micro_level
+                if rule == "B2"
+                else context.known_micro_level - bars[-1].close
+            )
+            self.assertGreater(displacement, Decimal("0"))
+            # Force a mathematically exact 0.5 ATR chase boundary. This
+            # independent Decimal oracle does not depend on observed returns.
+            atr = displacement * Decimal("2")
+            self.assertEqual(displacement, atr * Decimal("0.5"))
+            controlled = replace(
+                context, known_atr=atr,
+                h1_zone_low=bars[0].low,
+                h1_zone_high=bars[0].high,
+            )
+            at = replace(
+                old, version="SIM:P023-EXACT-EQUALITY-UNAPPROVED",
+                max_chase_atr_multiple=Decimal("0.5"),
+            )
+            tighter = replace(
+                at, version="SIM:P023-EPS-TIGHTER-UNAPPROVED",
+                max_chase_atr_multiple=Decimal("0.5") - EPS,
+            )
+            clock = bars[-1].first_known_utc + timedelta(seconds=1)
+            boundary = evaluate_unapproved_b2_s2(
+                bars, controlled, at, clock,
+            )
+            denied = evaluate_unapproved_b2_s2(
+                bars, controlled, tighter, clock,
+            )
+            self.assertIs(
+                boundary.action,
+                CandidateAction.BUY if rule == "B2"
+                else CandidateAction.SELL,
+            )
+            self.assertIs(denied.action, CandidateAction.NO_SIGNAL)
+            self.assertEqual(
+                denied.reason, "P018_SYNTHETIC_ANTI_CHASE_LIMIT",
+            )
+            self.assertEqual(boundary.stage.value, "UNVERIFIED")
+            self.assertFalse(boundary.may_send_confirmed_signal)
+
+    def test_24_open_partial_and_unverified_right_bar_denied(self) -> None:
+        from forex_trading.market_data import (
+            BarCoverage, BarLifecycle, SourceQuality,
+        )
+        for rule in ("B2", "S2"):
+            data, policy = case_confirmed(rule)
+            original = data.daily[6]
+            cutoff = data.trigger_m15[0].key.bar_start_utc
+            variants = (
+                (replace(original, lifecycle=BarLifecycle.OPEN),
+                 "OPEN_PROVISIONAL_BAR"),
+                (replace(original, coverage=BarCoverage.PARTIAL),
+                 "INCOMPLETE_COVERAGE"),
+                (replace(original, quality=SourceQuality.UNVERIFIED),
+                 "SOURCE_QUALITY_UNVERIFIED"),
+            )
+            for altered, expected_reason in variants:
+                with self.subTest(rule=rule, reason=expected_reason):
+                    with self.assertRaisesRegex(ValueError, expected_reason):
+                        detect_confirmed_swings(
+                            data.daily[:6] + (altered,) + data.daily[7:],
+                            Timeframe.D1, policy, cutoff,
+                        )
+
+    def test_25_synthetic_prefix_cannot_hide_wrong_market_stream(self) -> None:
+        for rule in ("B2", "S2"):
+            data, policy = case_confirmed(rule)
+            original = data.daily[6]
+            altered = replace(
+                original,
+                observation=replace(
+                    original.observation, stream_id="SIM:WRONG-STREAM",
+                ),
+            )
+            with self.assertRaisesRegex(ValueError, "INTRA_TIMEFRAME_STREAM"):
+                detect_confirmed_swings(
+                    data.daily[:6] + (altered,) + data.daily[7:],
+                    Timeframe.D1, policy,
+                    data.trigger_m15[0].key.bar_start_utc,
+                )
+
+    def test_26_future_m15_retrieval_must_deny_retroactive_signal(self) -> None:
+        for rule in ("B2", "S2"):
+            data, _ = case_confirmed(rule)
+            final = data.trigger_m15[-1]
+            decision = final.first_known_utc + timedelta(seconds=1)
+            poisoned = replace(
+                final,
+                observation=replace(
+                    final.observation,
+                    retrieved_at_utc=decision + timedelta(seconds=1),
+                ),
+            )
+            changed = replace(
+                data, trigger_m15=(data.trigger_m15[0], poisoned),
+            )
+            with self.assertRaisesRegex(ValueError, "FUTURE_KNOWN"):
+                self._direct(rule, changed)
+
     def _direct(self,rule:str,data:object)->object:
         # Test the same multi-TF entrypoint with malformed derived inputs.
         from mfx_research.causal_multitf_context import SyntheticMultiTfBars
