@@ -3,11 +3,12 @@ from __future__ import annotations
 
 from copy import deepcopy
 from pathlib import Path
+import ast
 import unittest
 
 from tools.a04_p06_runtime_seams import (
-    PROJECT, SOURCE, NO_RUNTIME_AUTHORITY, ROLE_ANCHORS, inspect_source,
-    verify_inventory,
+    PROJECT, SOURCE, NO_RUNTIME_AUTHORITY, ROLE_ANCHORS, _dependencies,
+    _exports, inspect_source, verify_inventory,
 )
 
 
@@ -85,6 +86,21 @@ class A04P06RuntimeSeamAuditTests(unittest.TestCase):
                     ValueError, "A04P06_UNAUTHORIZED_RUNTIME_CLAIM",
                 ):
                     verify_inventory(report, baseline)
+
+    def test_runtime_tools_import_from_source_ast_fails_closed(self) -> None:
+        sample = ast.parse("from tools.a04_plugin_contracts import PluginManifest\n")
+        with self.assertRaisesRegex(ValueError, "A04P06_SOURCE_IMPORTS_A04_OR_TOOLS"):
+            _dependencies(sample, "synthetic")
+
+    def test_import_tooling_dynamically_by_static_direct_import_fails(self) -> None:
+        sample = ast.parse("import tools.a04_plugin_contracts\n")
+        with self.assertRaisesRegex(ValueError, "A04P06_SOURCE_IMPORTS_A04_OR_TOOLS"):
+            _dependencies(sample, "synthetic")
+
+    def test_public_package_export_parser_rejects_dynamic_all(self) -> None:
+        sample = ast.parse("__all__ = produce_exports()\n")
+        with self.assertRaisesRegex(ValueError, "A04P06_PUBLIC_EXPORTS_NOT_STATIC"):
+            _exports(sample)
 
     def test_source_dir_is_project_src_not_tools(self) -> None:
         self.assertEqual(SOURCE.name, "forex_trading")

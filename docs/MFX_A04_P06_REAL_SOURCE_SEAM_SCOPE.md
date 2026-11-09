@@ -75,3 +75,35 @@ the internal `info` intermediate as `object` to preserve both exact
 SHA inputs, without ignores, runtime changes or source edits.
 The red run is retained and is not sign-off; the next run must pass
 3/3 before the observed data are pinned.
+
+## Real-source measured CI & SHA lock
+First PR CI 42577321465 was RED only in new A04 strict mypy:
+786/786 unit tests per Python PASS, cross-run AST source report identical;
+one typing mismatch from class/function signature tuple inference.
+Fixed with `info: object`, no type suppressions and zero source edits.
+
+Second PR CI https://github.com/ngluonghoa/MFX/actions/runs/42577505263
+3/3 PASS. Python3.11 job 129028434372 and Python3.12 job
+129028434413 each 786 unittest methods PASS, strict mypy
+30 business source + ten inert A04 tools PASS, frozen Forex 50 golden,
+17/17 targeted mutants, A03 80-case feedback, unchanged coverage
+2546/2683 lines (94.89%) and 973/1112 branches (87.50%),
+security and cross-Python wheel PASS.
+
+Source AST measured **30 real Python files**, 14 selected existing
+symbol declarations, 16 public `__all__` exports; raw
+source/dependency report SHA256
+`b0a958e27aaf8ad83dcc62285298fc81aec419136efdf14802c68e3814aad66b`,
+relative import graph SHA256
+`734f1fda1e590ab1e5341e53b05ce31631b139f0108f7407227c87088b65cb47`,
+`pyproject.toml` SHA256
+`983d21beb619afb5862d85fb4e22ef21b72118a098aecc0ff183c5006242ecb7`.
+The 30 individual file SHA256 and all 14 AST declaration signature SHA256
+are pinned in `docs/MFX_A04_P06_RUNTIME_SEAM_BASELINE.json`.
+New CI enforcement removes bootstrap mode; negative AST direct
+tool import/export spoof and frozen report tamper tests added.
+Exact-head 3/3 PR and independent postmain 3/3 remain necessary.
+
+**Interpretation**: pass verifies observed byte hashes and AST interface
+shape, NOT plugin semantics, runtime dependency reachability or real
+market entitlement; no detector/TP engine can be claimed from this.

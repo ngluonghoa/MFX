@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "1cd85701c7dba456b6b2d2460f6810236c3fb4aa",
-      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes"
+      "expected_current_sha": "a123380e93fdc30c29da76fb363264e4d2ee6667",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; pinned exact 30 real src SHA/14 AST symbol signatures/16 exports/import graph from GitHub Actions 42577505263"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -139,8 +139,14 @@
     {
       "path": "docs/MFX_A04_P06_REAL_SOURCE_SEAM_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "0396a2393e962a43907eea5120c42917d5cc9399",
-      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; 42577321465 typed AST function/class signature intermediate fix without semantic change"
+      "expected_current_sha": "02c47aea57b470d32cfc8a639d6c21fa2051b978",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; 42577321465 typed AST function/class signature intermediate fix without semantic change; pinned exact 30 real src SHA/14 AST symbol signatures/16 exports/import graph from GitHub Actions 42577505263"
+    },
+    {
+      "path": "docs/MFX_A04_P06_RUNTIME_SEAM_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "1a2549b569c9c014640c1b7eeb7d9a209c61b41a",
+      "reason": "A04/P0.6 exact 30 real source module SHA256, 14 AST signature claims, export and dependency map measured on both GitHub Python runners"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -282,8 +288,8 @@
     {
       "path": "tests/test_a04_p06_runtime_seams.py",
       "change": "added",
-      "expected_current_sha": "1869aa3b53110404c4ea7ec35e88b6a0ce019a6b",
-      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes"
+      "expected_current_sha": "11363dca04b56abf5e7279b8fd7fc011d91664eb",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; pinned exact 30 real src SHA/14 AST symbol signatures/16 exports/import graph from GitHub Actions 42577505263"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
