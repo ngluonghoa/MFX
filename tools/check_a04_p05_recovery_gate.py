@@ -152,13 +152,15 @@ def run_matrix() -> dict[str, Any]:
         ("integration_request_real_feed", replace(evidence, actual_market_data_requested=True)),
         ("integration_request_broker", replace(evidence, broker_orders_requested=True)),
     ]
-    for name, facts in decisions:
-        result = review_integration_readiness(facts)
-        if (result.runtime_integration_authorized
-                or result.production_canary_authorized
-                or result.may_fetch_real_data or result.may_execute_orders):
+    for name, integration_facts in decisions:
+        integration_result = review_integration_readiness(integration_facts)
+        if (integration_result.runtime_integration_authorized
+                or integration_result.production_canary_authorized
+                or integration_result.may_fetch_real_data
+                or integration_result.may_execute_orders):
             raise ValueError("A04P5_INTEGRATION_WRONGLY_GRANTED_AUTHORITY")
-        record(name, result.documentation_reviewable, result.reason)
+        record(name, integration_result.documentation_reviewable,
+               integration_result.reason)
 
     passed = sum(1 for _, x, _ in cases if x)
     if len(cases) != 28 or passed != 5:

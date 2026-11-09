@@ -67,3 +67,15 @@ protected-main revert, runtime plugin loader, licensed market data,
 numerical 18-zone detector, TP/SL fill simulation, OOS, signed release,
 scheduler or trading. MFX stays Cloud-only GitHub+Google Drive; zero
 Mac/MOCHI/local and zero `src/forex_trading` edits.
+
+## First PR CI (red) technical evidence
+Run 42574581730: both Python3.11/3.12 executed 773/773 synthetic
+unittest methods successfully; observed identical 28-case
+recovery/schema/integration matrix, 23 cases blocked and five
+structural-only review decisions. New strict mypy on eight A04 tooling
+modules found eight errors because two loops reused variables named
+`facts` and `result` across incompatible Recovery and Integration
+typed dataclasses. Replaced ONLY the integration-loop variable names
+with `integration_facts` and `integration_result`, preserving every
+fail-closed rule and zero `src/` changes. The red run remains retained;
+require fresh 3/3 before pinning a reproducible baseline.

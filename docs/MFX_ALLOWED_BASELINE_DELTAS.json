@@ -127,8 +127,8 @@
     {
       "path": "docs/MFX_A04_P05_PROTECTED_RECOVERY_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "8a3a67bce338bb676eca7720e5c1d9d2d0744ffb",
-      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
+      "expected_current_sha": "6dde104b143bc21fd3354a92917a245931f84068",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; initial PR red 42574581730 strict mypy resolved by distinct Recovery vs Integration typed loop variables"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -372,8 +372,8 @@
     {
       "path": "tools/check_a04_p05_recovery_gate.py",
       "change": "added",
-      "expected_current_sha": "def3fb00e0e45b00b18085befdb898e827ebda78",
-      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes"
+      "expected_current_sha": "cf89407c3bbab4348c062934ada9e03e683bf6d0",
+      "reason": "A04/P0.5 Cloud CI-only protected main recovery planning and explicit exact schema version selection, no Git remote write, no src/ or runtime/trading changes; initial PR red 42574581730 strict mypy resolved by distinct Recovery vs Integration typed loop variables"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",
