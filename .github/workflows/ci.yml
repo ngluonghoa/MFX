@@ -67,6 +67,10 @@ jobs:
           PYTHONPATH="$PWD/.ci-frozen-forex/src" python tools/render_golden_contract.py --source-root .ci-frozen-forex/src --output .ci-golden/reference.json
           PYTHONPATH="$PWD/src" python tools/render_golden_contract.py --source-root src --output .ci-golden/mfx.json
           python tools/compare_golden_contracts.py --reference .ci-golden/reference.json --candidate .ci-golden/mfx.json
+      - name: A04/P0.2 exact frozen-source adapter declaration golden bridge (50 synthetic scenarios)
+        env:
+          PYTHONPATH: src:.
+        run: python tools/check_a04_adapter_golden.py --reference .ci-golden/reference.json --candidate .ci-golden/mfx.json
       - name: Install pinned Ruff and mypy static analyzers
         run: python -m pip install ruff==0.13.0 mypy==1.18.2
       - name: Reject critical Python syntax and undefined-name issues
@@ -82,7 +86,7 @@ jobs:
         env:
           PYTHONPATH: src
           MYPYPATH: src
-        run: python -m mypy --strict --python-version 3.11 --show-error-codes --no-incremental tools/a04_plugin_contracts.py
+        run: python -m mypy --strict --python-version 3.11 --show-error-codes --no-incremental tools/a04_plugin_contracts.py tools/a04_adapter_conformance.py
       - name: Install pinned RE4c security audit tools (CI only)
         run: python -m pip install bandit==1.9.4 pip-audit==2.10.1
       - name: Scan tracked repository text for high-confidence credential signatures

@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "54d350b6a8a3e3513828687081c845f795f163f2",
-      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes; first red CI 42561574548 [import-untyped] fixed through explicit MYPYPATH=src without source changes"
+      "expected_current_sha": "dd77f044d357c124f0a29f731a3fe9fcb530301a",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -87,6 +87,12 @@
       "change": "added",
       "expected_current_sha": "c5605d151e14d70ec95ef65ba2597c86ab0bbde5",
       "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes; first red CI 42561574548 [import-untyped] fixed through explicit MYPYPATH=src without source changes"
+    },
+    {
+      "path": "docs/MFX_A04_P02_ADAPTER_GOLDEN_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "00ed5f9c26f498fde9cb9fc10d1629c1e90dec14",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -208,6 +214,12 @@
       "reason": "A03/P0.3 eight-seed 16-step deterministic read-only stateful model fuzz and shrinker tests; red PR CI 42508342609 E731 style-only fix with no changed scenario logic"
     },
     {
+      "path": "tests/test_a04_adapter_conformance.py",
+      "change": "added",
+      "expected_current_sha": "e0276d20411afe73f98e6fd0ba4aece29219039b",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -244,6 +256,12 @@
       "reason": "A03/P0.5: 17 synthetic provider/cache/lineage negative boundary tests; no src changes; first red PR CI 42557175069 exposed expected regex mismatch (no source change), repaired"
     },
     {
+      "path": "tools/a04_adapter_conformance.py",
+      "change": "added",
+      "expected_current_sha": "e69bc813b26fde19e2c46149670ff1ed0a8b7267",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -272,6 +290,12 @@
       "change": "added",
       "expected_current_sha": "918942b9e93210d712268547d57b67d1ce24603d",
       "reason": "A03/P0.3 CI guard that verifies seed corpus, 16-step budget, 7 method discovery, no trading"
+    },
+    {
+      "path": "tools/check_a04_adapter_golden.py",
+      "change": "added",
+      "expected_current_sha": "7d2f924d4d804d1766dcc9f7379c8f2f4b8a525a",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
     },
     {
       "path": "tools/check_mfx_import_ownership.py",
