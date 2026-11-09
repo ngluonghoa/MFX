@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P04_PINNED_DISPOSABLE_GIT_CANARY",
+  "original_forex_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "measured_github_run": 42572217330,
+  "python311_job": 129011932420,
+  "python312_job": 129011932701,
+  "original_main_base": "42485d9589adcc7cd6c93368cb25290699c56c14",
+  "observed": {
+    "frozen_original_source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+    "frozen_golden_sha256": "747d029192e080f88b214c76967fa9b91c8e1283f6a4464673cb2bff0b4eabb2",
+    "frozen_graph_sha256": "fee5c25ab04139a3da502ebc372d981946c1e1e22965fb36987915220cff9ebe",
+    "frozen_schema_matrix_sha256": "85e285640914e55a700417b88a6586052c214835a9d087235569312fabe33443",
+    "canary": {
+      "case_count": 19,
+      "structural_review_only_count": 3,
+      "blocked_count": 16,
+      "stage_count": 4,
+      "case_matrix_sha256": "4c6275ed3c8c62a0322b0a1aafbb32f8cd9bfb515e1d0f4995cbbb88b4dc5d34"
+    },
+    "git": {
+      "git_history_commit_count": 3,
+      "isolated_baseline_tree_sha": "64d7d8de7ab348113931d19584bfd979d66b1f58",
+      "isolated_changed_tree_sha": "6a0c160bc9f202697591021eb93557e140a3387d",
+      "isolated_restored_tree_sha": "64d7d8de7ab348113931d19584bfd979d66b1f58",
+      "baseline_contract_bytes_sha256": "bf3c98b939e6257fce3b8b8ddc9b32591d8baed87f05fd9d53ae683518df0c23",
+      "restored_contract_bytes_sha256": "bf3c98b939e6257fce3b8b8ddc9b32591d8baed87f05fd9d53ae683518df0c23"
+    }
+  },
+  "required_true_paths": [
+    "git.git_drill_executed",
+    "git.disposable_git_repo_has_no_remotes",
+    "git.project_checkout_head_preserved",
+    "git.project_checkout_status_preserved",
+    "canary.all_stages_declarative_only"
+  ],
+  "required_false_paths": [
+    "git.protected_main_reverted",
+    "git.remote_git_write_performed",
+    "canary.real_traffic_shifted",
+    "canary.provider_adapter_invoked",
+    "canary.may_deploy_or_trade",
+    "any_real_plugin_executed",
+    "real_market_data_called",
+    "real_cache_written",
+    "protected_main_changed",
+    "live_release_or_trade_performed"
+  ],
+  "evidence_boundary": "Real git revert exclusively in disposable no-remotes GitHub-hosted temporary repository; zero protected main revert, runtime deployment or trading."
+}
