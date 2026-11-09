@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "dd77f044d357c124f0a29f731a3fe9fcb530301a",
-      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
+      "expected_current_sha": "c89be73dbe26fbe211f6740510cdaccfd354a5da",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -99,6 +99,18 @@
       "change": "added",
       "expected_current_sha": "2edfb33fc1d7ffc0f6d5d72af0a11c6a1be2db58",
       "reason": "A04/P0.2 CI-observed 50 synthetic golden 8-group SHA and 4-role declared graph fingerprint baseline; fail-closed only"
+    },
+    {
+      "path": "docs/MFX_A04_P03_COMPAT_MATRIX_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "963d917f4825f7e1eaa79761ab6bb4acbb0edb28",
+      "reason": "A04/P0.3 exact measured 14-case synthetic schema matrix baseline, 5 family identity, 11 blocked, 3 reviewable; verified on Python3.11/3.12"
+    },
+    {
+      "path": "docs/MFX_A04_P03_SCHEMA_MIGRATION_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "94b02a5ec93e9e97c9c52c94269ce10600f05b57",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; red CI 42568122304 canonical tuple order assertion corrected to canonical bytes/hash; strict mypy red 42568230247 resolved by explicit dict[str, Any] report typing (no noqa/ignore); pinned observed exact cross-Python 14-case migration compatibility SHA and 11 blocked outcomes from CI 42568341516"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -232,6 +244,12 @@
       "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes"
     },
     {
+      "path": "tests/test_a04_schema_migration.py",
+      "change": "added",
+      "expected_current_sha": "1ab73ad7c061e3965cdc684814a33765680d3428",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; matrix explicitly checks backwards minor-version anti-rollback rejection; red CI 42568122304 canonical tuple order assertion corrected to canonical bytes/hash; pinned observed exact cross-Python 14-case migration compatibility SHA and 11 blocked outcomes from CI 42568341516"
+    },
+    {
       "path": "tests/test_frozen_source_baseline.py",
       "change": "added",
       "expected_current_sha": "0f400680d3a66d569b502535a6eeaf3ecc34f4db",
@@ -268,6 +286,12 @@
       "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
     },
     {
+      "path": "tools/a04_contract_migration.py",
+      "change": "added",
+      "expected_current_sha": "d5c3ccf82405a38004d584dfd0dd62aae73d1bf1",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -302,6 +326,12 @@
       "change": "added",
       "expected_current_sha": "1a7e0cd2a0b6639fb78396023706752c6e95e4b6",
       "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; A04/P0.2 pinned actual exact 50 golden group hashes and graph SHA from CI 42564185516, with negative drift/authority guard"
+    },
+    {
+      "path": "tools/check_a04_schema_matrix.py",
+      "change": "added",
+      "expected_current_sha": "0be1f071b5be67ed71df6fb325b0c4df24b1b4d3",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; matrix explicitly checks backwards minor-version anti-rollback rejection; strict mypy red 42568230247 resolved by explicit dict[str, Any] report typing (no noqa/ignore); pinned observed exact cross-Python 14-case migration compatibility SHA and 11 blocked outcomes from CI 42568341516"
     },
     {
       "path": "tools/check_mfx_import_ownership.py",

@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P03_PINNED_DECLARATIVE_SCHEMA_MATRIX",
+  "frozen_forex_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "original_frozen_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+  "measure_github_actions_run": 42568341516,
+  "measured_head": "f88f628bac02e06aec96140e164ec63be3ca23b6",
+  "python311_job": 128999717335,
+  "python312_job": 128999717065,
+  "observed": {
+    "schema_family_count": 5,
+    "case_count": 14,
+    "reviewable_count": 3,
+    "blocked_count": 11,
+    "unchanged_count": 1,
+    "declarative_rollback_exact_match": true,
+    "declarative_rollback_wrong_target_rejected": true,
+    "base_declaration_sha256": "bf3c98b939e6257fce3b8b8ddc9b32591d8baed87f05fd9d53ae683518df0c23",
+    "case_matrix_sha256": "85e285640914e55a700417b88a6586052c214835a9d087235569312fabe33443",
+    "frozen_original_golden_sha256": "747d029192e080f88b214c76967fa9b91c8e1283f6a4464673cb2bff0b4eabb2",
+    "frozen_declared_graph_sha256": "fee5c25ab04139a3da502ebc372d981946c1e1e22965fb36987915220cff9ebe",
+    "reasons": {
+      "A04P3_ADDITIVE_SHAPE_REVIEW_ONLY_NOT_APPROVED": 2,
+      "A04P3_EXACT_DECLARATION_NOOP": 1,
+      "A04P3_FROZEN_GOLDEN_BASELINE_DRIFT": 1,
+      "A04P3_NON_ADDITIVE_MINOR": 2,
+      "A04P3_OPTIONAL_FIELD_REMOVED": 1,
+      "A04P3_PLUGIN_GRAPH_OR_ABI_DRIFT": 1,
+      "A04P3_REQUIRED_FIELDS_CHANGED": 2,
+      "A04P3_SCHEMA_MAJOR_DRIFT": 1,
+      "A04P3_SCHEMA_MINOR_ANTI_ROLLBACK": 1,
+      "A04P3_SEMANTIC_CLAIM_DRIFT": 1,
+      "A04P3_UNVERSIONED_FIELD_DRIFT": 1
+    }
+  },
+  "denied_authority_flags": [
+    "schema_transform_executed",
+    "plugin_runtime_executed",
+    "git_rollback_performed",
+    "real_data_used",
+    "may_deploy_or_trade"
+  ],
+  "statement": "Read-only synthetic declaration migration matrix and exact canonical snapshot replay; not runtime rollback, market-data entitlement, economic parity, backtest, release or trading."
+}
