@@ -37,8 +37,8 @@
     {
       "path": "docs/MFX_A03_COVERAGE_BASELINE.json",
       "change": "added",
-      "expected_current_sha": "452860741ad13ffcdead56f98bf7b76013d625f1",
-      "reason": "A03/P0.4 audited twin Python 3.11/3.12 observed line/branch coverage floors, 7 core guards, exact 42551298052 evidence"
+      "expected_current_sha": "8c3a7417441d64a4e692f73da4d35011f8f9871f",
+      "reason": "A03/P0.4 audited twin Python 3.11/3.12 observed line/branch coverage floors, 7 core guards, exact 42551298052 evidence; P0.5 measured CI 42557308499 and raised +17/+17 nonregression minima"
     },
     {
       "path": "docs/MFX_A03_COVERAGE_HYPOTHESIS_SCOPE.md",
@@ -55,8 +55,8 @@
     {
       "path": "docs/MFX_A03_P05_MEASURED_GAP_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "8f83420cdb3d3725ec5db588d2ca6d9d75de97fa",
-      "reason": "A03/P0.5 bounded stage-1 QA scope, limitations and rollback protocol"
+      "expected_current_sha": "15e63d1b6b4e8da7b51ee8bebab8a76105a15818",
+      "reason": "A03/P0.5 bounded stage-1 QA scope, limitations and rollback protocol; P0.5 measured CI 42557308499 and raised +17/+17 nonregression minima"
     },
     {
       "path": "docs/MFX_A03_PROPERTY_METAMORPHIC_SCOPE.md",

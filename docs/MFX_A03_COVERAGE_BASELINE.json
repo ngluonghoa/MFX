@@ -9,8 +9,8 @@
   "original_source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
   "mfx_locked_original_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
   "minimum": {
-    "covered_lines": 2529,
-    "covered_branches": 956,
+    "covered_lines": 2546,
+    "covered_branches": 973,
     "num_statements": 2683,
     "num_branches": 1112
   },
@@ -32,8 +32,8 @@
       "covered_branches": 58
     },
     "cache_dependency.py": {
-      "covered_lines": 75,
-      "covered_branches": 32
+      "covered_lines": 81,
+      "covered_branches": 38
     },
     "cache_indicators.py": {
       "covered_lines": 31,
@@ -44,10 +44,35 @@
       "covered_branches": 58
     },
     "provider_delta_contract.py": {
-      "covered_lines": 191,
-      "covered_branches": 66
+      "covered_lines": 198,
+      "covered_branches": 73
+    },
+    "cache_storage_review.py": {
+      "covered_lines": 116,
+      "covered_branches": 55
+    },
+    "synthetic_evidence_lineage.py": {
+      "covered_lines": 159,
+      "covered_branches": 68
     }
   },
-  "purpose": "Fail-closed measured nonregression thresholds. Baseline derived from BOTH PR jobs in run 42551298052, exact identical values. Do not interpret as global mutation score, TP/SL correctness, market-data license, trading readiness or executable 18-zone validation.",
-  "policy": "Any decrease below overall measured covered lines/branches or guarded core-module covered lines/branches fails CI. Increasing counts and new tests require measured change record in subsequent governed PR. No relaxation without user-authorized QA change."
+  "purpose": "Fail-closed measured nonregression thresholds. Baseline derived from BOTH PR jobs in run 42551298052, exact identical values. Do not interpret as global mutation score, TP/SL correctness, market-data license, trading readiness or executable 18-zone validation. P0.5 stage-1 raises measured floors by +17 lines and +17 branches (twin-run 42557308499); source never edited.",
+  "policy": "Any decrease below overall measured covered lines/branches or guarded core-module covered lines/branches fails CI. Increasing counts and new tests require measured change record in subsequent governed PR. No relaxation without user-authorized QA change.",
+  "p05_stage_1_measured": {
+    "commit": "17114e8bb46c2ca58e1b4c8d747949870cf44df5",
+    "workflow_run": 42557308499,
+    "python_311_job": 128965811559,
+    "python_312_job": 128965811282,
+    "exact_python_metrics_identical": true,
+    "covered_lines": 2546,
+    "covered_branches": 973,
+    "missing_lines": 137,
+    "missing_branches": 139,
+    "tests_per_python": 676,
+    "gain_vs_p04_lines": 17,
+    "gain_vs_p04_branches": 17,
+    "all_synthetic": true,
+    "no_real_data_or_broker": true,
+    "adaptive_coverage_feedback_fuzz_not_implemented": true
+  }
 }
