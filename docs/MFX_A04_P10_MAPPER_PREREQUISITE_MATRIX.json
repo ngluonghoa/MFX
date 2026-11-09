@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P10_DESIGN_ONLY_MAPPER_PREREQUISITE_MATRIX",
+  "original_forex_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "original_102_blob_mfx_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
+  "p09_measured_source_evidence": {
+    "rows_sha256": "06d3abb44df35cccf10c889aaa59f358f73d01937cbbc7529970c1c248e18cba",
+    "future_port_shapes_sha256": "e12cd296e96e2a9d0b34f658b1eb9477cdb08e748a4836c10396d4e21c623083",
+    "future_port_routes_sha256": "55727bcabe0552f7f2a7db8a870b3304071dd3b72eca0740f5a5e3c3d6bf178f",
+    "source_reference_count": 7,
+    "direct_callable_port_compatible_count": 0
+  },
+  "source_candidate_rows": [
+    {
+      "source_function": "quotes.indicative_price",
+      "role_vicinity_not_plugin": "PROVIDER",
+      "expected_input_schema": "PROVIDER_QUERY_V1",
+      "expected_output_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "missing_input_fields": [
+        "instrument_version",
+        "price_basis",
+        "rights_policy_ref",
+        "timeframe"
+      ],
+      "unproven_output_fields": [
+        "first_known_utc",
+        "price_basis",
+        "quality",
+        "source_revision"
+      ],
+      "source_file_sha256": "ae2dd1e6f332e51f6d753764d4b4e3c05267c18fca463e7e56259265cb49fbc6",
+      "source_ast_signature_sha256": "2c46167927ffb33cdfc3f5d1eeffd2c9fa000855c720e0acad8098a5f3e8c9e4",
+      "mapper_review_state": "MAPPING_NOT_SPECIFIED_OR_AUTHORIZED",
+      "source_callable_port_compatible": false
+    },
+    {
+      "source_function": "market_data.evaluate_closed_bar",
+      "role_vicinity_not_plugin": "PROVIDER",
+      "expected_input_schema": "PROVIDER_QUERY_V1",
+      "expected_output_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "missing_input_fields": [
+        "instrument_version",
+        "price_basis",
+        "rights_policy_ref",
+        "timeframe"
+      ],
+      "unproven_output_fields": [
+        "first_known_utc",
+        "price_basis",
+        "quality",
+        "source_revision"
+      ],
+      "source_file_sha256": "8a96808ebac3f81dace244069da3758c71fc66529b53c74f5ec0b28313fe63b0",
+      "source_ast_signature_sha256": "1f73b33a7d808575a8c1ad3b713df64d2efbf620b1c41432ca6e4fb72366ea93",
+      "mapper_review_state": "MAPPING_NOT_SPECIFIED_OR_AUTHORIZED",
+      "source_callable_port_compatible": false
+    },
+    {
+      "source_function": "market_data.select_asof_revision",
+      "role_vicinity_not_plugin": "PROVIDER",
+      "expected_input_schema": "PROVIDER_QUERY_V1",
+      "expected_output_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "missing_input_fields": [
+        "instrument_version",
+        "price_basis",
+        "rights_policy_ref",
+        "timeframe"
+      ],
+      "unproven_output_fields": [
+        "first_known_utc",
+        "price_basis",
+        "quality",
+        "source_revision"
+      ],
+      "source_file_sha256": "8a96808ebac3f81dace244069da3758c71fc66529b53c74f5ec0b28313fe63b0",
+      "source_ast_signature_sha256": "7de44623ebd0fbf61fb3e215690b3f4959830393b620c4c1215b2243aa70d4d7",
+      "mapper_review_state": "MAPPING_NOT_SPECIFIED_OR_AUTHORIZED",
+      "source_callable_port_compatible": false
+    },
+    {
+      "source_function": "cache_indicators.ema_full",
+      "role_vicinity_not_plugin": "INDICATOR",
+      "expected_input_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "expected_output_schema": "FEATURES_UNVERIFIED_V1",
+      "missing_input_fields": [
+        "first_known_utc",
+        "price_basis",
+        "quality",
+        "source_revision"
+      ],
+      "unproven_output_fields": [
+        "asof_utc",
+        "feature_set_id",
+        "quality"
+      ],
+      "source_file_sha256": "35986a2fb81eb03c1eb8e77e1c4b48d6811644148f5ac5887ff95ec9ee58c1ca",
+      "source_ast_signature_sha256": "fb9f77390acb19aee714455a91567e497afe57d8eedbed253fd0a2ee7555b087",
+      "mapper_review_state": "MAPPING_NOT_SPECIFIED_OR_AUTHORIZED",
+      "source_callable_port_compatible": false
+    },
+    {
+      "source_function": "cache_indicators.ema_recompute",
+      "role_vicinity_not_plugin": "INDICATOR",
+      "expected_input_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "expected_output_schema": "FEATURES_UNVERIFIED_V1",
+      "missing_input_fields": [
+        "first_known_utc",
+        "price_basis",
+        "quality",
+        "source_revision"
+      ],
+      "unproven_output_fields": [
+        "asof_utc",
+        "feature_set_id",
+        "quality"
+      ],
+      "source_file_sha256": "35986a2fb81eb03c1eb8e77e1c4b48d6811644148f5ac5887ff95ec9ee58c1ca",
+      "source_ast_signature_sha256": "cd30c0348a77ce492ca22ae1ba39d05656294bdcf4fa1bf480f967cb7931ad3c",
+      "mapper_review_state": "MAPPING_NOT_SPECIFIED_OR_AUTHORIZED",
+      "source_callable_port_compatible": false
+    },
+    {
+      "source_function": "catalog.catalog_counts",
+      "role_vicinity_not_plugin": "DETECTOR",
+      "expected_input_schema": "FEATURES_UNVERIFIED_V1",
+      "expected_output_schema": "CANDIDATES_UNVERIFIED_V1",
+      "missing_input_fields": [
+        "asof_utc",
+        "feature_set_id",
+        "quality"
+      ],
+      "unproven_output_fields": [
+        "asof_utc",
+        "source_quality",
+        "zone_label"
+      ],
+      "source_file_sha256": "53faf59694e4f52c0ba4d5035607d1fcdeb2569072ba340be7d0ad703632ce50",
+      "source_ast_signature_sha256": "87e6785503f41cbde33d49631679cd501176f06137e7bbdf387f03b2bab4cdf1",
+      "mapper_review_state": "MAPPING_NOT_SPECIFIED_OR_AUTHORIZED",
+      "source_callable_port_compatible": false
+    },
+    {
+      "source_function": "catalog.validate_catalog",
+      "role_vicinity_not_plugin": "DETECTOR",
+      "expected_input_schema": "FEATURES_UNVERIFIED_V1",
+      "expected_output_schema": "CANDIDATES_UNVERIFIED_V1",
+      "missing_input_fields": [
+        "asof_utc",
+        "feature_set_id",
+        "quality"
+      ],
+      "unproven_output_fields": [
+        "asof_utc",
+        "source_quality",
+        "zone_label"
+      ],
+      "source_file_sha256": "53faf59694e4f52c0ba4d5035607d1fcdeb2569072ba340be7d0ad703632ce50",
+      "source_ast_signature_sha256": "62631925fa84b627c9ddf2426a6721af1a26ea49d7bec1db4c723ac9d23be7b8",
+      "mapper_review_state": "MAPPING_NOT_SPECIFIED_OR_AUTHORIZED",
+      "source_callable_port_compatible": false
+    }
+  ],
+  "role_prerequisites": [
+    {
+      "role": "PROVIDER",
+      "expected_reference_count": 3,
+      "input_schema": "PROVIDER_QUERY_V1",
+      "output_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "requirements": [
+        "Verify vendor/account/instrument-product entitlement, redistribution, retention and Drive replay rights with documentary evidence",
+        "Qualify native BID/ASK quote-side provenance and broker-product match; MID/OHLCV must never be treated as execution price",
+        "Prove first_known_utc, decision/asof clock, closed-bar/calendar/DST, duplicate and correction revision semantics",
+        "Pin symbol/timeframe/price-basis/version/freshness/error mappings with negative missing, stale, 429, rights-denied and unsupported-TF cases",
+        "Separate read-only source observations from execution or strategy authorization"
+      ]
+    },
+    {
+      "role": "INDICATOR",
+      "expected_reference_count": 2,
+      "input_schema": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "output_schema": "FEATURES_UNVERIFIED_V1",
+      "requirements": [
+        "Define versioned FeaturesV1 payload, field identities, source revision, quality, first-known UTC, price basis and failure states",
+        "Specify exact Decimal/EMA precision, warm-up, missing values and full-recompute versus dirty-prefix equivalence",
+        "Provide causal as-of dependency graph; no provisional candles or future HTF pivots promoted to verified features",
+        "Prove input/output serializer and failure-reason parity against frozen Forex golden semantics before any source change"
+      ]
+    },
+    {
+      "role": "DETECTOR",
+      "expected_reference_count": 2,
+      "input_schema": "FEATURES_UNVERIFIED_V1",
+      "output_schema": "CANDIDATES_UNVERIFIED_V1",
+      "requirements": [
+        "Implement and separately verify numerical, versioned per-label rules before calling any detector executable",
+        "Preserve frozen 18-label taxonomy: 7 long-entry, 8 short-entry, B7 watch-only, S3/S8 exit-warning; FX-B9 research-only",
+        "Pin LONG/SHORT state/reason, 8 pipeline stages, first-known causal evidence, signal lifecycle and overlap/dedup semantics",
+        "Demonstrate deterministic reference parity plus independently held-out source-qualified after-cost tests; catalog validation alone is insufficient"
+      ]
+    },
+    {
+      "role": "TP_POLICY",
+      "expected_reference_count": 0,
+      "input_schema": "CANDIDATES_UNVERIFIED_V1",
+      "output_schema": "TP_PROPOSAL_UNVERIFIED_V1",
+      "requirements": [
+        "Obtain independently approved executable TP/SL policy design: there is zero approved pure-source function in P0.9 scope",
+        "Define side-correct entry/exit, broker/product constraints, risk sizing, fees, spread, swap, slippage and stop-out",
+        "Specify partial/gap fills, same-bar ordering ambiguity, liquidity and unverified-cost safe rejection",
+        "Require separate deterministic frozen-source and out-of-sample economic parity evidence before code or release authorization"
+      ]
+    }
+  ],
+  "cross_cutting_stop_gates": {
+    "provider_licence_and_drive_retention": "EVIDENCE_MISSING",
+    "native_historical_broker_bid_ask": "UNVERIFIED",
+    "first_known_clock_and_revision": "REQUIRES_VALIDATION",
+    "versioned_input_output_mappers": "NOT_IMPLEMENTED",
+    "numeric_entry_zone_detector": "NOT_PROVEN",
+    "executable_tp_sl_and_broker_fill": "NOT_IMPLEMENTED",
+    "source_qualified_real_market_oos": "NOT_RUN",
+    "live_drive_cache_write": "NOT_AUTHORIZED",
+    "runtime_plugin_activation": "NOT_AUTHORIZED",
+    "signed_release_or_trading": "NOT_AUTHORIZED"
+  },
+  "explicit_false_authority": {
+    "source_functions_changed": false,
+    "provider_entitlement_verified": false,
+    "native_bidask_execution_price_verified": false,
+    "mapper_runtime_implemented": false,
+    "numeric_detector_verified": false,
+    "tp_sl_risk_engine_verified": false,
+    "real_market_oos_approved": false,
+    "drive_cache_live_authorized": false,
+    "plugin_runtime_activated": false,
+    "signed_release_authorized": false,
+    "broker_orders_authorized": false
+  },
+  "decision": "DESIGN_REVIEW_ONLY_NO_SOURCE_OR_RUNTIME_AUTHORIZATION",
+  "release_status": "BLOCKED_NO_LIVE_OR_TRADING",
+  "next_authorization": "SEPARATE_OWNER_APPROVED_RIGHTS_SECURITY_SOURCE_DELTA_PR_AND_REAL_PARITY_EVIDENCE"
+}
