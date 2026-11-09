@@ -1,0 +1,683 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P11_ACTUAL_FIELD_LINEAGE_UNVERIFIED",
+  "forex_frozen_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "first_mfx_102_blob_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
+  "p09_row_sha": "06d3abb44df35cccf10c889aaa59f358f73d01937cbbc7529970c1c248e18cba",
+  "p09_schema_sha": "e12cd296e96e2a9d0b34f658b1eb9477cdb08e748a4836c10396d4e21c623083",
+  "p09_route_sha": "55727bcabe0552f7f2a7db8a870b3304071dd3b72eca0740f5a5e3c3d6bf178f",
+  "p10_git_blob_sha": "4832fd0c31c37ac00f6ed3cdddc4136f46ba3740",
+  "source_rows": [
+    {
+      "function": "quotes.indicative_price",
+      "role": "PROVIDER",
+      "from_port": "PROVIDER_QUERY_V1",
+      "to_port": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "source_sha256": "ae2dd1e6f332e51f6d753764d4b4e3c05267c18fca463e7e56259265cb49fbc6",
+      "ast_sha256": "2c46167927ffb33cdfc3f5d1eeffd2c9fa000855c720e0acad8098a5f3e8c9e4",
+      "source_only_args": [
+        "intent",
+        "max_age",
+        "quote"
+      ],
+      "field_obligations": [
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "decision_utc",
+          "source_name_match_only": true,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CLOCK_CAUSAL_UTC",
+          "status": "SAME_NAME_NOT_SEMANTIC_PROOF",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "instrument_version",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "BROKER_PRODUCT_AND_LICENSE",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "price_basis",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "NATIVE_BIDASK_NO_MID",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "rights_policy_ref",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "VENDOR_STORAGE_REPLAY_ENTITLEMENT",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "timeframe",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CLOSED_CANDLE_CALENDAR_DST",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_OPTIONAL",
+          "field": "review_label",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "OPTIONAL_DISPLAY_ONLY",
+          "status": "OPTIONAL_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "first_known_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_FIRST_KNOWN_UTC",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "price_basis",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "NATIVE_BIDASK_NO_MID",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "source_revision",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_REVISION_ASOF",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        }
+      ],
+      "runtime_mapper_implemented": false
+    },
+    {
+      "function": "market_data.evaluate_closed_bar",
+      "role": "PROVIDER",
+      "from_port": "PROVIDER_QUERY_V1",
+      "to_port": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "source_sha256": "8a96808ebac3f81dace244069da3758c71fc66529b53c74f5ec0b28313fe63b0",
+      "ast_sha256": "1f73b33a7d808575a8c1ad3b713df64d2efbf620b1c41432ca6e4fb72366ea93",
+      "source_only_args": [
+        "bar",
+        "conditional_m5_early_enabled",
+        "htf_context_first_known_utc"
+      ],
+      "field_obligations": [
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "decision_utc",
+          "source_name_match_only": true,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CLOCK_CAUSAL_UTC",
+          "status": "SAME_NAME_NOT_SEMANTIC_PROOF",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "instrument_version",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "BROKER_PRODUCT_AND_LICENSE",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "price_basis",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "NATIVE_BIDASK_NO_MID",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "rights_policy_ref",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "VENDOR_STORAGE_REPLAY_ENTITLEMENT",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "timeframe",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CLOSED_CANDLE_CALENDAR_DST",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_OPTIONAL",
+          "field": "review_label",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "OPTIONAL_DISPLAY_ONLY",
+          "status": "OPTIONAL_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "first_known_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_FIRST_KNOWN_UTC",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "price_basis",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "NATIVE_BIDASK_NO_MID",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "source_revision",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_REVISION_ASOF",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        }
+      ],
+      "runtime_mapper_implemented": false
+    },
+    {
+      "function": "market_data.select_asof_revision",
+      "role": "PROVIDER",
+      "from_port": "PROVIDER_QUERY_V1",
+      "to_port": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "source_sha256": "8a96808ebac3f81dace244069da3758c71fc66529b53c74f5ec0b28313fe63b0",
+      "ast_sha256": "7de44623ebd0fbf61fb3e215690b3f4959830393b620c4c1215b2243aa70d4d7",
+      "source_only_args": [
+        "revisions"
+      ],
+      "field_obligations": [
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "decision_utc",
+          "source_name_match_only": true,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CLOCK_CAUSAL_UTC",
+          "status": "SAME_NAME_NOT_SEMANTIC_PROOF",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "instrument_version",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "BROKER_PRODUCT_AND_LICENSE",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "price_basis",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "NATIVE_BIDASK_NO_MID",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "rights_policy_ref",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "VENDOR_STORAGE_REPLAY_ENTITLEMENT",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "timeframe",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CLOSED_CANDLE_CALENDAR_DST",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_OPTIONAL",
+          "field": "review_label",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "OPTIONAL_DISPLAY_ONLY",
+          "status": "OPTIONAL_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "first_known_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_FIRST_KNOWN_UTC",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "price_basis",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "NATIVE_BIDASK_NO_MID",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "source_revision",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_REVISION_ASOF",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        }
+      ],
+      "runtime_mapper_implemented": false
+    },
+    {
+      "function": "cache_indicators.ema_full",
+      "role": "INDICATOR",
+      "from_port": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "to_port": "FEATURES_UNVERIFIED_V1",
+      "source_sha256": "35986a2fb81eb03c1eb8e77e1c4b48d6811644148f5ac5887ff95ec9ee58c1ca",
+      "ast_sha256": "fb9f77390acb19aee714455a91567e497afe57d8eedbed253fd0a2ee7555b087",
+      "source_only_args": [
+        "closes",
+        "period"
+      ],
+      "field_obligations": [
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "first_known_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_FIRST_KNOWN_UTC",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "price_basis",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "NATIVE_BIDASK_NO_MID",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "source_revision",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_REVISION_ASOF",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_OPTIONAL",
+          "field": "source_note",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "OPTIONAL_NOTE_NO_RIGHTS_PROOF",
+          "status": "OPTIONAL_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "asof_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CAUSAL_ASOF_NO_LOOKAHEAD",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "feature_set_id",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "FEATURE_SCHEMA_VERSION",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        }
+      ],
+      "runtime_mapper_implemented": false
+    },
+    {
+      "function": "cache_indicators.ema_recompute",
+      "role": "INDICATOR",
+      "from_port": "PROVIDER_READONLY_UNVERIFIED_V1",
+      "to_port": "FEATURES_UNVERIFIED_V1",
+      "source_sha256": "35986a2fb81eb03c1eb8e77e1c4b48d6811644148f5ac5887ff95ec9ee58c1ca",
+      "ast_sha256": "cd30c0348a77ce492ca22ae1ba39d05656294bdcf4fa1bf480f967cb7931ad3c",
+      "source_only_args": [
+        "closes",
+        "dirty_index",
+        "period",
+        "previous_ema"
+      ],
+      "field_obligations": [
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "first_known_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_FIRST_KNOWN_UTC",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "price_basis",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "NATIVE_BIDASK_NO_MID",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "source_revision",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_REVISION_ASOF",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_OPTIONAL",
+          "field": "source_note",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "OPTIONAL_NOTE_NO_RIGHTS_PROOF",
+          "status": "OPTIONAL_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "asof_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CAUSAL_ASOF_NO_LOOKAHEAD",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "feature_set_id",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "FEATURE_SCHEMA_VERSION",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        }
+      ],
+      "runtime_mapper_implemented": false
+    },
+    {
+      "function": "catalog.catalog_counts",
+      "role": "DETECTOR",
+      "from_port": "FEATURES_UNVERIFIED_V1",
+      "to_port": "CANDIDATES_UNVERIFIED_V1",
+      "source_sha256": "53faf59694e4f52c0ba4d5035607d1fcdeb2569072ba340be7d0ad703632ce50",
+      "ast_sha256": "87e6785503f41cbde33d49631679cd501176f06137e7bbdf387f03b2bab4cdf1",
+      "source_only_args": [
+        "zones"
+      ],
+      "field_obligations": [
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "asof_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CAUSAL_ASOF_NO_LOOKAHEAD",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "feature_set_id",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "FEATURE_SCHEMA_VERSION",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "asof_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CAUSAL_ASOF_NO_LOOKAHEAD",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "source_quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "PROVENANCE_AND_QUALITY",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "zone_label",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "FROZEN_18_ZONE_NUMERIC_DETECTOR",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        }
+      ],
+      "runtime_mapper_implemented": false
+    },
+    {
+      "function": "catalog.validate_catalog",
+      "role": "DETECTOR",
+      "from_port": "FEATURES_UNVERIFIED_V1",
+      "to_port": "CANDIDATES_UNVERIFIED_V1",
+      "source_sha256": "53faf59694e4f52c0ba4d5035607d1fcdeb2569072ba340be7d0ad703632ce50",
+      "ast_sha256": "62631925fa84b627c9ddf2426a6721af1a26ea49d7bec1db4c723ac9d23be7b8",
+      "source_only_args": [
+        "zones"
+      ],
+      "field_obligations": [
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "asof_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CAUSAL_ASOF_NO_LOOKAHEAD",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "feature_set_id",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "FEATURE_SCHEMA_VERSION",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "INPUT_REQUIRED",
+          "field": "quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "SOURCE_QUALITY_FAILURE",
+          "status": "MISSING_NAMED_INPUT",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "asof_utc",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "CAUSAL_ASOF_NO_LOOKAHEAD",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "source_quality",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "PROVENANCE_AND_QUALITY",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        },
+        {
+          "direction": "OUTPUT_REQUIRED",
+          "field": "zone_label",
+          "source_name_match_only": false,
+          "evidence": "AST_NAME_AND_ANNOTATION_ONLY",
+          "proof_needed": "FROZEN_18_ZONE_NUMERIC_DETECTOR",
+          "status": "OUTPUT_UNVERIFIED",
+          "mapping_approved": false
+        }
+      ],
+      "runtime_mapper_implemented": false
+    }
+  ],
+  "role_reference_counts": {
+    "DETECTOR": 2,
+    "INDICATOR": 2,
+    "PROVIDER": 3,
+    "TP_POLICY": 0
+  },
+  "unimplemented_tp_policy": true,
+  "inherited_blocked_gates": [
+    "executable_tp_sl_and_broker_fill",
+    "first_known_clock_and_revision",
+    "live_drive_cache_write",
+    "native_historical_broker_bid_ask",
+    "numeric_entry_zone_detector",
+    "provider_licence_and_drive_retention",
+    "runtime_plugin_activation",
+    "signed_release_or_trading",
+    "source_qualified_real_market_oos",
+    "versioned_input_output_mappers"
+  ],
+  "denied_authority": {
+    "market_data_rights_proven": false,
+    "broker_bidask_execution_verified": false,
+    "first_known_semantics_verified": false,
+    "source_to_port_mapper_implemented": false,
+    "numerical_detector_verified": false,
+    "tp_sl_fills_implemented": false,
+    "oos_economic_parity_proven": false,
+    "drive_live_cache_activated": false,
+    "plugin_runtime_activated": false,
+    "broker_trade_or_release_authorized": false
+  },
+  "summary": {
+    "functions": 7,
+    "field_obligations": 58,
+    "same_name_only": 3,
+    "unmapped_required_inputs": 26,
+    "unverified_optional_inputs": 5,
+    "unverified_outputs": 24,
+    "source_only_args": 15,
+    "approved_mappers": 0,
+    "working_adapters": 0
+  },
+  "decision": "DESIGN_ONLY_STATIC_NO_PROVIDER_OR_RUNTIME_ELEVATION"
+}

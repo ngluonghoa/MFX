@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "71e0d5879a2a6a8c1a89e54e3f47c715938ac344",
-      "reason": "A04/P0.10 strict design-only four-role mapper preflight tied to pinned seven actual P0.9 source AST gaps; all rights/runtime/trading authority denied, no src changes"
+      "expected_current_sha": "d97430580a4e64757e4b16b5d57ca57df07c7b2d",
+      "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -197,6 +197,18 @@
       "reason": "A04/P0.10 strict design-only four-role mapper preflight tied to pinned seven actual P0.9 source AST gaps; all rights/runtime/trading authority denied, no src changes"
     },
     {
+      "path": "docs/MFX_A04_P11_FIELD_LINEAGE_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "8965ce6794dbac4abb850c6d18e25acdc358b4a7",
+      "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
+    },
+    {
+      "path": "docs/MFX_A04_P11_FIELD_LINEAGE_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "a3e5053f656f7872acabe97add23c9c1432dde42",
+      "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -364,6 +376,12 @@
       "reason": "A04/P0.10 strict design-only four-role mapper preflight tied to pinned seven actual P0.9 source AST gaps; all rights/runtime/trading authority denied, no src changes"
     },
     {
+      "path": "tests/test_a04_p11_field_lineage.py",
+      "change": "added",
+      "expected_current_sha": "6d59e42de76fa0c6180d3b0a9339481262cf0c3a",
+      "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -460,6 +478,12 @@
       "reason": "A04/P0.10 strict design-only four-role mapper preflight tied to pinned seven actual P0.9 source AST gaps; all rights/runtime/trading authority denied, no src changes"
     },
     {
+      "path": "tools/a04_p11_field_lineage.py",
+      "change": "added",
+      "expected_current_sha": "831de835c69e7f63af566e629a1c9973c5c6651a",
+      "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -524,6 +548,12 @@
       "change": "added",
       "expected_current_sha": "efd003ac3bd734f43cf2ff51c0583180e116b164",
       "reason": "A04/P0.10 strict design-only four-role mapper preflight tied to pinned seven actual P0.9 source AST gaps; all rights/runtime/trading authority denied, no src changes"
+    },
+    {
+      "path": "tools/check_a04_p11_field_lineage.py",
+      "change": "added",
+      "expected_current_sha": "c65ca2d1fc8a78391640675c4876144d966439e2",
+      "reason": "A04/P0.11 exact P0.9+P0.10 AST/declared future port field lineage; 58 obligations, no approved mapping, source/runtime/rights/trading unchanged"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",
