@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "9079c602e43154aac66be5d632db63e368e453fc",
-      "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
+      "expected_current_sha": "63262f1986281f7d6c1a4d4c35d2cab3624f84ad",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -257,6 +257,12 @@
       "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
     },
     {
+      "path": "docs/MFX_A04_P18_B2_S2_PARAMETRIC_RESEARCH_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "9d6f0031570d8ea155e13bf5b7af357eab697247",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -290,6 +296,12 @@
       "change": "added",
       "expected_current_sha": "ee0474da59349ab7633653dbbe3f1922b3ac5f8f",
       "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+    },
+    {
+      "path": "mfx_research/pullback_pilot.py",
+      "change": "added",
+      "expected_current_sha": "f60abe94e6078f6ca869c04ff45390050afa61ef",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
     },
     {
       "path": "mfx_research/zone_catalog_gate.py",
@@ -476,6 +488,12 @@
       "change": "added",
       "expected_current_sha": "7e2d5e05c5829ed0e2acd56ec789f2d242fd2ccc",
       "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
+    },
+    {
+      "path": "tests/test_a04_p18_pullback_pilot.py",
+      "change": "added",
+      "expected_current_sha": "e06e5f4fe5ebea99172a11ab9f14700da24194f5",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -758,6 +776,12 @@
       "change": "added",
       "expected_current_sha": "d5a5674463df0c6d3ca2021173b9f7a42013b371",
       "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
+    },
+    {
+      "path": "tools/run_a04_p18_pullback_demo.py",
+      "change": "added",
+      "expected_current_sha": "71687e17d8822c0f534782d3bdf14ae36326e3b1",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
