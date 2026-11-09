@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "1476fd056881615cb64581c1ca0c24ae6802c42e",
-      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
+      "expected_current_sha": "4849ef7e7fb392d77c846f785ef588c34e01546d",
+      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -245,6 +245,12 @@
       "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
     },
     {
+      "path": "docs/MFX_A04_P16_OFFLINE_RESEARCH_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "66f73252b80e477835c6699eff6c186274b8ca03",
+      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -266,6 +272,18 @@
       "change": "added",
       "expected_current_sha": "f9fd37d3b90c0dc1941b94be9a2446577d0520cf",
       "reason": "MFX Cloud import namespace safety policy, PR #2"
+    },
+    {
+      "path": "mfx_research/__init__.py",
+      "change": "added",
+      "expected_current_sha": "f2fc4a620b6971d188548f6ea527d320d4bed9d7",
+      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+    },
+    {
+      "path": "mfx_research/offline_ema_signals.py",
+      "change": "added",
+      "expected_current_sha": "ee0474da59349ab7633653dbbe3f1922b3ac5f8f",
+      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
     },
     {
       "path": "pyproject.toml",
@@ -434,6 +452,12 @@
       "change": "added",
       "expected_current_sha": "2ddd08a95c6a5a718073ee6f05e265edea6810a2",
       "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
+    },
+    {
+      "path": "tests/test_a04_p16_signal_demo.py",
+      "change": "added",
+      "expected_current_sha": "5aaf7a8090aa903229569cbcbc38a00891b7b49c",
+      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -704,6 +728,12 @@
       "change": "added",
       "expected_current_sha": "41391b1dc85c55bdf8e02c513e40a292dc900ef2",
       "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; first red CI 42572072272 strict mypy Optional dict narrowed by explicit isinstance gates"
+    },
+    {
+      "path": "tools/run_a04_p16_signal_demo.py",
+      "change": "added",
+      "expected_current_sha": "f2e288d72587ea2a737509af66a8fd7cb15352fc",
+      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
