@@ -78,6 +78,11 @@ jobs:
       - name: Strict mypy full 30-module diagnostic audit (A02/P0.2)
         run: |
           python -m mypy --strict --python-version 3.11 --show-error-codes --no-incremental src/forex_trading
+      - name: A04/P0.1 strict mypy for inert typed plugin declarations (Cloud-only)
+        env:
+          PYTHONPATH: src
+          MYPYPATH: src
+        run: python -m mypy --strict --python-version 3.11 --show-error-codes --no-incremental tools/a04_plugin_contracts.py
       - name: Install pinned RE4c security audit tools (CI only)
         run: python -m pip install bandit==1.9.4 pip-audit==2.10.1
       - name: Scan tracked repository text for high-confidence credential signatures
