@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "a123380e93fdc30c29da76fb363264e4d2ee6667",
-      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; pinned exact 30 real src SHA/14 AST symbol signatures/16 exports/import graph from GitHub Actions 42577505263"
+      "expected_current_sha": "15eb86fa78e2949a988551443dcf1fbb44003859",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -147,6 +147,12 @@
       "change": "added",
       "expected_current_sha": "1a2549b569c9c014640c1b7eeb7d9a209c61b41a",
       "reason": "A04/P0.6 exact 30 real source module SHA256, 14 AST signature claims, export and dependency map measured on both GitHub Python runners"
+    },
+    {
+      "path": "docs/MFX_A04_P07_SOURCE_WRAPPER_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "8832630ddac4607d44749aa7faa31a614de8c95d",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -292,6 +298,12 @@
       "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; pinned exact 30 real src SHA/14 AST symbol signatures/16 exports/import graph from GitHub Actions 42577505263"
     },
     {
+      "path": "tests/test_a04_p07_readonly_wrappers.py",
+      "change": "added",
+      "expected_current_sha": "fc01f80b3fa97429d5041f8887a42e8a491428b4",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -364,6 +376,12 @@
       "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; 42577321465 typed AST function/class signature intermediate fix without semantic change"
     },
     {
+      "path": "tools/a04_p07_readonly_wrappers.py",
+      "change": "added",
+      "expected_current_sha": "ae4f520f5457726507f073410eebe6fd7eacbc56",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -424,10 +442,22 @@
       "reason": "MFX-only Cloud venv import ownership guard, PR #2"
     },
     {
+      "path": "tools/compare_a04_p07_wrapper_golden.py",
+      "change": "added",
+      "expected_current_sha": "cbd247d300eb9682134f3c4ac7800f0fc3c8e491",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
+    },
+    {
       "path": "tools/compare_golden_contracts.py",
       "change": "added",
       "expected_current_sha": "bf9bcf44c37cfd1c2843b4ac89d0fe67588da8a0",
       "reason": "A01/P0.2 fail-closed golden snapshot schema/output/reason comparator"
+    },
+    {
+      "path": "tools/render_a04_p07_wrapper_golden.py",
+      "change": "added",
+      "expected_current_sha": "75a505ae037aff01f9a23306dde5c839461f45ac",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
     },
     {
       "path": "tools/render_golden_contract.py",
