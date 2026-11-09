@@ -7,14 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "b85af00f24925a70c037726c1910d3b3effd2a3f",
-      "reason": "A04/P0.22 unapproved source-linked B2/S2 numeric policy proposal and 14 simulated causal positive/NO_SIGNAL/denial cases; 36/36 source approvals BLOCKED, real-data/cache/broker/release denied, no src changes"
-    },
-    {
-      "path": "README.md",
-      "change": "modified",
-      "expected_current_sha": "7cf722af48c93ea746db5a604fba08fa90ca9166",
-      "reason": "MFX repository identity header, original Forex README preserved in PR #1"
+      "expected_current_sha": "1f3dd56dc339bb30825f11cc186c5b2b9e028de1",
+      "reason": "A04/P0.23 pre-registered 21-method synthetic B2/S2 source-safe independent pivot/boundary QA; draft PR ONLY; no src changes, original 36/36 quantitative rules UNAPPROVED and P0.22 independent postmain push gate pending; no feed/cache/broker/release"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -239,15 +233,15 @@
       "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
     },
     {
-      "path": "docs/MFX_A04_P14_PUBLIC_VENDOR_EVIDENCE.json",
-      "change": "added",
-      "expected_current_sha": "22c3faf14e4a436b9b94187ad50607a5fa875bd0",
-      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
-    },
-    {
       "path": "docs/MFX_A04_P14_PUBLIC_VENDOR_EVIDENCE_SCOPE.md",
       "change": "added",
       "expected_current_sha": "89596c3db90aab8275cc41a8a4f7c161243c112d",
+      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
+    },
+    {
+      "path": "docs/MFX_A04_P14_PUBLIC_VENDOR_EVIDENCE.json",
+      "change": "added",
+      "expected_current_sha": "22c3faf14e4a436b9b94187ad50607a5fa875bd0",
       "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
     },
     {
@@ -303,6 +297,12 @@
       "change": "added",
       "expected_current_sha": "70b73254ce0d1707d44fe2068ad83f3195be7a13",
       "reason": "A04/P0.22 unapproved source-linked B2/S2 numeric policy proposal and 14 simulated causal positive/NO_SIGNAL/denial cases; 36/36 source approvals BLOCKED, real-data/cache/broker/release denied, no src changes"
+    },
+    {
+      "path": "docs/MFX_A04_P23_CAUSAL_SENSITIVITY_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "bd4ca88fc419f430affed9d0dd1f842d41228726",
+      "reason": "A04/P0.23 pre-registered 21-method synthetic B2/S2 source-safe independent pivot/boundary QA; draft PR ONLY; no src changes, original 36/36 quantitative rules UNAPPROVED and P0.22 independent postmain push gate pending; no feed/cache/broker/release"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -380,6 +380,12 @@
       "change": "modified",
       "expected_current_sha": "13a5784dd137642bfafcb3ff9b190b8563595dc5",
       "reason": "MFX-only wheel distribution metadata from PR #1"
+    },
+    {
+      "path": "README.md",
+      "change": "modified",
+      "expected_current_sha": "7cf722af48c93ea746db5a604fba08fa90ca9166",
+      "reason": "MFX repository identity header, original Forex README preserved in PR #1"
     },
     {
       "path": "src/forex_trading/cache_core.py",
@@ -578,6 +584,12 @@
       "change": "added",
       "expected_current_sha": "c879f9cb16df47c27f3b1dca58e4daadbb216c2a",
       "reason": "A04/P0.22 unapproved source-linked B2/S2 numeric policy proposal and 14 simulated causal positive/NO_SIGNAL/denial cases; 36/36 source approvals BLOCKED, real-data/cache/broker/release denied, no src changes"
+    },
+    {
+      "path": "tests/test_a04_p23_sensitivity_boundaries.py",
+      "change": "added",
+      "expected_current_sha": "08388fa1ec6c1f18cb5e5f16dfba11a06be10aa5",
+      "reason": "A04/P0.23 pre-registered 21-method synthetic B2/S2 source-safe independent pivot/boundary QA; draft PR ONLY; no src changes, original 36/36 quantitative rules UNAPPROVED and P0.22 independent postmain push gate pending; no feed/cache/broker/release"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -890,6 +902,12 @@
       "change": "added",
       "expected_current_sha": "974151a1174baa20474b70d0c07cea6e714addc6",
       "reason": "A04/P0.22 unapproved source-linked B2/S2 numeric policy proposal and 14 simulated causal positive/NO_SIGNAL/denial cases; 36/36 source approvals BLOCKED, real-data/cache/broker/release denied, no src changes"
+    },
+    {
+      "path": "tools/run_a04_p23_sensitivity_demo.py",
+      "change": "added",
+      "expected_current_sha": "10d11aab5741f427d44681604dcaf7db8cf6bf8c",
+      "reason": "A04/P0.23 pre-registered 21-method synthetic B2/S2 source-safe independent pivot/boundary QA; draft PR ONLY; no src changes, original 36/36 quantitative rules UNAPPROVED and P0.22 independent postmain push gate pending; no feed/cache/broker/release"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
