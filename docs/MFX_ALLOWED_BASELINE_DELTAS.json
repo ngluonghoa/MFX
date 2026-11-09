@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "dd77f044d357c124f0a29f731a3fe9fcb530301a",
-      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
+      "expected_current_sha": "c89be73dbe26fbe211f6740510cdaccfd354a5da",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -99,6 +99,12 @@
       "change": "added",
       "expected_current_sha": "2edfb33fc1d7ffc0f6d5d72af0a11c6a1be2db58",
       "reason": "A04/P0.2 CI-observed 50 synthetic golden 8-group SHA and 4-role declared graph fingerprint baseline; fail-closed only"
+    },
+    {
+      "path": "docs/MFX_A04_P03_SCHEMA_MIGRATION_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "512854127146cc14a7a013656aeaaf4ed8db1f8c",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -232,6 +238,12 @@
       "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes"
     },
     {
+      "path": "tests/test_a04_schema_migration.py",
+      "change": "added",
+      "expected_current_sha": "103c198bc98dcf4627be76d27e9638e85a7796fc",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
+    },
+    {
       "path": "tests/test_frozen_source_baseline.py",
       "change": "added",
       "expected_current_sha": "0f400680d3a66d569b502535a6eeaf3ecc34f4db",
@@ -268,6 +280,12 @@
       "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
     },
     {
+      "path": "tools/a04_contract_migration.py",
+      "change": "added",
+      "expected_current_sha": "d5c3ccf82405a38004d584dfd0dd62aae73d1bf1",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -302,6 +320,12 @@
       "change": "added",
       "expected_current_sha": "1a7e0cd2a0b6639fb78396023706752c6e95e4b6",
       "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; A04/P0.2 pinned actual exact 50 golden group hashes and graph SHA from CI 42564185516, with negative drift/authority guard"
+    },
+    {
+      "path": "tools/check_a04_schema_matrix.py",
+      "change": "added",
+      "expected_current_sha": "018cb195b6ef94edde5e5f6023ce82028475d213",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
     },
     {
       "path": "tools/check_mfx_import_ownership.py",
