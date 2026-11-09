@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "4d8d5833e9fc6690aa475f14594468f11930ea0a",
-      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; pinned exact GitHub Actions 42581189845 two-Python 34-case frozen Forex-vs-MFX output/error SHA with fail-closed tamper tests"
+      "expected_current_sha": "5032ea0483f42473fbbd82f6fb851b557b38b27f",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -161,6 +161,12 @@
       "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; initial red CI 42580347359 uncovered unmatched comparator bracket; fixed without src changes; exact frozen-source 34-case parity observed 42580566038; strict mypy fixed via typed local receipt helper and partial; red 42580882400 Ruff E402 fixed by moving tools wrapper import ahead of typed helper defs; pinned exact GitHub Actions 42581189845 two-Python 34-case frozen Forex-vs-MFX output/error SHA with fail-closed tamper tests"
     },
     {
+      "path": "docs/MFX_A04_P08_MINIMAL_ADAPTER_SEAM_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "c9433b3a8044362f54f2de9ca8c97eb7761ac261",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -310,6 +316,12 @@
       "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; pinned exact GitHub Actions 42581189845 two-Python 34-case frozen Forex-vs-MFX output/error SHA with fail-closed tamper tests"
     },
     {
+      "path": "tests/test_a04_p08_seams.py",
+      "change": "added",
+      "expected_current_sha": "9db5a7c70a70f15a3cbb07baf5c4a9460d5e7bb6",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -388,6 +400,12 @@
       "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
     },
     {
+      "path": "tools/a04_p08_seam_review.py",
+      "change": "added",
+      "expected_current_sha": "687188cc7fe791a83a3fb633045b414bf2f987dd",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -434,6 +452,12 @@
       "change": "added",
       "expected_current_sha": "21b8f4b6c1d2f8e05a07a4f56cf68a9617f17706",
       "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes"
+    },
+    {
+      "path": "tools/check_a04_p08_seams.py",
+      "change": "added",
+      "expected_current_sha": "f2825c7a7149617b8576f21c105e333d3586d0e2",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",
