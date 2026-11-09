@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "95a777a76baf2de26da256d7afbceff3057b0a38",
-      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
+      "expected_current_sha": "284765c199edd23c7c459f1b0e70b36a88dcb655",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; A04/P0.4 bootstrap 42572217330 observed identical Python3.11/3.12 real disposable git revert trees and 19-case canary, locked with tamper tests"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -115,8 +115,14 @@
     {
       "path": "docs/MFX_A04_P04_CANARY_AND_ROLLBACK_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "8952d3ff0ab38be5898923809c4cb54229b37bc9",
-      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; first red CI 42572072272 strict mypy Optional dict narrowed by explicit isinstance gates"
+      "expected_current_sha": "6b4454101e798de48d0fcd35dc8d927841f552dc",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; first red CI 42572072272 strict mypy Optional dict narrowed by explicit isinstance gates; A04/P0.4 bootstrap 42572217330 observed identical Python3.11/3.12 real disposable git revert trees and 19-case canary, locked with tamper tests"
+    },
+    {
+      "path": "docs/MFX_A04_P04_CANARY_GIT_DRILL_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "a857df7d46efd3630708120df93d2c492ae76c8b",
+      "reason": "A04/P0.4 CI-observed immutable 19-case canary fingerprint and isolated no-remotes real Git revert tree SHA, no protected main write"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -246,8 +252,8 @@
     {
       "path": "tests/test_a04_canary_git_rollback.py",
       "change": "added",
-      "expected_current_sha": "03231ad3f7254e292822dda312afb58aae6391dd",
-      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes"
+      "expected_current_sha": "8f68aa19fdbec3a70e92dea3d98c4ab1c9555da4",
+      "reason": "A04/P0.4: Github-hosted disposable NO-REMOTES actual git commit/revert drill, inert four-stage canary review matrix and protected checkout/authority guards; zero source changes; A04/P0.4 bootstrap 42572217330 observed identical Python3.11/3.12 real disposable git revert trees and 19-case canary, locked with tamper tests"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",

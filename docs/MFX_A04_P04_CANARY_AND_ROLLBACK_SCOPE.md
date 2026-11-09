@@ -79,3 +79,30 @@ mapping, retaining the exact fail-closed validation. No ignore,
 no disabled typing and no source/runtime changes. Retain this red
 run; require a fresh 3/3 green bootstrap before using measured
 SHA in the pinned baseline.
+
+## Verified bootstrap CI and immutable receipt
+Initial red PR Actions 42572072272: 757 unit methods per Python
+already PASS and isolated no-remotes Git revert succeeded; strict mypy
+detected ten Optional mapping diagnostics in pinned receipt validation.
+Corrected with four explicit isinstance checks, no ignored type errors.
+
+Bootstrap Actions https://github.com/ngluonghoa/MFX/actions/runs/42572217330
+**3/3 PASS**. Python3.11 job 129011932420 and Python3.12 job
+129011932701 each 757/757 synthetic unit tests; A04 strict mypy six
+new/reference tool modules PASS; 50 frozen source golden, 17 targeted
+mutants, source 2546/2683 lines and 973/1112 branches, 80-case pinned
+A03 corpus and cross-Python wheel unchanged. Both Python jobs produced
+identical true isolated-Git revert / synthetic canary receipts:
+19 cases, 16 BLOCKED, 3 structural review only; matrix SHA256
+`4c6275ed3c8c62a0322b0a1aafbb32f8cd9bfb515e1d0f4995cbbb88b4dc5d34`.
+Disposable repository: exactly 3 Git history commits; original and
+restored Git tree `64d7d8de7ab348113931d19584bfd979d66b1f58`,
+intermediate changed tree `6a0c160bc9f202697591021eb93557e140a3387d`,
+original/restored canonical snapshot SHA256
+`bf3c98b939e6257fce3b8b8ddc9b32591d8baed87f05fd9d53ae683518df0c23`.
+No remotes, no source checkout mutation, no protected-main revert or
+remote write. In the following commit, all stable fields are pinned
+in `docs/MFX_A04_P04_CANARY_GIT_DRILL_BASELINE.json`, bootstrap mode
+REMOVED from mandatory CI, and negative tamper/authority tests added.
+Re-run 3/3 on the exact pinned head and independent post-main 3/3
+before documenting A04/P0.4 DONE in this narrow scope.

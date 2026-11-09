@@ -176,6 +176,51 @@ class A04P04CanaryTests(TestCase):
                 json.loads(PIN.read_text())["schema_version"], 1,
             )
 
+    def _pinned_synthetic_receipt(self):
+        pin = json.loads(PIN.read_text(encoding="utf-8"))
+        observed = pin["observed"]
+        result = {
+            "kind": "MFX_A04_P04_ISOLATED_CLOUD_GIT_REVERT_AND_INERT_CANARY",
+            **{k: observed[k] for k in (
+                "frozen_original_source_commit", "frozen_golden_sha256",
+                "frozen_graph_sha256", "frozen_schema_matrix_sha256",
+            )},
+            "git": dict(observed["git"]),
+            "canary": dict(observed["canary"]),
+        }
+        for path in pin["required_true_paths"] + pin["required_false_paths"]:
+            obj = result
+            parts = path.split(".")
+            for key in parts[:-1]:
+                obj = obj[key]
+            obj[parts[-1]] = path in pin["required_true_paths"]
+        return result, pin
+
+    def test_locked_baseline_rejects_canary_digest_tampering(self):
+        payload, baseline = self._pinned_synthetic_receipt()
+        verify_pinned_a04_p04_receipt(payload, baseline)
+        payload["canary"]["case_matrix_sha256"] = "f"*64
+        with self.assertRaisesRegex(ValueError, "A04P4_PINNED_CANARY_MATRIX_DRIFT"):
+            verify_pinned_a04_p04_receipt(payload, baseline)
+
+    def test_locked_baseline_rejects_git_tree_tampering(self):
+        payload, baseline = self._pinned_synthetic_receipt()
+        payload["git"]["isolated_restored_tree_sha"] = "f"*40
+        with self.assertRaisesRegex(ValueError, "A04P4_PINNED_GIT_REVERT_DRIFT"):
+            verify_pinned_a04_p04_receipt(payload, baseline)
+
+    def test_locked_baseline_refuses_remote_write_claim(self):
+        payload, baseline = self._pinned_synthetic_receipt()
+        payload["git"]["remote_git_write_performed"] = True
+        with self.assertRaisesRegex(ValueError, "A04P4_UNAUTHORIZED_AUTHORITY"):
+            verify_pinned_a04_p04_receipt(payload, baseline)
+
+    def test_locked_baseline_refuses_weakened_authority_paths(self):
+        payload, baseline = self._pinned_synthetic_receipt()
+        baseline["required_false_paths"] = []
+        with self.assertRaisesRegex(ValueError, "A04P4_PINNED_AUTHORITY_PATHS_CHANGED"):
+            verify_pinned_a04_p04_receipt(payload, baseline)
+
     def test_invalid_receipt_kind_rejected(self):
         with self.assertRaisesRegex(ValueError, "A04P4_UNRECOGNIZED_PINNED_BASELINE"):
             verify_pinned_a04_p04_receipt({}, {"schema_version": 0})
