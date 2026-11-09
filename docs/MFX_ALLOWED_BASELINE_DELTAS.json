@@ -240,8 +240,8 @@
     {
       "path": "tests/test_a04_schema_migration.py",
       "change": "added",
-      "expected_current_sha": "103c198bc98dcf4627be76d27e9638e85a7796fc",
-      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
+      "expected_current_sha": "5e6cdbbe947fa954a6b65586d9f8603a512c8ae8",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; matrix explicitly checks backwards minor-version anti-rollback rejection"
     },
     {
       "path": "tests/test_frozen_source_baseline.py",
@@ -324,8 +324,8 @@
     {
       "path": "tools/check_a04_schema_matrix.py",
       "change": "added",
-      "expected_current_sha": "018cb195b6ef94edde5e5f6023ce82028475d213",
-      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits"
+      "expected_current_sha": "01a1438bcf9f225aa3b6c933b8c5fb18ab5c1b83",
+      "reason": "A04/P0.3 Cloud CI-only read-only versioned schema declaration change review; bounded 14-case compatibility matrix and reversible JSON snapshot preflight; no src runtime edits; matrix explicitly checks backwards minor-version anti-rollback rejection"
     },
     {
       "path": "tools/check_mfx_import_ownership.py",

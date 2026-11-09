@@ -67,46 +67,45 @@ def run_matrix() -> dict[str, Any]:
         additive, features.schema, minor=1,
         optional_fields=("analysis_note",),
     )
-    cases: tuple[tuple[str, ContractSnapshot, str], ...] = (
-        ("exact_noop", before, "A04P3_EXACT_DECLARATION_NOOP"),
-        ("optional_minor_one", additive,
+    cases: tuple[tuple[str, ContractSnapshot, ContractSnapshot, str], ...] = (
+        ("exact_noop", before, before, "A04P3_EXACT_DECLARATION_NOOP"),
+        ("optional_minor_one", before, additive,
          "A04P3_ADDITIVE_SHAPE_REVIEW_ONLY_NOT_APPROVED"),
-        ("optional_minor_two", additive_two,
+        ("optional_minor_two", before, additive_two,
          "A04P3_ADDITIVE_SHAPE_REVIEW_ONLY_NOT_APPROVED"),
-        ("major_changed", _edit(before, reference.schema, major=2),
+        ("major_changed", before, _edit(before, reference.schema, major=2),
          "A04P3_SCHEMA_MAJOR_DRIFT"),
-        ("semantic_changed", _edit(
+        ("semantic_changed", before, _edit(
             before, reference.schema, semantic_sha256_claim="b"*64),
          "A04P3_SEMANTIC_CLAIM_DRIFT"),
-        ("required_added", _edit(before, reference.schema,
+        ("required_added", before, _edit(before, reference.schema,
             required_fields=reference.required_fields + ("z_critical",)),
          "A04P3_REQUIRED_FIELDS_CHANGED"),
-        ("required_removed", _edit(before, reference.schema,
+        ("required_removed", before, _edit(before, reference.schema,
             required_fields=reference.required_fields[:-1]),
          "A04P3_REQUIRED_FIELDS_CHANGED"),
-        ("optional_removed", _edit(before, reference.schema,
+        ("optional_removed", before, _edit(before, reference.schema,
             optional_fields=(), minor=1),
          "A04P3_OPTIONAL_FIELD_REMOVED"),
-        ("unversioned_optional", _edit(before, reference.schema,
+        ("unversioned_optional", before, _edit(before, reference.schema,
             optional_fields=reference.optional_fields + ("synthetic_note",)),
          "A04P3_UNVERSIONED_FIELD_DRIFT"),
-        ("minor_no_change", _edit(before, reference.schema, minor=1),
+        ("minor_no_change", before, _edit(before, reference.schema, minor=1),
          "A04P3_NON_ADDITIVE_MINOR"),
-        ("minor_skip", _edit(before, reference.schema, minor=2,
+        ("minor_skip", before, _edit(before, reference.schema, minor=2,
             optional_fields=reference.optional_fields + ("synthetic_note",)),
          "A04P3_NON_ADDITIVE_MINOR"),
-        ("minor_downgrade", _edit(before, reference.schema, minor=1,
-            optional_fields=reference.optional_fields + ("synthetic_note",)),
-         "A04P3_ADDITIVE_SHAPE_REVIEW_ONLY_NOT_APPROVED"),
-        ("graph_drift", replace(before, graph_sha256="b"*64),
+        ("minor_downgrade", additive, before,
+         "A04P3_SCHEMA_MINOR_ANTI_ROLLBACK"),
+        ("graph_drift", before, replace(before, graph_sha256="b"*64),
          "A04P3_PLUGIN_GRAPH_OR_ABI_DRIFT"),
-        ("golden_drift", replace(before, golden_sha256="b"*64),
+        ("golden_drift", before, replace(before, golden_sha256="b"*64),
          "A04P3_FROZEN_GOLDEN_BASELINE_DRIFT"),
     )
     observed: list[dict[str, Any]] = []
     reasons: dict[str, int] = {}
-    for case_id, proposed, expected in cases:
-        outcome = assess_transition(before, proposed)
+    for case_id, starting, proposed, expected in cases:
+        outcome = assess_transition(starting, proposed)
         if outcome.reason != expected:
             raise ValueError("A04P3_MATRIX_CASE_UNEXPECTED:" + case_id)
         reasons[outcome.reason] = reasons.get(outcome.reason, 0) + 1

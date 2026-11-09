@@ -109,6 +109,12 @@ class A04P03SchemaMigrationTests(unittest.TestCase):
             "A04P3_NON_ADDITIVE_MINOR",
         )
 
+    def test_backwards_minor_version_is_blocked_as_anti_rollback(self) -> None:
+        prior, current = original(), additive()
+        result = assess_transition(current, prior)
+        self.assertFalse(result.declaration_reviewable)
+        self.assertEqual(result.reason, "A04P3_SCHEMA_MINOR_ANTI_ROLLBACK")
+
     def test_exact_rollback_snapshot_check_is_not_git_rollback(self) -> None:
         before, proposed = original(), additive()
         good = review_declarative_rollback(
