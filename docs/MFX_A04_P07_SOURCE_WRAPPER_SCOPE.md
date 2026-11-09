@@ -49,3 +49,12 @@ file, original Forex history, Google Drive source-locked document,
 cache, action secrets, ruleset or signed release may change. Full A04
 remains PARTIAL. Any production code change needs independent
 authorization and strict 1:1 economic parity governance.
+
+## First PR red CI record
+Initial GitHub Actions run 42580347359: previous 789 tests loaded,
+but P0.7's new test module failed import because a syntax typo
+(unmatched closing parenthesis in the tools-only comparator at line 48).
+Both Python runners rejected this before any new wrapper parity could be
+certified. Removed that unmatched parenthesis, changed no source/Forex
+files, and kept this RED historical CI receipt. A fresh full run and
+cross-root exact output/error parity are required before pinning or merge.

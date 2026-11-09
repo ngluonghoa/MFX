@@ -151,8 +151,8 @@
     {
       "path": "docs/MFX_A04_P07_SOURCE_WRAPPER_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "8832630ddac4607d44749aa7faa31a614de8c95d",
-      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
+      "expected_current_sha": "899050feb60390209549fd63424e3a5d3baa2e6d",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; initial red CI 42580347359 uncovered unmatched comparator bracket; fixed without src changes"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -444,8 +444,8 @@
     {
       "path": "tools/compare_a04_p07_wrapper_golden.py",
       "change": "added",
-      "expected_current_sha": "cbd247d300eb9682134f3c4ac7800f0fc3c8e491",
-      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker"
+      "expected_current_sha": "b78f8193428907daf913de84eb9e109d5581e0b7",
+      "reason": "A04/P0.7 Cloud-only transparent pure source function wrapper and exact frozen Forex vs MFX 34-case parity renderer, no src edits/runtime/provider/broker; initial red CI 42580347359 uncovered unmatched comparator bracket; fixed without src changes"
     },
     {
       "path": "tools/compare_golden_contracts.py",

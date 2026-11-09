@@ -45,7 +45,7 @@ def validate_wrapped_snapshot(snapshot: dict[str, Any]) -> list[dict[str, Any]]:
     if any(snapshot.get(flag) is not False for flag in DENIED):
         raise ValueError("A04P07_UNAUTHORIZED_WRAPPER_AUTHORITY")
     rows = snapshot.get("scenarios")
-    if not isinstance(rows, list) or type(snapshot.get("scenario_count")) is not int):
+    if not isinstance(rows, list) or type(snapshot.get("scenario_count")) is not int:
         raise ValueError("A04P07_SNAPSHOT_CASES_UNTYPED")
     if len(rows) != 34 or snapshot["scenario_count"] != 34:
         raise ValueError("A04P07_34_CASE_BUDGET_DRIFT")
