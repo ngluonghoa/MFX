@@ -2,7 +2,7 @@
   "schema_version": 1,
   "kind": "MFX_APPROVED_PARITY_DELTAS",
   "source_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
-  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update. A02/P0.2 permits only six explicit typed-source paths with approved_change_id DEC-MFX-001:A02/P0.2-STRICT-TYPING, pinned Git blobs and independent golden/CI tests; the original 102 blob/source reference remains frozen and unchanged. A03/P0.1 adds only exact SHA-pinned CI/tests/tools/docs for seeded synthetic property QA, with no new src changes. A03/P0.2 new mutation code is test/tools/Docs-only, never tracked domain src. New paths and CI changes exact SHA-pinned. A03/P0.3 permits only QA test, tool, scope, and CI changes with exact Git blob SHA; tracked domain sources unchanged. A03/P0.4 only CI/test/tool/docs changes, no source modifications; measured coverage floor awaits observed CI report.",
+  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update. A02/P0.2 permits only six explicit typed-source paths with approved_change_id DEC-MFX-001:A02/P0.2-STRICT-TYPING, pinned Git blobs and independent golden/CI tests; the original 102 blob/source reference remains frozen and unchanged. A03/P0.1 adds only exact SHA-pinned CI/tests/tools/docs for seeded synthetic property QA, with no new src changes. A03/P0.2 new mutation code is test/tools/Docs-only, never tracked domain src. New paths and CI changes exact SHA-pinned. A03/P0.3 permits only QA test, tool, scope, and CI changes with exact Git blob SHA; tracked domain sources unchanged. A03/P0.4 only CI/test/tool/docs changes, no source modifications; measured coverage floor awaits observed CI report. A03/P0.4 measured source branch/line CI thresholds are now locked in exact SHA-pinned docs/MFX_A03_COVERAGE_BASELINE.json from twin-run 42551298052.",
   "exceptions": [
     {
       "path": ".github/workflows/ci.yml",
@@ -35,10 +35,16 @@
       "reason": "A02/P0.1 Cloud static analysis scope, complete source Pyflakes and 12-module strict mypy rollout; audit of historical 24 F401 baseline"
     },
     {
+      "path": "docs/MFX_A03_COVERAGE_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "452860741ad13ffcdead56f98bf7b76013d625f1",
+      "reason": "A03/P0.4 audited twin Python 3.11/3.12 observed line/branch coverage floors, 7 core guards, exact 42551298052 evidence"
+    },
+    {
       "path": "docs/MFX_A03_COVERAGE_HYPOTHESIS_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "3ee8267e63f065dbc8dc7d1f1a859366759fe0fc",
-      "reason": "A03/P0.4 CI-only measured coverage/Hypothesis scope with explicit coverage-guided nonclaims"
+      "expected_current_sha": "ec1a8661077eb061247d6e83923e5830cd5d85f1",
+      "reason": "A03/P0.4 CI-only measured coverage/Hypothesis scope with explicit coverage-guided nonclaims; red CI 42551169888, measured line/branch values from run 42551298052 and locked core baseline"
     },
     {
       "path": "docs/MFX_A03_MUTATION_SCOPE.md",
