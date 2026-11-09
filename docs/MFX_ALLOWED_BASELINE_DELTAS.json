@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "4d579532e52c94ea79dc52c37a3810bd7636ba89",
-      "reason": "A03/P0.5 print measured branch gap inventory after prior baseline guard"
+      "expected_current_sha": "04b1fb650e6e480c340c829e863cfd292f4a9860",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -51,6 +51,12 @@
       "change": "added",
       "expected_current_sha": "2ec949dcfa53feee00bcf57d399485d86a4f9b06",
       "reason": "A03/P0.2 immutable source/no-trade boundaries, mutation score scope and CI gate"
+    },
+    {
+      "path": "docs/MFX_A03_P05_FEEDBACK_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "1aebb7407da84a9dfb8da03aa00aa22bdefab604",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO"
     },
     {
       "path": "docs/MFX_A03_P05_MEASURED_GAP_SCOPE.md",
@@ -208,6 +214,12 @@
       "reason": "MFX-only synthetic import ownership tests, PR #2"
     },
     {
+      "path": "tests/test_p05_feedback_grammar.py",
+      "change": "added",
+      "expected_current_sha": "618b8ccd3247410cc99fc2eb38cbbfe10a45d915",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO"
+    },
+    {
       "path": "tests/test_p05_measured_gap_safety.py",
       "change": "added",
       "expected_current_sha": "43367584dc6d20057fc1cc50fab94b14a425fec7",
@@ -260,6 +272,12 @@
       "change": "added",
       "expected_current_sha": "a124ac7507e915c837981f7115485eaae2d33cb6",
       "reason": "A03/P0.5: fail-closed real coverage.py missing-arc receipt for five measured weak modules"
+    },
+    {
+      "path": "tools/run_a03_coverage_feedback.py",
+      "change": "added",
+      "expected_current_sha": "d764c5d3fe8b20dbea8c96a48d5059cc656f1252",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO"
     },
     {
       "path": "tools/run_a03_mutation_sentinels.py",
