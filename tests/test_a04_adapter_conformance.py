@@ -14,6 +14,18 @@ from tools.check_a04_adapter_golden import assess_adapter_golden
 from test_golden_contracts import sample
 
 
+def golden50() -> dict:
+    """Extend a comparator-only synthetic fixture to the frozen 50-case count."""
+    data = sample()
+    for index in range(10):
+        data["scenarios"].append({
+            "id": f"catalog.additional_contract_{index}",
+            "outcome": {"value": {"read_only": True, "index": index}},
+        })
+    data["scenario_count"] = 50
+    return data
+
+
 class A04AdapterP02ContractTests(unittest.TestCase):
     def test_exact_four_roles_are_declared_without_invocation(self) -> None:
         registry, ports = synthetic_reference_graph()
@@ -97,9 +109,9 @@ class A04AdapterP02ContractTests(unittest.TestCase):
             validate_declared_adapter_graph(registry, [])  # type: ignore[arg-type]
 
     def test_golden_bridge_preserves_group_count_and_readonly_result(self) -> None:
-        reference = sample()
+        reference = golden50()
         got = assess_adapter_golden(reference, deepcopy(reference))
-        self.assertEqual(got["synthetic_scenario_count"], 40)
+        self.assertEqual(got["synthetic_scenario_count"], 50)
         self.assertEqual(got["contract_group_count"], 8)
         self.assertTrue(got["frozen_synthetic_contracts_exact"])
         self.assertEqual(got["adapter_declared_port_count"], 4)

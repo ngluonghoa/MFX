@@ -216,8 +216,8 @@
     {
       "path": "tests/test_a04_adapter_conformance.py",
       "change": "added",
-      "expected_current_sha": "e0276d20411afe73f98e6fd0ba4aece29219039b",
-      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
+      "expected_current_sha": "fbfbf5216cf5b2f02c0ea4c8fd075f1d002feb03",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; comparator-only fixture extended from base 40 to exact 50; original immutable source golden remains required in CI"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
