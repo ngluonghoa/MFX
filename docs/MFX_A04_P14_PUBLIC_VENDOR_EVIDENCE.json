@@ -1,0 +1,301 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P14_OFFICIAL_PUBLIC_DOCS_ACCOUNT_RIGHTS_UNVERIFIED",
+  "as_of_date": "2026-11-09",
+  "vendor": "Twelve Data",
+  "source_scope": "PUBLIC_OFFICIAL_DOCUMENTATION_ONLY_NO_ACCOUNT_OR_API_ACCESS",
+  "p13_public_git_blob_sha": "a6cd9e44d957b8f07558041e9c725cfd9468afd9",
+  "p13_synthetic_case_count": 46,
+  "official_sources": {
+    "terms": {
+      "url": "https://twelvedata.com/terms",
+      "origin": "Twelve Data official public website or official support"
+    },
+    "fxv2": {
+      "url": "https://support.twelvedata.com/en/articles/12520817-forex-api-v2",
+      "origin": "Twelve Data official public website or official support"
+    },
+    "usage": {
+      "url": "https://support.twelvedata.com/en/articles/5332349-commercial-and-personal-usage",
+      "origin": "Twelve Data official public website or official support"
+    },
+    "ws": {
+      "url": "https://twelvedata.com/docs/websocket/websocket-getting-started",
+      "origin": "Twelve Data official public website or official support"
+    },
+    "fx": {
+      "url": "https://twelvedata.com/exchanges/physical_currency?group=reference",
+      "origin": "Twelve Data official public website or official support"
+    },
+    "history": {
+      "url": "https://support.twelvedata.com/en/articles/5214728-getting-historical-data",
+      "origin": "Twelve Data official public website or official support"
+    },
+    "pricing": {
+      "url": "https://twelvedata.com/pricing",
+      "origin": "Twelve Data official public website or official support"
+    }
+  },
+  "findings": [
+    {
+      "id": "TDF-01",
+      "source": "terms",
+      "section": "Terms of Use 2.2 and 2.3",
+      "public_finding": "Internal data access, processing and storage are subject to subscription or add-on terms; data may not be cached beyond permitted timeframes.",
+      "classification": "PUBLIC_TERMS_RESTRICTION",
+      "mfx_impact": "Do not start Drive market-data chunks or assume perpetual replay rights."
+    },
+    {
+      "id": "TDF-02",
+      "source": "terms",
+      "section": "Terms of Use 16.1 and 16.2",
+      "public_finding": "Retention is subscription- and third-party-restricted; terms describe deletion requirements after termination and compliance exceptions.",
+      "classification": "PUBLIC_TERMS_RESTRICTION",
+      "mfx_impact": "Require exact cache TTL, deletion-on-termination and raw/derived-data contract before Drive write."
+    },
+    {
+      "id": "TDF-03",
+      "source": "usage",
+      "section": "Commercial and personal usage",
+      "public_finding": "Individual and business use differ; redistribution and commercial display require applicable business and/or separate licensing.",
+      "classification": "PUBLIC_TERMS_RESTRICTION",
+      "mfx_impact": "Free or individual access cannot be assumed to authorize MFX production or redistribution."
+    },
+    {
+      "id": "TDF-04",
+      "source": "fxv2",
+      "section": "Latency and delivery / calculation methodology",
+      "public_finding": "Forex API v2 describes weighted/composite forex pricing, mid-price streaming updates and aggregated candlesticks.",
+      "classification": "PUBLIC_TECHNICAL_DESCRIPTION",
+      "mfx_impact": "Do not treat Forex v2 mid/OHLC as broker-native executable BID/ASK."
+    },
+    {
+      "id": "TDF-05",
+      "source": "ws",
+      "section": "Bid/Ask data response (where available)",
+      "public_finding": "Official WebSocket documentation includes a conditional price-event example containing bid and ask for XAU/USD.",
+      "classification": "CONDITIONAL_PUBLIC_EXAMPLE",
+      "mfx_impact": "An example is not proof of availability for every FX symbol, a historical BID/ASK API or broker-matched spreads."
+    },
+    {
+      "id": "TDF-06",
+      "source": "fx",
+      "section": "Forex available endpoints and historical coverage",
+      "public_finding": "Forex catalog advertises /time_series historical aggregate OHLC and /quote and /price, with published intraday history window.",
+      "classification": "PUBLIC_TECHNICAL_DESCRIPTION",
+      "mfx_impact": "Published catalog coverage is not account entitlement, first-known proof or native historical BID/ASK."
+    },
+    {
+      "id": "TDF-07",
+      "source": "history",
+      "section": "Getting historical data",
+      "public_finding": "Historical series requests can use start_date and end_date; support describes a 5,000-point maximum per request.",
+      "classification": "PUBLIC_TECHNICAL_DESCRIPTION",
+      "mfx_impact": "Cost/credit/pagination and source replay plan require separate validation; this is only OHLC request capability."
+    },
+    {
+      "id": "TDF-08",
+      "source": "terms",
+      "section": "Terms of Use 2.2(e) and 2.4",
+      "public_finding": "Redistribution or external display of data is restricted to explicit tier/add-on rights or a separate agreement.",
+      "classification": "PUBLIC_TERMS_RESTRICTION",
+      "mfx_impact": "Public GitHub must contain no licensed raw feed; sharing Drive chunks cannot be presumed legal."
+    },
+    {
+      "id": "TDF-09",
+      "source": "pricing",
+      "section": "Individual pricing / credit limits",
+      "public_finding": "Public pricing distinguishes plans, credits and usage purposes; capacity and price depend on selected tier.",
+      "classification": "PUBLIC_PRICING_CONTEXT",
+      "mfx_impact": "Do not infer current MFX entitlement, quota, billing status or authorize paid Cloud runs."
+    },
+    {
+      "id": "TDF-10",
+      "source": "fxv2",
+      "section": "Availability / latency and delivery",
+      "public_finding": "Documentation states Forex v2 operates 24/7 and streams mid-price updates; it does not establish a broker-specific first-known revision trail.",
+      "classification": "PUBLIC_TECHNICAL_DESCRIPTION",
+      "mfx_impact": "A public bar timestamp or exchange calendar is not audited first-known_utc, quote validity or executable broker calendar."
+    }
+  ],
+  "requirements": [
+    {
+      "key": "rights_api",
+      "state": "ACCOUNT_PRODUCT_LICENSE_UNVERIFIED",
+      "public_refs": [
+        "TDF-01",
+        "TDF-03"
+      ],
+      "required_written_proof": "Exact account/tier/product right to call FX API, and purpose non-display internal/production."
+    },
+    {
+      "key": "rights_history",
+      "state": "ACCOUNT_PRODUCT_LICENSE_UNVERIFIED",
+      "public_refs": [
+        "TDF-06",
+        "TDF-07"
+      ],
+      "required_written_proof": "Historical product entitlement by symbol/interval and exact backtest/replay use permission."
+    },
+    {
+      "key": "rights_cloud_storage",
+      "state": "ACCOUNT_PRODUCT_LICENSE_UNVERIFIED",
+      "public_refs": [
+        "TDF-01",
+        "TDF-02"
+      ],
+      "required_written_proof": "Explicit Google Drive or third-party Cloud raw data storage allowance, locality and encryption conditions."
+    },
+    {
+      "key": "rights_retention",
+      "state": "ACCOUNT_PRODUCT_LICENSE_UNVERIFIED",
+      "public_refs": [
+        "TDF-01",
+        "TDF-02"
+      ],
+      "required_written_proof": "Exact permitted per-product retention/cache TTL, renewal/expiry and 30-day termination cleanup applicability."
+    },
+    {
+      "key": "rights_redistribute",
+      "state": "ACCOUNT_PRODUCT_LICENSE_UNVERIFIED",
+      "public_refs": [
+        "TDF-03",
+        "TDF-08"
+      ],
+      "required_written_proof": "Explicit distribution/display permission and attribution if MFX has third-party consumers."
+    },
+    {
+      "key": "rights_derived_use",
+      "state": "ACCOUNT_PRODUCT_LICENSE_UNVERIFIED",
+      "public_refs": [
+        "TDF-01",
+        "TDF-08"
+      ],
+      "required_written_proof": "Allowed indicator/signal storage and derived data rules, anti-reconstruction and storage duration."
+    },
+    {
+      "key": "rights_replay",
+      "state": "ACCOUNT_PRODUCT_LICENSE_UNVERIFIED",
+      "public_refs": [
+        "TDF-02",
+        "TDF-07"
+      ],
+      "required_written_proof": "Reproducible historical replay and time-as-of revision usage rights for QA/backtesting."
+    },
+    {
+      "key": "capability_bidask",
+      "state": "CONDITIONAL_PUBLIC_EXAMPLE_NOT_QUALIFIED",
+      "public_refs": [
+        "TDF-04",
+        "TDF-05"
+      ],
+      "required_written_proof": "Instrument-specific real-time native BID and ASK with side semantics, spread and matched broker/product, not composite MID."
+    },
+    {
+      "key": "capability_candles",
+      "state": "PUBLIC_ENDPOINT_DESCRIBED_ACCOUNT_UNVERIFIED",
+      "public_refs": [
+        "TDF-04",
+        "TDF-06"
+      ],
+      "required_written_proof": "Bar open/close timestamps, supported MFX intervals, HTF formation and licensed access for account."
+    },
+    {
+      "key": "historical_bidask",
+      "state": "NOT_ESTABLISHED_BY_PUBLIC_DOCS",
+      "public_refs": [
+        "TDF-04",
+        "TDF-05",
+        "TDF-06"
+      ],
+      "required_written_proof": "Dedicated historical time-indexed BID+ASK per instrument and broker, sample schema, corrections and quote revisions."
+    },
+    {
+      "key": "clock_first_known",
+      "state": "NOT_ESTABLISHED_BY_PUBLIC_DOCS",
+      "public_refs": [
+        "TDF-04",
+        "TDF-10"
+      ],
+      "required_written_proof": "Authentic first-available/ingest latency and revision-known timestamps for causal backtest at decision instant."
+    },
+    {
+      "key": "revision_corrections",
+      "state": "NOT_ESTABLISHED_BY_PUBLIC_DOCS",
+      "public_refs": [
+        "TDF-06",
+        "TDF-10"
+      ],
+      "required_written_proof": "Correction events and revision order, reproducible as-of source revision exposure."
+    },
+    {
+      "key": "tz_calendar_dst",
+      "state": "PUBLIC_ENDPOINT_DESCRIBED_ACCOUNT_UNVERIFIED",
+      "public_refs": [
+        "TDF-06",
+        "TDF-10"
+      ],
+      "required_written_proof": "Forex session/trading holidays, source DST and broker timezone versus provider always-on schedule."
+    },
+    {
+      "key": "broker_product_mapping",
+      "state": "NOT_ESTABLISHED_BY_PUBLIC_DOCS",
+      "public_refs": [
+        "TDF-04",
+        "TDF-05"
+      ],
+      "required_written_proof": "Proof provider composite FX quotes align to specified executable broker account/symbol conditions."
+    },
+    {
+      "key": "rate_limit_quota",
+      "state": "PUBLIC_PRICING_CONTEXT_ACCOUNT_UNVERIFIED",
+      "public_refs": [
+        "TDF-07",
+        "TDF-09"
+      ],
+      "required_written_proof": "Actual tier quotas, billable credits, symbol/TF product restrictions, estimated cloud cost and budget approval."
+    }
+  ],
+  "vendor_inquiry_questions": [
+    {
+      "id": "TD-Q01",
+      "scope": "LICENSE_AND_ACCOUNT",
+      "question": "For the intended MFX account/tier and currency products, may the data be used programmatically for non-display internal quantitative research and eventually production? Please identify permitted usage and any extra agreement."
+    },
+    {
+      "id": "TD-Q02",
+      "scope": "CLOUD_STORAGE_RETENTION",
+      "question": "May raw historical FX OHLC, real-time quotes, and derived indicators be stored as immutable chunks in a private Google Drive cloud cache? Specify per-product maximum retention, permitted replay/backtest usage and termination/deletion obligations."
+    },
+    {
+      "id": "TD-Q03",
+      "scope": "BIDASK_HISTORY",
+      "question": "Is there an entitled API/WS endpoint returning genuine, timestamped historical BID and ASK per currency pair, with vendor/source identity and optional broker/product-specific executable pricing? Please provide schema and sample metadata without customer credentials."
+    },
+    {
+      "id": "TD-Q04",
+      "scope": "CAUSAL_TIME_AND_REVISIONS",
+      "question": "Do bars and quote events expose first_known/first_published, bar-close timestamps, revisions and corrected historical as-of replay? Clarify event-time versus publish/receive time, local timezone and DST."
+    },
+    {
+      "id": "TD-Q05",
+      "scope": "SCOPE_QUOTA_COST",
+      "question": "Which plans/add-ons cover M5, M15, M30, H1, H4, D1 and W1, historical depth and WebSocket quotes? Provide per-minute credit weights, 429 policy, cost estimate and commercial/non-display terms."
+    },
+    {
+      "id": "TD-Q06",
+      "scope": "BROKER_PARITY",
+      "question": "Do your composite forex mid rates or optional BID/ASK quotes correspond to any specified broker's executed bid/ask/spreads? If not, what source/provider identities and caveats should a research backtest apply?"
+    }
+  ],
+  "evidence_provided_for_mfx_account": false,
+  "real_provider_api_called": false,
+  "cloud_cache_write_authorized": false,
+  "historical_broker_bidask_proven": false,
+  "temporal_revision_parity_proven": false,
+  "signed_agreement_obtained": false,
+  "source_runtime_modified": false,
+  "broker_trading_authorized": false,
+  "architecture_decision": "STOP_REAL_DATA_AND_DRIVE_CACHE_UNTIL_ACCOUNT_PRODUCT_SPECIFIC_WRITTEN_RIGHTS",
+  "review_status": "PUBLIC_DOCUMENTATION_RESEARCH_ONLY"
+}

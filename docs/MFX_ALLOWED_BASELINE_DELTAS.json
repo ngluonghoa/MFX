@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "20aa791dfe5d52fbcca4fd3413eb1668ccefd645",
-      "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
+      "expected_current_sha": "1476fd056881615cb64581c1ca0c24ae6802c42e",
+      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -233,6 +233,18 @@
       "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
     },
     {
+      "path": "docs/MFX_A04_P14_PUBLIC_VENDOR_EVIDENCE_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "89596c3db90aab8275cc41a8a4f7c161243c112d",
+      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
+    },
+    {
+      "path": "docs/MFX_A04_P14_PUBLIC_VENDOR_EVIDENCE.json",
+      "change": "added",
+      "expected_current_sha": "22c3faf14e4a436b9b94187ad50607a5fa875bd0",
+      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -418,6 +430,12 @@
       "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
     },
     {
+      "path": "tests/test_a04_p14_public_vendor_evidence.py",
+      "change": "added",
+      "expected_current_sha": "2ddd08a95c6a5a718073ee6f05e265edea6810a2",
+      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -532,6 +550,12 @@
       "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
     },
     {
+      "path": "tools/a04_p14_public_vendor_evidence.py",
+      "change": "added",
+      "expected_current_sha": "f2d651c1867b306cedc4d6f3516586b10438e855",
+      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
+    },
+    {
       "path": "tools/a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
@@ -614,6 +638,12 @@
       "change": "added",
       "expected_current_sha": "73f3b9224b678360417ab00d58e0d41ae2adc608",
       "reason": "A04/P0.13 46 synthetic-only provider entitlement/capability attestation denial cases; 7 rights, 8 capabilities, no real source access/runtime/cache or src edits"
+    },
+    {
+      "path": "tools/check_a04_p14_public_evidence.py",
+      "change": "added",
+      "expected_current_sha": "316d1d96fbf4068647175dbfcb167a5cbbfc8018",
+      "reason": "A04/P0.14 official Twelve Data public document due diligence; 10 cited findings, 15 account-unverified rights/capabilities, 6 written vendor questions, no src, no rights elevation"
     },
     {
       "path": "tools/check_a04_schema_matrix.py",
