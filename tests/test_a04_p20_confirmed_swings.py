@@ -74,7 +74,10 @@ class ConfirmedRightBarSwingTests(unittest.TestCase):
     def test_right_bar_confirmation_enters_only_after_known_clock(self):
         data, policy = case_confirmed("B2")
         known = data.daily[6].first_known_utc
-        with self.assertRaisesRegex(ValueError, "FUTURE_KNOWN"):
+        # One instant before the right bar closes, the strict CLOSED
+        # source cutoff must reject it as a FUTURE PRICE BAR, regardless
+        # of whether first-known/retrieval would also be too late.
+        with self.assertRaisesRegex(ValueError, "FUTURE_PRICE_BAR"):
             detect_confirmed_swings(
                 data.daily[:7], Timeframe.D1, policy,
                 known - timedelta(seconds=1),
