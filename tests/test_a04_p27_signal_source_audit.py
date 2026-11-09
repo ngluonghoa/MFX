@@ -153,6 +153,14 @@ class P027SourceProofAndApprovalIsolationTests(unittest.TestCase):
             self.assertIn("FORMULA_PENDING",v["source_status"]["text"])
             self.assertIn("ACTION_ELIGIBLE=FALSE",v["source_status"]["text"])
             self.assertFalse(v["source_numeric_approved"])
+            # FX-S9 and FX-S10 are independent bearish setup families:
+            # neither is an executable S7 retest or a source-approved SHORT.
+            if label=="FX-S9":
+                self.assertIn("nén",v["phases"]["R0"]["text"])
+                self.assertIn("biên",v["phases"]["R_F"]["text"])
+            else:
+                self.assertIn("support/pivot",v["phases"]["R0"]["text"])
+                self.assertIn("pivot",v["phases"]["R_F"]["text"])
 
     def test_09_all_four_phases_have_source_anchored_qualitative_quotes(self):
         d=fixture()
