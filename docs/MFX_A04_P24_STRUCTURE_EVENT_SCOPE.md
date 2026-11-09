@@ -1,0 +1,22 @@
+# A04/P0.24 — SIM-only causal structural invalidation and ephemeral event-id gate
+
+## Scope and source lock
+
+This is *research-only*, not numeric Forex Trading 1:1 strategy approval or a production alert. It implements exactly the 20 independently pre-registered grouped methods in [Issue #37](https://github.com/ngluonghoa/MFX/issues/37) on synthetic CLOSED MID candles only. Frozen Forex Trading 1.0 source commit `7e1c1c012b1b189be5ad7b9d07756eac012a8309`, original 30 `src/forex_trading` domain modules, 102 imported blobs and 11 Google Docs SOURCE_LOCKED remain untouched. Protected P0.23 base main `5f4fbdaecf7392d469caa908bdcbcc03637b11f9`; prior postmain [push run 42658780936](https://github.com/ngluonghoa/MFX/actions/runs/42658780936) 3/3 PASS.
+
+## Mechanics are **unapproved SIM experiment**, not original Forex semantics
+
+- `mfx_research/p024_structure_event_gate.py` derives `UNKNOWN/INTACT/INVALIDATED` from D1 and H4 **right-bar confirmed pivots** using P0.20 causal scan. For B2, requires latest confirmed LOW on both and uses `max(D1,H4)` as simulated support; strict *last CLOSED M15 close below support* invalidates; equality is not breach. For S2, uses latest confirmed HIGH on both, simulated resistance `min(D1,H4)`, strict close *above* invalidates. Both are arbitrary experiment-specific formulas requiring independent source calibration, not Forex Trading source thresholds.
+- Structure derives from original synthetic market bars with real first-known+retrieved causal gates, forbids provider spoof, mixed quote-side, incomplete or revised M15 bars; missing confirmed D1/H4 pivot returns UNKNOWN, never silently false/integrity-safe. No interpolation or future corrections, no broker bid/ask, real DST/session or TP/SL computation.
+- The separate immutable `SimEventLedger` has hard 64-entry cap, versioned SIM event keys `(pair, B2/S2, origin, parameter version)`, canonical digest, explicit positive TTL and deterministic `RESEARCH_BUFFERED / DUPLICATE_DENIED / EXPIRED_DENIED / STRUCTURE_DENIED / NO_SIGNAL / LEDGER_FULL`. Acceptance means buffering a research event in a caller-owned, in-memory snapshot. No durable/persistent idempotence, restart recovery, network IO, signal transmission or trading. Reuse of an already recorded key after expiry continues to be denied; unrecorded expired keys denied. Carry forward returned ledger to enforce replay suppression in the caller.
+- Explicitly rejects source-permission forgery, market-feed/cache/broker output, unequal event identity/version, out-of-order known/retrieved and opposite-side signals. Result stage cannot be promoted from UNVERIFIED by these functions.
+
+## Independent pre-registered 20-method QA
+
+Tests cover B2+S2 baseline independently computed latest confirmed pivot anchors; strict epsilon breach and equality; future close, delayed retrieval and first-known, missing pivots, open/partial/unverified and revised or unlicensed source, mixed pair/calendar/stream/side, fake production policy; first ephemeral buffer, immediate/later replay and never-seen expiry; TTL invalid; pair/rule/version isolation; canonical order-independent ledger digest; bounded/immutable ledger and duplicate records; UNKNOWN/INVALIDATED/NO_SIGNAL stop; and fake source authority/wrong-side denial. All with independent case preconditions, no real OHLC and no threshold fitting. See [Issue #37](https://github.com/ngluonghoa/MFX/issues/37).
+
+CI requires 20 case methods, Python 3.11/3.12 hosted unit suite and strict mypy/Ruff, baseline golden 50, A04 pure wrapper golden 34, A03 coverage/mutations/feedback, all P0.1–P0.23 invariants, source rights and security checks, deterministic wheel comparison. New files/CI/manifest only, each Git SHA-pinned. Exact-head 3/3 and unchanged main needed before protected squash; independent postmain `push` 3/3 mandatory after merge and before canonical Drive Handoff/QA/Trace/Roadmap claim.
+
+## Explicit STOPs
+
+Every numerical Forex entry detector remains NOT approved (`0/15`), B2/S2 source quantitative obligations `36/36` outstanding. The simulated structural anchoring is not owner-vetted or OOS/economically qualified; no live vendor quote feed, real Google Drive market-price cache, native broker BID/ASK, session DST/weekend/rollover, SL/TP net-R, news/news sessions, real historical OOS, confirmed BUY/SELL alert or order. See [Issue #27](https://github.com/ngluonghoa/MFX/issues/27) for external data rights. All GitHub+Google Drive cloud, never Mac/MOCHI/local or broker execution.
