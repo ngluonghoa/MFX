@@ -5,6 +5,7 @@ import unittest
 
 from tools.run_a03_coverage_feedback import (
     MAX_CASES, MAX_DEPTH, MUTATIONS, _base_payload, _canonical, _mutate,
+    verify_feedback_receipt,
 )
 
 
@@ -39,6 +40,50 @@ class P05FeedbackGrammarGuards(unittest.TestCase):
         empty = _mutate(_base_payload(), "empty_page")
         self.assertIsNotNone(empty)
         self.assertIsNone(_mutate(empty, "bid_price_zero"))
+
+    def test_pinned_receipt_validator_requires_exact_measured_digest(self):
+        receipt = {
+            "source": "src/forex_trading/provider_delta_contract.py",
+            "coverage_version": "7.10.7", "cases_executed": 80,
+            "candidate_mutators": 21, "max_cases": 80,
+            "max_mutation_depth": 2, "coverage_interesting_corpus_size": 17,
+            "observed_execution_arcs_union": 118,
+            "expected_rejected_cases": 77, "corpus_sha256": "a" * 64,
+            "feedback_controls_next_mutations": True,
+            "per_input_shrinking_implemented": False,
+            "whole_program_coverage_guided_fuzz": False,
+            "real_provider_called": False, "may_persist_real_data": False,
+            "may_deploy_or_trade": False,
+        }
+        baseline = {
+            "schema_version": 1,
+            "kind": "MFX_A03_P05B_CLOUD_FEEDBACK_CORPUS_BASELINE",
+            "source_module": receipt["source"],
+            "measured": {
+                key: receipt[key] for key in (
+                    "coverage_version", "cases_executed", "candidate_mutators",
+                    "max_cases", "max_mutation_depth",
+                    "coverage_interesting_corpus_size",
+                    "observed_execution_arcs_union", "expected_rejected_cases",
+                    "corpus_sha256",
+                )
+            },
+        }
+        verify_feedback_receipt(receipt, baseline)
+        receipt["corpus_sha256"] = "b" * 64
+        with self.assertRaisesRegex(ValueError, "P05B_PINNED_FEEDBACK_DRIFT"):
+            verify_feedback_receipt(receipt, baseline)
+
+    def test_scope_mislabel_and_missing_measurement_fail_closed(self):
+        receipt = {"source": "src/forex_trading/provider_delta_contract.py"}
+        with self.assertRaisesRegex(ValueError, "P05B_BASELINE_IDENTITY_DRIFT"):
+            verify_feedback_receipt(receipt, {"schema_version": 0})
+        with self.assertRaisesRegex(ValueError, "P05B_BASELINE_MISSING_MEASUREMENT"):
+            verify_feedback_receipt(receipt, {
+                "schema_version": 1,
+                "kind": "MFX_A03_P05B_CLOUD_FEEDBACK_CORPUS_BASELINE",
+                "source_module": receipt["source"],
+            })
 
     def test_mutation_categories_are_independent_of_source_rights(self):
         seed = _base_payload()

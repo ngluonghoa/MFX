@@ -47,6 +47,12 @@
       "reason": "A03/P0.4 CI-only measured coverage/Hypothesis scope with explicit coverage-guided nonclaims; red CI 42551169888, measured line/branch values from run 42551298052 and locked core baseline"
     },
     {
+      "path": "docs/MFX_A03_FEEDBACK_CORPUS_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "64e1e1c646f729f67b9217cbdc39e9c968b63610",
+      "reason": "A03/P0.5b measured 80-case bounded Cloud input corpus SHA and fail-closed guard"
+    },
+    {
       "path": "docs/MFX_A03_MUTATION_SCOPE.md",
       "change": "added",
       "expected_current_sha": "2ec949dcfa53feee00bcf57d399485d86a4f9b06",
@@ -55,8 +61,8 @@
     {
       "path": "docs/MFX_A03_P05_FEEDBACK_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "01c269a3b752629a5b8fcbaaf4481436232545e9",
-      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO; first P0.5b CI 42558478998 revealed Python-specific diagnostic-induced corpus hash drift, normalized to accepted-input IDs"
+      "expected_current_sha": "343563bc7c8153072b556637c8f22f5abb783e8a",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO; first P0.5b CI 42558478998 revealed Python-specific diagnostic-induced corpus hash drift, normalized to accepted-input IDs; P0.5b pinned observed cross-Python corpus SHA from audit run 42558710338"
     },
     {
       "path": "docs/MFX_A03_P05_MEASURED_GAP_SCOPE.md",
@@ -216,8 +222,8 @@
     {
       "path": "tests/test_p05_feedback_grammar.py",
       "change": "added",
-      "expected_current_sha": "618b8ccd3247410cc99fc2eb38cbbfe10a45d915",
-      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO"
+      "expected_current_sha": "a736eb4aeeb0bf1638af3c9ffc96e974350e9af3",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO; P0.5b pinned observed cross-Python corpus SHA from audit run 42558710338"
     },
     {
       "path": "tests/test_p05_measured_gap_safety.py",
@@ -276,8 +282,8 @@
     {
       "path": "tools/run_a03_coverage_feedback.py",
       "change": "added",
-      "expected_current_sha": "0bd4229885c91ac1c1f5eae4c970f7bd86638259",
-      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO; first P0.5b CI 42558478998 revealed Python-specific diagnostic-induced corpus hash drift, normalized to accepted-input IDs"
+      "expected_current_sha": "f4c95164e28eadb2bfbbd86fcb6c2b21b31d4313",
+      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO; first P0.5b CI 42558478998 revealed Python-specific diagnostic-induced corpus hash drift, normalized to accepted-input IDs; P0.5b pinned observed cross-Python corpus SHA from audit run 42558710338"
     },
     {
       "path": "tools/run_a03_mutation_sentinels.py",

@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A03_P05B_CLOUD_FEEDBACK_CORPUS_BASELINE",
+  "source_module": "src/forex_trading/provider_delta_contract.py",
+  "source_git_blob_sha": "35c68ab052a94a70790821b079c44ef2a997c574",
+  "measured_run": 42558710338,
+  "measured_python_jobs": {
+    "3.11": 128970130935,
+    "3.12": 128970130815
+  },
+  "guarantee": "same accepted payload fingerprints across two GitHub-hosted Python versions; observed arcs are NOT whole-program conditional branches",
+  "measured": {
+    "coverage_version": "7.10.7",
+    "cases_executed": 80,
+    "candidate_mutators": 21,
+    "max_cases": 80,
+    "max_mutation_depth": 2,
+    "coverage_interesting_corpus_size": 17,
+    "observed_execution_arcs_union": 118,
+    "expected_rejected_cases": 77,
+    "corpus_sha256": "2780e390be2d239c5042d6c8d9c691a3cc019601be1b977359704ddf67742df2"
+  },
+  "policy": "Fail-closed exact synthetic input corpus and measured feedback budget. New code or Python runner changes require new observed, reviewed and SHA-pinned baseline. No real provider IO, cache persistence, broker, release or trading permission.",
+  "whole_program_fuzzer": false,
+  "per_input_shrinking": false
+}

@@ -229,10 +229,47 @@ def explore() -> dict[str, Any]:
     }
 
 
+BASELINE = Path(__file__).resolve().parents[1] / "docs" / "MFX_A03_FEEDBACK_CORPUS_BASELINE.json"
+
+
+def verify_feedback_receipt(
+    receipt: dict[str, Any], baseline: dict[str, Any],
+) -> None:
+    """Fail closed on any cross-Python pinned corpus/budget regression."""
+    if (baseline.get("schema_version") != 1 or
+            baseline.get("kind") != "MFX_A03_P05B_CLOUD_FEEDBACK_CORPUS_BASELINE" or
+            baseline.get("source_module") != receipt.get("source")):
+        raise ValueError("P05B_BASELINE_IDENTITY_DRIFT")
+    measured = baseline.get("measured")
+    if not isinstance(measured, dict):
+        raise ValueError("P05B_BASELINE_MISSING_MEASUREMENT")
+    for key in (
+        "coverage_version", "cases_executed", "candidate_mutators",
+        "max_cases", "max_mutation_depth", "coverage_interesting_corpus_size",
+        "observed_execution_arcs_union", "expected_rejected_cases",
+        "corpus_sha256",
+    ):
+        if receipt.get(key) != measured.get(key):
+            raise ValueError("P05B_PINNED_FEEDBACK_DRIFT:" + key)
+    if (receipt.get("feedback_controls_next_mutations") is not True or
+            receipt.get("per_input_shrinking_implemented") is not False or
+            receipt.get("whole_program_coverage_guided_fuzz") is not False or
+            receipt.get("real_provider_called") is not False or
+            receipt.get("may_persist_real_data") is not False or
+            receipt.get("may_deploy_or_trade") is not False):
+        raise ValueError("P05B_SCOPE_OR_AUTHORITY_DRIFT")
+
+
 def main() -> None:
+    if not BASELINE.is_file() or BASELINE.is_symlink():
+        raise ValueError("P05B_PINNED_BASELINE_MISSING")
+    receipt = explore()
+    baseline = json.loads(BASELINE.read_text(encoding="utf-8"))
+    verify_feedback_receipt(receipt, baseline)
     print("MFX_P05B_ARC_FEEDBACK_RECEIPT " + json.dumps(
-        explore(), sort_keys=True, separators=(",", ":"),
+        receipt, sort_keys=True, separators=(",", ":"),
     ))
+    print("MFX_P05B_PINNED_CROSS_PYTHON_INPUT_CORPUS_PASS")
 
 
 if __name__ == "__main__":
