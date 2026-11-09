@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "7d60dcab5edfa1da52b2131711a1b048898f59e7",
-      "reason": "A04/P0.25 mock CAS 24-method matrix, fixed strict mypy duplicate demo path without disabling checks; synthetic only"
+      "expected_current_sha": "672d0bbe86e03f75c97086965b60e459b487527a",
+      "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -317,6 +317,12 @@
       "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
     },
     {
+      "path": "docs/MFX_A04_P26_DOCS_CAS_GO_NO_GO.md",
+      "change": "added",
+      "expected_current_sha": "9292084ee6e7b6815d061eeffe088c26b8af6fe1",
+      "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -380,6 +386,12 @@
       "change": "added",
       "expected_current_sha": "1201d82c95261e83eb599fc00beec9f16a037fd9",
       "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
+    },
+    {
+      "path": "mfx_research/p026_docs_cas_readiness.py",
+      "change": "added",
+      "expected_current_sha": "1a199c512387f943902058f30b8f2819c0a211d4",
+      "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -626,6 +638,12 @@
       "change": "added",
       "expected_current_sha": "419549ddbbd54a7c611bd322c7d1dd240bb07071",
       "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
+    },
+    {
+      "path": "tests/test_a04_p26_docs_cas_readiness.py",
+      "change": "added",
+      "expected_current_sha": "45b34ab67c3a033bf35fbf8e5b7590e7b95fc8bd",
+      "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -956,6 +974,12 @@
       "change": "added",
       "expected_current_sha": "3cb795d27b7cab7692bd29b8ca897ee39d86f75f",
       "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
+    },
+    {
+      "path": "tools/run_a04_p26_docs_contract_demo.py",
+      "change": "added",
+      "expected_current_sha": "3ba035dd48ed6636676076de4465acd63ad97797",
+      "reason": "A04/P0.26 20 preregistered synthetic-only Docs requiredRevisionId concurrency/error and Drive generic update NO-GO cases; read-only contract model, zero real event journal/OHLC/alert/broker IO; original source 1:1 frozen and 36/36 B2/S2 numeric approvals outstanding"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
