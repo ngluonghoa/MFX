@@ -510,7 +510,7 @@
     {
       "path": "tests/test_a04_p19_causal_multitf_context.py",
       "change": "added",
-      "expected_current_sha": "3918c404f436f87abf526b6f93abec17ddd3cff8",
+      "expected_current_sha": "097a1cead0788370a0cddf132f199d1a667f3ce9",
       "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
     },
     {

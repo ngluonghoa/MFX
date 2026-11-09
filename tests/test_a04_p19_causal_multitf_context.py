@@ -222,7 +222,10 @@ class CausalSyntheticMultitfTests(unittest.TestCase):
         r=evaluate_case("B2")
         b,_,_=case_from_closed_bars("B2")
         old=b.hourly[0]
-        moved=replace(old,close=old.low,open=old.low)
+        # A synthetic gap relative to the NEXT candle changes true range,
+        # unlike merely changing the previous close inside its old range.
+        moved=replace(old, high=Decimal("1.1080"),
+                      close=Decimal("1.1080"))
         changed=evaluate("B2",hourly=(moved,)+b.hourly[1:])
         self.assertNotEqual(r.h1_true_range_atr,changed.h1_true_range_atr)
 
@@ -240,13 +243,16 @@ class CausalSyntheticMultitfTests(unittest.TestCase):
 
     def test_noncausal_first_known_order_denied(self):
         b,_,_=case_from_closed_bars("B2")
-        # A later H1 revision can be known earlier only if both are before
-        # cutoff, but the event ordering must remain internally causal.
-        previous=b.hourly[1]
-        newest=replace(b.hourly[2],first_known_utc=
-                       previous.first_known_utc-timedelta(minutes=1))
-        with self.assertRaises(ValueError):
-            evaluate("B2",hourly=b.hourly[:2]+(newest,)+b.hourly[3:])
+        # Delay the older bar's first known time *past* the next bar's
+        # first-known, without violating its own CLOSED cutoff or as-of.
+        prior=b.hourly[1]
+        late_known=b.hourly[2].first_known_utc+timedelta(minutes=1)
+        late_obs=replace(prior.observation,first_known_utc=late_known,
+                         retrieved_at_utc=late_known)
+        delayed=replace(prior,first_known_utc=late_known,
+                        observation=late_obs)
+        with self.assertRaisesRegex(ValueError,"NONCAUSAL_OBSERVATION_ORDER"):
+            evaluate("B2",hourly=b.hourly[:1]+(delayed,)+b.hourly[2:])
 
     def test_s2_no_signal_when_h1_zone_is_far(self):
         b,d,_=case_from_closed_bars("S2")
