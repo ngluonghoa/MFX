@@ -10,7 +10,7 @@ def main() -> None:
         "tests", pattern="test_a04_p23_sensitivity_boundaries.py",
     )
     count = suite.countTestCases()
-    if count != 21:
+    if count != 26:
         raise ValueError("P023_PRE_REGISTERED_TEST_COUNT_DRIFT")
     result = unittest.TextTestRunner(verbosity=1).run(suite)
     if not result.wasSuccessful():
@@ -18,6 +18,7 @@ def main() -> None:
     print("MFX_A04_P23_CAUSAL_SENSITIVITY_PASS")
     print("MFX_A04_P23_RECEIPT " + json.dumps({
         "pre_registered_test_methods": count,
+        "pre_registration_extension": "ISSUE_35_A22_TO_C26",
         "rules": ["B2", "S2"],
         "oracle": "INDEPENDENT_STRICT_NEIGHBOR_PIVOT_AND_EXACT_DECIMAL",
         "hypothetical_threshold_authority": "SIM_UNAPPROVED",
