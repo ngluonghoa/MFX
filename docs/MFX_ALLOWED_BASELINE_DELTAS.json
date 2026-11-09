@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "04b1fb650e6e480c340c829e863cfd292f4a9860",
-      "reason": "A03/P0.5b CI-only bounded true arc-feedback synthetic parser exploration, fails closed, no source/real IO"
+      "expected_current_sha": "a50558107d69f32006887ec2b9b073fe6949924f",
+      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -81,6 +81,12 @@
       "change": "added",
       "expected_current_sha": "e56251dca46d4d0f645dff390b711cfb10e273a4",
       "reason": "A03/P0.3 stateful replay scope and explicit coverage/TP-SL nonclaims"
+    },
+    {
+      "path": "docs/MFX_A04_P01_TYPED_PLUGIN_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "10ae9a870e851e394c7811dc0c28f92a25489fbf",
+      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -202,6 +208,12 @@
       "reason": "A03/P0.3 eight-seed 16-step deterministic read-only stateful model fuzz and shrinker tests; red PR CI 42508342609 E731 style-only fix with no changed scenario logic"
     },
     {
+      "path": "tests/test_a04_plugin_contracts.py",
+      "change": "added",
+      "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
+      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes"
+    },
+    {
       "path": "tests/test_frozen_source_baseline.py",
       "change": "added",
       "expected_current_sha": "0f400680d3a66d569b502535a6eeaf3ecc34f4db",
@@ -230,6 +242,12 @@
       "change": "added",
       "expected_current_sha": "43367584dc6d20057fc1cc50fab94b14a425fec7",
       "reason": "A03/P0.5: 17 synthetic provider/cache/lineage negative boundary tests; no src changes; first red PR CI 42557175069 exposed expected regex mismatch (no source change), repaired"
+    },
+    {
+      "path": "tools/a04_plugin_contracts.py",
+      "change": "added",
+      "expected_current_sha": "e2ccf9b915edb6222723e27673aade31a9f2f24b",
+      "reason": "A04/P0.1: synthetic-only typed inert plugin manifest/provider capability/registry QA; fail-closed ABI, provider/side/rights and strict mypy; NO domain src changes"
     },
     {
       "path": "tools/check_a02_pyflakes_baseline.py",
