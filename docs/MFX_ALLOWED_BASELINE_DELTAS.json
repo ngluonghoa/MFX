@@ -139,8 +139,8 @@
     {
       "path": "docs/MFX_A04_P06_REAL_SOURCE_SEAM_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "b202c6644e6108b22a8ef1439dc69e0243243411",
-      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes"
+      "expected_current_sha": "0396a2393e962a43907eea5120c42917d5cc9399",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; 42577321465 typed AST function/class signature intermediate fix without semantic change"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -354,8 +354,8 @@
     {
       "path": "tools/a04_p06_runtime_seams.py",
       "change": "added",
-      "expected_current_sha": "b3a459133b0b6c6d61983687ed8c832ccc831d35",
-      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes"
+      "expected_current_sha": "b369b5fc7e3f9f6e4f6b3c98fce78c310642adb1",
+      "reason": "A04/P0.6 GitHub-hosted real 30 source Python AST/function/export/relative dependency boundary inventory + read-only plugin feasibility analysis, zero src changes; 42577321465 typed AST function/class signature intermediate fix without semantic change"
     },
     {
       "path": "tools/a04_plugin_contracts.py",

@@ -69,6 +69,7 @@ def _json_hash(value: Any) -> str:
 
 
 def _declaration_signature(node: ast.AST) -> str:
+    info: object
     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
         info = (ast.dump(node.args, include_attributes=False),
                 ast.dump(node.returns, include_attributes=False)

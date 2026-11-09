@@ -59,3 +59,19 @@ pin the actual 30-file SHA256 and API signature inventory into
 `docs/MFX_A04_P06_RUNTIME_SEAM_BASELINE.json`, switch to enforced
 mode, add negative SHA tamper tests, and require exact-head 3/3 plus
 independent postmain 3/3 before merging/documenting DONE.
+
+## First CI red evidence
+
+PR #18 initial CI run https://github.com/ngluonghoa/MFX/actions/runs/42577321465:
+Python3.11 and 3.12 each ran 786/786 synthetic unittest methods PASS,
+AST reports matched exactly with 30 actual source Python files,
+14 selected read-only symbol declarations, source metadata SHA
+`b0a958e27aaf8ad83dcc62285298fc81aec419136efdf14802c68e3814aad66b`
+and relative import graph SHA
+`734f1fda1e590ab1e5341e53b05ce31631b139f0108f7407227c87088b65cb47`.
+The strict mypy gate caught one variable inference problem:
+function signature tuple vs class signature tuple. Explicitly typed
+the internal `info` intermediate as `object` to preserve both exact
+SHA inputs, without ignores, runtime changes or source edits.
+The red run is retained and is not sign-off; the next run must pass
+3/3 before the observed data are pinned.
