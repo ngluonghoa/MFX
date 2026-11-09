@@ -34,6 +34,8 @@ jobs:
           python -m coverage json -o .ci-a03-coverage.json
       - name: Validate 30-source-module measured line/branch coverage report (A03)
         run: python tools/check_a03_coverage.py
+      - name: A03/P0.5 report actual remaining branch arcs in five weak modules
+        run: python tools/report_a03_p05_gaps.py
       - name: Require reproducible A03 property/fuzz suite inventory (synthetic only)
         env:
           PYTHONPATH: src
