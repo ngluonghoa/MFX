@@ -17,13 +17,18 @@ from tools.run_a04_p19_causal_context_demo import case_from_closed_bars, evaluat
 
 def evaluate(rule: str, **change):
     bars, derive, trigger = case_from_closed_bars(rule)
-    if "daily" in change: bars=replace(bars,daily=change["daily"])
-    if "four_hour" in change: bars=replace(bars,four_hour=change["four_hour"])
-    if "hourly" in change: bars=replace(bars,hourly=change["hourly"])
+    if "daily" in change:
+        bars = replace(bars, daily=change["daily"])
+    if "four_hour" in change:
+        bars = replace(bars, four_hour=change["four_hour"])
+    if "hourly" in change:
+        bars = replace(bars, hourly=change["hourly"])
     if "micro_seed_m15" in change:
         bars=replace(bars,micro_seed_m15=change["micro_seed_m15"])
-    if "trigger_m15" in change: bars=replace(bars,trigger_m15=change["trigger_m15"])
-    if "derivation" in change: derive=change["derivation"]
+    if "trigger_m15" in change:
+        bars = replace(bars, trigger_m15=change["trigger_m15"])
+    if "derivation" in change:
+        derive = change["derivation"]
     return derive_and_evaluate_b2_s2(
         rule,bars,derive,trigger,
         bars.trigger_m15[-1].first_known_utc+timedelta(seconds=1),

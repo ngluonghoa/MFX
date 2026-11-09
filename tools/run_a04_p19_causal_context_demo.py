@@ -29,7 +29,7 @@ _DURATIONS = {
 def _make_series(tf: Timeframe, values: tuple[tuple[str, str, str, str], ...],
                  *, last_known_delay_seconds: int = 0) -> tuple[MarketBar, ...]:
     series: list[MarketBar] = []
-    for i, (o, h, l, c) in enumerate(values):
+    for i, (o, h, low_value, c) in enumerate(values):
         end = START - _DURATIONS[tf] * (len(values) - i - 1)
         begin = end - _DURATIONS[tf]
         known = end + timedelta(seconds=last_known_delay_seconds)
@@ -49,7 +49,7 @@ def _make_series(tf: Timeframe, values: tuple[tuple[str, str, str, str], ...],
                 license_scope_claim="SYNTHETIC_ONLY",
             ),
             revision_number=1, first_known_utc=known,
-            open=Decimal(o), high=Decimal(h), low=Decimal(l), close=Decimal(c),
+            open=Decimal(o), high=Decimal(h), low=Decimal(low_value), close=Decimal(c),
             lifecycle=BarLifecycle.CLOSED, coverage=BarCoverage.COMPLETE,
             quality=SourceQuality.VERIFIED,
         ))

@@ -510,8 +510,8 @@
     {
       "path": "tests/test_a04_p19_causal_multitf_context.py",
       "change": "added",
-      "expected_current_sha": "097a1cead0788370a0cddf132f199d1a667f3ce9",
-      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
+      "expected_current_sha": "a8d46f82340a1f92c565cabce2b90990bdbceb55",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -804,8 +804,8 @@
     {
       "path": "tools/run_a04_p19_causal_context_demo.py",
       "change": "added",
-      "expected_current_sha": "a275788d37528488e771310d1773ef1d09dadc23",
-      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
+      "expected_current_sha": "1c0412aca4287ea745cc756957bf482d3aa6a50c",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
