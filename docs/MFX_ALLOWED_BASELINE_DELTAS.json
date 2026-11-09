@@ -2,13 +2,13 @@
   "schema_version": 1,
   "kind": "MFX_APPROVED_PARITY_DELTAS",
   "source_tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
-  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update. A02/P0.2 permits only six explicit typed-source paths with approved_change_id DEC-MFX-001:A02/P0.2-STRICT-TYPING, pinned Git blobs and independent golden/CI tests; the original 102 blob/source reference remains frozen and unchanged. A03/P0.1 adds only exact SHA-pinned CI/tests/tools/docs for seeded synthetic property QA, with no new src changes. A03/P0.2 new mutation code is test/tools/Docs-only, never tracked domain src. New paths and CI changes exact SHA-pinned. A03/P0.3 permits only QA test, tool, scope, and CI changes with exact Git blob SHA; tracked domain sources unchanged.",
+  "policy": "Every source divergence or new tracked path must appear here with a pinned Git blob SHA. Only this manifest itself is unpinned due to self-hash recursion. Any src/ delta is rejected by current A01/P0.1 gate. A01/P0.2 requires a pinned blob SHA for every golden tool/test/doc/workflow update. A02/P0.2 permits only six explicit typed-source paths with approved_change_id DEC-MFX-001:A02/P0.2-STRICT-TYPING, pinned Git blobs and independent golden/CI tests; the original 102 blob/source reference remains frozen and unchanged. A03/P0.1 adds only exact SHA-pinned CI/tests/tools/docs for seeded synthetic property QA, with no new src changes. A03/P0.2 new mutation code is test/tools/Docs-only, never tracked domain src. New paths and CI changes exact SHA-pinned. A03/P0.3 permits only QA test, tool, scope, and CI changes with exact Git blob SHA; tracked domain sources unchanged. A03/P0.4 only CI/test/tool/docs changes, no source modifications; measured coverage floor awaits observed CI report.",
   "exceptions": [
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "e520bf44bc107f62f3c01a59349f982267376e68",
-      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step; A03/P0.2 ephemeral 17 mutation sentinel CI gate; A03/P0.3 stateful fuzz corpus CI budget"
+      "expected_current_sha": "15e83bc384c1a6683e05cfe1bdde23f1ee9648a5",
+      "reason": "MFX CI identity PR #1; venv ownership check PR #2; frozen-source gate A01/P0.1 + A01/P0.2 pinned Forex golden dual checkout and snapshot compare; A02/P0.1 30-source-module Pyflakes, 12-module mypy strict; exact A02 F401 debt gate in lieu of blanket ignore; A02/P0.2 strict mypy all-30 audit; A03/P0.1 seeded property suite inventory step; A03/P0.2 ephemeral 17 mutation sentinel CI gate; A03/P0.3 stateful fuzz corpus CI budget; A03/P0.4 pinned coverage/Hypothesis CI-only tools"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -33,6 +33,12 @@
       "change": "added",
       "expected_current_sha": "e1af34ad689ebee8cbf3032605a629dda44a319f",
       "reason": "A02/P0.1 Cloud static analysis scope, complete source Pyflakes and 12-module strict mypy rollout; audit of historical 24 F401 baseline"
+    },
+    {
+      "path": "docs/MFX_A03_COVERAGE_HYPOTHESIS_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "3ee8267e63f065dbc8dc7d1f1a859366759fe0fc",
+      "reason": "A03/P0.4 CI-only measured coverage/Hypothesis scope with explicit coverage-guided nonclaims"
     },
     {
       "path": "docs/MFX_A03_MUTATION_SCOPE.md",
@@ -142,6 +148,18 @@
       "reason": "A02/P0.1 seven negative/positive baseline drift tests"
     },
     {
+      "path": "tests/test_a03_coverage_guard.py",
+      "change": "added",
+      "expected_current_sha": "51a5bf3291f9d4de64f630add17ee97b733955e3",
+      "reason": "A03/P0.4 six negative coverage report and nonregression guard tests"
+    },
+    {
+      "path": "tests/test_a03_hypothesis_properties.py",
+      "change": "added",
+      "expected_current_sha": "a7310d6f145fd2cadf0b4809c0a25fa28461bada",
+      "reason": "A03/P0.4 five CI-only shrinkable Hypothesis causal/EMA/cache/DAG properties"
+    },
+    {
       "path": "tests/test_a03_mutation_oracles.py",
       "change": "added",
       "expected_current_sha": "86dbae7819509faf7c8e689cbafcf4301051958e",
@@ -184,6 +202,12 @@
       "reason": "A02/P0.1 full Ruff Pyflakes F-code analysis with exact legacy F401 exception baseline; receipt scoped to actual Pyflakes evidence only, no false claim unchanged source bytes"
     },
     {
+      "path": "tools/check_a03_coverage.py",
+      "change": "added",
+      "expected_current_sha": "18f1b9f8d8adb30cf613f267f3dca5874c7e9007",
+      "reason": "A03/P0.4 actual branch/line report integrity and optional observed coverage minima"
+    },
+    {
       "path": "tools/check_a03_property_suite.py",
       "change": "added",
       "expected_current_sha": "be6bf4b7b3bdf5b8fb3d228cbf7eba9da5bb7145",
@@ -216,8 +240,8 @@
     {
       "path": "tools/run_a03_mutation_sentinels.py",
       "change": "added",
-      "expected_current_sha": "b28749fc81cbee87f930abf6c245a9bfd90adfe2",
-      "reason": "A03/P0.2 cloud ephemeral 17-mutation fail-closed sentinel runner and measured receipt; red QA 42506501239 name-validator fix C03B to C05, no mutation injection yet; baseline A03 control suite expanded 29 to 36 methods"
+      "expected_current_sha": "c98a1a9668d7a0369e439952179991a87b7c5b9a",
+      "reason": "A03/P0.2 cloud ephemeral 17-mutation fail-closed sentinel runner and measured receipt; red QA 42506501239 name-validator fix C03B to C05, no mutation injection yet; baseline A03 control suite expanded 29 to 36 methods; mutation baseline suite 36 to 47 including 11 tests"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
