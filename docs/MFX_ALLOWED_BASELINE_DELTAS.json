@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "1bab6c5f35270dd48e443b6a72a297d597139115",
-      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
+      "expected_current_sha": "20887378b6ba234f0c131082cfc5bf0c01ea304e",
+      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -269,6 +269,12 @@
       "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
     },
     {
+      "path": "docs/MFX_A04_P20_CONFIRMED_SWINGS_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "2c6f5216c73c70ce5d8bac59120495e64fa81343",
+      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -302,6 +308,12 @@
       "change": "added",
       "expected_current_sha": "834e75ab0f8fd1fbd2f49b9e3ad74f812c24ed57",
       "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker"
+    },
+    {
+      "path": "mfx_research/confirmed_swings.py",
+      "change": "added",
+      "expected_current_sha": "71dc5ca76881e6542c36ecdf47ab985a684c670c",
+      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker"
     },
     {
       "path": "mfx_research/offline_ema_signals.py",
@@ -512,6 +524,12 @@
       "change": "added",
       "expected_current_sha": "a8d46f82340a1f92c565cabce2b90990bdbceb55",
       "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS"
+    },
+    {
+      "path": "tests/test_a04_p20_confirmed_swings.py",
+      "change": "added",
+      "expected_current_sha": "e6a22bdfb3499b95703576a0c180b34eacb34b75",
+      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker; initial PR CI RED 42623985698 single test expected FUTURE_KNOWN but source correctly rejects FUTURE_PRICE_BAR before right bar close, corrected assertion"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -806,6 +824,12 @@
       "change": "added",
       "expected_current_sha": "6db3eb85404569208e8df885d1d0cbbf53e59c3a",
       "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS; strict mypy enum-closure long tuple annotation and typed demo return corrected"
+    },
+    {
+      "path": "tools/run_a04_p20_confirmed_swing_demo.py",
+      "change": "added",
+      "expected_current_sha": "242216d3ff8de58f73333cfbea49a18f660f69a4",
+      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
