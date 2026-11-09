@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "325cd43f6180ecc584dd349771aa5816c37ae485",
-      "reason": "A04/P0.25 24 preregistered synthetic metadata-only MOCK CAS/crash/recovery/TTL/fencing negative methods; zero actual Drive journal/cache writes, Forex feed or production signal; 36/36 numeric source B2/S2 clauses unapproved and original source frozen"
+      "expected_current_sha": "7d60dcab5edfa1da52b2131711a1b048898f59e7",
+      "reason": "A04/P0.25 mock CAS 24-method matrix, fixed strict mypy duplicate demo path without disabling checks; synthetic only"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
