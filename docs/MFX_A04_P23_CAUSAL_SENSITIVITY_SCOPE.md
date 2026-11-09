@@ -4,9 +4,13 @@ Pre-registered scope: https://github.com/ngluonghoa/MFX/issues/35#issuecomment-6
 
 ## Exact test inventory
 
-- tests/test_a04_p23_sensitivity_boundaries.py: **21 independently grouped unittest methods**, each with B2 and/or S2 subcases. Separate strict-neighbor OHLC oracle enumerates right-bar confirmed pivots with left/right 1..3; first known/retrieved clocks, future retrieval and incomplete candles are denied; tie and dual high/low ambiguity rejected; insufficient input and fake SIM policy fail closed.
+- tests/test_a04_p23_sensitivity_boundaries.py: **26 independently grouped unittest methods**, each with B2 and/or S2 subcases. Separate strict-neighbor OHLC oracle enumerates right-bar confirmed pivots with left/right 1..3; first known/retrieved clocks, future retrieval and incomplete candles are denied; tie and dual high/low ambiguity rejected; insufficient input and fake SIM policy fail closed.
 - Decimal boundary tests cover near-zone equality vs epsilon outside, anti-chase threshold epsilon either side, latest M15 micro-level strict close break, opposite/UNKNOWN D1/H4 trend, explicit structural invalidation, and H1 true-range recalculation for changed ATR periods. Also denied: future/revised M15 micro seed, wrong quote side, pair and calendar. Deterministic event replay only; persistent duplicate suppression NOT implemented.
-- tools/run_a04_p23_sensitivity_demo.py: CI-only exact 21-test inventory and explicit 36/36 pending source obligations, zero confirmed real BUY/SELL, no feed/cache/trade/release permissions. CI workflow retains original 50 Forex frozen source golden, 34 frozen wrapper parity, source coverage/mutation and all A04/P0.1-22 gates, strict Ruff/mypy, static/security and cross-wheel parity. New paths SHA locked by docs/MFX_ALLOWED_BASELINE_DELTAS.json. No src changes.
+- tools/run_a04_p23_sensitivity_demo.py: CI-only exact 26-test inventory and explicit 36/36 pending source obligations, zero confirmed real BUY/SELL, no feed/cache/trade/release permissions. CI workflow retains original 50 Forex frozen source golden, 34 frozen wrapper parity, source coverage/mutation and all A04/P0.1-22 gates, strict Ruff/mypy, static/security and cross-wheel parity. New paths SHA locked by docs/MFX_ALLOWED_BASELINE_DELTAS.json. No src changes.
+
+## Pre-registered five-case expansion
+
+The additional five grouped methods were registered **before implementation** in Issue #35: https://github.com/ngluonghoa/MFX/issues/35#issuecomment-6744986843. Coverage: late right-bar first-known at t+1, exact Decimal anti-chase equality versus epsilon, OPEN/PARTIAL/UNVERIFIED right candle, SIM-prefixed wrong within-timeframe stream, and future M15 retrieval; both B2 and S2 are tested. They remain offline simulated research and grant no source numeric approvals.
 
 ## Known limitations / STOP
 
