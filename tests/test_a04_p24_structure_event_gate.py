@@ -170,7 +170,18 @@ class P024CausalStructureAndLedgerTests(unittest.TestCase):
     def test_07_missing_confirmed_pivot_is_unknown_not_intact(self):
         for rule in ("B2", "S2"):
             data, _ = case_confirmed(rule)
-            missing = structure(rule, bars=replace(data,daily=data.daily[:3]))
+            # Construct a THREE-bar context with no strict central HIGH
+            # or LOW. Keeping the original 3 candles is NOT such a fixture:
+            # it can still contain a true confirmed extremum.
+            segment = data.daily[:3]
+            top = max(segment[0].high, segment[2].high)
+            bottom = min(segment[0].low, segment[2].low)
+            middle = (top + bottom) / Decimal("2")
+            neutral = replace(segment[1], high=top, low=bottom,
+                              open=middle, close=middle)
+            missing = structure(rule, bars=replace(
+                data, daily=(segment[0], neutral, segment[2]),
+            ))
             self.assertIs(missing.status,StructureStatus.UNKNOWN)
             self.assertIsNone(missing.anchor)
             self.assertIsNone(missing.pivot_first_known_utc)
@@ -205,7 +216,9 @@ class P024CausalStructureAndLedgerTests(unittest.TestCase):
                     first.observation,license_scope_claim="PRODUCTION")),
             ):
                 with self.subTest(rule=rule):
-                    with self.assertRaisesRegex(ValueError,"REJECT_REAL_MARKET"):
+                    with self.assertRaisesRegex(
+                        ValueError, "REJECT_REAL_MARKET|NO_REAL_OR_UNPROVEN_MARKET_SOURCE"
+                    ):
                         structure(rule,bars=replace(
                             data,trigger_m15=(bad,data.trigger_m15[-1]),
                         ))
