@@ -76,3 +76,28 @@ separate typed dict reads with explicit isinstance checks and a
 test-only `cast(ReferenceFunction,...)` for malformed-reference
 injection, no ignores, runtime action or semantic change. The
 RED run is retained and is NOT a merge qualification.
+
+## Verified CI baseline observation and locking
+Initial failed run 42583897701 had **814/814 unit methods per
+Python version PASS** and identical 28-case matrix, but mypy strict
+rejected 15 errors (14 Optional-untyped dictionary uses in the new
+evidence reader; one intentionally malformed typed reference).
+Corrected via individually narrowed dictionary variables and an
+explicit test-only cast; no type suppression or original source edits.
+
+Observed green bootstrap: GitHub Actions
+https://github.com/ngluonghoa/MFX/actions/runs/42584149824
+**3/3 PASS**, Python3.11 job 129049795009 and Python3.12
+job 129049794664 each 814/814 unit methods, strict mypy 30 source
+and 15 A04 tools, 50 frozen Forex golden, 34 P0.7 frozen-source
+wrapper case contracts, 17/17 targeted mutants, A03 80-case
+feedback and wheel/security/source SHA gates all PASS. Both Python
+runs emitted identical 28-case matrix: seven reference-only
+DOCUMENTABLE, 21 BLOCKED, **zero runtime adapters**, exact measured
+SHA256 `068353f91a8131f5f7750c77e46ad041c1e046af9c54a1e557a616c23ab9d463`.
+
+These observed values and ancestor P0.2/P0.6/P0.7 SHA are frozen
+in `docs/MFX_A04_P08_SEAM_AUTHORITY_BASELINE.json`. Final CI
+now REQUIRES the pinned receipt (no bootstrap) and six negative
+baseline/authority tests. Still require exact-head PR 3/3 PASS and
+independent post-main 3/3 PASS before reporting milestone DONE.

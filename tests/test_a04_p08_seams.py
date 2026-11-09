@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 from dataclasses import replace
+from copy import deepcopy
+import json
 import unittest
 
 from tools.a04_adapter_conformance import PortSchema
@@ -9,7 +11,7 @@ from tools.a04_p08_seam_review import (
     ReferenceFunction, SOURCE_TO_ROLE, proposal_for, review_source_seam,
 )
 from tools.a04_plugin_contracts import PluginKind
-from tools.check_a04_p08_seams import measure_matrix, source_pins
+from tools.check_a04_p08_seams import PIN, measure_matrix, source_pins, verify_pinned
 
 
 class A04P08AdapterSeamTests(unittest.TestCase):
@@ -74,6 +76,43 @@ class A04P08AdapterSeamTests(unittest.TestCase):
             with self.subTest(change=change):
                 r = review_source_seam(replace(p, **{change: True}), self.pins)
                 self.assertFalse(r.source_reference_documentable)
+
+    def test_pinned_28_case_matrix_matches_observed_ci(self) -> None:
+        baseline = json.loads(PIN.read_text(encoding="utf-8"))
+        verify_pinned(measure_matrix(), baseline)
+
+    def test_tampered_pinned_matrix_sha_is_rejected(self) -> None:
+        baseline = json.loads(PIN.read_text(encoding="utf-8"))
+        forged = deepcopy(baseline)
+        forged["observed"]["matrix_sha256"] = "f"*64
+        with self.assertRaisesRegex(ValueError, "A04P8_PINNED_SOURCE_SEAM_MATRIX_DRIFT"):
+            verify_pinned(measure_matrix(), forged)
+
+    def test_p07_parity_provenance_tamper_is_rejected(self) -> None:
+        baseline = json.loads(PIN.read_text(encoding="utf-8"))
+        forged = deepcopy(baseline)
+        forged["observed"]["p07_original_wrapper_case_sha256"] = "0"*64
+        with self.assertRaisesRegex(ValueError, "A04P8_PINNED_SOURCE_SEAM_MATRIX_DRIFT"):
+            verify_pinned(measure_matrix(), forged)
+
+    def test_declaring_runtime_adapter_does_not_pass_pinned_gate(self) -> None:
+        baseline = json.loads(PIN.read_text(encoding="utf-8"))
+        forged = dict(measure_matrix(), working_runtime_adapter_count=1)
+        with self.assertRaisesRegex(ValueError, "A04P8_PINNED_SOURCE_SEAM_MATRIX_DRIFT"):
+            verify_pinned(forged, baseline)
+
+    def test_permission_flag_tamper_denied(self) -> None:
+        baseline = json.loads(PIN.read_text(encoding="utf-8"))
+        forged = dict(measure_matrix(), no_plugin_loaded=False)
+        with self.assertRaisesRegex(ValueError, "A04P8_UNAUTHORIZED_RUNTIME_FLAG"):
+            verify_pinned(forged, baseline)
+
+    def test_cannot_remove_runtime_prohibitions_from_baseline(self) -> None:
+        baseline = json.loads(PIN.read_text(encoding="utf-8"))
+        forged = deepcopy(baseline)
+        forged["required_true_flags"] = []
+        with self.assertRaisesRegex(ValueError, "A04P8_BASELINE_AUTHORITY_WEAKENED"):
+            verify_pinned(measure_matrix(), forged)
 
     def test_28_case_matrix_has_only_seven_pure_reference_reviews(self) -> None:
         m = measure_matrix()

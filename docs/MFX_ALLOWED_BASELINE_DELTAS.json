@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "5032ea0483f42473fbbd82f6fb851b557b38b27f",
-      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
+      "expected_current_sha": "6dc6c4ac269d5cf5dd2a444a332e564ae54a1755",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; P0.8 measured two-Python 28-case/21-blocked/zero-runtime SHA from successful cloud run 42584149824, pinned tamper tests"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -163,8 +163,14 @@
     {
       "path": "docs/MFX_A04_P08_MINIMAL_ADAPTER_SEAM_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "59fe5921caa3975eb5c36f3293a0720115cce269",
-      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; initial CI 42583897701 strict mypy Optional narrowing and intentional malformed reference test corrected with typed checks, no ignores"
+      "expected_current_sha": "5b67610014472c39b35b4764546ae29f2b80379f",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; initial CI 42583897701 strict mypy Optional narrowing and intentional malformed reference test corrected with typed checks, no ignores; P0.8 measured two-Python 28-case/21-blocked/zero-runtime SHA from successful cloud run 42584149824, pinned tamper tests"
+    },
+    {
+      "path": "docs/MFX_A04_P08_SEAM_AUTHORITY_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "358a011e5778af4770a1404647a8ee4fa3958a94",
+      "reason": "A04/P0.8 immutable GitHub CI-observed 28-case source seam matrix SHA, rights and non-activation fail-closed controls, no src edits"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -318,8 +324,8 @@
     {
       "path": "tests/test_a04_p08_seams.py",
       "change": "added",
-      "expected_current_sha": "9db5a7c70a70f15a3cbb07baf5c4a9460d5e7bb6",
-      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work"
+      "expected_current_sha": "28f35f1b122ab40919576b0efc660b8c5425ebd4",
+      "reason": "A04/P0.8 Cloud-only source-pinned minimal future adapter seam governance, zero runtime/source/broker/data/real-cache work; P0.8 measured two-Python 28-case/21-blocked/zero-runtime SHA from successful cloud run 42584149824, pinned tamper tests"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
