@@ -29,7 +29,11 @@ def main() -> None:
         "drive_market_price_cache_writes": 0,
         "broker_orders": 0,
         "release_ready": False,
-        "postmain_p022_push_ci_verified": False,
+        "postmain_p022_push_ci_verified": True,
+        "postmain_p022_push_run_id": 42635627691,
+        "postmain_p022_push_main_sha": (
+            "90219a02a49c6c710d4f3ee379a263b5e5602868"
+        ),
     }, sort_keys=True))
 
 
