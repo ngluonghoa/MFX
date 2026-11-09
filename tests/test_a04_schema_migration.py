@@ -11,7 +11,9 @@ from tools.a04_contract_migration import (
     encode_snapshot, replace_schema, review_declarative_rollback,
     synthetic_baseline_contracts,
 )
-from tools.check_a04_schema_matrix import run_matrix
+from tools.check_a04_schema_matrix import (
+    MATRIX_BASELINE, run_matrix, verify_pinned_schema_matrix,
+)
 
 GRAPH = "fee5c25ab04139a3da502ebc372d981946c1e1e22965fb36987915220cff9ebe"
 GOLDEN = "747d029192e080f88b214c76967fa9b91c8e1283f6a4464673cb2bff0b4eabb2"
@@ -193,6 +195,28 @@ class A04P03SchemaMigrationTests(unittest.TestCase):
     def test_strict_reference_port_graph_sha_required(self) -> None:
         with self.assertRaisesRegex(ValueError, "A04P3_FROZEN_DECLARED_GRAPH_MISMATCH"):
             synthetic_baseline_contracts("b"*64, GOLDEN)
+
+    def test_matrix_pinned_sha_rejects_tampering(self) -> None:
+        from copy import deepcopy
+        report = run_matrix()
+        baseline = json.loads(MATRIX_BASELINE.read_text(encoding="utf-8"))
+        verify_pinned_schema_matrix(report, baseline)
+        fake = deepcopy(baseline)
+        fake["observed"]["case_matrix_sha256"] = "f"*64
+        with self.assertRaisesRegex(ValueError, "A04P3_MATRIX_PINNED_DRIFT"):
+            verify_pinned_schema_matrix(report, fake)
+
+    def test_matrix_scope_cannot_advance_trading_or_git_rollback(self) -> None:
+        baseline = json.loads(MATRIX_BASELINE.read_text(encoding="utf-8"))
+        report = run_matrix()
+        with self.assertRaisesRegex(ValueError, "A04P3_UNAUTHORIZED_AUTHORITY"):
+            verify_pinned_schema_matrix(
+                dict(report, git_rollback_performed=True), baseline,
+            )
+        with self.assertRaisesRegex(ValueError, "A04P3_AUTHORITY_FLAG_BASELINE_DRIFT"):
+            verify_pinned_schema_matrix(
+                report, dict(baseline, denied_authority_flags=[]),
+            )
 
     def test_matrix_includes_rejected_changes_and_exact_rollback(self) -> None:
         report = run_matrix()

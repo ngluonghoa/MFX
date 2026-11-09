@@ -63,3 +63,33 @@ with integer thresholds. Fixed by declaring the report as
 `dict[str, Any]`; preserves all integer threshold checks and never
 suppresses mypy. No change to `src/` or transaction semantics. Preserve
 the red history and require fresh PR CI 3/3 before merge.
+
+## GitHub CI observed A04/P0.3 evidence (2026-11-09 UTC)
+First run 42568122304 RED: invalid dataclass tuple-order assertion (canonical
+JSON intentionally sorts schema identities); corrected test to require
+exact canonical bytes and identity digest. Second run 42568230247 RED:
+739/739 tests passed but strict mypy found inferred object types in
+numeric matrix budget assertion; fixed with explicit dict[str, Any]
+typing, no noqa/ignore.
+
+Measured third run 42568341516: Python3.11 job 128999717335 and
+Python3.12 job 128999717065 each 739/739 unittest methods PASS,
+four new A04 typed tools strict mypy PASS, 50 frozen Forex/MFX synthetic
+golden and A04/P0.2 per-group SHA PASS, 17 mutation sentinels PASS,
+source coverage 2546/2683 lines and 973/1112 branches preserved,
+pinned 80-case feedback PASS, isolated wheel parity 3/3 PASS.
+Cross-Python matrix receipts IDENTICAL: 14 scenarios, 11 blocked,
+3 structurally reviewable (one exact no-op and two additive optional
+minor proposals, NEVER approval), all five schema families covered.
+Baseline schema identity SHA256
+`bf3c98b939e6257fce3b8b8ddc9b32591d8baed87f05fd9d53ae683518df0c23`
+and deterministic case matrix SHA256
+`85e285640914e55a700417b88a6586052c214835a9d087235569312fabe33443`.
+Synthetic exact declaration restore matches; wrong restore blocked;
+NO actual Git rollback, source mutation, plugin execution or trade.
+
+Now `docs/MFX_A04_P03_COMPAT_MATRIX_BASELINE.json` freezes actual
+observed SHA/count/negative reason budget and a new fail-closed
+verification gate rejects drift, false authority and mismatched
+original source identity. Fresh exact-head PR CI 3/3 and independent
+postmain CI 3/3 are required after this commit.

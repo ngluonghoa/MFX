@@ -153,9 +153,69 @@ def run_matrix() -> dict[str, Any]:
     return report
 
 
+MATRIX_BASELINE = (
+    ROOT / "docs" / "MFX_A04_P03_COMPAT_MATRIX_BASELINE.json"
+)
+
+
+def verify_pinned_schema_matrix(
+    report: dict[str, Any], baseline: dict[str, Any],
+) -> None:
+    """Fail closed if golden, graph, case corpus, reason or authority drifts."""
+    if (
+        baseline.get("schema_version") != 1
+        or baseline.get("kind")
+        != "MFX_A04_P03_PINNED_DECLARATIVE_SCHEMA_MATRIX"
+        or baseline.get("frozen_forex_commit")
+        != "7e1c1c012b1b189be5ad7b9d07756eac012a8309"
+        or baseline.get("original_frozen_tree_sha")
+        != "5df2058346f6dc96ed5bb02581b139fe2aa2d803"
+        or report.get("kind") != "MFX_A04_P03_INERT_SCHEMA_COMPATIBILITY_MATRIX"
+    ):
+        raise ValueError("A04P3_PINNED_SOURCE_AND_MATRIX_IDENTITY_MISMATCH")
+    expected = baseline.get("observed")
+    if not isinstance(expected, dict):
+        raise ValueError("A04P3_PINNED_OBSERVATION_MISSING")
+    for field in (
+        "schema_family_count", "case_count", "reviewable_count",
+        "blocked_count", "unchanged_count",
+        "declarative_rollback_exact_match",
+        "declarative_rollback_wrong_target_rejected",
+        "base_declaration_sha256", "case_matrix_sha256",
+        "frozen_original_golden_sha256", "frozen_declared_graph_sha256",
+        "reasons",
+    ):
+        if report.get(field) != expected.get(field):
+            raise ValueError("A04P3_MATRIX_PINNED_DRIFT:" + field)
+    if (
+        report.get("case_count") != 14
+        or report.get("blocked_count") != 11
+        or report.get("reviewable_count") != 3
+        or report.get("unchanged_count") != 1
+        or report.get("declarative_rollback_exact_match") is not True
+        or report.get("declarative_rollback_wrong_target_rejected") is not True
+    ):
+        raise ValueError("A04P3_MATRIX_FAIL_CLOSED_BUDGET")
+    names = baseline.get("denied_authority_flags")
+    if not isinstance(names, list) or sorted(names) != sorted([
+        "schema_transform_executed", "plugin_runtime_executed",
+        "git_rollback_performed", "real_data_used", "may_deploy_or_trade",
+    ]):
+        raise ValueError("A04P3_AUTHORITY_FLAG_BASELINE_DRIFT")
+    for name in names:
+        if report.get(name) is not False:
+            raise ValueError("A04P3_UNAUTHORIZED_AUTHORITY:" + name)
+
+
 def main() -> None:
+    if not MATRIX_BASELINE.is_file() or MATRIX_BASELINE.is_symlink():
+        raise ValueError("A04P3_MATRIX_PINNED_BASELINE_MISSING")
+    report = run_matrix()
+    baseline = json.loads(MATRIX_BASELINE.read_text(encoding="utf-8"))
+    verify_pinned_schema_matrix(report, baseline)
+    print("MFX_A04_P03_PINNED_COMPAT_MATRIX_PASS")
     print("MFX_A04_P03_COMPAT_MATRIX_OBSERVED " + json.dumps(
-        run_matrix(), sort_keys=True, separators=(",", ":"),
+        report, sort_keys=True, separators=(",", ":"),
     ))
 
 
