@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "4849ef7e7fb392d77c846f785ef588c34e01546d",
-      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+      "expected_current_sha": "9079c602e43154aac66be5d632db63e368e453fc",
+      "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -251,6 +251,12 @@
       "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
     },
     {
+      "path": "docs/MFX_A04_P17_ZONE_CATALOG_ROUTING_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "7a080027068e7a50b8ce5826ed0e524a83e59875",
+      "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -284,6 +290,12 @@
       "change": "added",
       "expected_current_sha": "ee0474da59349ab7633653dbbe3f1922b3ac5f8f",
       "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+    },
+    {
+      "path": "mfx_research/zone_catalog_gate.py",
+      "change": "added",
+      "expected_current_sha": "8e8c72d18874d3493b5ef8a2d0896274b268b728",
+      "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
     },
     {
       "path": "pyproject.toml",
@@ -458,6 +470,12 @@
       "change": "added",
       "expected_current_sha": "5aaf7a8090aa903229569cbcbc38a00891b7b49c",
       "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+    },
+    {
+      "path": "tests/test_a04_p17_zone_catalog_gate.py",
+      "change": "added",
+      "expected_current_sha": "7e2d5e05c5829ed0e2acd56ec789f2d242fd2ccc",
+      "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -734,6 +752,12 @@
       "change": "added",
       "expected_current_sha": "f2e288d72587ea2a737509af66a8fd7cb15352fc",
       "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+    },
+    {
+      "path": "tools/run_a04_p17_zone_catalog_demo.py",
+      "change": "added",
+      "expected_current_sha": "d5a5674463df0c6d3ca2021173b9f7a42013b371",
+      "reason": "A04/P0.17 source-locked 18-label executable routing, 7 BUY/8 SELL candidate taxonomy, B7/S3/S8 nonentry, event grouping, zero numeric detector/permissions; 30 Forex core modules unchanged"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
