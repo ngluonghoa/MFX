@@ -91,8 +91,14 @@
     {
       "path": "docs/MFX_A04_P02_ADAPTER_GOLDEN_SCOPE.md",
       "change": "added",
-      "expected_current_sha": "00ed5f9c26f498fde9cb9fc10d1629c1e90dec14",
-      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
+      "expected_current_sha": "e1f036588cfc72e66add8e1b707ce12ec5e4accf",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; A04/P0.2 pinned actual exact 50 golden group hashes and graph SHA from CI 42564185516, with negative drift/authority guard"
+    },
+    {
+      "path": "docs/MFX_A04_P02_GOLDEN_GROUP_BASELINE.json",
+      "change": "added",
+      "expected_current_sha": "2edfb33fc1d7ffc0f6d5d72af0a11c6a1be2db58",
+      "reason": "A04/P0.2 CI-observed 50 synthetic golden 8-group SHA and 4-role declared graph fingerprint baseline; fail-closed only"
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -216,8 +222,8 @@
     {
       "path": "tests/test_a04_adapter_conformance.py",
       "change": "added",
-      "expected_current_sha": "fbfbf5216cf5b2f02c0ea4c8fd075f1d002feb03",
-      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; comparator-only fixture extended from base 40 to exact 50; original immutable source golden remains required in CI"
+      "expected_current_sha": "202f8091c4b3d6f022305cce278ba4fb51cfb011",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; comparator-only fixture extended from base 40 to exact 50; original immutable source golden remains required in CI; A04/P0.2 pinned actual exact 50 golden group hashes and graph SHA from CI 42564185516, with negative drift/authority guard"
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -294,8 +300,8 @@
     {
       "path": "tools/check_a04_adapter_golden.py",
       "change": "added",
-      "expected_current_sha": "7d2f924d4d804d1766dcc9f7379c8f2f4b8a525a",
-      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications"
+      "expected_current_sha": "1a7e0cd2a0b6639fb78396023706752c6e95e4b6",
+      "reason": "A04/P0.2: inert typed 4-plugin port schema/dependency graph + frozen 50-scenario original-vs-MFX differential golden gate, synthetic only and zero src runtime modifications; A04/P0.2 pinned actual exact 50 golden group hashes and graph SHA from CI 42564185516, with negative drift/authority guard"
     },
     {
       "path": "tools/check_mfx_import_ownership.py",

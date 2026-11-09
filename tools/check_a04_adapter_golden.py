@@ -78,6 +78,50 @@ def assess_adapter_golden(
     }
 
 
+BASELINE_FILE = (
+    Path(__file__).resolve().parents[1]
+    / "docs" / "MFX_A04_P02_GOLDEN_GROUP_BASELINE.json"
+)
+
+
+def verify_pinned_adapter_golden(
+    report: dict[str, Any], baseline: dict[str, Any],
+) -> None:
+    """Fail closed when source group identities or inert scope drift."""
+    if (
+        baseline.get("schema_version") != 1
+        or baseline.get("kind")
+        != "MFX_A04_P02_PINNED_SYNTHETIC_GOLDEN_GROUP_BASELINE"
+        or baseline.get("frozen_forex_source_commit") != FROZEN_SOURCE_COMMIT
+        or report.get("source_commit") != FROZEN_SOURCE_COMMIT
+    ):
+        raise ValueError("A04P2_PINNED_GOLDEN_SOURCE_IDENTITY_MISMATCH")
+    measured = baseline.get("measured")
+    if not isinstance(measured, dict):
+        raise ValueError("A04P2_PINNED_GOLDEN_BASELINE_UNTYPED")
+    for name in (
+        "synthetic_scenario_count", "contract_group_count",
+        "contract_groups", "adapter_graph_sha256",
+        "adapter_declared_port_count", "frozen_golden_sha256",
+    ):
+        if report.get(name) != measured.get(name):
+            raise ValueError("A04P2_PINNED_GOLDEN_DRIFT:" + name)
+    if (report.get("frozen_golden_sha256")
+            != report.get("mfx_golden_sha256")
+            or report.get("frozen_synthetic_contracts_exact") is not True):
+        raise ValueError("A04P2_ORIGINAL_VS_MFX_GOLDEN_DRIFT")
+    forbidden = baseline.get("expected_false_flags")
+    if not isinstance(forbidden, list) or sorted(forbidden) != sorted([
+        "adapter_implementation_executed", "detector_or_tp_execution_tested",
+        "licensed_real_data_used", "may_cache_real_data",
+        "may_deploy_or_trade",
+    ]):
+        raise ValueError("A04P2_PINNED_SCOPE_FLAGS_DRIFT")
+    for name in forbidden:
+        if report.get(name) is not False:
+            raise ValueError("A04P2_UNAUTHORIZED_SCOPE:" + name)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--reference", type=Path, required=True)
@@ -86,6 +130,11 @@ def main() -> None:
     report = assess_adapter_golden(
         read_snapshot(args.reference), read_snapshot(args.candidate),
     )
+    if not BASELINE_FILE.is_file() or BASELINE_FILE.is_symlink():
+        raise ValueError("A04P2_PINNED_GOLDEN_BASELINE_MISSING")
+    baseline = json.loads(BASELINE_FILE.read_text(encoding="utf-8"))
+    verify_pinned_adapter_golden(report, baseline)
+    print("MFX_A04_P02_PINNED_GROUP_GOLDEN_PASS")
     print("MFX_A04_P02_DECLARATION_GOLDEN_PASS " +
           json.dumps(report, sort_keys=True, separators=(",", ":")))
 

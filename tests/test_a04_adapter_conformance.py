@@ -10,7 +10,9 @@ from tools.a04_adapter_conformance import (
     validate_declared_adapter_graph,
 )
 from tools.a04_plugin_contracts import PluginKind, PluginManifest, PluginRegistry
-from tools.check_a04_adapter_golden import assess_adapter_golden
+from tools.check_a04_adapter_golden import (
+    assess_adapter_golden, verify_pinned_adapter_golden,
+)
 from test_golden_contracts import sample
 
 
@@ -145,6 +147,54 @@ class A04AdapterP02ContractTests(unittest.TestCase):
         source = sample()
         with self.assertRaisesRegex(ValueError, "A04P2_EXPECT_FROZEN_50"):
             assess_adapter_golden(source, deepcopy(source))
+
+    def test_golden_group_pin_rejects_tampered_group_sha(self) -> None:
+        source = golden50()
+        report = assess_adapter_golden(source, deepcopy(source))
+        measured_keys = (
+            "synthetic_scenario_count", "contract_group_count",
+            "contract_groups", "adapter_graph_sha256",
+            "adapter_declared_port_count", "frozen_golden_sha256",
+        )
+        base = {
+            "schema_version": 1,
+            "kind": "MFX_A04_P02_PINNED_SYNTHETIC_GOLDEN_GROUP_BASELINE",
+            "frozen_forex_source_commit": report["source_commit"],
+            "measured": {k: deepcopy(report[k]) for k in measured_keys},
+            "expected_false_flags": [
+                "adapter_implementation_executed",
+                "detector_or_tp_execution_tested", "licensed_real_data_used",
+                "may_cache_real_data", "may_deploy_or_trade",
+            ],
+        }
+        verify_pinned_adapter_golden(report, base)
+        base["measured"]["contract_groups"]["quote"]["source_and_candidate_sha256"] = "f"*64
+        with self.assertRaisesRegex(ValueError, "A04P2_PINNED_GOLDEN_DRIFT"):
+            verify_pinned_adapter_golden(report, base)
+
+    def test_pinned_golden_scope_cannot_promote_execution(self) -> None:
+        source = golden50()
+        report = assess_adapter_golden(source, deepcopy(source))
+        base = {
+            "schema_version": 1,
+            "kind": "MFX_A04_P02_PINNED_SYNTHETIC_GOLDEN_GROUP_BASELINE",
+            "frozen_forex_source_commit": report["source_commit"],
+            "measured": {
+                k: deepcopy(report[k]) for k in (
+                    "synthetic_scenario_count", "contract_group_count",
+                    "contract_groups", "adapter_graph_sha256",
+                    "adapter_declared_port_count", "frozen_golden_sha256",
+                )
+            },
+            "expected_false_flags": [
+                "adapter_implementation_executed",
+                "detector_or_tp_execution_tested", "licensed_real_data_used",
+                "may_cache_real_data", "may_deploy_or_trade",
+            ],
+        }
+        altered = dict(report, adapter_implementation_executed=True)
+        with self.assertRaisesRegex(ValueError, "A04P2_UNAUTHORIZED_SCOPE"):
+            verify_pinned_adapter_golden(altered, base)
 
     def test_claimed_implementation_hash_does_not_verify_code(self) -> None:
         registry, ports = synthetic_reference_graph()

@@ -45,3 +45,23 @@ graph fingerprint from actual CI, protect new non-src file SHA exceptions,
 merge via expected-head squash, confirm independent 3/3 main CI, then
 update four Drive governance documents. No branch main/direct push or
 local compute, no real data, no trades.
+
+## CI-observed baseline lock
+Initial PR CI run 42564185516 completed 3/3 SUCCESS. Both GitHub-hosted
+Python3.11 job 128986976145 and Python3.12 job 128986975861 ran 716 unit
+tests and independently returned the SAME 50 original golden scenario
+results across 8 groups: bar 10, cache 10, catalog 4, pipeline 3,
+quote 8, scan 7, signal 4, version 4. Original golden SHA256
+`747d029192e080f88b214c76967fa9b91c8e1283f6a4464673cb2bff0b4eabb2`.
+Four-role inert declared graph SHA256
+`fee5c25ab04139a3da502ebc372d981946c1e1e22965fb36987915220cff9ebe`.
+The exact eight group SHA256 digests are taken only from observed CI,
+written in `docs/MFX_A04_P02_GOLDEN_GROUP_BASELINE.json` and checked
+fail-closed by `tools/check_a04_adapter_golden.py`. Negative tests require
+the baseline to reject drift or any claim of executing real adapters/trades.
+These hashes only establish frozen 50-case read-only parity and a synthetic
+declarative ABI shape; they do NOT establish implementation equivalence for
+detector/indicator/TP/broker or wider, real-market correctness.
+
+Final PR exact-head 3/3 and post-main 3/3 are required after this baseline
+commit, along with Google Drive governance sync.
