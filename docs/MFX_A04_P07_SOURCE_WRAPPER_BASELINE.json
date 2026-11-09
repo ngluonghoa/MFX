@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "MFX_A04_P07_PINNED_REAL_SOURCE_WRAPPER",
+  "original_forex_source_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+  "original_forex_source_tree": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+  "initial_102_blob_MFX_import": "6ee5e7c07baf4ea8f06a28889175808ea53c2316",
+  "measured_github_run": 42581189845,
+  "measured_pr_head": "b3262c91dbac81456b8604d33c4fedb84380ee8b",
+  "python311_job": 129040047899,
+  "python312_job": 129040048364,
+  "observed": {
+    "kind": "MFX_A04_P07_WRAPPER_COMPARISON_RECEIPT",
+    "case_count": 34,
+    "case_sha256": "6ccb082b7940a3bb5c2c27d86151cde1874c6f791eb02cfeac12cf94c2ff49f5",
+    "full_snapshot_sha256": "b4aca14200ec2312970850a7c3500b2d73d3045e012575ca3f15c724aca00485"
+  },
+  "required_true_flags": [
+    "wrapper_vs_direct_pass",
+    "original_forex_vs_mfx_pass"
+  ],
+  "required_false_flags": [
+    "source_module_edits",
+    "plugin_loaded",
+    "real_provider_used",
+    "numerical_detector_or_tp_tested",
+    "may_release_or_trade"
+  ],
+  "scope": "34 synthetic pure function wrapper cases exact source output/error parity, 7 tool-only pass-through wrappers, no runtime source modification or market data, not numerical detector/TP/SL economic equivalence."
+}
