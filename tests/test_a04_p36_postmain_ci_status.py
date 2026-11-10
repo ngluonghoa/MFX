@@ -1,7 +1,6 @@
 """A04/P0.36: 12 security and deterministic main-push CI status checks."""
 from __future__ import annotations
 
-from copy import deepcopy
 import json
 from pathlib import Path
 import unittest
