@@ -516,8 +516,8 @@
     {
       "path": "mfx_cache/v2_batch_commit.py",
       "change": "added",
-      "expected_current_sha": "81a8b54d8e9982e44af54b7332374fd84a8ab9cc",
-      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending."
+      "expected_current_sha": "40f67052e60f8abf71afe46a98a800a16229cc77",
+      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending. CI exposed lost referenced chunk causing raw KeyError; now fail-closed typed ValueError for missing immutable payload, no signal promotion."
     },
     {
       "path": "mfx_cache/v2_engine.py",
