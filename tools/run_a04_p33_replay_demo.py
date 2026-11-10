@@ -39,7 +39,8 @@ def fixture(rule: str, day: int, *, no_pattern: bool = False) -> SyntheticReplay
         four_hour=tuple(shift(x, delta) for x in bars.four_hour),
         hourly=tuple(shift(x, delta) for x in bars.hourly),
         micro_seed_m15=tuple(shift(x, delta) for x in bars.micro_seed_m15),
-        trigger_m15=tuple(shift(x, delta) for x in bars.trigger_m15),
+        trigger_m15=(shift(bars.trigger_m15[0], delta),
+                     shift(bars.trigger_m15[1], delta)),
     )
     if no_pattern:
         old, last = shifted.trigger_m15
