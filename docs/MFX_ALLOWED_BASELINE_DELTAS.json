@@ -924,8 +924,8 @@
     {
       "path": "tests/test_a04_p44_sim_range_rejection.py",
       "change": "added",
-      "expected_current_sha": "99cd8f954aaeb6b5c4051b3767d319bc38eb0d98",
-      "reason": "A04/P0.44 strictly bounded SIM-only CLOSED H1/M15 range sweep/reclaim B3 BUY/S4 SELL experimental detection; P043/P031 source checks, 27 adversarial tests, hosted demo, no forex frozen source edits, all 16 numeric strategies still unapproved and 36 B2/S2 signoffs pending #45, vendor/Drive real market rights #27 blocked; NO_SIGNAL, no provider/cache/alert/broker/release."
+      "expected_current_sha": "8c32894be41640305249f9a7f0e363c2d126cbf6",
+      "reason": "A04/P0.44 strictly bounded SIM-only CLOSED H1/M15 range sweep/reclaim B3 BUY/S4 SELL experimental detection; P043/P031 source checks, 27 adversarial tests, hosted demo, no forex frozen source edits, all 16 numeric strategies still unapproved and 36 B2/S2 signoffs pending #45, vendor/Drive real market rights #27 blocked; NO_SIGNAL, no provider/cache/alert/broker/release. Initial hosted PR CI P044 27/27 tests passed but Ruff E741 disallowed ambiguous test helper variable l; renamed to low_value, exact new blob SHA pinned."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
