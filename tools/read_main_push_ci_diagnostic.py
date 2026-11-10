@@ -104,7 +104,7 @@ class NoRedirect(HTTPRedirectHandler):
 def _get_json(token: str, path: str) -> Any:
     if (not path.startswith(f"/repos/{REPO}/")
             or ".." in path or "://" in path
-            or any(x in path for x in ("\\r", "\\n", "\\t"))):
+            or any(ord(ch) < 32 or ord(ch) == 127 for ch in path)):
         raise ValueError("P037_UNTRUSTED_GITHUB_API_PATH")
     # Use the runner's vetted HTTPS proxy settings. Raw HTTPSConnection
     # bypassed them and returned a non-GitHub 403 without request ID.
