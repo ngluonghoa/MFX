@@ -101,7 +101,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         "backtest_verified", "real_buy_sell_authorized",
         "broker_order_execution_authorized",
     }, "approval")
-    for name, expected in (
+    for approval_name, approval_expected in (
         ("authority", "USER_APPROVED_MFX_DESIGN_ONLY"),
         ("date", "2026-11-10"),
         ("type", "NEW_MFX_EXTENSION_NOT_ORIGINAL_FOREX_1TO1"),
@@ -109,7 +109,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         ("real_buy_sell_authorized", False),
         ("broker_order_execution_authorized", False),
     ):
-        _eq(approval[name], expected, "approval." + name)
+        _eq(approval[approval_name], approval_expected, "approval." + approval_name)
 
     source = _keys(root["original_source"], {
         "repository", "commit", "tree_sha", "catalog_git_blob_sha",
@@ -118,7 +118,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         "source_audit_fxb9_prior_exclusion_index",
         "original_catalog_labels", "source_locked_docs_unchanged",
     }, "original_source")
-    for name, expected in (
+    for source_name, source_expected in (
         ("repository", "ngluonghoa/forex-trading-1-0"),
         ("commit", SOURCE_COMMIT),
         ("tree_sha", "5df2058346f6dc96ed5bb02581b139fe2aa2d803"),
@@ -130,7 +130,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         ("source_audit_fxb9_prior_exclusion_index", 255),
         ("original_catalog_labels", 18), ("source_locked_docs_unchanged", 11),
     ):
-        _eq(source[name], expected, "original_source." + name)
+        _eq(source[source_name], source_expected, "original_source." + source_name)
 
     extension = _keys(root["extension"], {
         "label", "family", "purpose", "direction", "design_status",
@@ -139,7 +139,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         "mechanism", "phase_names", "phase_descriptions",
         "overlap", "invalid_cases", "numeric_thresholds",
     }, "extension")
-    for name, expected in (
+    for ext_name, ext_expected in (
         ("label", FXB9_LABEL), ("family", FXB9_FAMILY),
         ("purpose", ZonePurpose.ENTRY_LONG_CANDIDATE.value),
         ("direction", "LONG"),
@@ -151,7 +151,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         ("phase_names", ["R0", "R_C", "R_E", "R_F"]),
         ("numeric_thresholds", {}),
     ):
-        _eq(extension[name], expected, "extension." + name)
+        _eq(extension[ext_name], ext_expected, "extension." + ext_name)
     phases = _keys(extension["phase_descriptions"],
                    {"R0", "R_C", "R_E", "R_F"}, "phase_descriptions")
     for name in ("R0", "R_C", "R_E", "R_F"):
@@ -179,7 +179,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         "approved_numerical_entry_predicates",
         "b2_s2_original_numeric_obligations_pending",
     }, "counts")
-    for field, expected in (
+    for count_name, count_expected in (
         ("original_catalog_labels", 18),
         ("extended_mfx_design_labels", 19),
         ("original_buy_entry_candidates", 7),
@@ -190,7 +190,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         ("approved_numerical_entry_predicates", 0),
         ("b2_s2_original_numeric_obligations_pending", 36),
     ):
-        _eq(counts[field], expected, "counts." + field)
+        _eq(counts[count_name], count_expected, "counts." + count_name)
     stop = _keys(root["stop_gates"], {
         "source_numeric_approval_required", "licensed_bid_ask_data_required",
         "real_drive_market_cache_rights_required",
@@ -198,7 +198,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         "real_drive_market_cache_writes", "real_provider_calls",
         "broker_orders", "release_ready",
     }, "stop")
-    for key, expected in (
+    for stop_name, stop_expected in (
         ("source_numeric_approval_required", True),
         ("licensed_bid_ask_data_required", True),
         ("real_drive_market_cache_rights_required", True),
@@ -209,7 +209,7 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         ("broker_orders", 0),
         ("release_ready", False),
     ):
-        _eq(stop[key], expected, "stop_gates." + key)
+        _eq(stop[stop_name], stop_expected, "stop_gates." + stop_name)
 
     validate_catalog(ZONES)
     original = tuple(z.label for z in ZONES)
