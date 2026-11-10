@@ -271,3 +271,21 @@ jobs:
           path: .ci-cross-python/py312
       - name: Verify two Python builds are byte-identical and match exact checked-out source
         run: python -m tools.check_cross_python_artifacts .ci-cross-python/py311 .ci-cross-python/py312
+
+  postmain-status:
+    name: Publish independently readable main-push CI status (NO release)
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'ngluonghoa/MFX' }}
+    needs: [python-unittest, cross-python-wheel-parity]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions:
+      contents: read
+      statuses: write
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5 pinned
+        with:
+          persist-credentials: false
+      - name: Publish exact-GITHUB_SHA native commit status after Python 3.11 / 3.12 / wheel PASS
+        env:
+          MFX_STATUS_TOKEN: ${{ github.token }}
+        run: python -m tools.postmain_ci_commit_status
