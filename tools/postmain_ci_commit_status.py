@@ -10,9 +10,9 @@ from __future__ import annotations
 import json
 import os
 import re
-from http.client import HTTPSConnection
 from typing import Callable, Mapping
-from urllib.request import Request
+from urllib.error import HTTPError
+from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 
 CONTEXT = "mfx/main-push-full-ci"
 REPOSITORY = "ngluonghoa/MFX"
@@ -65,6 +65,11 @@ def build_main_push_status_request(env: Mapping[str, str]) -> tuple[Request, str
     return request, target
 
 
+class NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):
+        return None
+
+
 def publish_main_push_status(
     env: Mapping[str, str],
     *,
@@ -80,22 +85,19 @@ def publish_main_push_status(
     if sender is not None:
         code = sender(request)
     else:
-        # Restrict actual network use to the prevalidated HTTPS GitHub API
-        # host. HTTPSConnection avoids generic URL schemes (Bandit B310).
+        # Honor runner's vetted HTTPS proxy with a strictly prevalidated
+        # GitHub API URL and no redirect. Raw socket bypassed egress proxy.
         expected_path = f"/repos/{REPOSITORY}/statuses/{env['GITHUB_SHA']}"
         if request.full_url != OFFICIAL_API + expected_path or request.data is None:
             raise ValueError("P036_REQUEST_MUST_TARGET_EXACT_GITHUB_SHA")
-        connection = HTTPSConnection("api.github.com", timeout=15)
+        opener = build_opener(ProxyHandler(), NoRedirect())
         try:
-            connection.request(
-                "POST", expected_path, body=request.data,
-                headers=dict(request.header_items()),
-            )
-            response = connection.getresponse()
-            code = response.status
-            response.read(1024)
-        finally:
-            connection.close()
+            with opener.open(request, timeout=15) as response:
+                code = response.status
+                response.read(1024)
+        except HTTPError as error:
+            code = error.code
+            error.read(1024)
     if type(code) is not int or code != 201:
         raise RuntimeError("P036_NATIVE_COMMIT_STATUS_NOT_ACCEPTED")
     return target
