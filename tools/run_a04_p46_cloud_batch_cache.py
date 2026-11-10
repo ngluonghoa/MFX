@@ -15,6 +15,7 @@ from mfx_cache.v2_batch_commit import (
     CHUNK_PREFIX, MANIFEST_PREFIX, MAX_LIST, PrivateObjectStore,
     _last_manifest, commit_hour,
 )
+from mfx_cache.v2_warm_promotion import WARM_PREFIX, PROMOTION_PREFIX
 from mfx_cache.td_m5_codec import parse_closed_utc_m5
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_create, _drive_get, _session,
@@ -38,6 +39,10 @@ class PrivateDriveBatchStore(PrivateObjectStore):
             return CHUNK_FOLDER, CHUNK_PREFIX
         if bucket == "manifest":
             return MANIFEST_FOLDER, MANIFEST_PREFIX
+        if bucket == "warm":
+            return CHUNK_FOLDER, WARM_PREFIX
+        if bucket == "promotion":
+            return MANIFEST_FOLDER, PROMOTION_PREFIX
         raise ValueError("P046_B1_UNAUTHORIZED_DRIVE_BUCKET")
 
     def list_names(self, bucket: str) -> tuple[str, ...]:

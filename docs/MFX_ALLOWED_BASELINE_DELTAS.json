@@ -7,8 +7,14 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "32cdf56bbbdb02ffcbfb9dcc47263b0b21c14483",
-      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data. P044: independent B3/S4 H1/M15 computed SIM range research with 27 negative tests, strict typed demo, no original Forex strategy/source parity promotion. P045 adds only standalone UTC closed M5 data-cache codec + GitHub cloud scheduled Drive writer, 25 synthetic offline tests and CLI demo; original Forex source untouched; real Drive write gated on separate secrets/repo variable. P046 46-case offline Cache Engine V2 suite: exact native M5→M15/M30/H1, deterministic compaction, missing session holes, EMA/ATR fingerprint reuse, rate budgets; no live workflow change. P046-B1 requires 38 Cloud fake Drive two-object batch/recovery tests and strictly typed commit core; no Forex source edits."
+      "expected_current_sha": "8b222d3137ab12e696be2ce97e6c7e8a06ce221d",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data. P044: independent B3/S4 H1/M15 computed SIM range research with 27 negative tests, strict typed demo, no original Forex strategy/source parity promotion. P045 adds only standalone UTC closed M5 data-cache codec + GitHub cloud scheduled Drive writer, 25 synthetic offline tests and CLI demo; original Forex source untouched; real Drive write gated on separate secrets/repo variable. P046 46-case offline Cache Engine V2 suite: exact native M5→M15/M30/H1, deterministic compaction, missing session holes, EMA/ATR fingerprint reuse, rate budgets; no live workflow change. P046-B1 requires 38 Cloud fake Drive two-object batch/recovery tests and strictly typed commit core; no Forex source edits. P046-B2 strict 32-case fake Drive WARM day promotion test plus SHA lineage and offline hosted demo. P046-B2 adds 34 cases including preexisting and racing uncommitted B1 raw chunk guards before/after WARM write. Parent originals never deleted; no real Drive writes or licensed raw-quote activation claimed."
+    },
+    {
+      "path": ".github/workflows/mfx-warm-promotion.yml",
+      "change": "added",
+      "expected_current_sha": "900fa8cedee4ae10a36e1893fc130caa687e7151",
+      "reason": "A04/P0.46-B2 additive WARM UTC day packed read optimization with original B1 manifest+chunk full SHA chain verification, source replay and failure detection, 32 fake Drive tests, triple-gated manual private Drive Cloud adapter. No deletion, cache cost/latency not measured, no real vendor provider/Drive quote writes or source numeric signals; original Forex 1:1 immutable, #27 legal provider rights and #45 original source numeric owner gate remain blocked."
     },
     {
       "path": ".github/workflows/twelve-data-cache.yml",
@@ -473,6 +479,12 @@
       "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending."
     },
     {
+      "path": "docs/MFX_A04_P46_B2_WARM_DAY_PROMOTION.md",
+      "change": "added",
+      "expected_current_sha": "51f176046d54c073b93158c0bca36e2e37fd30fc",
+      "reason": "A04/P0.46-B2 additive WARM UTC day packed read optimization with original B1 manifest+chunk full SHA chain verification, source replay and failure detection, 32 fake Drive tests, triple-gated manual private Drive Cloud adapter. No deletion, cache cost/latency not measured, no real vendor provider/Drive quote writes or source numeric signals; original Forex 1:1 immutable, #27 legal provider rights and #45 original source numeric owner gate remain blocked. P046-B2 adds 34 cases including preexisting and racing uncommitted B1 raw chunk guards before/after WARM write. Parent originals never deleted; no real Drive writes or licensed raw-quote activation claimed."
+    },
+    {
       "path": "docs/MFX_A04_P46_CACHE_V2_ARCHITECTURE_AND_ACCEPTANCE.md",
       "change": "added",
       "expected_current_sha": "1aa85bdd042420734e46a296db242b9e6b0f18bc",
@@ -524,6 +536,12 @@
       "change": "added",
       "expected_current_sha": "18a4bf0bf9d1445bd594f84d166b96d954787f11",
       "reason": "P046 cloud-only Cache Engine V2 Stage A: provider-native M5 source guards and exact M15/M30/H1, dry-run immutable day batch compaction, bounded gap/session uncertainty, source-hash research indicator reuse, deterministic quota fetch plan; original Forex 1:1 source untouched; no real price fetch/storage or alerts/broker. Owner authorized design, P045 live activation disabled, provider retention rights and signed Forex numeric detectors still blocked #27/#45."
+    },
+    {
+      "path": "mfx_cache/v2_warm_promotion.py",
+      "change": "added",
+      "expected_current_sha": "795161b5e172ad68a0d01682964948a8b8668b0a",
+      "reason": "A04/P0.46-B2 additive WARM UTC day packed read optimization with original B1 manifest+chunk full SHA chain verification, source replay and failure detection, 32 fake Drive tests, triple-gated manual private Drive Cloud adapter. No deletion, cache cost/latency not measured, no real vendor provider/Drive quote writes or source numeric signals; original Forex 1:1 immutable, #27 legal provider rights and #45 original source numeric owner gate remain blocked. Hosted CI all 32 fake Drive tests PASS but strict mypy required explicit typed day_value narrowing from JSON before return; no schema or data behavior loosened. P046-B2 adds 34 cases including preexisting and racing uncommitted B1 raw chunk guards before/after WARM write. Parent originals never deleted; no real Drive writes or licensed raw-quote activation claimed."
     },
     {
       "path": "mfx_research/__init__.py",
@@ -988,6 +1006,12 @@
       "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending."
     },
     {
+      "path": "tests/test_a04_p46_b2_warm_promotion.py",
+      "change": "added",
+      "expected_current_sha": "415d3f772006dc519c39a1afd2dd7365e9cbfb7e",
+      "reason": "A04/P0.46-B2 additive WARM UTC day packed read optimization with original B1 manifest+chunk full SHA chain verification, source replay and failure detection, 32 fake Drive tests, triple-gated manual private Drive Cloud adapter. No deletion, cache cost/latency not measured, no real vendor provider/Drive quote writes or source numeric signals; original Forex 1:1 immutable, #27 legal provider rights and #45 original source numeric owner gate remain blocked. P046-B2 adds 34 cases including preexisting and racing uncommitted B1 raw chunk guards before/after WARM write. Parent originals never deleted; no real Drive writes or licensed raw-quote activation claimed."
+    },
+    {
       "path": "tests/test_a04_p46_cache_v2_engine.py",
       "change": "added",
       "expected_current_sha": "16e9ccbdfad7a4cb405d8dc34f938649c3251c8c",
@@ -1420,6 +1444,18 @@
       "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending."
     },
     {
+      "path": "tools/run_a04_p46_b2_cloud_warm.py",
+      "change": "added",
+      "expected_current_sha": "755f0a328f85d1c7f5036c7857b98e1653a5ccac",
+      "reason": "A04/P0.46-B2 additive WARM UTC day packed read optimization with original B1 manifest+chunk full SHA chain verification, source replay and failure detection, 32 fake Drive tests, triple-gated manual private Drive Cloud adapter. No deletion, cache cost/latency not measured, no real vendor provider/Drive quote writes or source numeric signals; original Forex 1:1 immutable, #27 legal provider rights and #45 original source numeric owner gate remain blocked."
+    },
+    {
+      "path": "tools/run_a04_p46_b2_warm_demo.py",
+      "change": "added",
+      "expected_current_sha": "424a2be13e12b4c9fcba090c478ad407a010bfb4",
+      "reason": "A04/P0.46-B2 additive WARM UTC day packed read optimization with original B1 manifest+chunk full SHA chain verification, source replay and failure detection, 32 fake Drive tests, triple-gated manual private Drive Cloud adapter. No deletion, cache cost/latency not measured, no real vendor provider/Drive quote writes or source numeric signals; original Forex 1:1 immutable, #27 legal provider rights and #45 original source numeric owner gate remain blocked."
+    },
+    {
       "path": "tools/run_a04_p46_cache_v2_demo.py",
       "change": "added",
       "expected_current_sha": "8e374737be77420ed491fccb42d3a1d13f29a575",
@@ -1428,8 +1464,8 @@
     {
       "path": "tools/run_a04_p46_cloud_batch_cache.py",
       "change": "added",
-      "expected_current_sha": "b388428c963c7c9828c4c849feb0bc8bbf4d465b",
-      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending."
+      "expected_current_sha": "55b05004d4e2f76d932867d6829f5d1b0ca2de8c",
+      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending. B2 extends private Drive adapter with scoped warm/promotion name spaces only; original B1 batch runner and explicit activation unchanged."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
