@@ -166,7 +166,10 @@ def _last_manifest(
     # Never trust a manifest whose referenced immutable raw+derived
     # chunk has been lost, mutated, or detached from the parent link.
     referenced = latest["chunk_name"]
-    archived_chunk = store.read("chunk", referenced)
+    try:
+        archived_chunk = store.read("chunk", referenced)
+    except (KeyError, FileNotFoundError) as exc:
+        raise ValueError("P046_B1_MANIFEST_REFERENCES_MISSING_CHUNK") from exc
     _validate_chunk(referenced, archived_chunk)
     if (digest(archived_chunk) != latest["chunk_sha256"]
             or archived_chunk["hour_utc"] != latest["hour_utc"]
