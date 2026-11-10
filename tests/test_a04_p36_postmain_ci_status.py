@@ -64,6 +64,9 @@ class P036PostMainStatusTests(unittest.TestCase):
         self.assertIn("persist-credentials: false", text)
         self.assertIn("MFX_STATUS_TOKEN:", text)
         self.assertNotIn("issues: write", text)
+        sender_source = Path("tools/postmain_ci_commit_status.py").read_text(encoding="utf-8")
+        self.assertNotIn("urlopen(", sender_source)
+        self.assertIn('HTTPSConnection("api.github.com", timeout=15)', sender_source)
 
     def test_05_exact_native_commit_context_payload_and_run_url(self) -> None:
         req, target = build_main_push_status_request(good_env())
