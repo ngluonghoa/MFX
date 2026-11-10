@@ -1,0 +1,104 @@
+{
+  "schema": "MFX_A04_P28F_S6_FXB9_SYMMETRY_SCOPE_V1",
+  "version": "2026-11-10-MFX-DESIGN-REVIEW-ONLY",
+  "related_issue": "https://github.com/ngluonghoa/MFX/issues/48",
+  "authority": {
+    "scope": "MFX_ONLY_PROPOSED_CLARIFICATION",
+    "user_requested_review": true,
+    "original_forex_rule_changed": false,
+    "numeric_formula_approved": false,
+    "profitable_symmetry_established": false,
+    "live_signal_approved": false
+  },
+  "source": {
+    "original_repo": "ngluonghoa/forex-trading-1-0",
+    "frozen_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+    "frozen_tree": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+    "source_audit_doc_id": "10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA",
+    "original_s6_heading_paragraph": 160,
+    "original_s6_r0_paragraph": 161,
+    "original_s6_rc_paragraph": 162,
+    "original_s6_re_paragraph": 163,
+    "original_s6_rf_paragraph": 164,
+    "original_s4_heading_paragraph": 138,
+    "original_b3_heading_paragraph": 39,
+    "original_catalog_count": 18
+  },
+  "interpretation": {
+    "original_s6_rc_phrase": "return to range",
+    "original_s6_range_meaning": "AMBIGUOUS_NOT_NUMERICALLY_DEFINED",
+    "original_s6_outside_sideways_range_authority": "NOT_PROVEN_FROM_SOURCE",
+    "proposed_mfx_s6_subtype": "S6_STRUCTURAL_PIVOT_FALSE_UP_BREAK_OUTSIDE_PREDECLARED_SIDEWAYS_RANGE",
+    "proposed_scope_status": "DESIGN_REVIEW_ONLY_OWNER_NUMERIC_APPROVAL_PENDING",
+    "do_not_replace_original_s6": true,
+    "do_not_create_ninth_short": true,
+    "no_numeric_threshold_copied_from_fxb9": true,
+    "no_symmetric_expectancy_claim": true
+  },
+  "ownership_matrix": [
+    {
+      "key": "LOWER_RANGE",
+      "direction": "LONG",
+      "owner": "B3",
+      "context": "INSIDE_OR_AT_PREDECLARED_RANGE_LOWER_BAND",
+      "mechanism": "FALSE_DOWN_BREAK_RECLAIM",
+      "source_heritage": "ORIGINAL_FOREX_QUALITATIVE_ONLY"
+    },
+    {
+      "key": "LOWER_STRUCTURAL_OUTSIDE",
+      "direction": "LONG",
+      "owner": "FX-B9",
+      "context": "OUTSIDE_PREDECLARED_SIDEWAYS_RANGE",
+      "mechanism": "BEAR_TRAP_FALSE_DOWN_BREAK_RECLAIM",
+      "source_heritage": "MFX_EXTENSION_DESIGN_ONLY"
+    },
+    {
+      "key": "UPPER_RANGE",
+      "direction": "SHORT",
+      "owner": "S4",
+      "context": "INSIDE_OR_AT_PREDECLARED_RANGE_UPPER_BAND",
+      "mechanism": "FALSE_UP_BREAK_REJECT",
+      "source_heritage": "ORIGINAL_FOREX_QUALITATIVE_ONLY"
+    },
+    {
+      "key": "UPPER_STRUCTURAL_OUTSIDE",
+      "direction": "SHORT",
+      "owner": "S6",
+      "context": "OUTSIDE_PREDECLARED_SIDEWAYS_RANGE",
+      "mechanism": "BULL_TRAP_FALSE_UP_BREAK_REJECT",
+      "source_heritage": "MFX_PROPOSED_S6_SCOPE_CLARIFICATION_NOT_ORIGINAL_APPROVAL"
+    }
+  ],
+  "proposed_s6_review_phases": {
+    "R0": "Predeclared H1/H4 resistance/pivot and upward-break event known as-of, outside a predeclared sideways range. Structural lookback/bars NOT APPROVED.",
+    "R_C": "Failure to hold above previously known resistance, potential return below pivot. Original S6 'return to range' ambiguous; this outside-range variant is MFX proposal ONLY.",
+    "R_E": "Research-only CLOSED verified M15 price below known pivot at first-known/retrieved time; exact predicate and timing PENDING.",
+    "R_F": "Research-only higher-timeframe structural rejection and break of prior-known micro-support with spread/cost/risk/invalidation/TP/SL; all numerical rules PENDING."
+  },
+  "overlaps": {
+    "primary_range_context": "Within predeclared sideways range lower/upper band use B3/S4 respectively, not FX-B9/S6-outside proposal.",
+    "unclear_range_context": "UNKNOWN_NO_SIGNAL",
+    "duplicate_origin_event": "ONE_RESEARCH_OPPORTUNITY_ONLY_NO_PUBLISH",
+    "no_copying": "NO_AUTOMATIC_SYMMETRIC_THRESHOLDS_SL_TP_FEES_OOS_OR_PROFIT"
+  },
+  "counts": {
+    "original_forex_catalog_labels": 18,
+    "mfx_extended_catalog_labels": 19,
+    "mfx_buy_entry_design_candidates": 8,
+    "mfx_sell_entry_design_candidates": 8,
+    "mfx_watch_protective_labels": 3,
+    "numeric_approved_mfx_entry_rules": 0,
+    "b2_s2_pending_numerical_requirements": 36
+  },
+  "stop_gates": {
+    "source_numeric_approved": false,
+    "action_eligible": false,
+    "signal_stage": "UNVERIFIED",
+    "current_action": "NO_SIGNAL",
+    "may_publish": false,
+    "licensed_forex_market_feed": false,
+    "real_market_drive_cache_enabled": false,
+    "broker_orders_enabled": false,
+    "release_ready": false
+  }
+}
