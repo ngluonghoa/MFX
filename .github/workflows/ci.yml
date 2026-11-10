@@ -232,7 +232,7 @@ jobs:
           python -m unittest discover -s tests -p test_a04_p46_b1_hourly_drive_batch.py -v
           python -m tools.run_a04_p46_b1_batch_demo
           python -m compileall -q tools/run_a04_p46_cloud_batch_cache.py
-      - name: A04/P0.46-B2 REQUIRE immutable WARM day promotion, source revalidation, replay tests
+      - name: A04/P0.46-B2 REQUIRE 34-case WARM promotion and B1 orphan-race rejection
         env:
           PYTHONPATH: src:.
         run: |
