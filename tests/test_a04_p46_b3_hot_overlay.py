@@ -380,7 +380,7 @@ class P046B3HotTests(unittest.TestCase):
         content=Path(".github/workflows/mfx-hot-cache.yml").read_text()
         self.assertIn("MFX_V3_HOT_CACHE_ACCEPTED",content)
         self.assertIn("MFX_TD_ACCOUNT_CACHE_RIGHTS_CONFIRMED",content)
-        self.assertIn('cron: "*/5 * * * *"',content)
+        self.assertIn('cron: "15 * * * *"',content)
         self.assertIn("run_a04_p46_b3_hot_cloud",content)
         self.assertNotIn("MOCHI",content)
 
