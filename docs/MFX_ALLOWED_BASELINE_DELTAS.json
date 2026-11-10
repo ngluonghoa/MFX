@@ -29,6 +29,18 @@
       "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Owner decision #86 2026-11-10 reduces *scheduled HOT observation*, not M5 candle interval, from every 5min to hourly UTC :15. Existing B1 separate hourly :10 and manual dispatch retained; no real activation, no source numeric approval or live market signals. Incremental 16 source-bar request should overlap four prior bars after successful hourly poll; 3 additional targeted tests. A04/P0.48 Gmail OAuth personal My Drive: complete 3-secret OAuth fail-closed, app-owned drive.file folder tree, no source/trading change; original frozen Forex source and prior stage-gates unchanged. Real Google Drive authentication still unproven until user runs manual Actions staging. External Testing token may expire in seven days."
     },
     {
+      "path": ".github/workflows/mfx-hourly-cache-audit.yml",
+      "change": "added",
+      "expected_current_sha": "d4277dc8a92a48bcf8e07e0d1acf58898882073d",
+      "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
+    },
+    {
+      "path": ".github/workflows/mfx-oauth-drive-bootstrap.yml",
+      "change": "added",
+      "expected_current_sha": "20e030fa7efca82e3720b749c73a2a93339d0c2c",
+      "reason": "A04/P0.48 Gmail OAuth private My Drive STAGING ONLY. Cloud-only manual bootstrap creates idempotent app-owned Drive folders with drive.file, offline negative/rerun tests and runbook. No real Twelve Data calls, no source signals/broker, no user-local runtime, no mutation of existing MFX Drive folders; actual GitHub Actions OAuth/Drive receipts still pending."
+    },
+    {
       "path": ".github/workflows/mfx-warm-promotion.yml",
       "change": "added",
       "expected_current_sha": "900fa8cedee4ae10a36e1893fc130caa687e7151",
@@ -527,6 +539,18 @@
       "reason": "A04/P0.46 owner requested hourly background monitoring; policy distinguishes 24 HOT opportunities/day from separate hourly B1 24 jobs, requires no activation of vendor raw cache or user trading signals, preserves on-demand GitHub manual dispatch and full frozen original Forex source parity."
     },
     {
+      "path": "docs/MFX_A04_P47_OFFLINE_HOT_B1_PREFLIGHT.md",
+      "change": "added",
+      "expected_current_sha": "d92bea71e0270f507e7ea37c07ba2be7e3c55622",
+      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
+    },
+    {
+      "path": "docs/MFX_A04_P50_READONLY_HOURLY_CACHE_AUDIT.md",
+      "change": "added",
+      "expected_current_sha": "1a63e419415c61cf842af1517f3b4060af894e25",
+      "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -536,6 +560,12 @@
       "change": "added",
       "expected_current_sha": "6117e05d8069b10ad577c8e5121f2db597328431",
       "reason": "A01/P0.1 immutable original Forex 102-blob tree baseline"
+    },
+    {
+      "path": "docs/MFX_GMAIL_OAUTH_ACTIONS_SETUP.md",
+      "change": "added",
+      "expected_current_sha": "e251acd0690b24ffc05a4f5b353c36f2ca4a0106",
+      "reason": "A04/P0.48 Gmail OAuth private My Drive STAGING ONLY. Cloud-only manual bootstrap creates idempotent app-owned Drive folders with drive.file, offline negative/rerun tests and runbook. No real Twelve Data calls, no source signals/broker, no user-local runtime, no mutation of existing MFX Drive folders; actual GitHub Actions OAuth/Drive receipts still pending."
     },
     {
       "path": "docs/MFX_IDENTITY_ISOLATION.md",
@@ -584,6 +614,12 @@
       "change": "added",
       "expected_current_sha": "d8f64b3bff2065e505ca2b53835f6c72e7e73d30",
       "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
+    },
+    {
+      "path": "mfx_cache/v3_offline_preflight.py",
+      "change": "added",
+      "expected_current_sha": "56454b48f94c636a1e03edbb7963dc244e8a9209",
+      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
     },
     {
       "path": "mfx_cache/v3_sealed_index.py",
@@ -1084,6 +1120,24 @@
       "reason": "P046 cloud-only Cache Engine V2 Stage A: provider-native M5 source guards and exact M15/M30/H1, dry-run immutable day batch compaction, bounded gap/session uncertainty, source-hash research indicator reuse, deterministic quota fetch plan; original Forex 1:1 source untouched; no real price fetch/storage or alerts/broker. Owner authorized design, P045 live activation disabled, provider retention rights and signed Forex numeric detectors still blocked #27/#45."
     },
     {
+      "path": "tests/test_a04_p47_offline_preflight.py",
+      "change": "added",
+      "expected_current_sha": "088ea48cfbaded3cf7471af08a4e7afa1af62641",
+      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
+    },
+    {
+      "path": "tests/test_a04_p48_google_oauth_cache.py",
+      "change": "added",
+      "expected_current_sha": "f709278b635ecdc3594ebdbbfa0f69f364436c7a",
+      "reason": "A04/P0.48 Gmail OAuth private My Drive STAGING ONLY. Cloud-only manual bootstrap creates idempotent app-owned Drive folders with drive.file, offline negative/rerun tests and runbook. No real Twelve Data calls, no source signals/broker, no user-local runtime, no mutation of existing MFX Drive folders; actual GitHub Actions OAuth/Drive receipts still pending."
+    },
+    {
+      "path": "tests/test_a04_p50_hourly_cache_audit.py",
+      "change": "added",
+      "expected_current_sha": "f580859409aaff1827564271a6a0bbe6ae430b24",
+      "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1570,52 +1624,22 @@
       "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending. B2 extends private Drive adapter with scoped warm/promotion name spaces only; original B1 batch runner and explicit activation unchanged. A04/P0.49 adjusts provider quota guard to reserve proportionally for 8-credit Basic plans, logs non-secret usage counters, and adds offline boundary/fail-closed regression tests. Hourly V2 gates, strict Drive readback, NO broker, and frozen 1:1 source remain unchanged."
     },
     {
-      "path": "tools/verify_frozen_source_baseline.py",
+      "path": "tools/run_mfx_hourly_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "28b408808281bfc952c66c5fe5e09cd3e76d7107",
-      "reason": "A01/P0.1 offline original Git tree/byte parity and exception validator; exact six-file A02 approved typed-source SHA verifier"
-    },
-    {
-      "path": "mfx_cache/v3_offline_preflight.py",
-      "change": "added",
-      "expected_current_sha": "56454b48f94c636a1e03edbb7963dc244e8a9209",
-      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
-    },
-    {
-      "path": "tests/test_a04_p47_offline_preflight.py",
-      "change": "added",
-      "expected_current_sha": "088ea48cfbaded3cf7471af08a4e7afa1af62641",
-      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
-    },
-    {
-      "path": "docs/MFX_A04_P47_OFFLINE_HOT_B1_PREFLIGHT.md",
-      "change": "added",
-      "expected_current_sha": "d92bea71e0270f507e7ea37c07ba2be7e3c55622",
-      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
-    },
-    {
-      "path": ".github/workflows/mfx-oauth-drive-bootstrap.yml",
-      "change": "added",
-      "expected_current_sha": "20e030fa7efca82e3720b749c73a2a93339d0c2c",
-      "reason": "A04/P0.48 Gmail OAuth private My Drive STAGING ONLY. Cloud-only manual bootstrap creates idempotent app-owned Drive folders with drive.file, offline negative/rerun tests and runbook. No real Twelve Data calls, no source signals/broker, no user-local runtime, no mutation of existing MFX Drive folders; actual GitHub Actions OAuth/Drive receipts still pending."
-    },
-    {
-      "path": "docs/MFX_GMAIL_OAUTH_ACTIONS_SETUP.md",
-      "change": "added",
-      "expected_current_sha": "e251acd0690b24ffc05a4f5b353c36f2ca4a0106",
-      "reason": "A04/P0.48 Gmail OAuth private My Drive STAGING ONLY. Cloud-only manual bootstrap creates idempotent app-owned Drive folders with drive.file, offline negative/rerun tests and runbook. No real Twelve Data calls, no source signals/broker, no user-local runtime, no mutation of existing MFX Drive folders; actual GitHub Actions OAuth/Drive receipts still pending."
-    },
-    {
-      "path": "tests/test_a04_p48_google_oauth_cache.py",
-      "change": "added",
-      "expected_current_sha": "f709278b635ecdc3594ebdbbfa0f69f364436c7a",
-      "reason": "A04/P0.48 Gmail OAuth private My Drive STAGING ONLY. Cloud-only manual bootstrap creates idempotent app-owned Drive folders with drive.file, offline negative/rerun tests and runbook. No real Twelve Data calls, no source signals/broker, no user-local runtime, no mutation of existing MFX Drive folders; actual GitHub Actions OAuth/Drive receipts still pending."
+      "expected_current_sha": "9ae58743809913bc434129d19903597dd18852fc",
+      "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
     },
     {
       "path": "tools/run_mfx_oauth_drive_bootstrap.py",
       "change": "added",
       "expected_current_sha": "5a8a61f41f9d0eaed294bdb7e66882f71c41d0a4",
       "reason": "A04/P0.48 Gmail OAuth private My Drive STAGING ONLY. Cloud-only manual bootstrap creates idempotent app-owned Drive folders with drive.file, offline negative/rerun tests and runbook. No real Twelve Data calls, no source signals/broker, no user-local runtime, no mutation of existing MFX Drive folders; actual GitHub Actions OAuth/Drive receipts still pending."
+    },
+    {
+      "path": "tools/verify_frozen_source_baseline.py",
+      "change": "added",
+      "expected_current_sha": "28b408808281bfc952c66c5fe5e09cd3e76d7107",
+      "reason": "A01/P0.1 offline original Git tree/byte parity and exception validator; exact six-file A02 approved typed-source SHA verifier"
     }
   ]
 }
