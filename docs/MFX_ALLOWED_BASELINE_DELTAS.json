@@ -8,7 +8,7 @@
       "path": ".github/workflows/ci.yml",
       "change": "modified",
       "expected_current_sha": "86977f297785b14676a053c2f68fa20cad40cd11",
-      "reason": "A04/P0.37 read-only PR-only Cloud GitHub Action diagnoses exact latest main SHA event=push run jobs and native commit status with actions:read/contents:read, pinned checkout, fixed api.github.com HTTPS and 8 offline safety tests. No status write, original Forex src, real provider/Drive cache, alert, numerical owner approval or broker."
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -427,14 +427,14 @@
     {
       "path": "docs/MFX_A04_P36_POSTMAIN_STATUS_EVIDENCE.md",
       "change": "added",
-      "expected_current_sha": "de13f9b427a2ab3ea8bee2f0e57c610749bb3fe7",
-      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked."
+      "expected_current_sha": "8c688eaa3f1b1d4bb992f524202153bdc041a61a",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
     },
     {
       "path": "docs/MFX_A04_P37_MAIN_PUSH_READONLY_DIAGNOSTIC.md",
       "change": "added",
-      "expected_current_sha": "93ed24430747c580e090ab1d3dd339a870558243",
-      "reason": "A04/P0.37 read-only PR-only Cloud GitHub Action diagnoses exact latest main SHA event=push run jobs and native commit status with actions:read/contents:read, pinned checkout, fixed api.github.com HTTPS and 8 offline safety tests. No status write, original Forex src, real provider/Drive cache, alert, numerical owner approval or broker."
+      "expected_current_sha": "f3f5b70aa275bf4546a8966921eda6a751297cb2",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -870,14 +870,14 @@
     {
       "path": "tests/test_a04_p36_postmain_ci_status.py",
       "change": "added",
-      "expected_current_sha": "5555649b98351c3c3def50cb0faa8fe7d7308f2d",
-      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked. Initial draft PR#65 CI had Bandit B310 generic-urlopen warning; changed status sender to pinned HTTPSConnection('api.github.com') and added a static fixed-host regression check, no Forex/source/auth behavior change."
+      "expected_current_sha": "565f6e7e5c87e4d7da918b9eaf61c75ef2bf414b",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
     },
     {
       "path": "tests/test_a04_p37_main_push_diagnostics.py",
       "change": "added",
-      "expected_current_sha": "e1900323fb22d4e9053431213c52486975346fd0",
-      "reason": "A04/P0.37 read-only PR-only Cloud GitHub Action diagnoses exact latest main SHA event=push run jobs and native commit status with actions:read/contents:read, pinned checkout, fixed api.github.com HTTPS and 8 offline safety tests. No status write, original Forex src, real provider/Drive cache, alert, numerical owner approval or broker."
+      "expected_current_sha": "0171f2fd2c98c9e07abebdbf05731c287f563190",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1116,14 +1116,14 @@
     {
       "path": "tools/postmain_ci_commit_status.py",
       "change": "added",
-      "expected_current_sha": "265c74285436a1b7db2d43f37711410d4741d20e",
-      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked. Initial draft PR#65 CI had Bandit B310 generic-urlopen warning; changed status sender to pinned HTTPSConnection('api.github.com') and added a static fixed-host regression check, no Forex/source/auth behavior change."
+      "expected_current_sha": "f358670da2bb86fd2c0abdb75ff8729f64d7b05e",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
     },
     {
       "path": "tools/read_main_push_ci_diagnostic.py",
       "change": "added",
-      "expected_current_sha": "9b39a8e72729c77b122b47dc105dae18959194b9",
-      "reason": "A04/P0.37 read-only PR-only Cloud GitHub Action diagnoses exact latest main SHA event=push run jobs and native commit status with actions:read/contents:read, pinned checkout, fixed api.github.com HTTPS and 8 offline safety tests. No status write, original Forex src, real provider/Drive cache, alert, numerical owner approval or broker. First PR diagnostic #42777631856 got HTTP403 on branch-main metadata before listing any push run. Added safe, token-free error classification and GitHub server/request-id existence indicators to disambiguate API permissions vs egress proxy; no original Forex change."
+      "expected_current_sha": "468c51dc345ae5456659ff5b23b50549a38254f1",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
     },
     {
       "path": "tools/render_a04_p07_wrapper_golden.py",
