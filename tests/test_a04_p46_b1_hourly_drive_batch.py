@@ -350,6 +350,36 @@ class P046B1HourlyCommitTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"INVALID_ROOT_MANIFEST"):
             commit_hour(d,now_utc=NOW+timedelta(hours=2))
 
+    def test_35_referenced_chunk_missing_blocks_cache_state(self) -> None:
+        d=FakeDrive()
+        commit_hour(d,now_utc=NOW,observed=hour_rows())
+        del d.objects["chunk"][next(iter(d.objects["chunk"]))]
+        with self.assertRaises(ValueError):
+            commit_hour(d,now_utc=NOW)
+
+    def test_36_second_chunk_same_committed_hour_is_fork(self) -> None:
+        d=FakeDrive()
+        commit_hour(d,now_utc=NOW,observed=hour_rows())
+        from mfx_cache.v2_batch_commit import _make_plan
+        other=hour_rows()
+        changed=other[:1]+(replace(other[1],close="1.10990"),)+other[2:]
+        plan=_make_plan(None,hour_utc=BASE.isoformat(),
+                        bars=changed,now_utc=NOW)
+        d.objects["chunk"][plan.chunk_name]=plan.chunk
+        with self.assertRaisesRegex(ValueError,"CONFLICTING_COMMITTED_HOUR"):
+            commit_hour(d,now_utc=NOW)
+
+    def test_37_workflow_uses_new_writer_and_dual_activation(self) -> None:
+        from pathlib import Path
+        y=Path(".github/workflows/twelve-data-cache.yml").read_text(
+            encoding="utf-8")
+        self.assertIn("MFX_REAL_CACHE_ENABLED",y)
+        self.assertIn("MFX_V2_BATCH_CACHE_ACCEPTED",y)
+        self.assertIn("python -m tools.run_a04_p46_cloud_batch_cache",y)
+        self.assertNotIn(
+            "python -m tools.run_a04_p45_cloud_twelve_data_cache",y)
+        self.assertIn('cron: "10 * * * *"',y)
+
     def test_35_manifest_has_gap_and_no_trade_outcomes(self) -> None:
         d=FakeDrive()
         commit_hour(d,now_utc=NOW,observed=hour_rows())
