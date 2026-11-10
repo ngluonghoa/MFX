@@ -11,8 +11,7 @@ import json
 from typing import Any
 
 from mfx_cache.td_m5_codec import ClosedM5Bar
-from mfx_cache.v3_hot_overlay import HOT_NAME, freshness
-from tools.run_a04_p46_b3_hot_cloud import commit_hot
+from mfx_cache.v3_hot_overlay import HOT_NAME, commit_hot, freshness
 
 
 class MemoryHotPort:
