@@ -1056,8 +1056,8 @@
     {
       "path": "tests/test_a04_p46_b1_hourly_drive_batch.py",
       "change": "added",
-      "expected_current_sha": "00bcb720f1d666ecf4b617ecdaf8939fe49db4bb",
-      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending."
+      "expected_current_sha": "43af265b3d98650e57a9c33d8a20f9823006c175",
+      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending. A04/P0.49 adjusts provider quota guard to reserve proportionally for 8-credit Basic plans, logs non-secret usage counters, and adds offline boundary/fail-closed regression tests. Hourly V2 gates, strict Drive readback, NO broker, and frozen 1:1 source remain unchanged."
     },
     {
       "path": "tests/test_a04_p46_b2_warm_promotion.py",
@@ -1566,8 +1566,8 @@
     {
       "path": "tools/run_a04_p46_cloud_batch_cache.py",
       "change": "added",
-      "expected_current_sha": "55b05004d4e2f76d932867d6829f5d1b0ca2de8c",
-      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending. B2 extends private Drive adapter with scoped warm/promotion name spaces only; original B1 batch runner and explicit activation unchanged."
+      "expected_current_sha": "5cf2d6be52c4472f0a1f8ed1033ddbb163926f4b",
+      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending. B2 extends private Drive adapter with scoped warm/promotion name spaces only; original B1 batch runner and explicit activation unchanged. A04/P0.49 adjusts provider quota guard to reserve proportionally for 8-credit Basic plans, logs non-secret usage counters, and adds offline boundary/fail-closed regression tests. Hourly V2 gates, strict Drive readback, NO broker, and frozen 1:1 source remain unchanged."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
