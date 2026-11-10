@@ -12,7 +12,7 @@ from typing import Any
 
 from mfx_cache.td_m5_codec import ClosedM5Bar, PROVIDER, SYMBOL, digest
 from mfx_cache.v2_batch_commit import (
-    PrivateObjectStore, _validate_chunk, _validate_manifest,
+    CHUNK_PREFIX, PrivateObjectStore, _validate_chunk, _validate_manifest,
 )
 from mfx_cache.v2_engine import derive_intraday, validate_m5
 
@@ -252,6 +252,18 @@ def promote_completed_utc_day(
     plan = _plan_day(verified, day=day, now_utc=now_utc)
     if plan is None:
         return WarmResult("INSUFFICIENT_CLOSED_SOURCE_HOURS",day,0,0,0,False)
+    # B1 may have uploaded an hourly raw chunk but crashed before its
+    # Manifest. Do not promote a partial WARM day that hides such an orphan.
+    hourly_names = store.list_names("chunk")
+    if (len(hourly_names) > MAX_SOURCE_MANIFESTS
+            or len(set(hourly_names)) != len(hourly_names)):
+        raise ValueError("P046_B2_SOURCE_CHUNK_LIST_AMBIGUOUS")
+    committed = {m["chunk_name"] for _, m, _ in _day_source(verified, day)}
+    date_stamp = day.replace("-", "")
+    for name in hourly_names:
+        if (name.startswith(CHUNK_PREFIX+date_stamp)
+                and name not in committed):
+            raise ValueError("P046_B2_UNCOMMITTED_RAW_HOUR_BLOCKS_PROMOTION")
     known_promotions = _target_named(store, "promotion", day)
     if len(known_promotions) > 1:
         raise ValueError("P046_B2_CONFLICTING_DAY_PROMOTIONS")
