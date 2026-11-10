@@ -122,21 +122,44 @@ def execute_two_synthetic_writes(
     port: SyntheticPort, *, now_utc: datetime,
     run_id: str,
 ) -> StagingReceipt:
-    """Exact two Cloud Drive updates in one manually authorized run.
+    """Crash/retry safe same-run two-write synthetic-only test.
 
-    Simulates a new-file creation followed by UPDATE OF SAME FILE ID.
-    The real adapter must check matching exact ID independently; port only
-    proves bytes and protocol order, not actual Google Drive permission.
+    A repeated GitHub workflow attempt may share the same run ID; it
+    verifies an existing first write or an already committed second write,
+    without adding a new Drive file or replacing a foreign fixture.
     """
     _utc(now_utc)
-    if port.load() is not None:
-        raise ValueError("P046_B3B_STAGING_NAME_ALREADY_EXISTS")
-    first = _sample(run_id,now_utc,generation=1,predecessor=None)
-    validate_synthetic(first,now_utc=now_utc)
-    port.write(expected=None,replacement=first)
-    if port.load()!=first:
-        raise ValueError("P046_B3B_FIRST_SYNTHETIC_READBACK_FAILED")
-    second = _sample(run_id,now_utc,generation=2,predecessor=first)
+    if not run_id.isdigit() or not 1 <= len(run_id) <= 18:
+        raise ValueError("P046_B3B_INVALID_RUN_ID")
+    existing = port.load()
+    if existing is not None:
+        validate_synthetic(existing,now_utc=now_utc)
+        if existing["run_id"]!=run_id:
+            raise ValueError("P046_B3B_STAGING_RUN_ID_CONFLICT")
+        original_time = datetime.fromisoformat(existing["fixture_created_utc"])
+        first = _sample(
+            run_id,original_time,generation=1,predecessor=None,
+        )
+        second = _sample(
+            run_id,original_time,generation=2,predecessor=first,
+        )
+        if existing == second:
+            return StagingReceipt(
+                "SYNTHETIC_REPLAY_ALREADY_COMPLETED",
+                digest(first),digest(second),0,0,True,True,
+            )
+        if existing != first:
+            raise ValueError("P046_B3B_SYNTHETIC_PREDECESSOR_TAMPER")
+        created = 0
+        status = "SYNTHETIC_RESUMED_AFTER_FIRST_WRITE"
+    else:
+        first = _sample(run_id,now_utc,generation=1,predecessor=None)
+        second = _sample(run_id,now_utc,generation=2,predecessor=first)
+        port.write(expected=None,replacement=first)
+        if port.load()!=first:
+            raise ValueError("P046_B3B_FIRST_SYNTHETIC_READBACK_FAILED")
+        created = 1
+        status = "SYNTHETIC_TWO_WRITES_VERIFIED"
     validate_synthetic(second,now_utc=now_utc)
     if port.load()!=first:
         raise ValueError("P046_B3B_STAGING_CHANGED_BETWEEN_UPDATES")
@@ -144,10 +167,10 @@ def execute_two_synthetic_writes(
     if port.load()!=second:
         raise ValueError("P046_B3B_SECOND_SYNTHETIC_READBACK_FAILED")
     return StagingReceipt(
-        status="TWO_SYNTHETIC_WRITES_VERIFIED_BY_INJECTED_PORT",
+        status=status,
         first_sha256=digest(first),
         second_sha256=digest(second),
-        file_creates_expected=1,
+        file_creates_expected=created,
         same_file_in_place_updates_expected=1,
         observed_first_readback=True,
         observed_second_readback=True,
