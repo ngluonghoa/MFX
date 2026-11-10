@@ -1,0 +1,21 @@
+# MFX A04/P0.46 — Owner-selected hourly background observation policy (2026-11-10)
+
+Owner confirmed: retain **automatic background monitoring**, but check once **per hour**, not every five minutes. Continue to allow optional **on-demand refresh when ChatGPT is asked**. Preserve Cloud-only GitHub Actions + private Google Drive; no local Mac/MOCHI and no Forex original source 1:1 changes. Tracking issue #86.
+
+## Applied GitHub schedule (staged, still disabled until independent gates)
+- `.github/workflows/mfx-hot-cache.yml`: `cron: "15 * * * *"`, i.e. GitHub's **UTC minute 15 of each hour** (22:15, 23:15 etc. Vietnam local time are the same minute). This replaces the earlier `*/5 * * * *`. Its `workflow_dispatch` manual hook remains present, but ChatGPT-to-GitHub on-demand invocation **is not implemented** in the current connector.
+- B1 immutable hourly archive `.github/workflows/twelve-data-cache.yml` remains `cron: "10 * * * *"`. These are **two different jobs**, scheduled five minutes apart, and share GitHub's `mfx-twelvedata-private-cache` cooperative concurrency group. If both enabled, **up to 48 scheduled jobs/day across HOT+B1** (24 each, subject to GitHub delays/skips), not 24 total. Without a shared vendor fetch result, these may be two actual vendor quote requests/hour. No quota saving claim beyond reduced HOT wakeups.
+- HOT now has **24 scheduled opportunities/day versus 288** under its previous five-minute cron: theoretical 12x fewer **HOT launches**, 91.67% reduction, not yet measured HTTP/API-credit/Drive cost. Because GitHub cron is best-effort it does not guarantee a run or a fresh close exactly on schedule.
+- HOT remains native **M5 candles**, not a new H1 timeframe: with uninterrupted hourly runs a 16-candle overlap fetch can share ~4 existing bars and append up to **12 new closed M5 bars**. Gap of more than the supported source-overlap window, delayed runs, vendor revisions or source session closure must fail closed; don't silently skip or synthesize candles. Native H4/D1 remains a separate provider source requirement.
+- HOT now sits stale for most of each hour. Its existing freshness guard marks data stale if latest CLOSED M5 is older than 390 seconds; **an hourly background policy cannot guarantee that a five-minute entry opportunity is seen or reported in time**. Short-lived BUY/SELL opportunities may be detected late or missed entirely.
+- On-demand manual trigger remains defined as `workflow_dispatch`; **it is not automatically invoked by ChatGPT**, because the current connected GitHub toolset does not expose new-workflow dispatch. No promise of synchronous first-turn refresh or immediate ChatGPT readback yet.
+
+## Authorization and operating safeguards
+
+All prior HOT account-specific launch gates remain unchanged: `MFX_REAL_CACHE_ENABLED`, `MFX_V3_HOT_CACHE_ACCEPTED`, `MFX_TD_ACCOUNT_CACHE_RIGHTS_CONFIRMED` plus independently configured GitHub Twelve Data REST API key, Google Drive service account secret, actual private folder writing grants, actual provider plan rights, and a verified Drive first-write/readback. **This policy PR must not flip any gates, create real Cache prices or invent trade alerts.** B1 hourly batch still has its own second flag `MFX_V2_BATCH_CACHE_ACCEPTED`. B2 WARM and B3B sealed index remain manual staging as before.
+
+What "background monitoring" means now: **background source-data observation/caching only**, not full hourly numeric BUY/SELL opportunity evaluation. Numeric entry rules 0/16 source-owner approved; B2/S2 owner decisions 0/36; provider BIDASK quality and caching/retention licensing Gate #27 unresolved. Genuine verified live market signals, autonomous market alerts, and ChatGPT-triggered GitHub refresh require separate activation/integration, including Issue #74 real quote first-readback and Issue #82 HOT acceptance. No brokers.
+
+## Acceptance
+
+Require hosted Python3.11 and 3.12 full unit tests, targeted changed owner cron assertions, explicit hourly CLOSED M5 4-overlap/12-new calculation, intrahour stale reading, exact SHA baseline allowlist, strict mypy/Ruff, wheel parity, independent main-push CI and canonical Docs readback. No actual Drive/vendor call is triggered by schedule-only PR.

@@ -380,9 +380,44 @@ class P046B3HotTests(unittest.TestCase):
         content=Path(".github/workflows/mfx-hot-cache.yml").read_text()
         self.assertIn("MFX_V3_HOT_CACHE_ACCEPTED",content)
         self.assertIn("MFX_TD_ACCOUNT_CACHE_RIGHTS_CONFIRMED",content)
-        self.assertIn('cron: "*/5 * * * *"',content)
+        self.assertIn('cron: "15 * * * *"',content)
         self.assertIn("run_a04_p46_b3_hot_cloud",content)
         self.assertNotIn("MOCHI",content)
+
+
+    def test_43_hourly_background_preserves_four_m5_overlap_and_twelve_new(self)->None:
+        old=self._initial()
+        latest_16=rows(start=BASE+timedelta(hours=1))
+        now=NOW+timedelta(hours=1)
+        r=plan_hot(old,latest_16,now_utc=now)
+        self.assertEqual(r.new_closed_m5,12)
+        self.assertEqual(r.expected_drive_object_creates,0)
+        self.assertEqual(r.expected_drive_object_updates,1)
+        assert r.new_state is not None
+        self.assertEqual(len(r.new_state["recent_bars"]),24)
+        self.assertEqual(r.new_state["generation"],2)
+        self.assertEqual(freshness(r.new_state,now_utc=now).status,
+                         "FRESH_RECENT_M5_RESEARCH_ONLY")
+
+    def test_44_one_hour_background_cannot_claim_continuous_freshness(self)->None:
+        old=self._initial()
+        q=freshness(old,now_utc=NOW+timedelta(minutes=45))
+        self.assertEqual(q.status,"STALE_CLOSED_M5_NOT_FRESH")
+        self.assertFalse(q.research_data_usable)
+        self.assertFalse(q.live_buy_sell_authorized)
+
+    def test_45_hourly_hot_not_confused_with_separate_b1_archive(self)->None:
+        from pathlib import Path
+        hot=Path(".github/workflows/mfx-hot-cache.yml").read_text()
+        b1=Path(".github/workflows/twelve-data-cache.yml").read_text()
+        self.assertIn('cron: "15 * * * *"',hot)
+        self.assertIn('cron: "10 * * * *"',b1)
+        self.assertIn("workflow_dispatch:",hot)
+        self.assertIn("MFX_V3_HOT_CACHE_ACCEPTED",hot)
+        self.assertIn("MFX_TD_ACCOUNT_CACHE_RIGHTS_CONFIRMED",hot)
+        self.assertIn("mfx-twelvedata-private-cache",hot)
+        self.assertIn("mfx-twelvedata-private-cache",b1)
+        self.assertNotIn('cron: "*/5 * * * *"',hot)
 
 
 if __name__=="__main__":
