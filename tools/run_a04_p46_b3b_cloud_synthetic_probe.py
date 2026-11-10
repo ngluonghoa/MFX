@@ -19,9 +19,8 @@ from tools.run_a04_p45_cloud_twelve_data_cache import (
     _require_env, _drive_auth_info, _session,
 )
 
-MFX_STAGING_FOLDER = os.environ.get(
-    "MFX_CACHE_STAGING_FOLDER_ID", "1zJaO68XXyCApn5hBEKUqTOj7SU33d2dD",
-)
+MFX_STAGING_FOLDER = (os.environ.get("MFX_CACHE_STAGING_FOLDER_ID")
+                      or "1zJaO68XXyCApn5hBEKUqTOj7SU33d2dD")
 
 
 def main() -> None:
