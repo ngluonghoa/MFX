@@ -1,0 +1,708 @@
+{
+  "schema": "MFX_A04_P29_ELEVEN_PAIR_SYMMETRY_AUDIT_V1",
+  "snapshot_date": "2026-11-10",
+  "related_issue": "https://github.com/ngluonghoa/MFX/issues/50",
+  "authority": {
+    "user_approved": "DEEP_AUDIT_AND_FIND_NONENTRY_MIRRORS",
+    "proposed_label_approval": "PENDING",
+    "permission_to_modify_frozen_source": false,
+    "permission_to_activate_signals": false
+  },
+  "frozen_source": {
+    "repository": "ngluonghoa/forex-trading-1-0",
+    "commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+    "tree": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+    "evidence_matrix_blob_sha": "d07f54e845e134c98b8bcbb5342a8f47df7c5f8a",
+    "source_audit_doc_id": "10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA",
+    "source_locked_docs_unchanged": 11
+  },
+  "current_mfx_design": {
+    "fxb9_overlay_blob_sha": "bfa6f3b6f6f7832cc72d1ccecbfa106d615b1212",
+    "s6_review_blob_sha": "8389b28e843e6740c4c96de1502649d996407a56",
+    "original_catalog_labels": 18,
+    "approved_mfx_design_labels": 19,
+    "approved_mfx_entry_long_candidates": 8,
+    "approved_mfx_entry_short_candidates": 8,
+    "approved_mfx_nonentry_labels": 3,
+    "approved_numerical_entry_rules": 0
+  },
+  "entry_pairs": [
+    {
+      "pair_id": "E01",
+      "family": "F1_MAJOR_REVERSAL",
+      "mirror_classification": "QUALITATIVE_ONLY",
+      "structure": "STRUCTURAL_MAJOR_REVERSAL",
+      "buy": {
+        "inherited": true,
+        "label": "B1",
+        "family": "F1_MAJOR_REVERSAL",
+        "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 17,
+          "text": "B1. Đảo chiều đáy lớn | LONG_CANDIDATE | RESEARCH_LATER"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 18,
+            "text": "R0 BỐI CẢNH: D1/H4 giảm có cấu trúc; vùng đáy hoặc hỗ trợ được tạo chỉ từ lịch sử đã biết."
+          },
+          "R_C": {
+            "paragraph_index": 19,
+            "text": "R_C / WATCH: Giá về vùng hỗ trợ đã xác lập, có phản ứng/false breakdown; ATR và prior-day/session low hợp lệ."
+          },
+          "R_E": {
+            "paragraph_index": 20,
+            "text": "R_E / EARLY: M15 đóng lấy lại đáy/vùng cũ hoặc CHoCH_UP causal, lưu event_id."
+          },
+          "R_F": {
+            "paragraph_index": 21,
+            "text": "R_F / CONFIRM HYPOTHESIS: H4/D1 đóng BOS_UP sau đáy và tạo HL được xác nhận theo thời gian thực."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "sell": {
+        "inherited": true,
+        "label": "S1",
+        "family": "F1_MAJOR_REVERSAL",
+        "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 105,
+          "text": "S1. Đảo chiều đỉnh lớn | SHORT_CANDIDATE | RESEARCH_LATER"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 106,
+            "text": "R0 BỐI CẢNH: D1/H4 tăng dài có kháng cự/đỉnh cấu trúc causal, không gắn major-top sớm."
+          },
+          "R_C": {
+            "paragraph_index": 107,
+            "text": "R_C / WATCH: Failed extension/đỉnh cũ, exhaustion đo qua giá+ATR; không yêu cầu volume climax."
+          },
+          "R_E": {
+            "paragraph_index": 108,
+            "text": "R_E / EARLY: M15/H1 đóng CHoCH_DOWN hoặc failed high."
+          },
+          "R_F": {
+            "paragraph_index": 109,
+            "text": "R_F / CONFIRM HYPOTHESIS: H4/D1 đóng BOS_DOWN qua structural HL và causal LH, short risk pass."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "reviewed_delta": "B1 uses prior-downtrend/support and closed H4/D1 BOS_UP+HL; S1 uses prior-uptrend/resistance and closed BOS_DOWN+LH. Confirmed causal pivot rules, observation window and invalidation differ.",
+      "blocking_review_topic": "NO_INFERRED_MAJOR_TOP_BOTTOM_OR_FUTURE_PIVOTS",
+      "numeric_mirror_authorized": false,
+      "research_signal": "NO_SIGNAL",
+      "future_broker_order_authorized": false
+    },
+    {
+      "pair_id": "E02",
+      "family": "F2_TREND_PULLBACK",
+      "mirror_classification": "QUALITATIVE_ONLY",
+      "structure": "TREND_PULLBACK",
+      "buy": {
+        "inherited": true,
+        "label": "B2",
+        "family": "F2_TREND_PULLBACK",
+        "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 28,
+          "text": "B2. Pullback trong xu hướng tăng | LONG_CANDIDATE | PILOT_1"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 29,
+            "text": "R0 BỐI CẢNH: D1/H4 tăng causal HH/HL, chưa phá đáy vô hiệu hóa."
+          },
+          "R_C": {
+            "paragraph_index": 30,
+            "text": "R_C / WATCH: Pullback gần H1 support/EMA candidate/previous session low, khoảng cách chuẩn ATR."
+          },
+          "R_E": {
+            "paragraph_index": 31,
+            "text": "R_E / EARLY: M15 đóng higher-low hoặc reclaim tại zone có event_id."
+          },
+          "R_F": {
+            "paragraph_index": 32,
+            "text": "R_F / CONFIRM HYPOTHESIS: M15/H1 đóng vượt micro-high đã được biết, H4 xu hướng còn hợp lệ, chi phí/risk qua gate."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "sell": {
+        "inherited": true,
+        "label": "S2",
+        "family": "F2_TREND_PULLBACK",
+        "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 116,
+          "text": "S2. Pullback trong xu hướng giảm | SHORT_CANDIDATE | PILOT_1"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 117,
+            "text": "R0 BỐI CẢNH: D1/H4 cấu trúc giảm LH/LL, chưa phục hồi làm mất xu hướng."
+          },
+          "R_C": {
+            "paragraph_index": 118,
+            "text": "R_C / WATCH: Giá hồi gần H1 resistance, EMA candidate hoặc previous session high."
+          },
+          "R_E": {
+            "paragraph_index": 119,
+            "text": "R_E / EARLY: M15 đóng reject/LH/BOS_DOWN ở vùng kháng cự."
+          },
+          "R_F": {
+            "paragraph_index": 120,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/M15 đóng dưới micro-low đã được biết; D1/H4 vẫn giảm và spread/cost pass."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "reviewed_delta": "B2 M15 early HL or reclaim vs S2 rejection/LH/BOS_DOWN. H1 support/EMA/session-low vs resistance/EMA/session-high, spread/cost and 36 exact quantitative source obligations pending.",
+      "blocking_review_topic": "NUMERIC_SOURCE_OWNER_36_PENDING",
+      "numeric_mirror_authorized": false,
+      "research_signal": "NO_SIGNAL",
+      "future_broker_order_authorized": false
+    },
+    {
+      "pair_id": "E03",
+      "family": "F3_RANGE_REJECTION",
+      "mirror_classification": "QUALITATIVE_ONLY",
+      "structure": "RANGE_EDGE_REJECTION",
+      "buy": {
+        "inherited": true,
+        "label": "B3",
+        "family": "F3_RANGE_REJECTION",
+        "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 39,
+          "text": "B3. Long ở biên dưới range | LONG_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 40,
+            "text": "R0 BỐI CẢNH: H4/H1 tạo range có ít nhất số lần chạm phiên bản hóa; biên xác định trước."
+          },
+          "R_C": {
+            "paragraph_index": 41,
+            "text": "R_C / WATCH: Giá gần biên dưới/previous-session low."
+          },
+          "R_E": {
+            "paragraph_index": 42,
+            "text": "R_E / EARLY: M15 đóng false breakdown và reclaim/sweep low có cấu trúc causal."
+          },
+          "R_F": {
+            "paragraph_index": 43,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/M15 đóng lại trong range và trên micro-high theo nhánh xác nhận được chọn."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "sell": {
+        "inherited": true,
+        "label": "S4",
+        "family": "F3_RANGE_REJECTION",
+        "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 138,
+          "text": "S4. Short ở biên trên range | SHORT_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 139,
+            "text": "R0 BỐI CẢNH: H4/H1 range confirmed bằng các lần kiểm biên causal."
+          },
+          "R_C": {
+            "paragraph_index": 140,
+            "text": "R_C / WATCH: Giá gần upper range boundary/previous session high."
+          },
+          "R_E": {
+            "paragraph_index": 141,
+            "text": "R_E / EARLY: M15 đóng failed breakout/sweep-high về lại range."
+          },
+          "R_F": {
+            "paragraph_index": 142,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/M15 đóng dưới micro-low và nằm lại trong range."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "reviewed_delta": "B3 false breakdown at lower predeclared H4/H1 range; S4 failed upper breakout/sweep. Source does not approve touch counts, lookback, range threshold, event overlap priority.",
+      "blocking_review_topic": "PREDECLARED_RANGE_REQUIRED",
+      "numeric_mirror_authorized": false,
+      "research_signal": "NO_SIGNAL",
+      "future_broker_order_authorized": false
+    },
+    {
+      "pair_id": "E04",
+      "family": "F4_FIRST_PIVOT",
+      "mirror_classification": "QUALITATIVE_ONLY",
+      "structure": "FIRST_HL_LH_AFTER_CHoCH",
+      "buy": {
+        "inherited": true,
+        "label": "B4",
+        "family": "F4_FIRST_HL",
+        "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 50,
+          "text": "B4. First Higher Low sau đảo chiều | LONG_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 51,
+            "text": "R0 BỐI CẢNH: Đã có BOS_UP/CHoCH_UP trên H4/H1 theo timestamp và pivot causal."
+          },
+          "R_C": {
+            "paragraph_index": 52,
+            "text": "R_C / WATCH: Nhịp hồi đầu sau event không làm mất đáy đảo chiều."
+          },
+          "R_E": {
+            "paragraph_index": 53,
+            "text": "R_E / EARLY: M15 đóng HL/reclaim, không dùng HL được xác nhận bởi nến tương lai."
+          },
+          "R_F": {
+            "paragraph_index": 54,
+            "text": "R_F / CONFIRM HYPOTHESIS: First HL đủ right-bars rồi M15/H1 đóng vượt micro-high đã biết."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "sell": {
+        "inherited": true,
+        "label": "S5",
+        "family": "F4_FIRST_LH",
+        "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 149,
+          "text": "S5. First Lower High sau đảo chiều giảm | SHORT_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 150,
+            "text": "R0 BỐI CẢNH: BOS_DOWN/CHoCH_DOWN H4/H1 sau prior uptrend với timestamp."
+          },
+          "R_C": {
+            "paragraph_index": 151,
+            "text": "R_C / WATCH: Đợt hồi đầu post-BOS chưa vượt structural high."
+          },
+          "R_E": {
+            "paragraph_index": 152,
+            "text": "R_E / EARLY: M15 đóng lower high/rejection đã xác định causal."
+          },
+          "R_F": {
+            "paragraph_index": 153,
+            "text": "R_F / CONFIRM HYPOTHESIS: Causal first LH hoàn thiện, H1/M15 đóng dưới micro-low."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "reviewed_delta": "B4 source explicitly requires confirmed first HL with right bars; S5 says causal first LH complete but does not separately state identical right-bar algorithm. Verify causal confirmation each side.",
+      "blocking_review_topic": "FIRST_PIVOT_SYMMETRY_UNPROVEN",
+      "numeric_mirror_authorized": false,
+      "research_signal": "NO_SIGNAL",
+      "future_broker_order_authorized": false
+    },
+    {
+      "pair_id": "E05",
+      "family": "F5_BREAK_RETEST",
+      "mirror_classification": "QUALITATIVE_ONLY",
+      "structure": "CONTINUATION_PIVOT_RETEST",
+      "buy": {
+        "inherited": true,
+        "label": "B5",
+        "family": "F5_BREAK_RETEST",
+        "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 61,
+          "text": "B5. Retest sau breakout lên | LONG_CANDIDATE | PILOT_1"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 62,
+            "text": "R0 BỐI CẢNH: H1/H4 breakout lên qua pivot kháng cự đã biết, breakout event có timestamp."
+          },
+          "R_C": {
+            "paragraph_index": 63,
+            "text": "R_C / WATCH: Giá retest đúng pivot cũ trong cửa sổ thời gian/ATR chưa hiệu chuẩn."
+          },
+          "R_E": {
+            "paragraph_index": 64,
+            "text": "R_E / EARLY: M15 đóng giữ trên pivot hoặc sweep-reclaim tại retest."
+          },
+          "R_F": {
+            "paragraph_index": 65,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/M15 đóng vượt micro-high retest, không mở đuổi xa zone."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "sell": {
+        "inherited": true,
+        "label": "S7",
+        "family": "F5_BREAK_RETEST",
+        "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 171,
+          "text": "S7. Retest sau breakdown xuống | SHORT_CANDIDATE | PILOT_1"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 172,
+            "text": "R0 BỐI CẢNH: Breakdown H1/H4 dưới hỗ trợ đã biết, có breakdown event_id."
+          },
+          "R_C": {
+            "paragraph_index": 173,
+            "text": "R_C / WATCH: Giá retest resistance là support cũ theo thời gian/ATR."
+          },
+          "R_E": {
+            "paragraph_index": 174,
+            "text": "R_E / EARLY: M15 đóng reject/failed reclaim dưới former support."
+          },
+          "R_F": {
+            "paragraph_index": 175,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/M15 đóng dưới micro-low retest và chi phí/short risk hợp lệ."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "reviewed_delta": "B5 upside breakout/retest former resistance; S7 downside breakdown/retest former support. Compare pre-known origin, retest age/ATR, micro-high vs micro-low, false break/reclaim.",
+      "blocking_review_topic": "PIVOT_RETEST_WINDOWS_UNAPPROVED",
+      "numeric_mirror_authorized": false,
+      "research_signal": "NO_SIGNAL",
+      "future_broker_order_authorized": false
+    },
+    {
+      "pair_id": "E06",
+      "family": "F6_COMPRESSION",
+      "mirror_classification": "QUALITATIVE_ONLY",
+      "structure": "COMPRESSION_CONTINUATION",
+      "buy": {
+        "inherited": true,
+        "label": "B6",
+        "family": "F6_COMPRESSION",
+        "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 72,
+          "text": "B6. Nén giá tăng | LONG_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 73,
+            "text": "R0 BỐI CẢNH: H4/H1 trend tăng hoặc nền tăng, các pivot tạo cấu trúc co hẹp causal."
+          },
+          "R_C": {
+            "paragraph_index": 74,
+            "text": "R_C / WATCH: Có các nhịp co hẹp range/ATR hoặc compression predicate đủ chứng cứ."
+          },
+          "R_E": {
+            "paragraph_index": 75,
+            "text": "R_E / EARLY: M15 đóng gần upper compression boundary hoặc micro-break hợp lệ."
+          },
+          "R_F": {
+            "paragraph_index": 76,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/H4 đóng trên upper boundary và anti-chase/spread/net R pass."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "sell": {
+        "inherited": true,
+        "label": "FX-S9",
+        "family": "F6_BEARISH_COMPRESSION",
+        "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 231,
+          "text": "FX-S9. BEARISH COMPRESSION BREAK | SHORT_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 232,
+            "text": "R0 BỐI CẢNH: Cấu trúc H4/H1 có xu hướng giảm hoặc nền tích lũy thiên giảm; biên nén và các pivot được xác lập nhân quả trước lúc quyết định."
+          },
+          "R_C": {
+            "paragraph_index": 233,
+            "text": "R_C / WATCH: Giá gần biên hỗ trợ dưới của cấu trúc nén; công thức near/compression/number-of-tests còn PREDICATE_PENDING."
+          },
+          "R_E": {
+            "paragraph_index": 234,
+            "text": "R_E / EARLY: M15 CLOSED + VERIFIED phá xuống biên đã biết, có event_id/first_known; nến đang mở hoặc pivot xác nhận trong tương lai không thể kích hoạt."
+          },
+          "R_F": {
+            "paragraph_index": 235,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/H4 CLOSED + VERIFIED xác nhận phá biên/nối tiếp xu hướng theo phiên bản mô hình, không được thay bằng M5; bộ lọc chi phí được đánh giá riêng."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "reviewed_delta": "B6 R_E allows M15 near upper boundary OR valid micro-break; FX-S9 R_E explicitly requires CLOSED+VERIFIED break below lower boundary. Their early stages are not literally symmetric.",
+      "blocking_review_topic": "EARLY_STAGE_NEAR_VERSUS_BREAK_DELTA",
+      "numeric_mirror_authorized": false,
+      "research_signal": "NO_SIGNAL",
+      "future_broker_order_authorized": false
+    },
+    {
+      "pair_id": "E07",
+      "family": "F7_MOMENTUM_BREAK",
+      "mirror_classification": "QUALITATIVE_ONLY",
+      "structure": "MOMENTUM_CONTINUATION",
+      "buy": {
+        "inherited": true,
+        "label": "B8",
+        "family": "F7_MOMENTUM_BREAK",
+        "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 94,
+          "text": "B8. Momentum breakout lên | LONG_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 95,
+            "text": "R0 BỐI CẢNH: H1/H4 có base/pivot kháng cự và space to move; không dùng RS cổ phiếu."
+          },
+          "R_C": {
+            "paragraph_index": 96,
+            "text": "R_C / WATCH: Giá ở gần pivot, biên độ nén/strength có thể đo từ FX context."
+          },
+          "R_E": {
+            "paragraph_index": 97,
+            "text": "R_E / EARLY: M15 đóng qua pivot với quality/spread, breakout event timestamp."
+          },
+          "R_F": {
+            "paragraph_index": 98,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/H4 đóng trên pivot với cấu trúc tiếp diễn, ADR/extension/net R pass."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "sell": {
+        "inherited": true,
+        "label": "FX-S10",
+        "family": "F7_BEARISH_MOMENTUM",
+        "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 243,
+          "text": "FX-S10. BEARISH MOMENTUM BREAKDOWN | SHORT_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 244,
+            "text": "R0 BỐI CẢNH: H4/H1 có xu hướng giảm hoặc nền giá với support/pivot đã được biết và có khoảng trống phía dưới; data lineage hợp lệ."
+          },
+          "R_C": {
+            "paragraph_index": 245,
+            "text": "R_C / WATCH: Giá đến gần hỗ trợ/pivot; điều kiện proximity, lookback và ADR đều còn PREDICATE_PENDING."
+          },
+          "R_E": {
+            "paragraph_index": 246,
+            "text": "R_E / EARLY: M15 CLOSED + VERIFIED phá hỗ trợ có event ID rõ ràng; không dùng nến chưa đóng hoặc chỉnh sửa nguồn xuất hiện sau as-of."
+          },
+          "R_F": {
+            "paragraph_index": 247,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1/H4 CLOSED + VERIFIED dưới pivot/swing hỗ trợ và cấu trúc tiếp diễn, không diễn giải động lượng chỉ bằng nến dài mà bỏ nguồn/giá thực thi."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "reviewed_delta": "B8 includes confirmed M15 breakout quality/spread, ADR extension; FX-S10 requires closed verified M15 downside break and warns against defining momentum from one long candle. Additional quality gates not demonstrated equal.",
+      "blocking_review_topic": "MOMENTUM_QUALITY_GATE_DELTA",
+      "numeric_mirror_authorized": false,
+      "research_signal": "NO_SIGNAL",
+      "future_broker_order_authorized": false
+    },
+    {
+      "pair_id": "E08",
+      "family": "F8_FALSE_BREAK",
+      "mirror_classification": "QUALITATIVE_ONLY",
+      "structure": "STRUCTURAL_FALSE_BREAK",
+      "buy": {
+        "inherited": false,
+        "label": "FX-B9",
+        "family": "F8_FALSE_DOWN_BREAK",
+        "catalog_purpose": "ENTRY_LONG_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": null,
+          "text": "MFX-only extension A04/P0.28E, not in frozen Forex audit"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": null,
+            "text": "Predeclared H1/H4 support level and break event identity known before the failure; outside a validated sideways lower-band range. Exact lookbacks and support formula PENDING."
+          },
+          "R_C": {
+            "paragraph_index": null,
+            "text": "Observe downside break inability to hold and a possible reclaim of that previously identified support, using causal closed observation. Window/price thresholds PENDING."
+          },
+          "R_E": {
+            "paragraph_index": null,
+            "text": "Research-only CLOSED M15 reclaim hypothesis at first-known/retrieved timestamp, no hindsight or action. Microstructure calibration PENDING."
+          },
+          "R_F": {
+            "paragraph_index": null,
+            "text": "Research-only structurally confirmed recovery above a previously known micro-high with H1/H4 validation and cost/risk gates. All predicates, invalidation, stop/TP and numeric thresholds PENDING."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "sell": {
+        "inherited": true,
+        "label": "S6",
+        "family": "F8_FALSE_UP_BREAK",
+        "catalog_purpose": "ENTRY_SHORT_CANDIDATE",
+        "source_heading": {
+          "paragraph_index": 160,
+          "text": "S6. Bull Trap / thất bại breakout lên | SHORT_CANDIDATE | PILOT_2"
+        },
+        "phases": {
+          "R0": {
+            "paragraph_index": 161,
+            "text": "R0 BỐI CẢNH: Đã có H1/H4 breakout lên theo pivot, event timestamp và revision."
+          },
+          "R_C": {
+            "paragraph_index": 162,
+            "text": "R_C / WATCH: Giá không giữ được pivot, return to range trong cửa sổ xác định."
+          },
+          "R_E": {
+            "paragraph_index": 163,
+            "text": "R_E / EARLY: M15 đóng dưới pivot cũ sau false break."
+          },
+          "R_F": {
+            "paragraph_index": 164,
+            "text": "R_F / CONFIRM HYPOTHESIS: H1 đóng dưới pivot + phá micro-support, setup short entry có risk gate."
+          }
+        },
+        "current_action": "NO_SIGNAL",
+        "source_numeric_approved": false
+      },
+      "reviewed_delta": "MFX-only FX-B9 outside sideways range and original S6 bullish trap pivot. S6 original R_C states 'return to range' ambiguously; outside-range subtype proposal in P0.28F is not inherited/approved numerical source.",
+      "blocking_review_topic": "SOURCE_AMBIGUOUS_OUTSIDE_RANGE_S6",
+      "numeric_mirror_authorized": false,
+      "research_signal": "NO_SIGNAL",
+      "future_broker_order_authorized": false
+    }
+  ],
+  "nonentry_missing_mirrors": [
+    {
+      "pair_id": "P01",
+      "existing": "B7",
+      "proposed": "FX-S11",
+      "purpose": "WATCH_ONLY",
+      "direction": "SHORT_COUNTERTREND_WATCH",
+      "description": "Watch countertrend technical SHORT correction against verified D1/H4 uptrend; mirror of B7 but not short-entry",
+      "phases": {
+        "R0": "Confirmed D1/H4 UPTREND with causal HH/HL; potential countertrend downward relief only; not a trend-reversal verdict.",
+        "R_C": "Price extension vs as-of ATR and/or known H1/H4 resistance; deterministic predeclared level and spread quality still PENDING.",
+        "R_E": "CLOSED M15 rejection/CHoCH_DOWN with event ID, own first-known and retrieved times; research/watch only.",
+        "R_F": "No trade by default; any later review requires separate owner numerical approval, OOS and countertrend risk policy; no short-entry promotion."
+      },
+      "entry_candidate": false,
+      "protects": "NONE",
+      "requires_verified_open_position": false,
+      "role_source": "B7 original WATCH_ONLY",
+      "proposal_only": true,
+      "owner_label_approval": "PENDING",
+      "numeric_predicates_approved": false,
+      "action_eligible": false,
+      "publish_enabled": false,
+      "market_data_used": false
+    },
+    {
+      "pair_id": "P02",
+      "existing": "S3",
+      "proposed": "FX-B10",
+      "purpose": "EXIT_SHORT_WARNING_ONLY",
+      "direction": "SHORT_EXIT_PROTECTIVE",
+      "description": "Watch trough of downswing at known target/support and protect/exit an actual verified SHORT; never independent BUY",
+      "phases": {
+        "R0": "H1/H4 downtrend, preknown target/support and verified OPEN_SHORT position required to issue exit advice; otherwise WATCH_ONLY.",
+        "R_C": "Approach approved TP/support with as-of ADR/exhaustion or risk invalidation check; no hindsight or price-side confusion.",
+        "R_E": "CLOSED M15 causal CHoCH_UP or source-verified approved TP trigger; no unsourced fill assertion.",
+        "R_F": "CLOSED H1/M15 break above known minor lower-high/micro-resistance or independently approved actual TP fill event; can only warn/exit verified SHORT, never enter LONG."
+      },
+      "entry_candidate": false,
+      "protects": "SHORT",
+      "requires_verified_open_position": true,
+      "role_source": "S3 original EXIT_LONG_WARNING_ONLY",
+      "proposal_only": true,
+      "owner_label_approval": "PENDING",
+      "numeric_predicates_approved": false,
+      "action_eligible": false,
+      "publish_enabled": false,
+      "market_data_used": false
+    },
+    {
+      "pair_id": "P03",
+      "existing": "S8",
+      "proposed": "FX-B11",
+      "purpose": "EXIT_SHORT_WARNING_ONLY",
+      "direction": "SHORT_EXIT_EXHAUSTION",
+      "description": "Watch downside capitulation/exhaustion and protect/exit SHORT; analogous to S8 upside blow-off but not independent BUY",
+      "phases": {
+        "R0": "Downside D1/H4 price acceleration vs historical as-of return/ATR distribution; not an assertion of final major bottom.",
+        "R_C": "Measure causal lower wick/failed downside extension and exhaustion without volume-climax requirement, with prior known quote lineage.",
+        "R_E": "CLOSED M15 failed low/micro CHoCH_UP with first-known event timestamp; no future-confirmation leak.",
+        "R_F": "CLOSED H1/H4 micro-resistance recovery provides warning/exit SHORT only with verified position/rights and risk policy; never entry LONG."
+      },
+      "entry_candidate": false,
+      "protects": "SHORT",
+      "requires_verified_open_position": true,
+      "role_source": "S8 original EXIT_LONG_WARNING_ONLY",
+      "proposal_only": true,
+      "owner_label_approval": "PENDING",
+      "numeric_predicates_approved": false,
+      "action_eligible": false,
+      "publish_enabled": false,
+      "market_data_used": false
+    }
+  ],
+  "conditional_only_if_owner_approves": {
+    "mfx_extended_labels": 22,
+    "entry_long_candidates": 8,
+    "entry_short_candidates": 8,
+    "watch_only_count": 2,
+    "protective_only_count": 4,
+    "total_nonentry_count": 6,
+    "new_labels": [
+      "FX-S11",
+      "FX-B10",
+      "FX-B11"
+    ],
+    "source_parity_status": "NOT_ORIGINAL_FOREX_SOURCE; NEW_MFX_ONLY_PROPOSED_OVERLAY",
+    "active_design_updated": false
+  },
+  "cross_overlap_precedence": [
+    "Existing original confirmed position protection (S3/S8 or proposed FX-B10/FX-B11) requires independently verified open position, cannot create opposite-side entry.",
+    "B7 and proposed FX-B11 can both arise after downside stretch: WATCH_ONLY and EXIT_SHORT warning are different roles, no duplicate trade.",
+    "S8 and proposed FX-S11 can both arise after upside stretch: EXIT_LONG warning and WATCH_ONLY are different roles, no duplicate trade.",
+    "S3/S8 or FX-B10/FX-B11 share a position/event risk ledger: never count two exits for one underlying verified position event.",
+    "Every same instrument/calendar/known-origin event must have one research opportunity identity independent of zone label; unknown origin -> NO_SIGNAL.",
+    "Never infer side-mirror threshold, fees, swap, slippage, gain, verified TP/SL or untreated chronological OOS from qualitative symmetry."
+  ],
+  "strict_gates": {
+    "all_pending_original_b2_s2_numeric_requirements": 36,
+    "source_numeric_approval": false,
+    "real_data_provider_rights_confirmed": false,
+    "drive_raw_quote_cache_rights_confirmed": false,
+    "action_eligible": false,
+    "publish_alerts": false,
+    "market_provider_calls": 0,
+    "real_drive_quote_cache_writes": 0,
+    "broker_orders": 0,
+    "release_ready": false
+  }
+}
