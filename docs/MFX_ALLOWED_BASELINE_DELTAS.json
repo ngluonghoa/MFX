@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "56e07670f02ca52cc21c5e14376674ea632a12bf",
-      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data."
+      "expected_current_sha": "9a1809bb7f6f7ad80949cec07f68d4e95d42ec34",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data. P044: independent B3/S4 H1/M15 computed SIM range research with 27 negative tests, strict typed demo, no original Forex strategy/source parity promotion."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -449,6 +449,12 @@
       "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release."
     },
     {
+      "path": "docs/MFX_A04_P44_SYNTHETIC_B3_S4_RANGE_RESEARCH.md",
+      "change": "added",
+      "expected_current_sha": "64fded14257401413cbcec15c3aef8882aaa14cd",
+      "reason": "A04/P0.44 strictly bounded SIM-only CLOSED H1/M15 range sweep/reclaim B3 BUY/S4 SELL experimental detection; P043/P031 source checks, 27 adversarial tests, hosted demo, no forex frozen source edits, all 16 numeric strategies still unapproved and 36 B2/S2 signoffs pending #45, vendor/Drive real market rights #27 blocked; NO_SIGNAL, no provider/cache/alert/broker/release."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -572,6 +578,12 @@
       "change": "added",
       "expected_current_sha": "7164cb3cb6305ab2cfeb9ea578bc96b2993f82a4",
       "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release. Final PR mypy strict required explicit runtime narrowed pair label types before append; no behavior or source-ownership change."
+    },
+    {
+      "path": "mfx_research/p044_sim_range_rejection.py",
+      "change": "added",
+      "expected_current_sha": "8cb6299ea9cdebf17d546c39fc38579c4644e9dd",
+      "reason": "A04/P0.44 strictly bounded SIM-only CLOSED H1/M15 range sweep/reclaim B3 BUY/S4 SELL experimental detection; P043/P031 source checks, 27 adversarial tests, hosted demo, no forex frozen source edits, all 16 numeric strategies still unapproved and 36 B2/S2 signoffs pending #45, vendor/Drive real market rights #27 blocked; NO_SIGNAL, no provider/cache/alert/broker/release."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -908,6 +920,12 @@
       "change": "added",
       "expected_current_sha": "4c509b890e69b58b062a728b1c1ad7e90d2580cb",
       "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release."
+    },
+    {
+      "path": "tests/test_a04_p44_sim_range_rejection.py",
+      "change": "added",
+      "expected_current_sha": "8c32894be41640305249f9a7f0e363c2d126cbf6",
+      "reason": "A04/P0.44 strictly bounded SIM-only CLOSED H1/M15 range sweep/reclaim B3 BUY/S4 SELL experimental detection; P043/P031 source checks, 27 adversarial tests, hosted demo, no forex frozen source edits, all 16 numeric strategies still unapproved and 36 B2/S2 signoffs pending #45, vendor/Drive real market rights #27 blocked; NO_SIGNAL, no provider/cache/alert/broker/release. Initial hosted PR CI P044 27/27 tests passed but Ruff E741 disallowed ambiguous test helper variable l; renamed to low_value, exact new blob SHA pinned."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1310,6 +1328,12 @@
       "change": "added",
       "expected_current_sha": "b63008bdfa32ecd2d99f63e83ea30a9f318e4490",
       "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release."
+    },
+    {
+      "path": "tools/run_a04_p44_sim_range_demo.py",
+      "change": "added",
+      "expected_current_sha": "6262a74d925aad174974dfda2365c81ad53f3dde",
+      "reason": "A04/P0.44 strictly bounded SIM-only CLOSED H1/M15 range sweep/reclaim B3 BUY/S4 SELL experimental detection; P043/P031 source checks, 27 adversarial tests, hosted demo, no forex frozen source edits, all 16 numeric strategies still unapproved and 36 B2/S2 signoffs pending #45, vendor/Drive real market rights #27 blocked; NO_SIGNAL, no provider/cache/alert/broker/release."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
