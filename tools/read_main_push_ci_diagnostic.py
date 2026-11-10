@@ -113,8 +113,32 @@ def _get_json(token: str, path: str) -> Any:
         response = connection.getresponse()
         data = response.read(2500000)
         if response.status != 200:
+            # Classify safely: never show token or echo arbitrary response data.
+            try:
+                error_body = json.loads(data.decode("utf-8"))
+                message = error_body.get("message", "") if isinstance(error_body, dict) else ""
+            except (ValueError, UnicodeDecodeError):
+                message = ""
+            reason = (
+                "GITHUB_TOKEN_INTEGRATION_DENIED"
+                if message == "Resource not accessible by integration"
+                else "GITHUB_RATE_LIMIT"
+                if "rate limit" in message.lower()
+                else "GITHUB_API_FORBIDDEN_OTHER"
+                if isinstance(message, str) and message
+                else "NON_JSON_OR_PROXY_REJECTION"
+            )
+            server = response.getheader("Server", "") or ""
+            github_id = response.getheader("X-GitHub-Request-Id")
+            print("P037_API_DENIAL_DIAGNOSTIC " + json.dumps({
+                "status": response.status,
+                "endpoint_kind": path.split("?")[0].rsplit("/", 1)[-1],
+                "reason": reason,
+                "server": server[:48],
+                "github_request_id_present": bool(github_id),
+            }, sort_keys=True))
             raise RuntimeError("P037_READ_ONLY_GITHUB_API_HTTP_" +
-                               str(response.status))
+                               str(response.status) + "_" + reason)
         return json.loads(data.decode("utf-8"))
     finally:
         connection.close()
