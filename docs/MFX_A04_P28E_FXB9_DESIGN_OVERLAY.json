@@ -1,0 +1,87 @@
+{
+  "schema": "MFX_A04_P28E_FXB9_DESIGN_OVERLAY_V1",
+  "version": "MFX_EXTENSION_ONLY:FXB9_DESIGN_2026_11_10",
+  "approval": {
+    "authority": "USER_APPROVED_MFX_DESIGN_ONLY",
+    "date": "2026-11-10",
+    "type": "NEW_MFX_EXTENSION_NOT_ORIGINAL_FOREX_1TO1",
+    "numeric_formula_approved": false,
+    "backtest_verified": false,
+    "real_buy_sell_authorized": false,
+    "broker_order_execution_authorized": false
+  },
+  "original_source": {
+    "repository": "ngluonghoa/forex-trading-1-0",
+    "commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+    "tree_sha": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+    "catalog_git_blob_sha": "dc0cd0d7eab7f8603071401aa51723f7e4b8ef20",
+    "source_audit_document_id": "10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA",
+    "source_audit_b3_heading_index": 39,
+    "source_audit_s6_heading_index": 160,
+    "source_audit_fxb9_prior_exclusion_index": 255,
+    "original_catalog_labels": 18,
+    "source_locked_docs_unchanged": 11
+  },
+  "extension": {
+    "label": "FX-B9",
+    "family": "F8_FALSE_DOWN_BREAK",
+    "purpose": "ENTRY_LONG_CANDIDATE",
+    "direction": "LONG",
+    "design_status": "APPROVED_DESIGN_SCOPE_FORMULA_PENDING",
+    "action_eligible": false,
+    "signal_stage": "UNVERIFIED",
+    "current_action": "NO_SIGNAL",
+    "future_entry_quote_side_if_numerically_approved": "ASK",
+    "mechanism": "BEAR_TRAP_FALSE_BREAKDOWN_OUTSIDE_PREDECLARED_RANGE",
+    "phase_names": [
+      "R0",
+      "R_C",
+      "R_E",
+      "R_F"
+    ],
+    "phase_descriptions": {
+      "R0": "Predeclared H1/H4 support level and break event identity known before the failure; outside a validated sideways lower-band range. Exact lookbacks and support formula PENDING.",
+      "R_C": "Observe downside break inability to hold and a possible reclaim of that previously identified support, using causal closed observation. Window/price thresholds PENDING.",
+      "R_E": "Research-only CLOSED M15 reclaim hypothesis at first-known/retrieved timestamp, no hindsight or action. Microstructure calibration PENDING.",
+      "R_F": "Research-only structurally confirmed recovery above a previously known micro-high with H1/H4 validation and cost/risk gates. All predicates, invalidation, stop/TP and numeric thresholds PENDING."
+    },
+    "overlap": {
+      "B3": "If false break is at the inside of a predeclared H4/H1 range lower band, ownership remains B3 only, NOT FX-B9.",
+      "S6": "Mirrored bearish/bullish false-break setup family in NAME ONLY. No symmetry assumption for numeric parameters, fees, invalidation or profitability.",
+      "opportunity": "Same pair/calendar/origin event across B3 and FX-B9 must map to one research opportunity ID; never two actionable signals."
+    },
+    "invalid_cases": [
+      "UNKNOWN_RANGE_CONTEXT",
+      "INSIDE_PREDECLARED_RANGE_B3_OWNS",
+      "MISSING_PREDECLARED_SUPPORT",
+      "UNCONFIRMED_RECLAIM_OR_DOWNSIDE_CONTINUATION",
+      "FUTURE_KNOWN_OR_REVISED_PRICE",
+      "MIXED_PAIR_PROVIDER_CALENDAR_OR_QUOTE_SIDE",
+      "UNLICENSED_REAL_FOREX_QUOTES",
+      "NO_ORIGINAL_SOURCE_NUMERIC_APPROVAL"
+    ],
+    "numeric_thresholds": {}
+  },
+  "counts": {
+    "original_catalog_labels": 18,
+    "extended_mfx_design_labels": 19,
+    "original_buy_entry_candidates": 7,
+    "extended_buy_entry_candidates": 8,
+    "sell_entry_candidates": 8,
+    "watch_and_protective_labels": 3,
+    "extended_entry_design_candidates": 16,
+    "approved_numerical_entry_predicates": 0,
+    "b2_s2_original_numeric_obligations_pending": 36
+  },
+  "stop_gates": {
+    "source_numeric_approval_required": true,
+    "licensed_bid_ask_data_required": true,
+    "real_drive_market_cache_rights_required": true,
+    "chronological_oos_required": true,
+    "live_market_signals_enabled": false,
+    "real_drive_market_cache_writes": 0,
+    "real_provider_calls": 0,
+    "broker_orders": 0,
+    "release_ready": false
+  }
+}
