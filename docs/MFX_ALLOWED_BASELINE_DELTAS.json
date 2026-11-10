@@ -1176,8 +1176,8 @@
     {
       "path": "tools/run_a04_p33_replay_demo.py",
       "change": "added",
-      "expected_current_sha": "958259b8adecf1a56b59fb052974febb7c4de439",
-      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
+      "expected_current_sha": "2a4ea7b21683f24aa464be2bcbf708b60cb30277",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. Initial hosted CI run #42766078824: 24 new P033 unit tests PASS but strict mypy flagged M15 tuple shape in DEMO; one-line typed 2-tuple shape fix reapplied with exact new Git blob; no strategy/payload change."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
