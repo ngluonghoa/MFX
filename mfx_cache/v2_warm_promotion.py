@@ -237,6 +237,21 @@ def _target_named(
     return tuple(x for x in names if x.startswith(prefix+stamp+"_"))
 
 
+def _reject_uncommitted_raw_chunks(
+    store: PrivateObjectStore, day: str,
+    verified: tuple[tuple[str, dict[str, Any], dict[str, Any]], ...],
+) -> None:
+    """A crashed B1 chunk without a source Manifest blocks packing."""
+    names = store.list_names("chunk")
+    if len(names) > MAX_SOURCE_MANIFESTS or len(set(names)) != len(names):
+        raise ValueError("P046_B2_SOURCE_CHUNK_LIST_AMBIGUOUS")
+    committed = {m["chunk_name"] for _, m, _ in _day_source(verified, day)}
+    stamp = day.replace("-", "")
+    for name in names:
+        if name.startswith(CHUNK_PREFIX+stamp) and name not in committed:
+            raise ValueError("P046_B2_UNCOMMITTED_RAW_HOUR_BLOCKS_PROMOTION")
+
+
 def promote_completed_utc_day(
     store: PrivateObjectStore, *, now_utc: datetime,
 ) -> WarmResult:
@@ -252,18 +267,7 @@ def promote_completed_utc_day(
     plan = _plan_day(verified, day=day, now_utc=now_utc)
     if plan is None:
         return WarmResult("INSUFFICIENT_CLOSED_SOURCE_HOURS",day,0,0,0,False)
-    # B1 may have uploaded an hourly raw chunk but crashed before its
-    # Manifest. Do not promote a partial WARM day that hides such an orphan.
-    hourly_names = store.list_names("chunk")
-    if (len(hourly_names) > MAX_SOURCE_MANIFESTS
-            or len(set(hourly_names)) != len(hourly_names)):
-        raise ValueError("P046_B2_SOURCE_CHUNK_LIST_AMBIGUOUS")
-    committed = {m["chunk_name"] for _, m, _ in _day_source(verified, day)}
-    date_stamp = day.replace("-", "")
-    for name in hourly_names:
-        if (name.startswith(CHUNK_PREFIX+date_stamp)
-                and name not in committed):
-            raise ValueError("P046_B2_UNCOMMITTED_RAW_HOUR_BLOCKS_PROMOTION")
+    _reject_uncommitted_raw_chunks(store, day, verified)
     known_promotions = _target_named(store, "promotion", day)
     if len(known_promotions) > 1:
         raise ValueError("P046_B2_CONFLICTING_DAY_PROMOTIONS")
@@ -300,6 +304,7 @@ def promote_completed_utc_day(
     reread = _all_verified_source(store,now_utc=now_utc)
     if _day_source(reread,day) != _day_source(verified,day):
         raise ValueError("P046_B2_DAY_SOURCES_CHANGED_PREPROMOTION")
+    _reject_uncommitted_raw_chunks(store,day,reread)
     if _target_named(store,"promotion",day):
         raise ValueError("P046_B2_CONCURRENT_PROMOTION_DETECTED")
     store.put_if_absent("promotion",plan.promotion_name,plan.promotion)
