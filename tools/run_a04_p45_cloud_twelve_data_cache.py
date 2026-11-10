@@ -18,8 +18,8 @@ from mfx_cache.td_m5_codec import (
     parse_closed_utc_m5,
 )
 
-CHUNK_FOLDER = os.environ.get("MFX_CACHE_CHUNK_FOLDER_ID", "1cmq6oOb3NB7jQdeua_wcRnmrhERhFkLQ")
-MANIFEST_FOLDER = os.environ.get("MFX_CACHE_MANIFEST_FOLDER_ID", "1mwYFXWoxSC-R4opm23-5VQKaz1xQazDc")
+CHUNK_FOLDER = (os.environ.get("MFX_CACHE_CHUNK_FOLDER_ID") or "1cmq6oOb3NB7jQdeua_wcRnmrhERhFkLQ")
+MANIFEST_FOLDER = (os.environ.get("MFX_CACHE_MANIFEST_FOLDER_ID") or "1mwYFXWoxSC-R4opm23-5VQKaz1xQazDc")
 MANIFEST_PREFIX = "MFX_TD_EURUSD_M5_manifest_v1_"
 CHUNK_PREFIX = "MFX_TD_EURUSD_M5_chunk_v1_"
 
