@@ -1,8 +1,8 @@
-name: MFX Twelve Data → Private Google Drive M5 Cache (NO trading)
+name: MFX V2 Staged Hourly Twelve Data → Private Drive Batch (NO trading)
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "10 * * * *"
   workflow_dispatch:
 
 permissions:
@@ -14,7 +14,7 @@ concurrency:
 
 jobs:
   cache:
-    if: ${{ vars.MFX_REAL_CACHE_ENABLED == 'true' }}
+    if: ${{ vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V2_BATCH_CACHE_ACCEPTED == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -26,11 +26,12 @@ jobs:
           python-version: "3.12"
       - name: Install exact scoped cloud client requirements
         run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
-      - name: Sync approved CLOSED EUR/USD M5 MID cache to private Google Drive
+      - name: Sync verified CLOSED EUR/USD M5 MID as one V2 hourly batch
         env:
           PYTHONPATH: src:.
           MFX_REAL_CACHE_ENABLED: "true"
+          MFX_V2_BATCH_CACHE_ACCEPTED: "true"
           MFX_TWELVE_DATA_API_KEY: ${{ secrets.MFX_TWELVE_DATA_API_KEY }}
           MFX_GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.MFX_GDRIVE_SERVICE_ACCOUNT_JSON }}
           MFX_TD_DAILY_CREDIT_CAP: ${{ vars.MFX_TD_DAILY_CREDIT_CAP || '400' }}
-        run: python -m tools.run_a04_p45_cloud_twelve_data_cache
+        run: python -m tools.run_a04_p46_cloud_batch_cache
