@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "c81f95df9b181f984482d8363cf337809fa78828",
-      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
+      "expected_current_sha": "a9d632c7ec644de9088c382e2758618fcca0d044",
+      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -383,6 +383,12 @@
       "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
     },
     {
+      "path": "docs/MFX_A04_P31_SIM_22_ZONE_ROUTER_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "d2987e0c181a52bc36eddd6fdad6b347d5a054ea",
+      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -470,6 +476,12 @@
       "change": "added",
       "expected_current_sha": "137df457747d74788d1745d73f64f91784664e9e",
       "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release. Strict mypy PR red run42759867728: 3 heterogeneous expected-value assignment diagnostics; fixed with explicit Any annotation, no strategy/source logic changes."
+    },
+    {
+      "path": "mfx_research/p031_sim_22_zone_router.py",
+      "change": "added",
+      "expected_current_sha": "38dcfd00f00bfb8eb0100507848ed618519121a3",
+      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -752,6 +764,12 @@
       "change": "added",
       "expected_current_sha": "7aed19a42ff20d75836900e52be98c74667373ff",
       "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
+    },
+    {
+      "path": "tests/test_a04_p31_sim_22_zone_router.py",
+      "change": "added",
+      "expected_current_sha": "a5adc71a7ecc60388dd580c8f91b06e6f119ecca",
+      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1106,6 +1124,12 @@
       "change": "added",
       "expected_current_sha": "ba3477b197c8d6b5637af27e72cd5825059e67f5",
       "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
+    },
+    {
+      "path": "tools/run_a04_p31_sim_22_zone_demo.py",
+      "change": "added",
+      "expected_current_sha": "9e3554fa23907510c20c8a41ad15b438b3506b4c",
+      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
