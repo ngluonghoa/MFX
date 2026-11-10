@@ -10,8 +10,9 @@ from __future__ import annotations
 import json
 import os
 import re
+from http.client import HTTPSConnection
 from typing import Callable, Mapping
-from urllib.request import Request, urlopen
+from urllib.request import Request
 
 CONTEXT = "mfx/main-push-full-ci"
 REPOSITORY = "ngluonghoa/MFX"
@@ -79,8 +80,22 @@ def publish_main_push_status(
     if sender is not None:
         code = sender(request)
     else:
-        with urlopen(request, timeout=15) as response:
+        # Restrict actual network use to the prevalidated HTTPS GitHub API
+        # host. HTTPSConnection avoids generic URL schemes (Bandit B310).
+        expected_path = f"/repos/{REPOSITORY}/statuses/{env['GITHUB_SHA']}"
+        if request.full_url != OFFICIAL_API + expected_path or request.data is None:
+            raise ValueError("P036_REQUEST_MUST_TARGET_EXACT_GITHUB_SHA")
+        connection = HTTPSConnection("api.github.com", timeout=15)
+        try:
+            connection.request(
+                "POST", expected_path, body=request.data,
+                headers=dict(request.header_items()),
+            )
+            response = connection.getresponse()
             code = response.status
+            response.read(1024)
+        finally:
+            connection.close()
     if type(code) is not int or code != 201:
         raise RuntimeError("P036_NATIVE_COMMIT_STATUS_NOT_ACCEPTED")
     return target
