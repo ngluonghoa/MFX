@@ -167,6 +167,7 @@ class P046B3HotTests(unittest.TestCase):
     def test_15_source_gap_marks_unverified_no_signal(self)->None:
         prev=self._initial()
         shifted=rows(start=BASE+timedelta(minutes=10))
+        shifted=shifted[:14]+shifted[15:]  # omit 13:30, retain 13:35
         r=plan_hot(prev,shifted,now_utc=NOW+timedelta(minutes=10))
         assert r.new_state is not None
         self.assertTrue(r.new_state["source_gap_unverified"])
@@ -177,13 +178,24 @@ class P046B3HotTests(unittest.TestCase):
     def test_16_ever_seen_gap_cannot_be_silently_cleared(self)->None:
         prior=self._initial()
         shifted=rows(start=BASE+timedelta(minutes=10))
-        first=plan_hot(prior,shifted,now_utc=NOW+timedelta(minutes=10))
+        first=plan_hot(prior,shifted[:14]+shifted[15:],
+                       now_utc=NOW+timedelta(minutes=10))
         assert first.new_state is not None
         s=first.new_state
+        later=NOW+timedelta(minutes=10)
         for i in range(1,30):
-            shifted=rows(start=BASE+timedelta(minutes=10+5*i))
+            latest=datetime.fromisoformat(s["latest_closed_start_utc"])
+            next_bar=ClosedM5Bar(
+                start_utc=(latest+timedelta(minutes=5)).isoformat(),
+                open="1.10000",high="1.20000",low="1.00000",
+                close="1.15000",
+            )
+            known=tuple(ClosedM5Bar(
+                start_utc=x["start_utc"],open=x["open"],high=x["high"],
+                low=x["low"],close=x["close"],
+            ) for x in s["recent_bars"][-14:])
             later=NOW+timedelta(minutes=10+5*i)
-            r=plan_hot(s,shifted,now_utc=later)
+            r=plan_hot(s,known+(next_bar,),now_utc=later)
             assert r.new_state is not None
             s=r.new_state
         self.assertTrue(s["source_gap_unverified"])
@@ -204,7 +216,7 @@ class P046B3HotTests(unittest.TestCase):
                    now_utc=NOW+timedelta(minutes=5))
         assert r.new_state is not None
         self.assertEqual(s["recent_bars"][1]["first_seen_utc"],
-                         r.new_state["recent_bars"][0]["first_seen_utc"])
+                         r.new_state["recent_bars"][1]["first_seen_utc"])
 
     def test_19_first_seen_of_new_close_is_actual_poll_time(self)->None:
         s=self._initial()
@@ -357,9 +369,11 @@ class P046B3HotTests(unittest.TestCase):
 
     def test_41_same_slot_new_price_requires_review(self)->None:
         prior=self._initial()
-        next_row=rows(17)[-1]
+        prior["last_updated_utc"]="2026-11-10T13:35:00+00:00"
+        prior["last_poll_slot_utc"]="2026-11-10T13:35:00+00:00"
         with self.assertRaisesRegex(ValueError,"NEW_CLOSE_IN_ALREADY_PERSISTED_SLOT"):
-            plan_hot(prior,rows()+ (next_row,),now_utc=NOW+timedelta(seconds=40))
+            plan_hot(prior,rows(start=BASE+timedelta(minutes=5)),
+                     now_utc=NOW+timedelta(minutes=5))
 
     def test_42_no_cross_project_or_forex_source_modification(self)->None:
         from pathlib import Path
