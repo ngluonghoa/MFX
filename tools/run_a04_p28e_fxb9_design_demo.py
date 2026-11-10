@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+from dataclasses import replace
 import json
 import unittest
 
@@ -24,12 +25,13 @@ def main() -> None:
         raise ValueError("P028E_FXB9_B3_SOURCE_SCOPE_ORACLE_FAILED")
     review = read_fxb9_design_manifest()
     known = datetime(2026, 11, 10, tzinfo=timezone.utc)
-    common = dict(
+    baseline=SimFalseBreakEvidence(
         instrument_version="SIM:EURUSD",
         origin_event_id="SIM:P028E_CI_FALSE_BREAK_EVENT",
         provider_id="SIM:OFFLINE_NO_REAL_FEED",
         stream_id="SIM:M15_CLOSED",
         calendar_version="SIM:UTC_FIXED",
+        scope=PredeclaredRangeScope.INSIDE_OR_AT_RANGE_LOWER_BAND,
         support_first_known_utc=known-timedelta(minutes=30),
         candle_end_utc=known,
         first_known_utc=known+timedelta(seconds=1),
@@ -39,16 +41,11 @@ def main() -> None:
         break_observed=True,
         closed_reclaim_observed=True,
     )
-    b3=classify_false_break_research(
-        SimFalseBreakEvidence(
-            scope=PredeclaredRangeScope.INSIDE_OR_AT_RANGE_LOWER_BAND,
-            **common,
-        )
-    )
+    b3=classify_false_break_research(baseline)
     fx=classify_false_break_research(
-        SimFalseBreakEvidence(
+        replace(
+            baseline,
             scope=PredeclaredRangeScope.OUTSIDE_PREDECLARED_RANGE,
-            **common,
         )
     )
     if (b3.classification is not MfxSetupClassification.B3_RESEARCH_ONLY
