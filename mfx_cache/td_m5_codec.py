@@ -5,7 +5,7 @@ Never infer authenticated source strategy numeric approvals from valid cache.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from hashlib import sha256
@@ -30,11 +30,7 @@ class ClosedM5Bar:
     close: str
 
     def digest(self) -> str:
-        return digest(self.__dict__ if hasattr(self, "__dict__") else {
-            "start_utc": self.start_utc,
-            "open": self.open, "high": self.high,
-            "low": self.low, "close": self.close,
-        })
+        return digest(asdict(self))
 
 
 def canonical(value: object) -> bytes:
@@ -201,7 +197,7 @@ def compute_delta(
     prior_index = {x["start"]: x["sha256"] for x in m["recent_bars"]}
     last = m["last_start_utc"]
     for bar in observed:
-        t = _datetime(bar.start_utc.replace("T", " ").replace("+00:00", ""))
+        _datetime(bar.start_utc.replace("T", " ").replace("+00:00", ""))
         # Recompute and reject edited historical overlap, rather than silently
         # overriding previous values. Archive reprocessing needs review.
         if bar.start_utc in prior_index and bar.digest() != prior_index[bar.start_utc]:
@@ -268,7 +264,7 @@ def content_chunk(decision: DeltaDecision, now_utc: datetime) -> dict[str, Any]:
     return {
         "schema": VERSION, "source": PROVIDER,
         "symbol": SYMBOL, "interval": INTERVAL, "side": "MID",
-        "timezone": "UTC", "ingested_at_utc": now_utc.isoformat(),
+        "timezone": "UTC",
         "gaps_from_previous": decision.gaps_detected,
         "bars": [{"start_utc": b.start_utc,
                   "open": b.open, "high": b.high,
