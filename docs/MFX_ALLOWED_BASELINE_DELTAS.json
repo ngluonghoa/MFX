@@ -551,6 +551,12 @@
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
     },
     {
+      "path": "docs/MFX_A04_P51_BOUNDED_HOURLY_CACHE_RECOVERY.md",
+      "change": "added",
+      "expected_current_sha": "53d60323759afdecf13c5bfa684b3dc74925422e",
+      "reason": "A04/P0.51 GitHub cloud-only ONE-vendor-request bounded catchup of up to four complete closed UTC M5 hours with existing immutable Drive B1 Chunk/Manifest, offline regression tests and explicit limits. No frozen Forex source changes, no Mac/MOCHI, no signals/broker and no overwrites."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -1138,6 +1144,12 @@
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
     },
     {
+      "path": "tests/test_a04_p51_hourly_cache_recovery.py",
+      "change": "added",
+      "expected_current_sha": "8e9b1be67ae9b117dec4e678fe3ba3d7dd940608",
+      "reason": "A04/P0.51 GitHub cloud-only ONE-vendor-request bounded catchup of up to four complete closed UTC M5 hours with existing immutable Drive B1 Chunk/Manifest, offline regression tests and explicit limits. No frozen Forex source changes, no Mac/MOCHI, no signals/broker and no overwrites."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1376,6 +1388,12 @@
       "change": "added",
       "expected_current_sha": "9644e454cad75cdc32eb81574a184283b910c2c0",
       "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
+    },
+    {
+      "path": "tools/mfx_hourly_catchup.py",
+      "change": "added",
+      "expected_current_sha": "3e5f043aee710c766d9ccdd931fa56b54c49979a",
+      "reason": "A04/P0.51 GitHub cloud-only ONE-vendor-request bounded catchup of up to four complete closed UTC M5 hours with existing immutable Drive B1 Chunk/Manifest, offline regression tests and explicit limits. No frozen Forex source changes, no Mac/MOCHI, no signals/broker and no overwrites."
     },
     {
       "path": "tools/postmain_ci_commit_status.py",
@@ -1620,8 +1638,8 @@
     {
       "path": "tools/run_a04_p46_cloud_batch_cache.py",
       "change": "added",
-      "expected_current_sha": "5cf2d6be52c4472f0a1f8ed1033ddbb163926f4b",
-      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending. B2 extends private Drive adapter with scoped warm/promotion name spaces only; original B1 batch runner and explicit activation unchanged. A04/P0.49 adjusts provider quota guard to reserve proportionally for 8-credit Basic plans, logs non-secret usage counters, and adds offline boundary/fail-closed regression tests. Hourly V2 gates, strict Drive readback, NO broker, and frozen 1:1 source remain unchanged."
+      "expected_current_sha": "39798555ced173feedb0a364530eb67bbcd7f817",
+      "reason": "A04/P0.46-B1 Cloud-only hourly MID/UTC exact-12-closed-M5 batch writer; derives M15/M30/H1 from P046-A, durable chunk→manifest parent hashes/readback/orphan recovery, 38 fake-Drive negative tests, dual activation flags. No old frozen Forex source; no source-owner numeric signal approval, actual vendor/Drive raw cache write, broker or live release; #76/#78 Stage B2 and #27 vendor tier rights still pending. B2 extends private Drive adapter with scoped warm/promotion name spaces only; original B1 batch runner and explicit activation unchanged. A04/P0.49 adjusts provider quota guard to reserve proportionally for 8-credit Basic plans, logs non-secret usage counters, and adds offline boundary/fail-closed regression tests. Hourly V2 gates, strict Drive readback, NO broker, and frozen 1:1 source remain unchanged. A04/P0.51 adds bounded chronological recovery of up to four complete closed M5 UTC hours from ONE 120-row vendor request, strictly reusing unchanged B1 SHA/manifest writer. Partial bars/gaps never synthesized; no source numeric signals or broker."
     },
     {
       "path": "tools/run_mfx_hourly_cache_audit.py",
