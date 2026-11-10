@@ -359,6 +359,18 @@
       "reason": "A04/P0.28F S6/FX-B9 source-ambiguity audit: proposed MFX-only structural outside-range S6 scope vs S4 upper range and B3 lower range; 12 static source-safe reviewer methods, 8BUY+8SELL+3 non-entry unchanged, 0 numeric approvals; no original Forex src/source Doc edits, real data/cache/alert/broker/release."
     },
     {
+      "path": "docs/MFX_A04_P29_ELEVEN_PAIR_SYMMETRY_AUDIT.json",
+      "change": "added",
+      "expected_current_sha": "08bc1896c2007f532367750f5f1eeb6be06d1ad6",
+      "reason": "A04/P0.29 source-anchored full 8 entry-pair R0/RC/RE/RF qualitative audit plus 3 PROPOSED MFX-only NONENTRY mirrors FX-S11 WATCH, FX-B10/FX-B11 EXIT_SHORT_WARNING; 22 preregistered STATIC tests; current MFX 19 labels unchanged, future 22 conditional only, 0 numerically approved, no original Forex src/ source docs/data/cache/alert/broker modification."
+    },
+    {
+      "path": "docs/MFX_A04_P29_ELEVEN_PAIR_SYMMETRY_AUDIT.md",
+      "change": "added",
+      "expected_current_sha": "bd18e4331451dc4d6fc1ba272a393ce61c17a739",
+      "reason": "A04/P0.29 source-anchored full 8 entry-pair R0/RC/RE/RF qualitative audit plus 3 PROPOSED MFX-only NONENTRY mirrors FX-S11 WATCH, FX-B10/FX-B11 EXIT_SHORT_WARNING; 22 preregistered STATIC tests; current MFX 19 labels unchanged, future 22 conditional only, 0 numerically approved, no original Forex src/ source docs/data/cache/alert/broker modification."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -710,6 +722,12 @@
       "change": "added",
       "expected_current_sha": "7036c19ef99fbf0da9790843866867b7ab979a1d",
       "reason": "A04/P0.28F S6/FX-B9 source-ambiguity audit: proposed MFX-only structural outside-range S6 scope vs S4 upper range and B3 lower range; 12 static source-safe reviewer methods, 8BUY+8SELL+3 non-entry unchanged, 0 numeric approvals; no original Forex src/source Doc edits, real data/cache/alert/broker/release."
+    },
+    {
+      "path": "tests/test_a04_p29_eleven_pair_symmetry_audit.py",
+      "change": "added",
+      "expected_current_sha": "dffccbd416fdbc9a924e5198fdbddd1f6b12119b",
+      "reason": "A04/P0.29 source-anchored full 8 entry-pair R0/RC/RE/RF qualitative audit plus 3 PROPOSED MFX-only NONENTRY mirrors FX-S11 WATCH, FX-B10/FX-B11 EXIT_SHORT_WARNING; 22 preregistered STATIC tests; current MFX 19 labels unchanged, future 22 conditional only, 0 numerically approved, no original Forex src/ source docs/data/cache/alert/broker modification."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
