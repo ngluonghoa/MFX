@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "29ac0202c5dffe2549ce9f615e1c2a24afeba373",
-      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data. P044: independent B3/S4 H1/M15 computed SIM range research with 27 negative tests, strict typed demo, no original Forex strategy/source parity promotion. P045 adds only standalone UTC closed M5 data-cache codec + GitHub cloud scheduled Drive writer, 25 synthetic offline tests and CLI demo; original Forex source untouched; real Drive write gated on separate secrets/repo variable. P046 46-case offline Cache Engine V2 suite: exact native M5→M15/M30/H1, deterministic compaction, missing session holes, EMA/ATR fingerprint reuse, rate budgets; no live workflow change. P046-B1 requires 38 Cloud fake Drive two-object batch/recovery tests and strictly typed commit core; no Forex source edits. P046-B2 strict 32-case fake Drive WARM day promotion test plus SHA lineage and offline hosted demo. P046-B2 adds 34 cases including preexisting and racing uncommitted B1 raw chunk guards before/after WARM write. Parent originals never deleted; no real Drive writes or licensed raw-quote activation claimed. P046-B3 adds 42 fixture-only HOT M5 freshness/overlap/revision/race test cases and strictly typed bounded overlay; existing source 1:1 parity checks unchanged. P046-B3-B mandatory 48-case adversarial sealed B1 index and synthetic-only real Drive staging port tests and standalone no-network demo; no Forex source edits."
+      "expected_current_sha": "177453e361f55ea73248ac5ed98ab4f3ad3bccd0",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data. P044: independent B3/S4 H1/M15 computed SIM range research with 27 negative tests, strict typed demo, no original Forex strategy/source parity promotion. P045 adds only standalone UTC closed M5 data-cache codec + GitHub cloud scheduled Drive writer, 25 synthetic offline tests and CLI demo; original Forex source untouched; real Drive write gated on separate secrets/repo variable. P046 46-case offline Cache Engine V2 suite: exact native M5→M15/M30/H1, deterministic compaction, missing session holes, EMA/ATR fingerprint reuse, rate budgets; no live workflow change. P046-B1 requires 38 Cloud fake Drive two-object batch/recovery tests and strictly typed commit core; no Forex source edits. P046-B2 strict 32-case fake Drive WARM day promotion test plus SHA lineage and offline hosted demo. P046-B2 adds 34 cases including preexisting and racing uncommitted B1 raw chunk guards before/after WARM write. Parent originals never deleted; no real Drive writes or licensed raw-quote activation claimed. P046-B3 adds 42 fixture-only HOT M5 freshness/overlap/revision/race test cases and strictly typed bounded overlay; existing source 1:1 parity checks unchanged. P046-B3-B mandatory 48-case adversarial sealed B1 index and synthetic-only real Drive staging port tests and standalone no-network demo; no Forex source edits. P047 adds hosted no-provider 14-case offline HOT-B1 audit and strict mypy; owner defers live data/Drive service-account activations, no new jobs/scheduler/secret access."
     },
     {
       "path": ".github/workflows/mfx-b3b-sealed-index.yml",
@@ -1574,6 +1574,24 @@
       "change": "added",
       "expected_current_sha": "28b408808281bfc952c66c5fe5e09cd3e76d7107",
       "reason": "A01/P0.1 offline original Git tree/byte parity and exception validator; exact six-file A02 approved typed-source SHA verifier"
+    },
+    {
+      "path": "mfx_cache/v3_offline_preflight.py",
+      "change": "added",
+      "expected_current_sha": "56454b48f94c636a1e03edbb7963dc244e8a9209",
+      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
+    },
+    {
+      "path": "tests/test_a04_p47_offline_preflight.py",
+      "change": "added",
+      "expected_current_sha": "088ea48cfbaded3cf7471af08a4e7afa1af62641",
+      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
+    },
+    {
+      "path": "docs/MFX_A04_P47_OFFLINE_HOT_B1_PREFLIGHT.md",
+      "change": "added",
+      "expected_current_sha": "d92bea71e0270f507e7ea37c07ba2be7e3c55622",
+      "reason": "P047 owner defers all real Forex provider integrations; new offline-only HOT↔B1 source SHA/freshness/continuity preflight with 14 hosted no-vendor/no-Drive/no-signal adversarial tests and strict mypy. This is not licensed data, Drive authentication proof, latest global source state or source-owner numeric approval. Forex original source frozen."
     }
   ]
 }
