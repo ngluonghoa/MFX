@@ -17,6 +17,7 @@ from mfx_cache.v2_batch_commit import (
 )
 from mfx_cache.v2_warm_promotion import WARM_PREFIX, PROMOTION_PREFIX
 from mfx_cache.td_m5_codec import parse_closed_utc_m5
+from tools.mfx_hourly_catchup import plan_bounded_catchup, commit_bounded_catchup
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_create, _drive_get, _session,
     _settings, _vendor_m5, _vendor_usage,
@@ -195,11 +196,24 @@ def main() -> None:
     # the exactly 12 CLOSED bars from the prior full UTC hour.
     vendor_payload = _vendor_m5(api_key, bootstrap=True)
     rows = parse_closed_utc_m5(vendor_payload, now_utc=now)
-    accepted = commit_hour(store, now_utc=now, observed=rows)
+    _, previous = _last_manifest(store)
+    batches = plan_bounded_catchup(
+        rows,
+        previous_hour_utc=previous["hour_utc"] if previous else None,
+        now_utc=now,
+    )
+    accepted = commit_bounded_catchup(store, batches, real_now_utc=now)
     print(json.dumps({
-        "status": accepted.status,
-        "hour_utc": accepted.committed_hour_utc,
-        "m5_bars_in_batch": accepted.new_closed_m5,
+        "status": ("BATCHES_COMMITTED" if len(accepted) > 1 else
+                   "BATCH_COMMITTED" if accepted else
+                   "NOT_DUE_OR_INCOMPLETE_HOUR"),
+        "hour_utc": accepted[-1].committed_hour_utc if accepted else None,
+        "committed_hours_utc": [r.committed_hour_utc for r in accepted],
+        "committed_batches": len(accepted),
+        "m5_bars_in_batch": 12 if len(accepted) == 1 else 0,
+        "m5_bars_total": sum(r.new_closed_m5 for r in accepted),
+        "max_recovery_batches_per_run": 4,
+        "vendor_price_requests": 1,
         "source": "TWELVE_DATA_COMPOSITE_MID",
         "utc_only": True,
         "user_signals": 0,
