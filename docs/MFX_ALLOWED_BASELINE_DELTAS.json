@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "d473df3c76dc89b51b0af0ff28d74da4f1bdb6db",
-      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change."
+      "expected_current_sha": "56e07670f02ca52cc21c5e14376674ea632a12bf",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -443,6 +443,12 @@
       "reason": "A04/P0.42 sealed P029 audit / P030 22-label role / P031 SIM NO_SIGNAL cross-guard of 11 conceptual mirror pairs; original Forex source unchanged; all numerical owner signoffs, real vendor data rights, alerts, raw Drive quote cache, broker orders and release still BLOCKED (#45/#27)."
     },
     {
+      "path": "docs/MFX_A04_P43_REMAINING_ENTRY_SOURCE_GAPS.md",
+      "change": "added",
+      "expected_current_sha": "cc8ca18cc04acab90c3a483ffa841e17b9a1d5dd",
+      "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -560,6 +566,12 @@
       "change": "added",
       "expected_current_sha": "25bcd6efb3fbd6ec57e58b694b20ac7276194817",
       "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
+    },
+    {
+      "path": "mfx_research/p043_remaining_entry_source_gaps.py",
+      "change": "added",
+      "expected_current_sha": "7164cb3cb6305ab2cfeb9ea578bc96b2993f82a4",
+      "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release. Final PR mypy strict required explicit runtime narrowed pair label types before append; no behavior or source-ownership change."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -890,6 +902,12 @@
       "change": "added",
       "expected_current_sha": "8748fcd627107f5c7f1e61958d7ce76f168d63cf",
       "reason": "A04/P0.42 sealed P029 audit / P030 22-label role / P031 SIM NO_SIGNAL cross-guard of 11 conceptual mirror pairs; original Forex source unchanged; all numerical owner signoffs, real vendor data rights, alerts, raw Drive quote cache, broker orders and release still BLOCKED (#45/#27)."
+    },
+    {
+      "path": "tests/test_a04_p43_remaining_entry_source_gaps.py",
+      "change": "added",
+      "expected_current_sha": "4c509b890e69b58b062a728b1c1ad7e90d2580cb",
+      "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1286,6 +1304,12 @@
       "change": "added",
       "expected_current_sha": "a4a442e0e2cb4fdc5e02c5579bca2b46e1c6708e",
       "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
+    },
+    {
+      "path": "tools/run_a04_p43_remaining_entry_gap_demo.py",
+      "change": "added",
+      "expected_current_sha": "b63008bdfa32ecd2d99f63e83ea30a9f318e4490",
+      "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
