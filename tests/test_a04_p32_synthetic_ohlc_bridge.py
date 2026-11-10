@@ -152,7 +152,7 @@ class P032CausalComputedSIMToZoneTests(unittest.TestCase):
         for rule in SUPPORTED_PILOTS:
             with self.subTest(rule=rule):
                 r = case(rule)
-                self.assertIs(r.research_phase.value, "UNVERIFIED")
+                self.assertEqual(r.research_phase.value, "UNVERIFIED")
                 self.assertFalse(r.pattern_source_numeric_approved)
                 self.assertFalse(r.actual_market_data_verified)
                 self.assertFalse(r.verified_position)
