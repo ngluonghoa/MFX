@@ -20,7 +20,7 @@ from mfx_cache.td_m5_codec import (
 from mfx_cache.v2_batch_commit import (
     MANIFEST_PREFIX, PrivateObjectStore, _validate_manifest, _validate_chunk,
 )
-from mfx_cache.v2_engine import validate_m5
+from mfx_cache.v2_engine import derive_intraday, validate_m5
 from mfx_cache.v3_hot_overlay import validate_hot
 
 VERSION = "MFX_A04_P46_B3B_B1_SEALED_INDEX_V1"
@@ -186,6 +186,12 @@ def _source(
                      for i in range(12))
     if tuple(b.start_utc for b in bars) != expected:
         raise ValueError("P046_B3B_B1_INCOMPLETE_CLOSED_HOUR")
+    for frame, count in (("M15", 4), ("M30", 2), ("H1", 1)):
+        derived = derive_intraday(bars, frame, asof_utc=now_utc)
+        if (len(derived.candles) != count
+                or [asdict(x) for x in derived.candles] !=
+                c["derived"].get(frame)):
+            raise ValueError("P046_B3B_B1_DERIVED_SOURCE_SHA_LINEAGE_BROKEN")
     return m, c
 
 
@@ -318,6 +324,8 @@ def reconcile_sealed_index(
     if pointer.load()!=next_index:
         raise ValueError("P046_B3B_POINTER_READBACK_MISMATCH")
     _read_index_source(source,next_index,now_utc=now_utc)
+    if tuple(sorted(source.list_names("manifest"))) != names:
+        raise ValueError("P046_B3B_B1_MANIFEST_LIST_CHANGED_DURING_INDEX_WRITE")
     return IndexReceipt(
         "BOOTSTRAP_INDEX_COMMITTED" if original is None else
         "NEXT_B1_SEALED_INDEX_COMMITTED",
