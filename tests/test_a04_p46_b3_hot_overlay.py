@@ -11,7 +11,7 @@ from typing import Any
 
 from mfx_cache.td_m5_codec import ClosedM5Bar, digest
 from mfx_cache.v3_hot_overlay import (
-    HOT_NAME, MAX_HOT_CANDLES, HotFreshness, freshness, plan_hot,
+    MAX_HOT_CANDLES, HotFreshness, freshness, plan_hot,
     validate_hot,
 )
 from tools.run_a04_p46_b3_hot_cloud import commit_hot, main as cloud_main
