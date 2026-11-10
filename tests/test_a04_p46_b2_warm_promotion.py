@@ -313,6 +313,36 @@ class P046B2WarmPromotionTests(TestCase):
         }):
             cloud_main()
 
+    def test_33_uncommitted_b1_raw_chunk_blocks_warm_promotion(self)->None:
+        d=original(9,10)
+        d.fail_after_bucket="chunk"
+        with self.assertRaises(OSError):
+            commit_hour(d,now_utc=DAY+timedelta(hours=12,minutes=10),
+                        observed=rows(11))
+        with self.assertRaisesRegex(ValueError,
+                                    "UNCOMMITTED_RAW_HOUR_BLOCKS_PROMOTION"):
+            promote_completed_utc_day(d,now_utc=NOW)
+        self.assertEqual(d.items["warm"],{})
+        self.assertEqual(d.items["promotion"],{})
+
+    def test_34_uncommitted_raw_appears_after_warm_still_blocks(self)->None:
+        d=original(9,10)
+        original_put=d.put_if_absent
+        def injecting(bucket:str,name:str,body:dict[str,Any])->None:
+            original_put(bucket,name,body)
+            if bucket=="warm":
+                d.fail_after_bucket="chunk"
+                with self.assertRaises(OSError):
+                    commit_hour(d,
+                        now_utc=DAY+timedelta(hours=12,minutes=10),
+                        observed=rows(11))
+        d.put_if_absent=injecting  # type: ignore[method-assign]
+        with self.assertRaisesRegex(ValueError,
+                                    "UNCOMMITTED_RAW_HOUR_BLOCKS_PROMOTION"):
+            promote_completed_utc_day(d,now_utc=NOW)
+        self.assertEqual(len(d.items["warm"]),1)
+        self.assertEqual(d.items["promotion"],{})
+
     def test_32_no_live_provider_or_real_drive_in_fake_tests(self)->None:
         d=original(9,10,11)
         r=promote_completed_utc_day(d,now_utc=NOW)
