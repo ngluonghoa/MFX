@@ -347,6 +347,18 @@
       "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
     },
     {
+      "path": "docs/MFX_A04_P28F_S6_FXB9_SYMMETRY_SCOPE.json",
+      "change": "added",
+      "expected_current_sha": "8389b28e843e6740c4c96de1502649d996407a56",
+      "reason": "A04/P0.28F S6/FX-B9 source-ambiguity audit: proposed MFX-only structural outside-range S6 scope vs S4 upper range and B3 lower range; 12 static source-safe reviewer methods, 8BUY+8SELL+3 non-entry unchanged, 0 numeric approvals; no original Forex src/source Doc edits, real data/cache/alert/broker/release."
+    },
+    {
+      "path": "docs/MFX_A04_P28F_S6_FXB9_SYMMETRY_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "d0623176f5ba1e5f93bb03f1c254df5a876c3357",
+      "reason": "A04/P0.28F S6/FX-B9 source-ambiguity audit: proposed MFX-only structural outside-range S6 scope vs S4 upper range and B3 lower range; 12 static source-safe reviewer methods, 8BUY+8SELL+3 non-entry unchanged, 0 numeric approvals; no original Forex src/source Doc edits, real data/cache/alert/broker/release."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -692,6 +704,12 @@
       "change": "added",
       "expected_current_sha": "fc31abc1201f02861bfe9f66bd4d1c86f172ba2b",
       "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
+    },
+    {
+      "path": "tests/test_a04_p28f_s6_fxb9_symmetry_scope.py",
+      "change": "added",
+      "expected_current_sha": "7036c19ef99fbf0da9790843866867b7ab979a1d",
+      "reason": "A04/P0.28F S6/FX-B9 source-ambiguity audit: proposed MFX-only structural outside-range S6 scope vs S4 upper range and B3 lower range; 12 static source-safe reviewer methods, 8BUY+8SELL+3 non-entry unchanged, 0 numeric approvals; no original Forex src/source Doc edits, real data/cache/alert/broker/release."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
