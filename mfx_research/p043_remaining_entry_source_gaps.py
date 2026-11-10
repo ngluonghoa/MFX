@@ -146,7 +146,13 @@ def review_14_unapproved_entries(audit: object) -> RemainingEntryGapReport:
         pair = _mapping(obj, "pair")
         buy = _mapping(pair.get("buy"), "buy")
         sell = _mapping(pair.get("sell"), "sell")
-        observed.append((pair.get("pair_id"), buy.get("label"), sell.get("label")))
+        pair_id = pair.get("pair_id")
+        buy_label = buy.get("label")
+        sell_label = sell.get("label")
+        if (not isinstance(pair_id, str) or not isinstance(buy_label, str)
+                or not isinstance(sell_label, str)):
+            raise ValueError("P043_TYPED_MIRROR_PAIR_LABELS_REQUIRED")
+        observed.append((pair_id, buy_label, sell_label))
         if (pair.get("mirror_classification") != "QUALITATIVE_ONLY"
                 or pair.get("numeric_mirror_authorized") is not False
                 or buy.get("source_numeric_approved") is not False
