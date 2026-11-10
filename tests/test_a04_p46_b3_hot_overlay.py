@@ -11,10 +11,10 @@ from typing import Any
 
 from mfx_cache.td_m5_codec import ClosedM5Bar, digest
 from mfx_cache.v3_hot_overlay import (
-    MAX_HOT_CANDLES, HotFreshness, freshness, plan_hot,
+    MAX_HOT_CANDLES, HotFreshness, commit_hot, freshness, plan_hot,
     validate_hot,
 )
-from tools.run_a04_p46_b3_hot_cloud import commit_hot, main as cloud_main
+from tools.run_a04_p46_b3_hot_cloud import main as cloud_main
 
 UTC = timezone.utc
 BASE = datetime(2026, 11, 10, 12, 10, tzinfo=UTC)
