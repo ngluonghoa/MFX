@@ -1122,8 +1122,8 @@
     {
       "path": "tools/read_main_push_ci_diagnostic.py",
       "change": "added",
-      "expected_current_sha": "1aacdf2f1513137a4b1986128ca9a547ae3cad19",
-      "reason": "A04/P0.37 read-only PR-only Cloud GitHub Action diagnoses exact latest main SHA event=push run jobs and native commit status with actions:read/contents:read, pinned checkout, fixed api.github.com HTTPS and 8 offline safety tests. No status write, original Forex src, real provider/Drive cache, alert, numerical owner approval or broker."
+      "expected_current_sha": "9b39a8e72729c77b122b47dc105dae18959194b9",
+      "reason": "A04/P0.37 read-only PR-only Cloud GitHub Action diagnoses exact latest main SHA event=push run jobs and native commit status with actions:read/contents:read, pinned checkout, fixed api.github.com HTTPS and 8 offline safety tests. No status write, original Forex src, real provider/Drive cache, alert, numerical owner approval or broker. First PR diagnostic #42777631856 got HTTP403 on branch-main metadata before listing any push run. Added safe, token-free error classification and GitHub server/request-id existence indicators to disambiguate API permissions vs egress proxy; no original Forex change."
     },
     {
       "path": "tools/render_a04_p07_wrapper_golden.py",
