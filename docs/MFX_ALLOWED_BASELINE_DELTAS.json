@@ -570,8 +570,8 @@
     {
       "path": "mfx_research/p043_remaining_entry_source_gaps.py",
       "change": "added",
-      "expected_current_sha": "84d8d2ee1d6f859e8a650fe6d03ddca1bc4b6a31",
-      "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release."
+      "expected_current_sha": "7164cb3cb6305ab2cfeb9ea578bc96b2993f82a4",
+      "reason": "A04/P0.43 precise P029 SHA-sealed source-policy review for 14 non-B2/S2 entry candidates and 56 qualitative stage slots; 13 original labels 52 source anchors plus FX-B9 design-only 4 unanchored; 0/16 owner numeric approvals and 0/36 B2/S2 signed, #45/#27 remain blocked; NO_SIGNAL, no quote cache/broker/release. Final PR mypy strict required explicit runtime narrowed pair label types before append; no behavior or source-ownership change."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
