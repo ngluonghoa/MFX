@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "e980b1b065820d806873ba0fc7a4b36da8a440d6",
-      "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched."
+      "expected_current_sha": "aeb2313c90c901970a4c359e55af4d4e6c760964",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -395,6 +395,12 @@
       "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched."
     },
     {
+      "path": "docs/MFX_A04_P33_SIM_ASOF_REPLAY_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "a58dc7ba12b137693c1419e44c9256bef4346b73",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -494,6 +500,12 @@
       "change": "added",
       "expected_current_sha": "9e446ffa639a9b7e4e10fec30da0d27954c76739",
       "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched."
+    },
+    {
+      "path": "mfx_research/p033_asof_sim_replay.py",
+      "change": "added",
+      "expected_current_sha": "fdfd00e51156b335547da3325055d8428a10c139",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -788,6 +800,12 @@
       "change": "added",
       "expected_current_sha": "32336f568ddb1fe7cd5cc97572d34930b83e2a70",
       "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched."
+    },
+    {
+      "path": "tests/test_a04_p33_asof_sim_replay.py",
+      "change": "added",
+      "expected_current_sha": "32ae114c89182453dcf6267391f5f5eed44c9238",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1154,6 +1172,12 @@
       "change": "added",
       "expected_current_sha": "b45b1c4485503d15056f0e63a84832c38f5b500c",
       "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched."
+    },
+    {
+      "path": "tools/run_a04_p33_replay_demo.py",
+      "change": "added",
+      "expected_current_sha": "2a4ea7b21683f24aa464be2bcbf708b60cb30277",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. Initial hosted CI run #42766078824: 24 new P033 unit tests PASS but strict mypy flagged M15 tuple shape in DEMO; one-line typed 2-tuple shape fix reapplied with exact new Git blob; no strategy/payload change."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
