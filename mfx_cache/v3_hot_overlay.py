@@ -207,13 +207,12 @@ def plan_hot(
         x["start_utc"]: x for x in old["recent_bars"]
     } if old else {}
     if old is not None:
-        anchor = old["recent_bars"][0]["start_utc"]
         for b in observed:
             known = seen.get(b.start_utc)
             if known is not None and known["bar_sha256"] != digest(asdict(b)):
                 raise ValueError("P046_B3_REVISED_CLOSED_M5_QUARANTINE")
-            if b.start_utc <= last and known is None and b.start_utc < anchor:
-                raise ValueError("P046_B3_OLDER_THAN_HOT_INDEX_NEEDS_AUDIT")
+            if b.start_utc <= last and known is None:
+                raise ValueError("P046_B3_UNRECONCILED_HISTORICAL_M5_NEEDS_AUDIT")
         if not any(b.start_utc in seen for b in observed):
             raise ValueError("P046_B3_LOST_SOURCE_OVERLAP_FAIL_CLOSED")
     new_bars = tuple(
