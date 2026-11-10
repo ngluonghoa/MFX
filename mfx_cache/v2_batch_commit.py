@@ -163,6 +163,16 @@ def _last_manifest(
     elif (latest["parent_manifest_sha256"] is not None
           or latest["total_batches"] != 1):
         raise ValueError("P046_B1_INVALID_ROOT_MANIFEST")
+    # Never trust a manifest whose referenced immutable raw+derived
+    # chunk has been lost, mutated, or detached from the parent link.
+    referenced = latest["chunk_name"]
+    archived_chunk = store.read("chunk", referenced)
+    _validate_chunk(referenced, archived_chunk)
+    if (digest(archived_chunk) != latest["chunk_sha256"]
+            or archived_chunk["hour_utc"] != latest["hour_utc"]
+            or (archived_chunk["parent_manifest_sha256"] !=
+                latest["parent_manifest_sha256"])):
+        raise ValueError("P046_B1_MANIFEST_OR_CHUNK_LINK_BROKEN")
     return latest_name, latest
 
 
@@ -275,8 +285,12 @@ def _orphan_plan(
             raise ValueError("P046_B1_UNKNOWN_CHUNK_NAME")
         # Prior/original chunks are already committed; do not fetch all raw.
         stamp = name[len(CHUNK_PREFIX):len(CHUNK_PREFIX)+13]
-        if stamp <= (prior_hour.replace("-","").replace(":","")
-                     .replace("T","T")[:13] if prior_hour else ""):
+        prior_stamp = prior_hour[:16].replace("-", "").replace(":", "")
+        if stamp < prior_stamp:
+            continue
+        if stamp == prior_stamp:
+            if previous is not None and name != previous["chunk_name"]:
+                raise ValueError("P046_B1_CONFLICTING_COMMITTED_HOUR_CHUNK")
             continue
         c = store.read("chunk", name)
         hour = _validate_chunk(name, c)
