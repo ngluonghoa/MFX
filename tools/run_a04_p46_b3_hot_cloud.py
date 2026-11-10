@@ -12,11 +12,11 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import json
 import os
-from typing import Any, Protocol
+from typing import Any
 
 from mfx_cache.td_m5_codec import canonical, digest, parse_closed_utc_m5
 from mfx_cache.v3_hot_overlay import (
-    HOT_NAME, HotUpdate, freshness, plan_hot, validate_hot,
+    HOT_NAME, HotStore, commit_hot, freshness, validate_hot,
 )
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     MANIFEST_FOLDER, _drive_create, _drive_get, _session, _settings,
@@ -24,15 +24,7 @@ from tools.run_a04_p45_cloud_twelve_data_cache import (
 )
 
 
-class HotStore(Protocol):
-    def load(self) -> dict[str, Any] | None: ...
-    def write(
-        self, *, expected: dict[str, Any] | None,
-        replacement: dict[str, Any],
-    ) -> None: ...
-
-
-class DriveHotStore:
+class DriveHotStore(HotStore):
     """Fixed one-file per-symbol mutable HOT overlay.
 
     Read/check/readback and GitHub concurrency guard cooperate; this is
@@ -112,24 +104,6 @@ class DriveHotStore:
                 readback["generation"]!=currently["generation"]+1
                 or readback["previous_hot_sha256"]!=digest(currently)):
             raise ValueError("P046_B3_HOT_REPLACEMENT_CHAIN_FAILED")
-
-
-def commit_hot(
-    store: HotStore, observed: tuple[Any, ...], *,
-    now_utc: datetime,
-)->HotUpdate:
-    """Fake-Drive-testable stage, no HTTP code and no broker execution."""
-    current=store.load()
-    new=plan_hot(current,observed,now_utc=now_utc)
-    if new.new_state is None:
-        return new
-    # Fail closed on cooperating stale reader or an intervening update.
-    if store.load()!=current:
-        raise ValueError("P046_B3_HOT_STATE_CHANGED_AFTER_PLAN")
-    store.write(expected=current,replacement=new.new_state)
-    if store.load()!=new.new_state:
-        raise ValueError("P046_B3_HOT_FINAL_READBACK_MISMATCH")
-    return new
 
 
 def main()->None:
