@@ -135,6 +135,22 @@ def needs_hourly_fetch(store: PrivateObjectStore, now: datetime) -> bool:
     return datetime.fromisoformat(previous["hour_utc"]) < hour
 
 
+def quota_headroom(used: int, limit: int, local_cap: int) -> tuple[bool, int]:
+    """Reserve at most ten provider credits without blocking 8-credit plans.
+
+    /api_usage reports provider-side usage; the local cap is an additional
+    safety ceiling, not a substitute for provider daily-plan accounting.
+    Fail closed on malformed usage instead of assuming spare credits.
+    """
+    if (type(used) is not int or type(limit) is not int
+            or type(local_cap) is not int or used < 0
+            or limit <= 0 or local_cap <= 0):
+        raise ValueError("P046_B1_PROVIDER_USAGE_INVALID")
+    reserve = min(10, max(1, limit // 8))
+    threshold = min(local_cap, limit - reserve)
+    return used < threshold, threshold
+
+
 def main() -> None:
     # Separate activation gate intentionally protects against prior P045
     # MFX_REAL_CACHE_ENABLED already being configured.
@@ -161,9 +177,20 @@ def main() -> None:
         print("MFX_A04_P46_B1_UTC_HOUR_ALREADY_COMMITTED_NO_API_CALL")
         return
     used, limit = _vendor_usage(api_key)
-    if used >= min(cap, limit-10):
+    has_headroom, threshold = quota_headroom(used, limit, cap)
+    if not has_headroom:
         print("MFX_A04_P46_B1_PROVIDER_QUOTA_HEADROOM_NO_PRICE_REQUEST")
+        print(json.dumps({
+            "current_usage": used, "plan_limit": limit,
+            "configured_cap": cap, "safe_fetch_threshold": threshold,
+            "price_requests": 0, "broker_orders": 0,
+        }, sort_keys=True))
         return
+    print("MFX_A04_P46_B1_PROVIDER_QUOTA_PREFLIGHT_PASS")
+    print(json.dumps({
+        "current_usage": used, "plan_limit": limit,
+        "configured_cap": cap, "safe_fetch_threshold": threshold,
+    }, sort_keys=True))
     # Use 120 rows to tolerate runner delay. The pure planner keeps ONLY
     # the exactly 12 CLOSED bars from the prior full UTC hour.
     vendor_payload = _vendor_m5(api_key, bootstrap=True)
