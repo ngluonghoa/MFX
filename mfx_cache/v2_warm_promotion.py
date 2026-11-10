@@ -74,10 +74,11 @@ def _name(kind: str, day: str, sha: str) -> str:
 
 
 def _checked_day_name(kind: str, name: str, body: dict[str, Any]) -> str:
+    day_value = body.get("day_utc") if type(body) is dict else None
     if (type(body) is not dict or body.get("schema") != VERSION
-            or type(body.get("day_utc")) is not str):
+            or not isinstance(day_value, str)):
         raise ValueError("P046_B2_INVALID_OBJECT_SCHEMA")
-    day = body["day_utc"]
+    day = day_value
     if name != _name(kind, day, digest(body)):
         raise ValueError("P046_B2_CONTENT_HASH_NAME_MISMATCH")
     if (body.get("source") != PROVIDER or body.get("symbol") != SYMBOL
