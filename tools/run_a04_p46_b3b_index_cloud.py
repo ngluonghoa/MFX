@@ -1,6 +1,6 @@
 """P046-B3-B manual Cloud B1 latest sealed index reconciliation.
 
-GitHub service-account only, never invokes Twelve Data. B1 originals
+Google Gmail OAuth or legacy service account, never invokes Twelve Data. B1 originals
 remain immutable. A fixed mutable index is a bounded lookup hint, NOT a
 signed B1 history witness or atomic Google Drive compare-and-swap.
 """
@@ -15,7 +15,7 @@ from mfx_cache.v3_sealed_index import (
 )
 from tools.mfx_drive_single_slot import CloudJsonSlot
 from tools.run_a04_p45_cloud_twelve_data_cache import (
-    MANIFEST_FOLDER, _require_env, _session,
+    MANIFEST_FOLDER, _drive_auth_info, _require_oauth_cache_folders, _session,
 )
 from tools.run_a04_p46_cloud_batch_cache import PrivateDriveBatchStore
 
@@ -28,15 +28,9 @@ def main() -> None:
     )):
         print("MFX_A04_P46_B3B_SEALED_INDEX_DISABLED_TRIPLE_GATE")
         return
-    try:
-        credentials=json.loads(_require_env("MFX_GDRIVE_SERVICE_ACCOUNT_JSON"))
-    except (ValueError, TypeError) as exc:
-        raise ValueError("P046_B3B_INVALID_PRIVATE_DRIVE_JSON") from exc
-    if (type(credentials) is not dict
-            or credentials.get("type")!="service_account"
-            or type(credentials.get("client_email")) is not str):
-        raise ValueError("P046_B3B_PRIVATE_DRIVE_SERVICE_ACCOUNT_REQUIRED")
-    session=_session(credentials)
+    credentials = _drive_auth_info()
+    _require_oauth_cache_folders(credentials)
+    session = _session(credentials)
     source=PrivateDriveBatchStore(session)
     pointer=CloudJsonSlot(
         session,folder_id=MANIFEST_FOLDER,file_name=INDEX_NAME,

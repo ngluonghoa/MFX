@@ -16,10 +16,11 @@ from mfx_cache.v3_synthetic_drive_stage import (
 )
 from tools.mfx_drive_single_slot import CloudJsonSlot
 from tools.run_a04_p45_cloud_twelve_data_cache import (
-    _require_env, _session,
+    _require_env, _drive_auth_info, _session,
 )
 
-MFX_STAGING_FOLDER = "1zJaO68XXyCApn5hBEKUqTOj7SU33d2dD"
+MFX_STAGING_FOLDER = (os.environ.get("MFX_CACHE_STAGING_FOLDER_ID")
+                      or "1zJaO68XXyCApn5hBEKUqTOj7SU33d2dD")
 
 
 def main() -> None:
@@ -29,13 +30,14 @@ def main() -> None:
     run_id=_require_env("GITHUB_RUN_ID")
     if not run_id.isdigit() or not 1 <= len(run_id) <= 18:
         raise ValueError("P046_B3B_INVALID_GITHUB_RUN_ID")
-    try:
-        auth=json.loads(_require_env("MFX_GDRIVE_SERVICE_ACCOUNT_JSON"))
-    except (ValueError, TypeError) as exc:
-        raise ValueError("P046_B3B_INVALID_CLOUD_DRIVE_JSON") from exc
-    if (type(auth) is not dict or auth.get("type")!="service_account"
-            or type(auth.get("client_email")) is not str):
-        raise ValueError("P046_B3B_DRIVE_SERVICE_ACCOUNT_REQUIRED")
+    auth = _drive_auth_info()
+    if auth.get("type") == "authorized_user":
+        import re
+        if not re.fullmatch(
+            r"[A-Za-z0-9_-]{10,160}",
+            os.environ.get("MFX_CACHE_STAGING_FOLDER_ID", ""),
+        ):
+            raise ValueError("P046_B3B_OAUTH_APP_STAGING_FOLDER_REQUIRED")
     name="MFX_SYNTHETIC_B3B_DRIVE_REPLAY_RUN_"+run_id+".json"
     store=CloudJsonSlot(
         _session(auth),folder_id=MFX_STAGING_FOLDER,file_name=name,

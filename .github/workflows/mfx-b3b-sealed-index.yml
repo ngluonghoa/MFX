@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
-      - name: Install scoped Cloud service-account dependencies
+      - name: Install pinned Google Drive OAuth HTTPS dependencies
         run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
       - name: Check source B1 immutable SHA chain and reconcile ONE indexed pointer
         env:
@@ -31,4 +31,10 @@ jobs:
           MFX_V2_BATCH_CACHE_ACCEPTED: 'true'
           MFX_B3B_SEALED_INDEX_ACCEPTED: 'true'
           MFX_GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.MFX_GDRIVE_SERVICE_ACCOUNT_JSON }}
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+          MFX_CACHE_STAGING_FOLDER_ID: ${{ vars.MFX_CACHE_STAGING_FOLDER_ID }}
+          MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
+          MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
         run: python -m tools.run_a04_p46_b3b_index_cloud

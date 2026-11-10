@@ -1,0 +1,32 @@
+name: MFX Gmail OAuth Drive cache folder bootstrap (MANUAL, NO prices)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  create-oauth-cache-folders:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - name: Checkout protected MFX repository
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Install pinned Drive HTTPS requirements
+        run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
+      - name: Create app-owned Drive folders with limited drive.file scope
+        env:
+          PYTHONPATH: src:.
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+        run: python -m tools.run_mfx_oauth_drive_bootstrap
