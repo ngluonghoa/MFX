@@ -27,7 +27,7 @@ T = datetime(2026, 11, 10, 8, tzinfo=UTC)
 
 def bar(
     tf: Timeframe, end: datetime,
-    o: str, h: str, l: str, c: str,
+    o: str, h: str, low_value: str, c: str,
 ) -> MarketBar:
     span = timedelta(hours=1) if tf is Timeframe.H1 else timedelta(minutes=15)
     key = MarketBarKey(
@@ -49,7 +49,7 @@ def bar(
     return MarketBar(
         key=key, observation=obs,
         revision_number=1, first_known_utc=end,
-        open=D(o), high=D(h), low=D(l), close=D(c),
+        open=D(o), high=D(h), low=D(low_value), close=D(c),
         lifecycle=BarLifecycle.CLOSED, coverage=BarCoverage.COMPLETE,
         quality=SourceQuality.VERIFIED,
     )
