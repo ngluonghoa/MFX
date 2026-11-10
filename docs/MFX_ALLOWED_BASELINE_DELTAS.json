@@ -540,8 +540,8 @@
     {
       "path": "mfx_cache/v2_warm_promotion.py",
       "change": "added",
-      "expected_current_sha": "d9394ba619525d83cf276cd998e019d42492b01e",
-      "reason": "A04/P0.46-B2 additive WARM UTC day packed read optimization with original B1 manifest+chunk full SHA chain verification, source replay and failure detection, 32 fake Drive tests, triple-gated manual private Drive Cloud adapter. No deletion, cache cost/latency not measured, no real vendor provider/Drive quote writes or source numeric signals; original Forex 1:1 immutable, #27 legal provider rights and #45 original source numeric owner gate remain blocked."
+      "expected_current_sha": "297820cd6ab0335ab5c43c75f698a831ffbfa307",
+      "reason": "A04/P0.46-B2 additive WARM UTC day packed read optimization with original B1 manifest+chunk full SHA chain verification, source replay and failure detection, 32 fake Drive tests, triple-gated manual private Drive Cloud adapter. No deletion, cache cost/latency not measured, no real vendor provider/Drive quote writes or source numeric signals; original Forex 1:1 immutable, #27 legal provider rights and #45 original source numeric owner gate remain blocked. Hosted CI all 32 fake Drive tests PASS but strict mypy required explicit typed day_value narrowing from JSON before return; no schema or data behavior loosened."
     },
     {
       "path": "mfx_research/__init__.py",
