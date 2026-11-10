@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "6613fb49c8e487d0c187375333da43e2f4f63a3b",
-      "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
+      "expected_current_sha": "a4c267e9e9b1242fd55883a09cb3e5cae0e7639c",
+      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -423,6 +423,12 @@
       "change": "added",
       "expected_current_sha": "21e75f6372f22aab6a61c592269d80d386d65cc7",
       "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
+    },
+    {
+      "path": "docs/MFX_A04_P36_POSTMAIN_STATUS_EVIDENCE.md",
+      "change": "added",
+      "expected_current_sha": "de13f9b427a2ab3ea8bee2f0e57c610749bb3fe7",
+      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -856,6 +862,12 @@
       "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
     },
     {
+      "path": "tests/test_a04_p36_postmain_ci_status.py",
+      "change": "added",
+      "expected_current_sha": "77e386bd26655c45f035d9b3eeffb2432f286706",
+      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1088,6 +1100,12 @@
       "change": "added",
       "expected_current_sha": "bf9bcf44c37cfd1c2843b4ac89d0fe67588da8a0",
       "reason": "A01/P0.2 fail-closed golden snapshot schema/output/reason comparator"
+    },
+    {
+      "path": "tools/postmain_ci_commit_status.py",
+      "change": "added",
+      "expected_current_sha": "c3e1ef1ec062328ebe9ab25b37db186b4528dc43",
+      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked."
     },
     {
       "path": "tools/render_a04_p07_wrapper_golden.py",
