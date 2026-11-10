@@ -25,8 +25,8 @@
     {
       "path": ".github/workflows/mfx-hot-cache.yml",
       "change": "added",
-      "expected_current_sha": "57a60716786221c1a4179efa8ec9c352f133c682",
-      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration."
+      "expected_current_sha": "71c05fb1a6bc6a4ab23b7902bc04c65d804e3d1e",
+      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Owner decision #86 2026-11-10 reduces *scheduled HOT observation*, not M5 candle interval, from every 5min to hourly UTC :15. Existing B1 separate hourly :10 and manual dispatch retained; no real activation, no source numeric approval or live market signals. Incremental 16 source-bar request should overlap four prior bars after successful hourly poll; 3 additional targeted tests."
     },
     {
       "path": ".github/workflows/mfx-warm-promotion.yml",
@@ -505,8 +505,8 @@
     {
       "path": "docs/MFX_A04_P46_B3_HOT_M5_CLOUD_ARCHITECTURE.md",
       "change": "added",
-      "expected_current_sha": "74665eeb84efc986173114aaa16d209accbcef9c",
-      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration."
+      "expected_current_sha": "54b0ad7175aa022d0795b4bc8a97e9eaa4f29414",
+      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Owner decision #86 2026-11-10 reduces *scheduled HOT observation*, not M5 candle interval, from every 5min to hourly UTC :15. Existing B1 separate hourly :10 and manual dispatch retained; no real activation, no source numeric approval or live market signals. Incremental 16 source-bar request should overlap four prior bars after successful hourly poll; 3 additional targeted tests."
     },
     {
       "path": "docs/MFX_A04_P46_B3B_SEALED_INDEX_AND_DRIVE_STAGING.md",
@@ -519,6 +519,12 @@
       "change": "added",
       "expected_current_sha": "1aa85bdd042420734e46a296db242b9e6b0f18bc",
       "reason": "P046 cloud-only Cache Engine V2 Stage A: provider-native M5 source guards and exact M15/M30/H1, dry-run immutable day batch compaction, bounded gap/session uncertainty, source-hash research indicator reuse, deterministic quota fetch plan; original Forex 1:1 source untouched; no real price fetch/storage or alerts/broker. Owner authorized design, P045 live activation disabled, provider retention rights and signed Forex numeric detectors still blocked #27/#45."
+    },
+    {
+      "path": "docs/MFX_A04_P46_HOURLY_BACKGROUND_OWNER_POLICY.md",
+      "change": "added",
+      "expected_current_sha": "27e3c9e8004ebdd5c9f31887152fe0bce684a0fd",
+      "reason": "A04/P0.46 owner requested hourly background monitoring; policy distinguishes 24 HOT opportunities/day from separate hourly B1 24 jobs, requires no activation of vendor raw cache or user trading signals, preserves on-demand GitHub manual dispatch and full frozen original Forex source parity."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1062,8 +1068,8 @@
     {
       "path": "tests/test_a04_p46_b3_hot_overlay.py",
       "change": "added",
-      "expected_current_sha": "f434505b5ad2d6fbabfabfc80f794d29945760ab",
-      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
+      "expected_current_sha": "52547c72996d54f68158c54aaa9823ab375d957b",
+      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes. Owner decision #86 2026-11-10 reduces *scheduled HOT observation*, not M5 candle interval, from every 5min to hourly UTC :15. Existing B1 separate hourly :10 and manual dispatch retained; no real activation, no source numeric approval or live market signals. Incremental 16 source-bar request should overlap four prior bars after successful hourly poll; 3 additional targeted tests."
     },
     {
       "path": "tests/test_a04_p46_b3b_index_and_staging.py",
