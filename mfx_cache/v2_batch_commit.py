@@ -334,6 +334,7 @@ def commit_hour(
     _, previous = _last_manifest(store)
     pending = _orphan_plan(store, previous, now_utc)
     recovered = pending is not None
+    plan: BatchPlan | None = pending
     if pending is not None:
         plan = pending
     elif observed is None:
@@ -342,6 +343,7 @@ def commit_hour(
         plan = plan_closed_hour(previous, observed, now_utc=now_utc)
         if plan is None:
             return BatchResult("NOT_DUE_OR_INCOMPLETE_HOUR",None,0,0,False)
+    assert plan is not None
     current_name, current = _last_manifest(store)
     if current != previous:  # optimistic pre-write revalidation
         raise ValueError("P046_B1_PARENT_CHANGED_BEFORE_COMMIT")
