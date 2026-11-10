@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "7fdc83a52ec298b04615b66a4e1c7c63e579ffdd",
-      "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
+      "expected_current_sha": "810542478e3511a119194f9b5f15ef93cae9ab06",
+      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -335,6 +335,18 @@
       "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
     },
     {
+      "path": "docs/MFX_A04_P28E_FXB9_DESIGN_OVERLAY.json",
+      "change": "added",
+      "expected_current_sha": "bfa6f3b6f6f7832cc72d1ccecbfa106d615b1212",
+      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
+    },
+    {
+      "path": "docs/MFX_A04_P28E_FXB9_DESIGN_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "b474c86ab6974d296c019bfd4299eb0d8469b546",
+      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -410,6 +422,12 @@
       "change": "added",
       "expected_current_sha": "3c7b7a665eec5fd5102f4bbbc90450743ede1147",
       "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
+    },
+    {
+      "path": "mfx_research/p028e_fxb9_design_overlay.py",
+      "change": "added",
+      "expected_current_sha": "5fc3dc38b06deab42122c9b2dc20e6034daff0a3",
+      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -668,6 +686,12 @@
       "change": "added",
       "expected_current_sha": "6ae0aff5d10b793f06ccfbb1a00129c7c3c00d25",
       "reason": "A04/P0.27 20 prereg original 03 source review groups, additional exact B2 HH/HL vs S2 LH/LL and FX-S9 compression vs FX-S10 momentum qualitative guards; research only, no source numeric approval/real IO"
+    },
+    {
+      "path": "tests/test_a04_p28e_fxb9_design_overlay.py",
+      "change": "added",
+      "expected_current_sha": "fc31abc1201f02861bfe9f66bd4d1c86f172ba2b",
+      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1010,6 +1034,12 @@
       "change": "added",
       "expected_current_sha": "3c2c14279527361cbc29d93327f4ab8ebbaa8213",
       "reason": "A04/P0.27 source-locked 03 audit readback 18 zones and P021 36 unapproved numeric B2/S2 obligations; 20 preregistered candidate BUY/SELL source-approval isolation QA; no src modifications, real provider/Drive market cache/trades/notifications, no numeric promotion."
+    },
+    {
+      "path": "tools/run_a04_p28e_fxb9_design_demo.py",
+      "change": "added",
+      "expected_current_sha": "f242bbbad9569aee871412056064551780f2e940",
+      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
