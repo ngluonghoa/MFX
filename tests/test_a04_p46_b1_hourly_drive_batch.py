@@ -274,9 +274,10 @@ class P046B1HourlyCommitTests(unittest.TestCase):
             plan_closed_hour(None,y,now_utc=NOW)
 
     def test_24_no_future_close_allowed(self) -> None:
+        from mfx_cache.v2_engine import validate_m5
         x=hour_rows()
         with self.assertRaisesRegex(ValueError,"P046_FUTURE_OPEN"):
-            plan_closed_hour(None,x,now_utc=BASE+timedelta(minutes=30))
+            validate_m5(x,asof_utc=BASE+timedelta(minutes=30))
 
     def test_25_smart_hour_due_without_provider_call(self) -> None:
         d=FakeDrive()
