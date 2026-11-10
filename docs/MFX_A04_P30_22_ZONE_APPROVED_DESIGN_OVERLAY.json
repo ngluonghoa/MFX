@@ -1,0 +1,181 @@
+{
+  "schema": "MFX_A04_P30_22_ZONE_NONENTRY_DESIGN_OVERLAY_V1",
+  "version": "MFX_DESIGN_ONLY_22_LABELS_2026_11_10",
+  "approval": {
+    "authority": "USER_APPROVED_THREE_NONENTRY_MFX_DESIGN_MIRRORS",
+    "date": "2026-11-10",
+    "scope": "MFX_ONLY_OVERLAY_NOT_FROZEN_FOREX",
+    "numeric_formula_approved": false,
+    "data_provider_rights_approved": false,
+    "real_alerts_approved": false,
+    "automated_position_exit_approved": false,
+    "broker_order_execution_approved": false
+  },
+  "provenance": {
+    "original_forex_repository": "ngluonghoa/forex-trading-1-0",
+    "original_forex_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+    "original_forex_tree": "5df2058346f6dc96ed5bb02581b139fe2aa2d803",
+    "original_catalog_git_blob_sha": "dc0cd0d7eab7f8603071401aa51723f7e4b8ef20",
+    "legacy_fxb9_design_overlay_git_blob_sha": "bfa6f3b6f6f7832cc72d1ccecbfa106d615b1212",
+    "p029_audit_git_blob_sha": "08bc1896c2007f532367750f5f1eeb6be06d1ad6",
+    "original_source_audit_doc_id": "10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA",
+    "new_label_origin": "P029_THREE_PROPOSALS_EXPLICITLY_APPROVED_BY_USER_2026_11_10",
+    "source_locked_docs_unchanged": 11
+  },
+  "new_nonentry_design_labels": [
+    {
+      "label": "FX-S11",
+      "mirror_of": "B7",
+      "family": "COUNTERTREND_SHORT_WATCH",
+      "purpose": "WATCH_ONLY",
+      "direction_role": "WATCH_SHORT_COUNTERTREND",
+      "scope": "MFX_ONLY_APPROVED_DESIGN_NOT_ORIGINAL_FOREX",
+      "scope_approved": true,
+      "eligible_for_entry": false,
+      "approved_numeric_formula": false,
+      "may_warn_live": false,
+      "may_automate_exit": false,
+      "may_create_broker_order": false,
+      "source_status": "NEW_MFX_DESIGN_NO_HISTORICAL_SOURCE_NUMERIC_CALIBRATION",
+      "position_requirement": "WATCH_ONLY_NO_POSITION_REQUIRED",
+      "stage_names": [
+        "R0",
+        "R_C",
+        "R_E",
+        "R_F"
+      ],
+      "stage_hypotheses": {
+        "R0": "Confirmed D1/H4 UPTREND with causal HH/HL; potential countertrend downward relief only; not a trend-reversal verdict.",
+        "R_C": "Price extension vs as-of ATR and/or known H1/H4 resistance; deterministic predeclared level and spread quality still PENDING.",
+        "R_E": "CLOSED M15 rejection/CHoCH_DOWN with event ID, own first-known and retrieved times; research/watch only.",
+        "R_F": "No trade by default; any later review requires separate owner numerical approval, OOS and countertrend risk policy; no short-entry promotion."
+      },
+      "invalid_if": [
+        "UNLICENSED_REAL_QUOTES_OR_REVISED_ASOF",
+        "UNVERIFIED_CLOSED_CANDLE_OR_FUTURE_KNOWN_PIVOT",
+        "UNKNOWN_OR_DUPLICATED_ORIGIN_EVENT",
+        "COUNTERTREND_WATCH_PROMOTED_TO_SHORT_ENTRY"
+      ],
+      "numeric_thresholds": {}
+    },
+    {
+      "label": "FX-B10",
+      "mirror_of": "S3",
+      "family": "SHORT_PROTECTION_SWING_LOW",
+      "purpose": "EXIT_SHORT_WARNING_ONLY",
+      "direction_role": "EXIT_SHORT_SWING_LOW",
+      "scope": "MFX_ONLY_APPROVED_DESIGN_NOT_ORIGINAL_FOREX",
+      "scope_approved": true,
+      "eligible_for_entry": false,
+      "approved_numeric_formula": false,
+      "may_warn_live": false,
+      "may_automate_exit": false,
+      "may_create_broker_order": false,
+      "source_status": "NEW_MFX_DESIGN_NO_HISTORICAL_SOURCE_NUMERIC_CALIBRATION",
+      "position_requirement": "VERIFIED_OPEN_SHORT_REQUIRED",
+      "stage_names": [
+        "R0",
+        "R_C",
+        "R_E",
+        "R_F"
+      ],
+      "stage_hypotheses": {
+        "R0": "H1/H4 downtrend, preknown target/support and verified OPEN_SHORT position required to issue exit advice; otherwise WATCH_ONLY.",
+        "R_C": "Approach approved TP/support with as-of ADR/exhaustion or risk invalidation check; no hindsight or price-side confusion.",
+        "R_E": "CLOSED M15 causal CHoCH_UP or source-verified approved TP trigger; no unsourced fill assertion.",
+        "R_F": "CLOSED H1/M15 break above known minor lower-high/micro-resistance or independently approved actual TP fill event; can only warn/exit verified SHORT, never enter LONG."
+      },
+      "invalid_if": [
+        "UNLICENSED_REAL_QUOTES_OR_REVISED_ASOF",
+        "UNVERIFIED_CLOSED_CANDLE_OR_FUTURE_KNOWN_PIVOT",
+        "UNKNOWN_OR_DUPLICATED_ORIGIN_EVENT",
+        "NO_VERIFIED_OPEN_SHORT",
+        "NO_APPROVED_POSITION_EXIT_RULE"
+      ],
+      "numeric_thresholds": {}
+    },
+    {
+      "label": "FX-B11",
+      "mirror_of": "S8",
+      "family": "SHORT_PROTECTION_DOWNSIDE_EXHAUSTION",
+      "purpose": "EXIT_SHORT_WARNING_ONLY",
+      "direction_role": "EXIT_SHORT_EXHAUSTION",
+      "scope": "MFX_ONLY_APPROVED_DESIGN_NOT_ORIGINAL_FOREX",
+      "scope_approved": true,
+      "eligible_for_entry": false,
+      "approved_numeric_formula": false,
+      "may_warn_live": false,
+      "may_automate_exit": false,
+      "may_create_broker_order": false,
+      "source_status": "NEW_MFX_DESIGN_NO_HISTORICAL_SOURCE_NUMERIC_CALIBRATION",
+      "position_requirement": "VERIFIED_OPEN_SHORT_REQUIRED",
+      "stage_names": [
+        "R0",
+        "R_C",
+        "R_E",
+        "R_F"
+      ],
+      "stage_hypotheses": {
+        "R0": "Downside D1/H4 price acceleration vs historical as-of return/ATR distribution; not an assertion of final major bottom.",
+        "R_C": "Measure causal lower wick/failed downside extension and exhaustion without volume-climax requirement, with prior known quote lineage.",
+        "R_E": "CLOSED M15 failed low/micro CHoCH_UP with first-known event timestamp; no future-confirmation leak.",
+        "R_F": "CLOSED H1/H4 micro-resistance recovery provides warning/exit SHORT only with verified position/rights and risk policy; never entry LONG."
+      },
+      "invalid_if": [
+        "UNLICENSED_REAL_QUOTES_OR_REVISED_ASOF",
+        "UNVERIFIED_CLOSED_CANDLE_OR_FUTURE_KNOWN_PIVOT",
+        "UNKNOWN_OR_DUPLICATED_ORIGIN_EVENT",
+        "NO_VERIFIED_OPEN_SHORT",
+        "NO_APPROVED_POSITION_EXIT_RULE"
+      ],
+      "numeric_thresholds": {}
+    }
+  ],
+  "counts": {
+    "original_forex_catalog_labels": 18,
+    "previous_mfx_design_labels": 19,
+    "newly_approved_mfx_design_labels": 3,
+    "effective_mfx_design_labels": 22,
+    "entry_long_design_candidates": 8,
+    "entry_short_design_candidates": 8,
+    "effective_entry_candidates": 16,
+    "watch_only_labels": [
+      "B7",
+      "FX-S11"
+    ],
+    "exit_long_warning_labels": [
+      "S3",
+      "S8"
+    ],
+    "exit_short_warning_labels": [
+      "FX-B10",
+      "FX-B11"
+    ],
+    "total_watch_labels": 2,
+    "total_protection_labels": 4,
+    "total_nonentry_labels": 6,
+    "approved_entry_numeric_predicates": 0,
+    "original_b2_s2_numeric_requirements_pending": 36
+  },
+  "cross_zone_governance": {
+    "original_18_and_prior_19_remain_immutable": true,
+    "no_new_buy_or_sell_entry_rule": true,
+    "no_opposite_entry_from_protection": true,
+    "same_instrument_calendar_origin_one_research_opportunity": true,
+    "entry_and_position_protection_are_distinct_roles": true,
+    "no_position_exit_warning_watches_only_no_signal": true,
+    "source_context_unknown_no_signal": true,
+    "do_not_copy_mirror_thresholds_sl_tp_spread_swap_oos": true
+  },
+  "stop_gates": {
+    "all_research_stage": "UNVERIFIED",
+    "current_action": "NO_SIGNAL",
+    "eligible_for_trading": false,
+    "eligible_for_live_signal": false,
+    "eligible_for_live_exit_warning": false,
+    "live_data_provider_calls": 0,
+    "real_drive_market_quote_cache_writes": 0,
+    "broker_orders": 0,
+    "release_ready": false
+  }
+}

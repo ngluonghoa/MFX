@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "810542478e3511a119194f9b5f15ef93cae9ab06",
-      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
+      "expected_current_sha": "c81f95df9b181f984482d8363cf337809fa78828",
+      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -371,6 +371,18 @@
       "reason": "A04/P0.29 source-anchored full 8 entry-pair R0/RC/RE/RF qualitative audit plus 3 PROPOSED MFX-only NONENTRY mirrors FX-S11 WATCH, FX-B10/FX-B11 EXIT_SHORT_WARNING; 22 preregistered STATIC tests; current MFX 19 labels unchanged, future 22 conditional only, 0 numerically approved, no original Forex src/ source docs/data/cache/alert/broker modification."
     },
     {
+      "path": "docs/MFX_A04_P30_22_ZONE_APPROVED_DESIGN_OVERLAY.json",
+      "change": "added",
+      "expected_current_sha": "45f58ead4c30dec37120ad00f6e01222c0ff8498",
+      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
+    },
+    {
+      "path": "docs/MFX_A04_P30_22_ZONE_APPROVED_DESIGN_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "80e8e710a16381e9679694b744e656ed247191c2",
+      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -452,6 +464,12 @@
       "change": "added",
       "expected_current_sha": "fc0f22eb404b8826faf3ba6189107ee507332366",
       "reason": "A04/P0.28E MFX-only FX-B9 user-design approved overlay / 20 SIM tests and strict mypy type fix; 18 original frozen, 8BUY+8SELL design only, 0 numeric approvals, no real market alerts/data/cache/broker"
+    },
+    {
+      "path": "mfx_research/p030_approved_nonentry_design.py",
+      "change": "added",
+      "expected_current_sha": "137df457747d74788d1745d73f64f91784664e9e",
+      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release. Strict mypy PR red run42759867728: 3 heterogeneous expected-value assignment diagnostics; fixed with explicit Any annotation, no strategy/source logic changes."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -728,6 +746,12 @@
       "change": "added",
       "expected_current_sha": "dffccbd416fdbc9a924e5198fdbddd1f6b12119b",
       "reason": "A04/P0.29 source-anchored full 8 entry-pair R0/RC/RE/RF qualitative audit plus 3 PROPOSED MFX-only NONENTRY mirrors FX-S11 WATCH, FX-B10/FX-B11 EXIT_SHORT_WARNING; 22 preregistered STATIC tests; current MFX 19 labels unchanged, future 22 conditional only, 0 numerically approved, no original Forex src/ source docs/data/cache/alert/broker modification."
+    },
+    {
+      "path": "tests/test_a04_p30_approved_22_zone_design.py",
+      "change": "added",
+      "expected_current_sha": "7aed19a42ff20d75836900e52be98c74667373ff",
+      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1076,6 +1100,12 @@
       "change": "added",
       "expected_current_sha": "320ecdebe875ba86c9ccefc2740c897ef0603d9f",
       "reason": "A04/P0.28E MFX-only FX-B9 user-design approved overlay / 20 SIM tests and strict mypy type fix; 18 original frozen, 8BUY+8SELL design only, 0 numeric approvals, no real market alerts/data/cache/broker"
+    },
+    {
+      "path": "tools/run_a04_p30_22zone_design_demo.py",
+      "change": "added",
+      "expected_current_sha": "ba3477b197c8d6b5637af27e72cd5825059e67f5",
+      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
