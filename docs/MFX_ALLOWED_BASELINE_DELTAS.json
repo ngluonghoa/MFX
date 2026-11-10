@@ -557,6 +557,12 @@
       "reason": "A04/P0.51 GitHub cloud-only ONE-vendor-request bounded catchup of up to four complete closed UTC M5 hours with existing immutable Drive B1 Chunk/Manifest, offline regression tests and explicit limits. No frozen Forex source changes, no Mac/MOCHI, no signals/broker and no overwrites."
     },
     {
+      "path": "docs/MFX_A04_P52_NATIVE_H4_D1_RESEARCH_CONTRACT.md",
+      "change": "added",
+      "expected_current_sha": "fcac93f4609874b36141caecfb89fe59573f28dc",
+      "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -590,6 +596,12 @@
       "change": "added",
       "expected_current_sha": "7a34b7d416366553bb2152e3bee59e195545c9cf",
       "reason": "P045 explicit typed Python package boundary fixes strict mypy duplicate module name detection, no behavioral source or cache logic change."
+    },
+    {
+      "path": "mfx_cache/native_fx_htf.py",
+      "change": "added",
+      "expected_current_sha": "abc8d1f6dc470a1cd791c8fe26705c390f39c1c5",
+      "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source."
     },
     {
       "path": "mfx_cache/td_m5_codec.py",
@@ -1148,6 +1160,12 @@
       "change": "added",
       "expected_current_sha": "8e9b1be67ae9b117dec4e678fe3ba3d7dd940608",
       "reason": "A04/P0.51 GitHub cloud-only ONE-vendor-request bounded catchup of up to four complete closed UTC M5 hours with existing immutable Drive B1 Chunk/Manifest, offline regression tests and explicit limits. No frozen Forex source changes, no Mac/MOCHI, no signals/broker and no overwrites."
+    },
+    {
+      "path": "tests/test_a04_p52_native_fx_htf.py",
+      "change": "added",
+      "expected_current_sha": "1d08573ed31331ebbc63ffe309876029ebeaf49b",
+      "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
