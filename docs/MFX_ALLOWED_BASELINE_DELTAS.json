@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "86977f297785b14676a053c2f68fa20cad40cd11",
-      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
+      "expected_current_sha": "d473df3c76dc89b51b0af0ff28d74da4f1bdb6db",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -435,6 +435,12 @@
       "change": "added",
       "expected_current_sha": "f3f5b70aa275bf4546a8966921eda6a751297cb2",
       "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
+    },
+    {
+      "path": "docs/MFX_A04_P42_MIRROR_METAMORPHIC_GUARD.md",
+      "change": "added",
+      "expected_current_sha": "e9752751f7c2292b4d95c6e9d244b38590df48dd",
+      "reason": "A04/P0.42 sealed P029 audit / P030 22-label role / P031 SIM NO_SIGNAL cross-guard of 11 conceptual mirror pairs; original Forex source unchanged; all numerical owner signoffs, real vendor data rights, alerts, raw Drive quote cache, broker orders and release still BLOCKED (#45/#27)."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -878,6 +884,12 @@
       "change": "added",
       "expected_current_sha": "0171f2fd2c98c9e07abebdbf05731c287f563190",
       "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged."
+    },
+    {
+      "path": "tests/test_a04_p42_mirror_metamorphic.py",
+      "change": "added",
+      "expected_current_sha": "8748fcd627107f5c7f1e61958d7ce76f168d63cf",
+      "reason": "A04/P0.42 sealed P029 audit / P030 22-label role / P031 SIM NO_SIGNAL cross-guard of 11 conceptual mirror pairs; original Forex source unchanged; all numerical owner signoffs, real vendor data rights, alerts, raw Drive quote cache, broker orders and release still BLOCKED (#45/#27)."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
