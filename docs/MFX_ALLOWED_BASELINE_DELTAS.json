@@ -426,8 +426,8 @@
     {
       "path": "mfx_research/p028e_fxb9_design_overlay.py",
       "change": "added",
-      "expected_current_sha": "5fc3dc38b06deab42122c9b2dc20e6034daff0a3",
-      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
+      "expected_current_sha": "fc0f22eb404b8826faf3ba6189107ee507332366",
+      "reason": "A04/P0.28E MFX-only FX-B9 user-design approved overlay / 20 SIM tests and strict mypy type fix; 18 original frozen, 8BUY+8SELL design only, 0 numeric approvals, no real market alerts/data/cache/broker"
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -1038,8 +1038,8 @@
     {
       "path": "tools/run_a04_p28e_fxb9_design_demo.py",
       "change": "added",
-      "expected_current_sha": "f242bbbad9569aee871412056064551780f2e940",
-      "reason": "A04/P0.28E user-approved MFX-only FX-B9 Bear Trap long DESIGN overlay (original Forex 18 frozen / MFX extended 19 labels, 8 LONG+8 SHORT+3 protective); B3 inside-range exclusion, 20 pre-registered SIM-only methods, NO numeric approval, NO live alert, NO source/src change, NO real FX data/Drive quote/broker writes."
+      "expected_current_sha": "320ecdebe875ba86c9ccefc2740c897ef0603d9f",
+      "reason": "A04/P0.28E MFX-only FX-B9 user-design approved overlay / 20 SIM tests and strict mypy type fix; 18 original frozen, 8BUY+8SELL design only, 0 numeric approvals, no real market alerts/data/cache/broker"
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
