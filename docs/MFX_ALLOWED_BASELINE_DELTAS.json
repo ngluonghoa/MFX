@@ -558,8 +558,8 @@
     {
       "path": "mfx_cache/v3_hot_overlay.py",
       "change": "added",
-      "expected_current_sha": "36c229eea09b7531e3fc581951d728883497f48e",
-      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration."
+      "expected_current_sha": "d8f64b3bff2065e505ca2b53835f6c72e7e73d30",
+      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
     },
     {
       "path": "mfx_research/__init__.py",
@@ -1032,8 +1032,8 @@
     {
       "path": "tests/test_a04_p46_b3_hot_overlay.py",
       "change": "added",
-      "expected_current_sha": "6d0200ebca9bac9cb0b9806376cc404485169419",
-      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration."
+      "expected_current_sha": "f434505b5ad2d6fbabfabfc80f794d29945760ab",
+      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
     },
     {
       "path": "tests/test_a04_p46_cache_v2_engine.py",
@@ -1482,14 +1482,14 @@
     {
       "path": "tools/run_a04_p46_b3_hot_cloud.py",
       "change": "added",
-      "expected_current_sha": "28660d7e55537f5cad2b4eab6612770ea71b1605",
-      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration."
+      "expected_current_sha": "6ee0ac75ab23777ee69726762a3859d83d13ef22",
+      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
     },
     {
       "path": "tools/run_a04_p46_b3_hot_demo.py",
       "change": "added",
-      "expected_current_sha": "286a8166c7d2a8cf234b238762383570e45b0bf4",
-      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration."
+      "expected_current_sha": "095300f8d56b7135a0e30f6c5c24dfdd0ca60540",
+      "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
     },
     {
       "path": "tools/run_a04_p46_cache_v2_demo.py",
