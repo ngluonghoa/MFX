@@ -116,7 +116,8 @@ def _get_json(token: str, path: str) -> Any:
             # Classify safely: never show token or echo arbitrary response data.
             try:
                 error_body = json.loads(data.decode("utf-8"))
-                message = error_body.get("message", "") if isinstance(error_body, dict) else ""
+                candidate_message = error_body.get("message", "") if isinstance(error_body, dict) else ""
+                message = candidate_message if isinstance(candidate_message, str) else ""
             except (ValueError, UnicodeDecodeError):
                 message = ""
             reason = (
