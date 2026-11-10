@@ -21,7 +21,7 @@ from forex_trading.catalog import ZONES, validate_catalog
 from forex_trading.model import ZoneDefinition, ZonePurpose
 
 MANIFEST = Path("docs/MFX_A04_P28E_FXB9_DESIGN_OVERLAY.json")
-MANIFEST_BLOB_SHA = "PENDING_PIN_AFTER_GITHUB_BLOB_READBACK"
+MANIFEST_BLOB_SHA = "bfa6f3b6f6f7832cc72d1ccecbfa106d615b1212"
 FROZEN_CATALOG_SHA = "dc0cd0d7eab7f8603071401aa51723f7e4b8ef20"
 SOURCE_COMMIT = "7e1c1c012b1b189be5ad7b9d07756eac012a8309"
 FXB9_LABEL = "FX-B9"
