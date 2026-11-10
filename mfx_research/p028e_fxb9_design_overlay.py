@@ -219,7 +219,10 @@ def verify_fxb9_design_manifest(obj: object) -> MfxDesignOverlayReceipt:
         raise ValueError("P028E_ORIGINAL_FOREX_CATALOG_SHA_DRIFT")
     ext = ZoneDefinition(FXB9_LABEL, FXB9_FAMILY,
                          ZonePurpose.ENTRY_LONG_CANDIDATE)
-    design = ZONES + (ext,)
+    # Insert the MFX-only LONG proposal after B8 in the PRESENTATION
+    # overlay; stripping FX-B9 reproduces the frozen 18 original order.
+    split = next(i for i, z in enumerate(ZONES) if z.label == "S1")
+    design = ZONES[:split] + (ext,) + ZONES[split:]
     if len(set(z.label for z in design)) != 19:
         raise ValueError("P028E_DUPLICATE_ORIGINAL_DESIGN_ZONE")
     longs = sum(z.purpose is ZonePurpose.ENTRY_LONG_CANDIDATE for z in design)
