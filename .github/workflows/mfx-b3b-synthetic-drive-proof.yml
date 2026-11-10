@@ -1,0 +1,33 @@
+name: MFX B3B authenticated SYNTHETIC-ONLY private Drive fixed-file staging
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  synthetic-staging:
+    if: ${{ vars.MFX_B3B_SYNTHETIC_DRIVE_STAGING_ACCEPTED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 7
+    steps:
+      - name: Checkout MFX protected repo (read only)
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Install scoped Drive-only HTTPS dependencies
+        run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
+      - name: Write then replace SAME file in MFX private staging; read back two SHA snapshots
+        env:
+          PYTHONPATH: src:.
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          MFX_B3B_SYNTHETIC_DRIVE_STAGING_ACCEPTED: 'true'
+          MFX_GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.MFX_GDRIVE_SERVICE_ACCOUNT_JSON }}
+        run: python -m tools.run_a04_p46_b3b_cloud_synthetic_probe
