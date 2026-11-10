@@ -31,7 +31,7 @@ def read(path: Path) -> dict:
 
 def git_blob(path: Path) -> str:
     raw = path.read_bytes()
-    return sha1(b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw).hexdigest()
+    return sha1(b"blob " + str(len(raw)).encode("ascii") + bytes([0]) + raw).hexdigest()
 
 
 class P029ElevenPairSymmetryAudit(unittest.TestCase):
