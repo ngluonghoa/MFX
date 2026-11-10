@@ -1,0 +1,12 @@
+{
+  "schema": "MFX_A04_P35_OWNER_EVIDENCE_PROPOSAL_INTAKE_V1",
+  "version": "MFX:P035-PUBLIC_SAFE_REVIEW_PROPOSAL-001",
+  "source": {
+    "original_forex_commit": "7e1c1c012b1b189be5ad7b9d07756eac012a8309",
+    "source_p021_git_blob": "ef88e20271ad93c34d9d09c0cc6148f67d321929",
+    "decision_p034_git_blob": "9b2625080705078e17572963795b41ca496481a4",
+    "original_source_doc_id": "10-XQxdssBTanOyTX7tSqAymRfS8XRO9YRKtjk_BsXmA"
+  },
+  "submission_mode": "PUBLIC_SAFE_PROPOSALS_NOT_APPROVALS",
+  "proposal_rows": []
+}

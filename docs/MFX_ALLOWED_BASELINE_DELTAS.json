@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "b4dc86ddc73a6a0501fef5af80d2f99f5be46ff3",
-      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
+      "expected_current_sha": "6613fb49c8e487d0c187375333da43e2f4f63a3b",
+      "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -413,6 +413,18 @@
       "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
     },
     {
+      "path": "docs/MFX_A04_P35_OWNER_PROPOSAL_INTAKE_SCOPE.md",
+      "change": "added",
+      "expected_current_sha": "30973ce0bd5f91e57f7a1d87927fe96488115c1b",
+      "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
+    },
+    {
+      "path": "docs/MFX_A04_P35_PUBLIC_SAFE_OWNER_PROPOSAL_TEMPLATE.json",
+      "change": "added",
+      "expected_current_sha": "21e75f6372f22aab6a61c592269d80d386d65cc7",
+      "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -524,6 +536,12 @@
       "change": "added",
       "expected_current_sha": "42af811fe27f7cec52bf6c50a3bb8e660290b312",
       "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release. Draft PR#61 run42768566909 found 23/24 P034 tests pass but reversed-clock negative expected causal diagnostic before B2/S2 role; reorder input checks and re-pin exact source Git blob; no market/source formula change."
+    },
+    {
+      "path": "mfx_research/p035_owner_proposal_intake.py",
+      "change": "added",
+      "expected_current_sha": "25bcd6efb3fbd6ec57e58b694b20ac7276194817",
+      "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -830,6 +848,12 @@
       "change": "added",
       "expected_current_sha": "fd013d93e6dccfc12601e62ea82ce8f995452cfa",
       "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
+    },
+    {
+      "path": "tests/test_a04_p35_owner_proposal_intake.py",
+      "change": "added",
+      "expected_current_sha": "31622c923da338268bc28a2aea2ed0655403a164",
+      "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1208,6 +1232,12 @@
       "change": "added",
       "expected_current_sha": "24dde1fa127709f5d0a82cc448707555139f5034",
       "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
+    },
+    {
+      "path": "tools/run_a04_p35_owner_intake_demo.py",
+      "change": "added",
+      "expected_current_sha": "a4a442e0e2cb4fdc5e02c5579bca2b46e1c6708e",
+      "reason": "A04/P0.35 public-safe exact source-sealed 36-row owner numeric PROPOSAL intake, 24 preregistered fail-closed tests incl attempts to forge approval/public text credentials/unknown source/synthetic threshold, hosted CI NO_SIGNAL demo and strict mypy. No source owner authenticated evidence or signed numeric formula, no forex original src edits, no real vendor/Drive price cache/alerts/broker/release; original MFX design 22 unchanged."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
