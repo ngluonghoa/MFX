@@ -86,10 +86,19 @@ class P053NativeManualProofTests(unittest.TestCase):
                 _probe_one("fake","4h",now_utc=NOW)
 
     def test_08_vendor_error_never_exposes_api_key(self) -> None:
-        import requests
-        with patch("requests.get",
-                   side_effect=requests.RequestException(
-                       "https://api.twelvedata.com/time_series?apikey=SECRET")):
+        # Host CI has no requests package; emulate its import fully offline.
+        from types import SimpleNamespace
+        import sys
+
+        class FakeRequestException(Exception):
+            pass
+
+        mocked_requests = SimpleNamespace(
+            RequestException=FakeRequestException,
+            get=Mock(side_effect=FakeRequestException(
+                "https://api.twelvedata.com/time_series?apikey=SECRET")),
+        )
+        with patch.dict(sys.modules, {"requests": mocked_requests}):
             with self.assertRaises(ValueError) as ctx:
                 _read_payload(
                     "https://api.twelvedata.com/time_series",
@@ -100,11 +109,17 @@ class P053NativeManualProofTests(unittest.TestCase):
                          "P053_VENDOR_RESPONSE_UNAVAILABLE")
 
     def test_09_vendor_error_payload_rejected_silently(self) -> None:
+        from types import SimpleNamespace
+        import sys
+
         http=Mock()
         http.status_code=200
         http.json.return_value={"status":"error",
                                 "message":"private-key-could-leak"}
-        with patch("requests.get",return_value=http):
+        mocked_requests=SimpleNamespace(
+            RequestException=OSError, get=Mock(return_value=http),
+        )
+        with patch.dict(sys.modules, {"requests": mocked_requests}):
             with self.assertRaisesRegex(ValueError,"VENDOR_ERROR_OR_INVALID"):
                 _read_payload("https://example.invalid",{"apikey":"SECRET"})
 
