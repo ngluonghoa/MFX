@@ -468,8 +468,8 @@
     {
       "path": "mfx_research/p030_approved_nonentry_design.py",
       "change": "added",
-      "expected_current_sha": "2f4cf765bb3cd80f07f2ff01021811007cee324d",
-      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release."
+      "expected_current_sha": "137df457747d74788d1745d73f64f91784664e9e",
+      "reason": "A04/P0.30 user-approved MFX-only 3 NONENTRY mirror DESIGN labels FX-S11(WATCH), FX-B10/FX-B11(EXIT_SHORT_WARNING), compose effective 22=8BUY+8SELL+2WATCH+4protect, previous P028E19 and original Forex18 frozen, 24 preregistered QA, CI strict mypy and offline no-signal demo; no numeric, live quote/data/cache/alerts/broker/release. Strict mypy PR red run42759867728: 3 heterogeneous expected-value assignment diagnostics; fixed with explicit Any annotation, no strategy/source logic changes."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
