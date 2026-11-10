@@ -349,10 +349,10 @@ def run_p034_adversarial_stress(
     if (not isinstance(first, SyntheticReplayWindow)
             or not isinstance(later, SyntheticReplayWindow)):
         raise TypeError("P034_TYPED_TWO_SYNTHETIC_SNAPSHOTS_REQUIRED")
-    if first.rule_id != "B2" or later.rule_id != "S2":
-        raise ValueError("P034_TEST_FIXTURE_REQUIRES_B2_THEN_S2")
     if first.decision_utc >= later.decision_utc:
         raise ValueError("P034_TWO_SNAPSHOT_CAUSAL_ORDER_REQUIRED")
+    if first.rule_id != "B2" or later.rule_id != "S2":
+        raise ValueError("P034_TEST_FIXTURE_REQUIRES_B2_THEN_S2")
     owner = verify_owner_decision_dossier()
     prefix = run_asof_sim_ohlc_replay((first,), first.decision_utc)
     baseline = run_asof_sim_ohlc_replay(
