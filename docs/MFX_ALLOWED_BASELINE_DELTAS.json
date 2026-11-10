@@ -864,8 +864,8 @@
     {
       "path": "tests/test_a04_p36_postmain_ci_status.py",
       "change": "added",
-      "expected_current_sha": "77e386bd26655c45f035d9b3eeffb2432f286706",
-      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked."
+      "expected_current_sha": "5555649b98351c3c3def50cb0faa8fe7d7308f2d",
+      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked. Initial draft PR#65 CI had Bandit B310 generic-urlopen warning; changed status sender to pinned HTTPSConnection('api.github.com') and added a static fixed-host regression check, no Forex/source/auth behavior change."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1104,8 +1104,8 @@
     {
       "path": "tools/postmain_ci_commit_status.py",
       "change": "added",
-      "expected_current_sha": "c3e1ef1ec062328ebe9ab25b37db186b4528dc43",
-      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked."
+      "expected_current_sha": "265c74285436a1b7db2d43f37711410d4741d20e",
+      "reason": "A04/P0.36 exact MAIN-push-only least-privilege GitHub native commit status to independently verify after merge full Python3.11+3.12/wheel CI through existing GitHub get_commit_combined_status+fetch_workflow_run_jobs, 12 preregistered network-free safety tests, strict no original Forex src changes, source numeric/Forex vendor rights still blocked. Initial draft PR#65 CI had Bandit B310 generic-urlopen warning; changed status sender to pinned HTTPSConnection('api.github.com') and added a static fixed-host regression check, no Forex/source/auth behavior change."
     },
     {
       "path": "tools/render_a04_p07_wrapper_golden.py",
