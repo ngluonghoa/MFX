@@ -1,0 +1,38 @@
+name: MFX V3 HOT M5 research overlay (STAGED, NO broker)
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  hot-closed-m5:
+    if: ${{ vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V3_HOT_CACHE_ACCEPTED == 'true' && vars.MFX_TD_ACCOUNT_CACHE_RIGHTS_CONFIRMED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout protected MFX source (read only)
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install scoped GitHub cloud-only Drive and vendor HTTPS dependencies
+        run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
+      - name: Read only CLOSED Twelve Data EURUSD MID M5 and stage bounded HOT file
+        env:
+          PYTHONPATH: src:.
+          MFX_REAL_CACHE_ENABLED: "true"
+          MFX_V3_HOT_CACHE_ACCEPTED: "true"
+          MFX_TD_ACCOUNT_CACHE_RIGHTS_CONFIRMED: "true"
+          MFX_TWELVE_DATA_API_KEY: ${{ secrets.MFX_TWELVE_DATA_API_KEY }}
+          MFX_GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.MFX_GDRIVE_SERVICE_ACCOUNT_JSON }}
+          MFX_TD_DAILY_CREDIT_CAP: ${{ vars.MFX_TD_DAILY_CREDIT_CAP || '400' }}
+        run: python -m tools.run_a04_p46_b3_hot_cloud
