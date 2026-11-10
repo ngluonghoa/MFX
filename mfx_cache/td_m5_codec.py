@@ -95,6 +95,8 @@ def parse_closed_utc_m5(
         if not isinstance(raw, dict):
             raise ValueError("P045_TYPED_OHLC_REQUIRED")
         start_text = raw.get("datetime")
+        if type(start_text) is not str:
+            raise ValueError("P045_UTC_BAR_TIMESTAMP_MUST_BE_STRING")
         start = _datetime(start_text)
         if start_text in seen:
             raise ValueError("P045_DUPLICATE_VENDOR_BAR")
