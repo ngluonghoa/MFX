@@ -1182,8 +1182,8 @@
     {
       "path": "tests/test_a04_p53_native_htf_manual_probe.py",
       "change": "added",
-      "expected_current_sha": "ed5d532ef06eebcb422a319bfcf80b11b3aa2750",
-      "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged."
+      "expected_current_sha": "cc42103649bb5b90ef18b501b0c776b1f3200d4b",
+      "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged. P0.53 CI portability fix: mock requests via sys.modules for HTTP security tests, so source parity CI does not install any network library."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
