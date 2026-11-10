@@ -389,5 +389,25 @@ class P046B1HourlyCommitTests(unittest.TestCase):
         self.assertEqual(r.broker_orders,0)
 
 
+    def test_38_basic_plan_8_credits_does_not_deadlock(self) -> None:
+        from tools.run_a04_p46_cloud_batch_cache import quota_headroom
+        self.assertEqual(quota_headroom(1, 8, 400), (True, 7))
+        self.assertEqual(quota_headroom(6, 8, 400), (True, 7))
+        self.assertEqual(quota_headroom(7, 8, 400), (False, 7))
+
+    def test_39_large_plan_preserves_ten_credit_reserve(self) -> None:
+        from tools.run_a04_p46_cloud_batch_cache import quota_headroom
+        self.assertEqual(quota_headroom(399, 800, 400), (True, 400))
+        self.assertEqual(quota_headroom(400, 800, 400), (False, 400))
+        self.assertEqual(quota_headroom(790, 800, 800), (False, 790))
+
+    def test_40_invalid_provider_usage_fails_closed(self) -> None:
+        from tools.run_a04_p46_cloud_batch_cache import quota_headroom
+        for args in ((0, 0, 400), (-1, 8, 400), (True, 8, 400),
+                     (0, 8, 0), (0, -8, 400)):
+            with self.subTest(args=args):
+                with self.assertRaisesRegex(ValueError, "PROVIDER_USAGE_INVALID"):
+                    quota_headroom(*args)
+
 if __name__ == "__main__":
     unittest.main()
