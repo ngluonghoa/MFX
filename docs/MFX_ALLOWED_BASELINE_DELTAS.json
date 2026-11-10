@@ -498,8 +498,8 @@
     {
       "path": "mfx_cache/td_m5_codec.py",
       "change": "added",
-      "expected_current_sha": "d10012e4b704319d18dbc1807360d1e103eaf3a8",
-      "reason": "P045 private cloud Twelve Data EUR/USD M5 UTC 5-minute incremental cache infrastructure authorized by user. Only confirmed closed MID UTC bars, immutable delta JSON chunks, SHA manifests, provider quota guard, offline simulated QA; original Forex 102 blob source and 11 source docs unchanged. 0 source numeric signals, 0 broker orders, real live cache activation requires GitHub secrets and Drive service account shares; vendor plan retention terms separately unverified #27."
+      "expected_current_sha": "2c3b46f5f30b2f84e3eb9ccb46d2151b6245a806",
+      "reason": "P045 private cloud Twelve Data EUR/USD M5 UTC 5-minute incremental cache infrastructure authorized by user. Only confirmed closed MID UTC bars, immutable delta JSON chunks, SHA manifests, provider quota guard, offline simulated QA; original Forex 102 blob source and 11 source docs unchanged. 0 source numeric signals, 0 broker orders, real live cache activation requires GitHub secrets and Drive service account shares; vendor plan retention terms separately unverified #27. Hosted PR strict mypy required exact runtime str narrowing for vendor datetime; no accepted data semantics changed."
     },
     {
       "path": "mfx_research/__init__.py",
