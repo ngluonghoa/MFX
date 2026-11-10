@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12'
-      - name: Install scoped Drive-only HTTPS dependencies
+      - name: Install pinned Drive HTTPS dependencies
         run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
       - name: Write then replace SAME file in MFX private staging; read back two SHA snapshots
         env:
@@ -30,4 +30,10 @@ jobs:
           GITHUB_RUN_ID: ${{ github.run_id }}
           MFX_B3B_SYNTHETIC_DRIVE_STAGING_ACCEPTED: 'true'
           MFX_GDRIVE_SERVICE_ACCOUNT_JSON: ${{ secrets.MFX_GDRIVE_SERVICE_ACCOUNT_JSON }}
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+          MFX_CACHE_STAGING_FOLDER_ID: ${{ vars.MFX_CACHE_STAGING_FOLDER_ID }}
+          MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
+          MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
         run: python -m tools.run_a04_p46_b3b_cloud_synthetic_probe
