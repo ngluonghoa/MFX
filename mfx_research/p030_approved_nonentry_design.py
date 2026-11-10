@@ -120,6 +120,9 @@ def verify_22_zone_design_manifest(value: object) -> Mfx22DesignReceipt:
     }, "root")
     _eq(root["schema"], SCHEMA, "schema")
     _eq(root["version"], VERSION, "version")
+    # The source-seal expected values deliberately span str, bool, int and
+    # list[str]. Keep their exact runtime type checked by _eq.
+    expected: Any
     approval = _keys(root["approval"], {
         "authority", "date", "scope", "numeric_formula_approved",
         "data_provider_rights_approved", "real_alerts_approved",
