@@ -77,7 +77,7 @@ class P037ReadOnlyMainPushDiagnosticsTests(unittest.TestCase):
         text = Path("tools/read_main_push_ci_diagnostic.py").read_text(encoding="utf-8")
         self.assertNotIn("print(token)", text)
         self.assertNotIn("urlopen(", text)
-        self.assertIn('HTTPSConnection(API_HOST, timeout=15)', text)
+        self.assertIn("build_opener(ProxyHandler(), NoRedirect())", text)
 
     def test_04_strict_main_sha_and_required_source_coverage(self) -> None:
         self.assertEqual(checked_main_sha("a" * 40), "a" * 40)
