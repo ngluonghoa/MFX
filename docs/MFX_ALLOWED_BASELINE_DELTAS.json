@@ -7,8 +7,8 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "aeb2313c90c901970a4c359e55af4d4e6c760964",
-      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
+      "expected_current_sha": "b4dc86ddc73a6a0501fef5af80d2f99f5be46ff3",
+      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
     },
     {
       "path": "docs/MFX_A01_GOLDEN_CONTRACT_SCOPE.md",
@@ -401,6 +401,18 @@
       "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
     },
     {
+      "path": "docs/MFX_A04_P34_ADVERSARIAL_STRESS_AND_OWNER_DOSSIER.md",
+      "change": "added",
+      "expected_current_sha": "9b517b7de152d0c9d3973b8411ac410bf8c65b74",
+      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
+    },
+    {
+      "path": "docs/MFX_A04_P34_SOURCE_OWNER_DECISION_DOSSIER.json",
+      "change": "added",
+      "expected_current_sha": "9b2625080705078e17572963795b41ca496481a4",
+      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -506,6 +518,12 @@
       "change": "added",
       "expected_current_sha": "fdfd00e51156b335547da3325055d8428a10c139",
       "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
+    },
+    {
+      "path": "mfx_research/p034_sim_adversarial_review.py",
+      "change": "added",
+      "expected_current_sha": "42af811fe27f7cec52bf6c50a3bb8e660290b312",
+      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release. Draft PR#61 run42768566909 found 23/24 P034 tests pass but reversed-clock negative expected causal diagnostic before B2/S2 role; reorder input checks and re-pin exact source Git blob; no market/source formula change."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
@@ -806,6 +824,12 @@
       "change": "added",
       "expected_current_sha": "32ae114c89182453dcf6267391f5f5eed44c9238",
       "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
+    },
+    {
+      "path": "tests/test_a04_p34_sim_adversarial_review.py",
+      "change": "added",
+      "expected_current_sha": "fd013d93e6dccfc12601e62ea82ce8f995452cfa",
+      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1178,6 +1202,12 @@
       "change": "added",
       "expected_current_sha": "2a4ea7b21683f24aa464be2bcbf708b60cb30277",
       "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. Initial hosted CI run #42766078824: 24 new P033 unit tests PASS but strict mypy flagged M15 tuple shape in DEMO; one-line typed 2-tuple shape fix reapplied with exact new Git blob; no strategy/payload change."
+    },
+    {
+      "path": "tools/run_a04_p34_stress_owner_dossier_demo.py",
+      "change": "added",
+      "expected_current_sha": "24dde1fa127709f5d0a82cc448707555139f5034",
+      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
     },
     {
       "path": "tools/verify_frozen_source_baseline.py",
