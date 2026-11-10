@@ -289,3 +289,20 @@ jobs:
         env:
           MFX_STATUS_TOKEN: ${{ github.token }}
         run: python -m tools.postmain_ci_commit_status
+
+  p037-read-main-push:
+    name: P0.37 read-only diagnosis of latest main-push CI run
+    if: ${{ github.event_name == 'pull_request' && github.repository == 'ngluonghoa/MFX' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5 pinned
+        with:
+          persist-credentials: false
+      - name: Read main SHA actual push-run jobs and native statuses (NO release)
+        env:
+          P037_READ_TOKEN: ${{ github.token }}
+        run: python -m tools.read_main_push_ci_diagnostic
