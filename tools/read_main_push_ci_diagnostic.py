@@ -6,7 +6,8 @@ fixed api.github.com. No credentials, quotes or market sources printed.
 """
 from __future__ import annotations
 
-from http.client import HTTPSConnection
+from urllib.error import HTTPError
+from urllib.request import HTTPRedirectHandler, ProxyHandler, Request, build_opener
 import json
 import os
 import re
@@ -95,55 +96,64 @@ def summarize_push_evidence(
     }
 
 
+class NoRedirect(HTTPRedirectHandler):
+    def redirect_request(self, request, fp, code, msg, headers, newurl):
+        return None
+
+
 def _get_json(token: str, path: str) -> Any:
     if (not path.startswith(f"/repos/{REPO}/")
             or ".." in path or "://" in path
-            or any(x in path for x in ("\r", "\n", "\t"))):
+            or any(x in path for x in ("\\r", "\\n", "\\t"))):
         raise ValueError("P037_UNTRUSTED_GITHUB_API_PATH")
-    connection = HTTPSConnection(API_HOST, timeout=15)
+    # Use the runner's vetted HTTPS proxy settings. Raw HTTPSConnection
+    # bypassed them and returned a non-GitHub 403 without request ID.
+    opener = build_opener(ProxyHandler(), NoRedirect())
+    request = Request(
+        "https://" + API_HOST + path,
+        headers={
+            "Accept": "application/vnd.github+json",
+            "Authorization": "Bearer " + token,
+            "X-GitHub-Api-Version": "2022-11-28",
+        },
+        method="GET",
+    )
     try:
-        connection.request(
-            "GET", path,
-            headers={
-                "Accept": "application/vnd.github+json",
-                "Authorization": "Bearer " + token,
-                "X-GitHub-Api-Version": "2022-11-28",
-            },
+        with opener.open(request, timeout=15) as response:
+            status = response.status
+            data = response.read(2500000)
+            headers = response.headers
+    except HTTPError as error:
+        status = error.code
+        data = error.read(2500000)
+        headers = error.headers
+    if status != 200:
+        try:
+            error_body = json.loads(data.decode("utf-8"))
+            candidate = error_body.get("message", "") if isinstance(error_body, dict) else ""
+            message = candidate if isinstance(candidate, str) else ""
+        except (ValueError, UnicodeDecodeError):
+            message = ""
+        reason = (
+            "GITHUB_TOKEN_INTEGRATION_DENIED"
+            if message == "Resource not accessible by integration"
+            else "GITHUB_RATE_LIMIT"
+            if "rate limit" in message.lower()
+            else "GITHUB_API_FORBIDDEN_OTHER"
+            if message
+            else "NON_JSON_OR_PROXY_REJECTION"
         )
-        response = connection.getresponse()
-        data = response.read(2500000)
-        if response.status != 200:
-            # Classify safely: never show token or echo arbitrary response data.
-            try:
-                error_body = json.loads(data.decode("utf-8"))
-                candidate_message = error_body.get("message", "") if isinstance(error_body, dict) else ""
-                message = candidate_message if isinstance(candidate_message, str) else ""
-            except (ValueError, UnicodeDecodeError):
-                message = ""
-            reason = (
-                "GITHUB_TOKEN_INTEGRATION_DENIED"
-                if message == "Resource not accessible by integration"
-                else "GITHUB_RATE_LIMIT"
-                if "rate limit" in message.lower()
-                else "GITHUB_API_FORBIDDEN_OTHER"
-                if isinstance(message, str) and message
-                else "NON_JSON_OR_PROXY_REJECTION"
-            )
-            server = response.getheader("Server", "") or ""
-            github_id = response.getheader("X-GitHub-Request-Id")
-            print("P037_API_DENIAL_DIAGNOSTIC " + json.dumps({
-                "status": response.status,
-                "endpoint_kind": path.split("?")[0].rsplit("/", 1)[-1],
-                "reason": reason,
-                "server": server[:48],
-                "github_request_id_present": bool(github_id),
-            }, sort_keys=True))
-            raise RuntimeError("P037_READ_ONLY_GITHUB_API_HTTP_" +
-                               str(response.status) + "_" + reason)
-        return json.loads(data.decode("utf-8"))
-    finally:
-        connection.close()
-
+        server = headers.get("Server", "") or ""
+        print("P037_API_DENIAL_DIAGNOSTIC " + json.dumps({
+            "status": status,
+            "endpoint_kind": path.split("?")[0].rsplit("/", 1)[-1],
+            "reason": reason,
+            "server": server[:48],
+            "github_request_id_present": bool(headers.get("X-GitHub-Request-Id")),
+        }, sort_keys=True))
+        raise RuntimeError("P037_READ_ONLY_GITHUB_API_HTTP_" +
+                           str(status) + "_" + reason)
+    return json.loads(data.decode("utf-8"))
 
 def inspect_main_push(
     env: Mapping[str, str],
