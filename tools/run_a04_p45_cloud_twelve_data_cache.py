@@ -18,8 +18,8 @@ from mfx_cache.td_m5_codec import (
     parse_closed_utc_m5,
 )
 
-CHUNK_FOLDER = "1cmq6oOb3NB7jQdeua_wcRnmrhERhFkLQ"
-MANIFEST_FOLDER = "1mwYFXWoxSC-R4opm23-5VQKaz1xQazDc"
+CHUNK_FOLDER = os.environ.get("MFX_CACHE_CHUNK_FOLDER_ID", "1cmq6oOb3NB7jQdeua_wcRnmrhERhFkLQ")
+MANIFEST_FOLDER = os.environ.get("MFX_CACHE_MANIFEST_FOLDER_ID", "1mwYFXWoxSC-R4opm23-5VQKaz1xQazDc")
 MANIFEST_PREFIX = "MFX_TD_EURUSD_M5_manifest_v1_"
 CHUNK_PREFIX = "MFX_TD_EURUSD_M5_chunk_v1_"
 
@@ -31,8 +31,27 @@ def _require_env(name: str) -> str:
     return value
 
 
-def _settings() -> tuple[str, dict[str, Any], int]:
-    key = _require_env("MFX_TWELVE_DATA_API_KEY")
+def _drive_auth_info() -> dict[str, Any]:
+    """Choose a complete Gmail OAuth trio or the legacy service account.
+
+    OAuth does not grant access to old user-created MFX folders. The new
+    app-created folder IDs must be separately configured before cache writes.
+    """
+    keys = (
+        "MFX_GDRIVE_OAUTH_CLIENT_ID",
+        "MFX_GDRIVE_OAUTH_CLIENT_SECRET",
+        "MFX_GDRIVE_OAUTH_REFRESH_TOKEN",
+    )
+    supplied = [bool(os.environ.get(name)) for name in keys]
+    if any(supplied):
+        if not all(supplied):
+            raise ValueError("P045_INCOMPLETE_GMAIL_OAUTH_TRIO")
+        return {
+            "type": "authorized_user",
+            "client_id": _require_env(keys[0]),
+            "client_secret": _require_env(keys[1]),
+            "refresh_token": _require_env(keys[2]),
+        }
     raw = _require_env("MFX_GDRIVE_SERVICE_ACCOUNT_JSON")
     try:
         sa = json.loads(raw)
@@ -42,20 +61,49 @@ def _settings() -> tuple[str, dict[str, Any], int]:
             or sa.get("type") != "service_account"
             or not isinstance(sa.get("client_email"), str)):
         raise ValueError("P045_INVALID_GDRIVE_SERVICE_ACCOUNT")
+    return sa
+
+
+def _require_oauth_cache_folders(info: dict[str, Any]) -> None:
+    if info.get("type") == "authorized_user":
+        import re
+        for key in ("MFX_CACHE_CHUNK_FOLDER_ID",
+                    "MFX_CACHE_MANIFEST_FOLDER_ID"):
+            value = os.environ.get(key, "")
+            if not re.fullmatch(r"[A-Za-z0-9_-]{10,160}", value):
+                raise ValueError("P045_OAUTH_APP_CREATED_FOLDER_ID_REQUIRED:" + key)
+
+
+def _settings() -> tuple[str, dict[str, Any], int]:
+    key = _require_env("MFX_TWELVE_DATA_API_KEY")
+    auth = _drive_auth_info()
+    _require_oauth_cache_folders(auth)
     cap = int(os.environ.get("MFX_TD_DAILY_CREDIT_CAP", "400"))
     if not 1 <= cap <= 720:
         raise ValueError("P045_DAILY_CAP_MUST_LEAVE_PROVIDER_HEADROOM")
-    return key, sa, cap
+    return key, auth, cap
 
 
 def _session(info: dict[str, Any]) -> Any:
     # Lazy imports: pure module and unit tests run offline without network deps.
     from google.auth.transport.requests import AuthorizedSession
-    from google.oauth2 import service_account
-
-    credentials = service_account.Credentials.from_service_account_info(
-        info, scopes=("https://www.googleapis.com/auth/drive.file",),
-    )
+    if info.get("type") == "authorized_user":
+        from google.oauth2.credentials import Credentials
+        credentials = Credentials(
+            token=None,
+            refresh_token=info["refresh_token"],
+            token_uri="https://oauth2.googleapis.com/token",
+            client_id=info["client_id"],
+            client_secret=info["client_secret"],
+            scopes=("https://www.googleapis.com/auth/drive.file",),
+        )
+    elif info.get("type") == "service_account":
+        from google.oauth2 import service_account
+        credentials = service_account.Credentials.from_service_account_info(
+            info, scopes=("https://www.googleapis.com/auth/drive.file",),
+        )
+    else:
+        raise ValueError("P045_UNSUPPORTED_DRIVE_AUTH_KIND")
     return AuthorizedSession(credentials)
 
 
