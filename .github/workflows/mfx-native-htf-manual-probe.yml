@@ -1,0 +1,34 @@
+name: MFX P0.53 MANUAL Native H4+D1 Metadata Proof (NO Drive writes)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  native-source-metadata:
+    if: ${{ vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V2_BATCH_CACHE_ACCEPTED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - name: Checkout protected MFX read-only
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install pinned HTTPS requirements
+        run: python -m pip install --disable-pip-version-check requests==2.32.5
+      - name: Validate real native EUR/USD H4 and D1 metadata without caching or trading
+        env:
+          PYTHONPATH: src:.
+          MFX_REAL_CACHE_ENABLED: "true"
+          MFX_V2_BATCH_CACHE_ACCEPTED: "true"
+          MFX_TWELVE_DATA_API_KEY: ${{ secrets.MFX_TWELVE_DATA_API_KEY }}
+          MFX_TD_DAILY_CREDIT_CAP: ${{ vars.MFX_TD_DAILY_CREDIT_CAP || '400' }}
+        run: python -m tools.run_mfx_native_htf_probe

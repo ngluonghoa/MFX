@@ -35,6 +35,12 @@
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
     },
     {
+      "path": ".github/workflows/mfx-native-htf-manual-probe.yml",
+      "change": "added",
+      "expected_current_sha": "703bef2009cec50e7393a269856bed669a6a3ba1",
+      "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged."
+    },
+    {
       "path": ".github/workflows/mfx-oauth-drive-bootstrap.yml",
       "change": "added",
       "expected_current_sha": "20e030fa7efca82e3720b749c73a2a93339d0c2c",
@@ -561,6 +567,12 @@
       "change": "added",
       "expected_current_sha": "fcac93f4609874b36141caecfb89fe59573f28dc",
       "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source."
+    },
+    {
+      "path": "docs/MFX_A04_P53_NATIVE_H4_D1_MANUAL_PROOF.md",
+      "change": "added",
+      "expected_current_sha": "362bcf6038547b0fb3775107738e3008a21228e7",
+      "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1168,6 +1180,12 @@
       "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source."
     },
     {
+      "path": "tests/test_a04_p53_native_htf_manual_probe.py",
+      "change": "added",
+      "expected_current_sha": "cc42103649bb5b90ef18b501b0c776b1f3200d4b",
+      "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged. P0.53 CI portability fix: mock requests via sys.modules for HTTP security tests, so source parity CI does not install any network library."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1664,6 +1682,12 @@
       "change": "added",
       "expected_current_sha": "9ae58743809913bc434129d19903597dd18852fc",
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
+    },
+    {
+      "path": "tools/run_mfx_native_htf_probe.py",
+      "change": "added",
+      "expected_current_sha": "614d4a0c2ee874ed7c81fe1e95252312c3951d68",
+      "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged."
     },
     {
       "path": "tools/run_mfx_oauth_drive_bootstrap.py",
