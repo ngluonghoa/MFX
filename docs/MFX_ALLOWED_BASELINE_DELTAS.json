@@ -7,8 +7,20 @@
     {
       "path": ".github/workflows/ci.yml",
       "change": "modified",
-      "expected_current_sha": "67ddb4e87c858672206ede30c2858c2f78f76e2d",
-      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data. P044: independent B3/S4 H1/M15 computed SIM range research with 27 negative tests, strict typed demo, no original Forex strategy/source parity promotion. P045 adds only standalone UTC closed M5 data-cache codec + GitHub cloud scheduled Drive writer, 25 synthetic offline tests and CLI demo; original Forex source untouched; real Drive write gated on separate secrets/repo variable. P046 46-case offline Cache Engine V2 suite: exact native M5→M15/M30/H1, deterministic compaction, missing session holes, EMA/ATR fingerprint reuse, rate budgets; no live workflow change. P046-B1 requires 38 Cloud fake Drive two-object batch/recovery tests and strictly typed commit core; no Forex source edits. P046-B2 strict 32-case fake Drive WARM day promotion test plus SHA lineage and offline hosted demo. P046-B2 adds 34 cases including preexisting and racing uncommitted B1 raw chunk guards before/after WARM write. Parent originals never deleted; no real Drive writes or licensed raw-quote activation claimed. P046-B3 adds 42 fixture-only HOT M5 freshness/overlap/revision/race test cases and strictly typed bounded overlay; existing source 1:1 parity checks unchanged."
+      "expected_current_sha": "29ac0202c5dffe2549ce9f615e1c2a24afeba373",
+      "reason": "A04/P0.37 robust exact-main push CI readback: GitHub Actions raw HTTPSConnection was intercepted by proxy HTTP403 without GitHub request ID; corrected both P036 GitHub native status POST and P037 PR-only read diagnostic to proxy-aware stdlib fixed https://api.github.com with NO redirects, least-privilege job tokens and negative tests. 36 source owner B2/S2 numerical approvals, actual licensed FX/Drive quote cache, broker/alerts all remain blocked; original Forex src unchanged. A04/P0.42 added explicit hosted SIM-only 11-pair mirror metamorphic guard, no source detector/entry numeric change. P043 adds 14 unapproved entry source-gap review, 18 tests, typed review demo, no numeric self-approval or actual Forex market data. P044: independent B3/S4 H1/M15 computed SIM range research with 27 negative tests, strict typed demo, no original Forex strategy/source parity promotion. P045 adds only standalone UTC closed M5 data-cache codec + GitHub cloud scheduled Drive writer, 25 synthetic offline tests and CLI demo; original Forex source untouched; real Drive write gated on separate secrets/repo variable. P046 46-case offline Cache Engine V2 suite: exact native M5→M15/M30/H1, deterministic compaction, missing session holes, EMA/ATR fingerprint reuse, rate budgets; no live workflow change. P046-B1 requires 38 Cloud fake Drive two-object batch/recovery tests and strictly typed commit core; no Forex source edits. P046-B2 strict 32-case fake Drive WARM day promotion test plus SHA lineage and offline hosted demo. P046-B2 adds 34 cases including preexisting and racing uncommitted B1 raw chunk guards before/after WARM write. Parent originals never deleted; no real Drive writes or licensed raw-quote activation claimed. P046-B3 adds 42 fixture-only HOT M5 freshness/overlap/revision/race test cases and strictly typed bounded overlay; existing source 1:1 parity checks unchanged. P046-B3-B mandatory 48-case adversarial sealed B1 index and synthetic-only real Drive staging port tests and standalone no-network demo; no Forex source edits."
+    },
+    {
+      "path": ".github/workflows/mfx-b3b-sealed-index.yml",
+      "change": "added",
+      "expected_current_sha": "85b98bc24bbc86b52b5cb85a563bf5e82975a3ae",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
+    },
+    {
+      "path": ".github/workflows/mfx-b3b-synthetic-drive-proof.yml",
+      "change": "added",
+      "expected_current_sha": "8863c799cc531463ba8630bde75d5fd58748ae44",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
     },
     {
       "path": ".github/workflows/mfx-hot-cache.yml",
@@ -497,6 +509,12 @@
       "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration."
     },
     {
+      "path": "docs/MFX_A04_P46_B3B_SEALED_INDEX_AND_DRIVE_STAGING.md",
+      "change": "added",
+      "expected_current_sha": "4bd8c21ea393bd23429228e800a8e6ad55b7e14e",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
+    },
+    {
       "path": "docs/MFX_A04_P46_CACHE_V2_ARCHITECTURE_AND_ACCEPTANCE.md",
       "change": "added",
       "expected_current_sha": "1aa85bdd042420734e46a296db242b9e6b0f18bc",
@@ -560,6 +578,18 @@
       "change": "added",
       "expected_current_sha": "d8f64b3bff2065e505ca2b53835f6c72e7e73d30",
       "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
+    },
+    {
+      "path": "mfx_cache/v3_sealed_index.py",
+      "change": "added",
+      "expected_current_sha": "30442ba9b03dfd0dab118978ef27df4fd0247c3e",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
+    },
+    {
+      "path": "mfx_cache/v3_synthetic_drive_stage.py",
+      "change": "added",
+      "expected_current_sha": "483c34b80892dd4f7f671b99a8fa6a4d7dc401b2",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
     },
     {
       "path": "mfx_research/__init__.py",
@@ -1036,6 +1066,12 @@
       "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
     },
     {
+      "path": "tests/test_a04_p46_b3b_index_and_staging.py",
+      "change": "added",
+      "expected_current_sha": "945108c736fc67db6888fddfd4acefa1811e5076",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
+    },
+    {
       "path": "tests/test_a04_p46_cache_v2_engine.py",
       "change": "added",
       "expected_current_sha": "16e9ccbdfad7a4cb405d8dc34f938649c3251c8c",
@@ -1276,6 +1312,12 @@
       "reason": "A01/P0.2 fail-closed golden snapshot schema/output/reason comparator"
     },
     {
+      "path": "tools/mfx_drive_single_slot.py",
+      "change": "added",
+      "expected_current_sha": "9644e454cad75cdc32eb81574a184283b910c2c0",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
+    },
+    {
       "path": "tools/postmain_ci_commit_status.py",
       "change": "added",
       "expected_current_sha": "f358670da2bb86fd2c0abdb75ff8729f64d7b05e",
@@ -1490,6 +1532,24 @@
       "change": "added",
       "expected_current_sha": "095300f8d56b7135a0e30f6c5c24dfdd0ca60540",
       "reason": "A04/P0.46-B3-A stage: GitHub Cloud-only bounded closed MID M5 rolling HOT state and SHA per-bar index, fixed-name mutable Drive overlay with pre/post readback, no new immutable file per poll, independent five-minute gated workflow, 42 synthetic no-network tests and docs. Original Forex source 102 SHA blobs/11 Docs frozen, 0 source-approved numeric signals, no provider licensed raw quote storage/Drive live activation/broker. Mutable Drive file is not independently audited atomic CAS; B1/B2 originals remain authoritative. Parent Issue#82 remains open for authenticated synthetic staging/indexed B1 integration. Hosted CI B3 all 42 functional cases PASS; strict mypy fix moves fake-persist testable commit to pure protocol away from optional HTTP/Drive dependencies, narrows source clock type. No actual vendor/Drive writes."
+    },
+    {
+      "path": "tools/run_a04_p46_b3b_cloud_synthetic_probe.py",
+      "change": "added",
+      "expected_current_sha": "4cab506564937e38bd96b7374afdce1d4c23a27a",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
+    },
+    {
+      "path": "tools/run_a04_p46_b3b_index_cloud.py",
+      "change": "added",
+      "expected_current_sha": "731d93874b2c194c21eece3a67b5182a1073b4ec",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
+    },
+    {
+      "path": "tools/run_a04_p46_b3b_index_staging_demo.py",
+      "change": "added",
+      "expected_current_sha": "83dc764159c6fefd2dd57156f54eb60cace9f2be",
+      "reason": "A04/P0.46-B3-B Cloud-only staging: bounded SHA-linked immutable B1 hour manifest/chunk lookup and source HOT research cross-check, mutable sealed index with root bootstrap then only one-child increments and readback, two explicitly gated manual GH service-account workflows and genuine (when GH creds supplied) SYNTHETIC-NO-VENDOR Drive two-write same-file test in verified MFX private staging folder. 48 fake-Drive adverse tests. No original Forex source changes, no actual provider/Drive live price cache, legal owner numeric signal approval, broker or measured market SLA. Real GH service-account staging run still UNVERIFIED."
     },
     {
       "path": "tools/run_a04_p46_cache_v2_demo.py",
