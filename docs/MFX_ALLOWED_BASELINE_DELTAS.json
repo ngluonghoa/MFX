@@ -522,8 +522,8 @@
     {
       "path": "mfx_research/p034_sim_adversarial_review.py",
       "change": "added",
-      "expected_current_sha": "e9bc6c837ddd8a27d189aacc6cdc2398e8c595b5",
-      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release."
+      "expected_current_sha": "42af811fe27f7cec52bf6c50a3bb8e660290b312",
+      "reason": "A04/P0.34 16 deterministic adversarial causal CLOSED-SIM OHLC replay stress cases, exact source-sha-anchored B2/S2 36/36 pending owner numerical decision dossier (14 SIM examples never approved), 24 preregistered negative/positive tests, hosted Cloud-only CI demo and mypy strict. Entire original Forex 18 catalog / source locked 11 Docs untouched, MFX approved design22 unchanged, no real BIDASK vendor/Drive raw market cache/alerts/broker/orders/release. Draft PR#61 run42768566909 found 23/24 P034 tests pass but reversed-clock negative expected causal diagnostic before B2/S2 role; reorder input checks and re-pin exact source Git blob; no market/source formula change."
     },
     {
       "path": "mfx_research/pullback_pilot.py",
