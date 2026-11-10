@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Protocol
 from dataclasses import asdict
 
 from mfx_cache.td_m5_codec import ClosedM5Bar, PROVIDER, SYMBOL, digest
@@ -207,6 +207,7 @@ def plan_hot(
         x["start_utc"]: x for x in old["recent_bars"]
     } if old else {}
     if old is not None:
+        assert last is not None
         for b in observed:
             known = seen.get(b.start_utc)
             if known is not None and known["bar_sha256"] != digest(asdict(b)):
@@ -262,3 +263,35 @@ def plan_hot(
         expected_drive_object_creates=1 if old is None else 0,
         expected_drive_object_updates=0 if old is None else 1,
     )
+
+
+class HotStore(Protocol):
+    """Single authorized Cloud writer contract, injected for offline QA."""
+
+    def load(self) -> dict[str, Any] | None: ...
+
+    def write(
+        self, *, expected: dict[str, Any] | None,
+        replacement: dict[str, Any],
+    ) -> None: ...
+
+
+def commit_hot(
+    store: HotStore, observed: tuple[ClosedM5Bar, ...], *,
+    now_utc: datetime,
+) -> HotUpdate:
+    """Read/revalidate/write/readback; never performs network by itself.
+
+    Cooperative GitHub concurrency only. External races/Drive update
+    semantics are NOT a trusted compare-and-swap or immutable witness.
+    """
+    current = store.load()
+    decision = plan_hot(current, observed, now_utc=now_utc)
+    if decision.new_state is None:
+        return decision
+    if store.load() != current:
+        raise ValueError("P046_B3_HOT_STATE_CHANGED_AFTER_PLAN")
+    store.write(expected=current, replacement=decision.new_state)
+    if store.load() != decision.new_state:
+        raise ValueError("P046_B3_HOT_FINAL_READBACK_MISMATCH")
+    return decision
