@@ -2162,6 +2162,24 @@
       "change": "added",
       "expected_current_sha": "b7ae7c909274d5527a956adec8ddf3df388eb63a",
       "reason": "A04/P0.81 design/observed endpoint constraint and separate owner-gated trust+GitHub App/ruleset and sandbox proof roadmap. No witness ref, real V2 IO, provider or broker."
+    },
+    {
+      "path": "tools/mfx_m5_lag_evidence.py",
+      "change": "added",
+      "expected_current_sha": "f927f2f8a36156d9068bf87624d9255cc86ee2bb",
+      "reason": "A04/P0.82 pure offline M5 lag receipt classifier, 135s publication guard and no live source/trading authorization."
+    },
+    {
+      "path": "tests/test_a04_p82_m5_lag_evidence.py",
+      "change": "added",
+      "expected_current_sha": "1166585b902a71630c21dc9fd21ee75dca901cc4",
+      "reason": "A04/P0.82 12 hermetic M5 audit lag/staleness/grace/schema/no-trade negative tests."
+    },
+    {
+      "path": "docs/MFX_A04_P82_M5_LAG_EVIDENCE.md",
+      "change": "added",
+      "expected_current_sha": "cce81354dcb66c61edb296d382106ece27b35c26",
+      "reason": "A04/P0.82 inert design and independent read-only audit next step, no live V2 or H4 source reduction."
     }
   ]
 }
