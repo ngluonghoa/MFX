@@ -49,8 +49,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-incremental-commit.yml",
       "change": "added",
-      "expected_current_sha": "c7737ad711467e3f8efedcfcd549af3f6c5ed61e",
-      "reason": "A04/P0.59 stage separate EXPLICIT four-gate manually invoked source-native EUR/USD H4 D1 incremental writer. Skip closed-slot current TF to avoid provider price/usage requests, bound 24..120 outputsize/last 16 SHA overlap, quarantine missing or revised prior native candles, full Drive archival pre/post SHA, conservative quota and fail-closed large gaps. Legacy manual native writer and P0.58 hourly read-only auditor unchanged; NO automatic native price writes, broker, numerical BUY/SELL, other pairs, Mac/MOCHI or frozen Forex source deviation. P0.59 real incremental acceptance requires separate owner gate and manual live run."
+      "expected_current_sha": "9e8a69967ac3133d4e6457359f97fb28509e4bc4",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": ".github/workflows/mfx-native-htf-incremental-preview.yml",
@@ -631,8 +631,8 @@
     {
       "path": "docs/MFX_A04_P59_NATIVE_INCREMENTAL_MANUAL_WRITER.md",
       "change": "added",
-      "expected_current_sha": "cb6c9fe744b975d13ad7260061af6fc3986bed2f",
-      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
+      "expected_current_sha": "f2642037aa550052c996288eb1114069bcbcb2b8",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": "docs/MFX_A04_P60_NATIVE_READONLY_PREVIEW_RECEIPT_TRUTH.md",
@@ -649,14 +649,20 @@
     {
       "path": "docs/MFX_A04_P62_NATIVE_CANDLE_PUBLICATION_READINESS.md",
       "change": "added",
-      "expected_current_sha": "bb62e2cfb09fed07771c4e5884ca9c9109edaeeb",
-      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change. First PR CI 1966 tests PASS but Ruff E741 rejected ambiguous one-letter test fixture variable; fixed test fixture, QA note and rerun required."
+      "expected_current_sha": "11b30f87e95f5c025e895ab843d109d920ea6282",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": "docs/MFX_A04_P63_NATIVE_ARCHIVE_CAPACITY_FAILCLOSED.md",
       "change": "added",
-      "expected_current_sha": "bccd828e65f56954a29deb9e1541ad2ec82b2b92",
-      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
+      "expected_current_sha": "2e14d467ae8039195b5a07f828d1523d7c1c4ad4",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
+    },
+    {
+      "path": "docs/MFX_A04_P64_HOURLY_NATIVE_H4_D1_AUTOMATION.md",
+      "change": "added",
+      "expected_current_sha": "dcebf606bdaf262870d62f09d2d4c109acfb604a",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -708,8 +714,8 @@
     {
       "path": "mfx_cache/native_htf_incremental.py",
       "change": "added",
-      "expected_current_sha": "9d4bfb5035ff186456a3c58cbdc7378ff2f6802b",
-      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
+      "expected_current_sha": "b40e321e7046cca7d07252bbb080f82b28db48a9",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": "mfx_cache/td_m5_codec.py",
@@ -1302,8 +1308,8 @@
     {
       "path": "tests/test_a04_p59_native_incremental.py",
       "change": "added",
-      "expected_current_sha": "af600628ed02b7e6e9f2c1f0e37b3cd239edbbef",
-      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
+      "expected_current_sha": "369dca628c092c8dbd4a4356fe5433d55ae96038",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": "tests/test_a04_p60_native_preview_receipts.py",
@@ -1320,14 +1326,20 @@
     {
       "path": "tests/test_a04_p62_native_publication_buffer.py",
       "change": "added",
-      "expected_current_sha": "8d97b9f5b4aea75827975118d95d05b2aa154ea6",
-      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change. First PR CI 1966 tests PASS but Ruff E741 rejected ambiguous one-letter test fixture variable; fixed test fixture, QA note and rerun required."
+      "expected_current_sha": "1e76a4544def7ed34ccbb9b0f0043ed1c1d2e04c",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": "tests/test_a04_p63_native_archive_capacity.py",
       "change": "added",
-      "expected_current_sha": "4f376eca59f49cb10e01752f4b0a2ed09d40de7a",
-      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
+      "expected_current_sha": "b6b28db9e3bc14bd32002f85c7092e1978e0819e",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
+    },
+    {
+      "path": "tests/test_a04_p64_hourly_native_scheduler.py",
+      "change": "added",
+      "expected_current_sha": "ced10db7f95c75a5fe8bc213c6a024e89540399d",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1848,8 +1860,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "d6c4c4d375a68057c9ea4503f1a09da97a9ac06e",
-      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
+      "expected_current_sha": "7d71d5c4e3b420d642c85aed2791cc4f534b2dd2",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
