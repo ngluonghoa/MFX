@@ -1450,6 +1450,12 @@
       "reason": "P0.72 9 hermetic read-only native SHA protected-main path trigger and synthetic first native D1 2-pair parent chain full SHA, historical tamper/missing manifest fail-closed, no provider/writes."
     },
     {
+      "path": "tests/test_a04_p73_native_archive_capacity_readonly.py",
+      "change": "added",
+      "expected_current_sha": "9317e4463e31b3f012484b733884824f16e290d0",
+      "reason": "A04/P0.73 ten hermetic tests for native 256-file bound, 65/64/16/0 slot thresholds, invalid state fail-closed, real-shaped H4/D1 no-mutation read-only receipts and unchanged schedules/gates; zero vendor/broker."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1974,8 +1980,8 @@
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "5d39c30fc50424de3db9e97fa5b4ae0b8569231d",
-      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.71 repair P0.58 H4/D1 read-only lag false-positive during P0.59/P0.64 shared 135s publication grace, preserve UTC H4 vs Sydney-local D1, update stale no-auto-writer diagnostic to reflect P0.64 source writer; no source API, Drive writes, schedules or trading."
+      "expected_current_sha": "9eff929dccf0b55c518ff06567eb32bfd5f7e221",
+      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion."
     },
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",
