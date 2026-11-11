@@ -708,7 +708,7 @@
     {
       "path": "mfx_cache/h4_shadow.py",
       "change": "added",
-      "expected_current_sha": "2f9ec157cd7ec66b0b18a20fb1937ac45a6a8f67",
+      "expected_current_sha": "6ade104387664f74037093ae2510929dace3ac3e",
       "reason": "A04/P0.65 pure in-memory standalone M5->H4 48 CLOSED UTC 4h-grid shadow research and typed H4 native-comparison receipt; no changes to P0.46 source-native-only H4/D1 production contract or P0.64 GitHub workflow, no Drive/network/trading and all parity results explicitly unverified until live SHA lineage proof."
     },
     {
