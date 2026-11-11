@@ -14,6 +14,7 @@ import os
 from mfx_cache.native_htf_archive import plan_native_sealed, verify_native_sealed
 from tools.mfx_native_htf_drive_seal import (
     PrivateNativeDriveStore, audit_native_archive, commit_native_batch,
+    native_append_slots_remaining,
 )
 from tools.run_a04_p45_cloud_twelve_data_cache import _settings, _session
 from tools.run_mfx_native_htf_probe import (
@@ -68,6 +69,13 @@ def main() -> None:
         if (state.uncommitted_chunk_names
                 and state.uncommitted_chunk_names != (proposal.chunk_name,)):
             raise ValueError("P055_PREFLIGHT_NATIVE_UNEXPECTED_ORPHAN")
+        # This legacy manual writer probes vendor FIRST; however, all
+        # intervals must have enough SHA-auditable Drive slots BEFORE any
+        # interval is appended. Avoid one-sided H4 commit at a full D1 cap.
+        if native_append_slots_remaining(
+                state,reuse_existing_orphan=bool(
+                    state.uncommitted_chunk_names)) < 1:
+            raise ValueError("P063_NATIVE_LEGACY_CAPACITY_NO_DRIVE_WRITES")
     receipts=[]
     for native, store in work:
         receipt=commit_native_batch(store,native)
