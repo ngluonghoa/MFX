@@ -707,6 +707,12 @@
       "reason": "P0.70 source-native H4 vs M5 48-bar H4 UTC session-gap research design, fully unverified weekend market session status and separate owner gated future calendar policy; native H4/D1 and signals unchanged."
     },
     {
+      "path": "docs/MFX_A04_P71_NATIVE_AUDIT_PUBLICATION_GRACE.md",
+      "change": "added",
+      "expected_current_sha": "8c51ed7d81364ef592c19c3ab7ba343ebad88e6f",
+      "reason": "P0.71 read-only native H4/D1 P0.58 lag publication-grace repair runbook, real D1 Sydney first incremental evidence still pending writer schedule, no automatic source cadence or numeric trading change."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -1426,6 +1432,12 @@
       "reason": "P0.70 16 hermetic Friday-to-Monday/weekdays ambiguous sessions, source-native only/derived only, invalid clocks/duplicate/limit/no numeric source approval tests, and unchanged owner-gated original P0.66 parity."
     },
     {
+      "path": "tests/test_a04_p71_native_audit_publication_grace.py",
+      "change": "added",
+      "expected_current_sha": "5c2334c08cc66b741bf6e2ade4211e5fe9fba2a9",
+      "reason": "P0.71 14 hermetic H4/D1 source publication-boundary tests at +2m14s/+2m15s, exact Sydney DST AEDT/AEST, shared writer fetch planner parity, no premature future bar, zero API/Drive/broker and honest audit summary."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1950,8 +1962,8 @@
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "70122d4e77dd0d29084d8044a7b96aeb7f90373d",
-      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run."
+      "expected_current_sha": "5d39c30fc50424de3db9e97fa5b4ae0b8569231d",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.71 repair P0.58 H4/D1 read-only lag false-positive during P0.59/P0.64 shared 135s publication grace, preserve UTC H4 vs Sydney-local D1, update stale no-auto-writer diagnostic to reflect P0.64 source writer; no source API, Drive writes, schedules or trading."
     },
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",

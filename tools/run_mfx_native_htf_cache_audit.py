@@ -13,6 +13,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from mfx_cache.td_m5_codec import digest
+from mfx_cache.native_htf_incremental import SOURCE_PUBLICATION_BUFFER
 from tools.mfx_native_htf_drive_seal import (
     PrivateNativeDriveStore, audit_native_archive,
 )
@@ -57,31 +58,36 @@ def audit_native_cache(
     zone = manifest["exchange_timezone"]
     if zone != "Australia/Sydney":
         raise ValueError("P058_UNEXPECTED_EURUSD_EXCHANGE_ZONE")
+    # P0.71 aligns read-only lag reporting with the EXISTING P0.59/P0.64
+    # writer publication guard. Never report a just-closed H4/D1 as due
+    # before SOURCE_PUBLICATION_BUFFER has elapsed. This is an audit-only
+    # change; vendor requests, schedules and Drive writes are untouched.
+    publication_safe_utc = now_utc - SOURCE_PUBLICATION_BUFFER
     if interval == "4h":
         last = datetime.strptime(label,"%Y-%m-%d %H:%M:%S").replace(
             tzinfo=UTC)
         if last.hour % 4 or last.minute or last.second:
             raise ValueError("P058_NATIVE_H4_NOT_ON_UTC_GRID")
-        # Last fully closed 4h candle may be open as late as 00 UTC
-        # for a 05:xx UTC audit. Never treat the open candle as closed.
-        current_open = now_utc.replace(
-            hour=(now_utc.hour//4)*4,
+        current_open = publication_safe_utc.replace(
+            hour=(publication_safe_utc.hour//4)*4,
             minute=0,second=0,microsecond=0)
         expected_last_closed = current_open-timedelta(hours=4)
         if last > expected_last_closed:
             raise ValueError("P058_FUTURE_OR_UNCLOSED_NATIVE_H4")
         lag = int((expected_last_closed-last)//timedelta(hours=4))
         lag_unit = "4h_closed_slots"
+        expected_label = expected_last_closed.strftime("%Y-%m-%d %H:%M:%S")
     else:
         last_date = date.fromisoformat(label)
-        today_local = now_utc.astimezone(ZoneInfo(zone)).date()
+        today_local = publication_safe_utc.astimezone(
+            ZoneInfo(zone)).date()
         expected_last_closed_day = today_local-timedelta(days=1)
         if last_date > expected_last_closed_day:
             raise ValueError("P058_FUTURE_OR_UNCLOSED_NATIVE_D1")
-        # This measures calendar dates, NOT true Forex open sessions:
-        # provider-reported weekend bars are not independently verified.
+        # Sydney-local *calendar date* lag, NOT market-session SLO.
         lag = (expected_last_closed_day-last_date).days
         lag_unit = "calendar_days_not_market_sessions"
+        expected_label = expected_last_closed_day.isoformat()
     if lag < 0:
         raise ValueError("P058_NEGATIVE_NATIVE_LAG")
 
@@ -93,6 +99,10 @@ def audit_native_cache(
         "exchange_timezone": zone,
         "time_reference": manifest["time_reference"],
         "lag": lag, "lag_unit": lag_unit,
+        "latest_publication_eligible_label": expected_label,
+        "publication_grace_seconds": int(
+            SOURCE_PUBLICATION_BUFFER.total_seconds()),
+        "publication_grace_aligned_to_writer": True,
         "manifest_count": state.manifest_count,
         "chunk_count": state.chunk_count,
         "historical_manifest_chunk_pairs_verified": state.manifest_count,
@@ -135,7 +145,11 @@ def main() -> None:
         "provider_price_requests": 0,
         "drive_writes": 0,
         "read_only": True,
-        "no_automated_native_writer": True,
+        # P0.64 already enabled a separate FOUR-way gated hourly source
+        # writer. The P0.58 audit is read-only and does not attest it ran.
+        "no_automated_native_writer": False,
+        "this_job_writes_native_archive": False,
+        "native_writer_schedule_evaluated_here": False,
         "broker_orders": 0,
         "approved_numeric_buy_sell_signals": False,
         "raw_ohlc_in_logs": False,
