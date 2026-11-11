@@ -27,6 +27,7 @@ from tools.run_a04_p45_cloud_twelve_data_cache import (
 )
 from tools.run_a04_p46_cloud_batch_cache import PrivateDriveBatchStore
 from tools.mfx_m5_rolling_manifest_audit import audit_rooted_rolling_m5
+from tools.mfx_h4_source_coverage import h4_dual_source_grid_diagnostics
 
 UTC = timezone.utc
 SYMBOL = "EUR/USD"
@@ -182,6 +183,12 @@ def audit_live_m5_h4_parity(
     native, native_evidence = _native_h4_archive(native_store)
     shadow = derive_h4_shadow(rows,asof_utc=now_utc)
     observed = compare_shadow_to_native(shadow,native)
+    # Diagnose M5-only, native-only and BOTH-ABSENT H4 UTC grid slots.
+    # A calendar/weekend candidate is NEVER a source waiver.
+    coverage = h4_dual_source_grid_diagnostics(
+        tuple(x.start_utc for x in shadow.candles),
+        tuple(x.native_open_label for x in native),
+    )
     labels = [datetime.fromisoformat(row.start_utc) for row in observed.rows]
     complete_chain = bool(labels) and all(
         after-before == H4 for before,after in zip(labels,labels[1:]))
@@ -218,7 +225,7 @@ def audit_live_m5_h4_parity(
         "source": "TWELVE_DATA_COMPOSITE_MID",
         "shadow_interval": "M5_DERIVED_4H_UTC",
         "reference_interval": "4h_NATIVE_UTC",
-        **m5_evidence, **native_evidence,
+        **m5_evidence, **native_evidence, **coverage,
         "m5_h4_complete_windows": len(observed.rows),
         "m5_h4_incomplete_windows": len(shadow.skipped_incomplete_windows),
         "m5_h4_boundary_partial_windows": boundary_skipped,
