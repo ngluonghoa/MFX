@@ -2082,7 +2082,7 @@
     {
       "path": "tests/test_a04_p77_native_v2_drive_readonly.py",
       "change": "added",
-      "expected_current_sha": "535ff4d3b0acdde74ea1ec838f1a98b81c3cdb02",
+      "expected_current_sha": "cf471b098ec312f5964d4ca0be55ab35bc84670d",
       "reason": "A04/P0.77 28 hermetic fake Drive GET tests including H4/D1 isolated namespaces, shard rollover SHA, duplicate ID/index, orphan, malformed/size/parent rows, pagination limit/replay, races and no live V1 workflow changes."
     },
     {
