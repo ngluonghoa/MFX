@@ -649,8 +649,8 @@
     {
       "path": "docs/MFX_A04_P62_NATIVE_CANDLE_PUBLICATION_READINESS.md",
       "change": "added",
-      "expected_current_sha": "e92f2bbbf5ed8395f7a93d9081fb0c0e6dab319b",
-      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
+      "expected_current_sha": "bb62e2cfb09fed07771c4e5884ca9c9109edaeeb",
+      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change. First PR CI 1966 tests PASS but Ruff E741 rejected ambiguous one-letter test fixture variable; fixed test fixture, QA note and rerun required."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1314,8 +1314,8 @@
     {
       "path": "tests/test_a04_p62_native_publication_buffer.py",
       "change": "added",
-      "expected_current_sha": "9aa82020bd1d31ec08e5856c4e834dcc9a12ab65",
-      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
+      "expected_current_sha": "8d97b9f5b4aea75827975118d95d05b2aa154ea6",
+      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change. First PR CI 1966 tests PASS but Ruff E741 rejected ambiguous one-letter test fixture variable; fixed test fixture, QA note and rerun required."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
