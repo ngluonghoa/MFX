@@ -27,6 +27,58 @@ from tools.run_a04_p46_cloud_batch_cache import quota_headroom
 from tools.run_mfx_native_htf_probe import _usage, _read_payload, TIME_SERIES_URL
 
 
+def summarize_incremental_receipts(
+    receipts: list[dict[str,Any]],
+) -> dict[str,Any]:
+    """Separate actual immutable writes from vendor-side stale responses.
+
+    A source request and a successful SHA audit do NOT establish that a
+    new candle was persisted. Reject impossible storage receipts rather
+    than reporting a misleading 'COMMITTED' status.
+    """
+    if type(receipts) is not list or not receipts:
+        raise ValueError("P060_NATIVE_RECEIPTS_REQUIRED")
+    accepted = {
+        "NO_NEW_CLOSED_NATIVE_BAR",
+        "NATIVE_BATCH_COMMITTED",
+        "RECOVERED_ORPHAN_AND_COMMITTED",
+    }
+    seen: set[str] = set()
+    committed: list[str] = []
+    vendor_stale: list[str] = []
+    new_total = 0
+    for r in receipts:
+        if (type(r) is not dict
+                or r.get("status") not in accepted
+                or r.get("symbol") != SYMBOL
+                or r.get("interval") not in NATIVE_INTERVALS
+                or r["interval"] in seen
+                or type(r.get("newly_closed_native_bars")) is not int
+                or r["newly_closed_native_bars"] < 0
+                or type(r.get("drive_objects_created_max")) is not int
+                or not 0 <= r["drive_objects_created_max"] <= 2
+                or r.get("broker_orders") != 0):
+            raise ValueError("P060_NATIVE_INVALID_COMMIT_RECEIPT")
+        seen.add(r["interval"])
+        n = r["newly_closed_native_bars"]
+        if r["status"] == "NO_NEW_CLOSED_NATIVE_BAR":
+            if n != 0 or r["drive_objects_created_max"] != 0:
+                raise ValueError("P060_NATIVE_STALE_RECEIPT_HAS_WRITES")
+            vendor_stale.append(r["interval"])
+        else:
+            if n < 1 or r["drive_objects_created_max"] not in (1,2):
+                raise ValueError("P060_NATIVE_COMMIT_RECEIPT_NO_NEW_BARS")
+            committed.append(r["interval"])
+        new_total += n
+    return {
+        "status": ("NATIVE_INCREMENTAL_NEW_BARS_COMMITTED" if new_total
+                   else "NATIVE_INCREMENTAL_PROVIDER_STALE_NO_NEW_BAR"),
+        "total_newly_closed_native_bars": new_total,
+        "intervals_with_new_native_bars": committed,
+        "intervals_provider_stale_no_new_bar": vendor_stale,
+    }
+
+
 def main() -> None:
     if (os.environ.get("MFX_REAL_CACHE_ENABLED") != "true"
             or os.environ.get("MFX_V2_BATCH_CACHE_ACCEPTED") != "true"
@@ -100,9 +152,10 @@ def main() -> None:
 
     receipts = [asdict(commit_native_batch(store,batch))
                 for _,batch,store,_ in prepared]
+    summary = summarize_incremental_receipts(receipts)
     print("MFX_A04_P59_NATIVE_INCREMENTAL_MANUAL_SHA_READBACK_PASS")
     print(json.dumps({
-        "status":"NATIVE_INCREMENTAL_VALIDATED_AND_COMMITTED",
+        **summary,
         "results":receipts,"source":"TWELVE_DATA_COMPOSITE_MID",
         "provider_price_requests":len(due),
         "provider_usage_requests":len(due),
