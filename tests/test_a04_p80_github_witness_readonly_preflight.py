@@ -49,8 +49,11 @@ def candidate(commit_sha=CANDIDATE, *,
     )
 
 
+AUTO = object()
+
+
 def assess(*,strategy="4h",before_rules=None,after_rules=None,
-           before_ref=None,after_ref=None,commit=None):
+           before_ref=None,after_ref=None,commit=AUTO):
     _,_,p=plan(tf=strategy)
     return assess_github_witness_sandbox_readonly(
         p,
@@ -67,7 +70,7 @@ def assess(*,strategy="4h",before_rules=None,after_rules=None,
             ref(CANDIDATE) if after_ref is None else after_ref
         ),
         candidate=candidate(payload=p.candidate_payload_sha256)
-                  if commit is None else commit,
+                  if commit is AUTO else commit,
     )
 
 
