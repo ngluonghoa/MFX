@@ -67,6 +67,12 @@ def _bar_valid(bar: NativeFXBar, *, symbol: str, interval: str, zone: str) -> No
             or bar.source_numeric_strategy_approved is not False
             or bar.broker_orders != 0):
         raise ValueError("P054_BAR_SCOPE_OR_PROVENANCE_MISMATCH")
+    if (bar.exchange_timezone_origin not in (
+            "PROVIDER_META", "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT")
+            or (bar.exchange_timezone_origin ==
+                "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT"
+                and (symbol != "EUR/USD" or zone != "Australia/Sydney"))):
+        raise ValueError("P056_NATIVE_TIMEZONE_PROVENANCE_INVALID")
     try:
         if interval == "4h":
             timestamp = datetime.strptime(
