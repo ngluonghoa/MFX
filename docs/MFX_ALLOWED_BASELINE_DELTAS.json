@@ -575,6 +575,12 @@
       "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged."
     },
     {
+      "path": "docs/MFX_A04_P54_NATIVE_HTF_SEALED_ARCHIVE_STAGING.md",
+      "change": "added",
+      "expected_current_sha": "f98427f50a6fca4c01721f93e138a5c681533cab",
+      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -614,6 +620,12 @@
       "change": "added",
       "expected_current_sha": "abc8d1f6dc470a1cd791c8fe26705c390f39c1c5",
       "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source."
+    },
+    {
+      "path": "mfx_cache/native_htf_archive.py",
+      "change": "added",
+      "expected_current_sha": "bc16c102c35fbf265e737aa4411c2cddb7dac033",
+      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen."
     },
     {
       "path": "mfx_cache/td_m5_codec.py",
@@ -1184,6 +1196,12 @@
       "change": "added",
       "expected_current_sha": "cc42103649bb5b90ef18b501b0c776b1f3200d4b",
       "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged. P0.53 CI portability fix: mock requests via sys.modules for HTTP security tests, so source parity CI does not install any network library."
+    },
+    {
+      "path": "tests/test_a04_p54_native_htf_archive.py",
+      "change": "added",
+      "expected_current_sha": "76e52b9bf5b047ab4a674885c1e6b69edf26e1be",
+      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
