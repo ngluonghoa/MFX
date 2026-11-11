@@ -294,6 +294,36 @@ class P063NativeCapacityTests(TestCase):
         self.assertNotIn("schedule:",y)
         self.assertIn("MFX_NATIVE_INCREMENTAL_WRITER_ACCEPTED",y)
 
+    def test_17_legacy_both_source_probed_but_zero_partial_drive_writes(self) -> None:
+        # Unlike P059, legacy P055 probes both before authenticating Drive.
+        # The new combined preflight must still prohibit an H4 write if
+        # the second scope (D1) cannot accept another manifest.
+        h=root_state("4h",H4[0])
+        d=root_state("1day",D1[0])
+        d_full=NativeArchiveState(d.last_manifest,d.latest_manifest_name,
+                                   256,256,())
+        target="tools.run_mfx_native_htf_drive_commit"
+        with patch.dict(os.environ,{
+            "MFX_REAL_CACHE_ENABLED":"true",
+            "MFX_V2_BATCH_CACHE_ACCEPTED":"true",
+            "MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED":"true",
+        }),patch(f"{target}._settings",return_value=("FAKE",{},400)),patch(
+            f"{target}._usage",side_effect=[(1,400),(2,400)]),patch(
+            f"{target}._probe_one",side_effect=[
+                batch("4h",H4[:2]),batch("1day",D1[:2])]) as probe,patch(
+            f"{target}._session",return_value="fake_session"),patch(
+            f"{target}.PrivateNativeDriveStore",
+            side_effect=["fake_h4","fake_d1"]),patch(
+            f"{target}.audit_native_archive",
+            side_effect=[h,d_full]),patch(
+            f"{target}.commit_native_batch") as commit:
+            from tools.run_mfx_native_htf_drive_commit import main
+            with self.assertRaisesRegex(
+                    ValueError,"P063_NATIVE_LEGACY_CAPACITY_NO_DRIVE_WRITES"):
+                main()
+            self.assertEqual(probe.call_count,2)
+            commit.assert_not_called()
+
 
 if __name__=="__main__":
     import unittest
