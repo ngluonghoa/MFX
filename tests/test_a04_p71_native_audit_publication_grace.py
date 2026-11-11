@@ -152,10 +152,7 @@ class PublicationSafeAuditTests(unittest.TestCase):
         ),patch(
             "tools.run_mfx_native_htf_cache_audit.PrivateNativeDriveStore",
             side_effect=stores,
-        ),patch(
-            "tools.run_mfx_native_htf_cache_audit.datetime",
-        ) as clock:
-            clock.now.return_value=datetime(2026,11,11,5,15,tzinfo=UTC)
+        ):
             buf=StringIO()
             with redirect_stdout(buf):
                 main()
