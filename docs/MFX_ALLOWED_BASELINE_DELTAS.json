@@ -2072,6 +2072,24 @@
       "change": "added",
       "expected_current_sha": "57e80b1f8cc4c2ed8aed08edc6b3daef9cb55b74",
       "reason": "A04/P0.76 independent antirollback trust-boundary design and NO-GO on live V2. Requires separate durable external trust anchor, signature/authority, CAS/lease/recovery and owner approval."
+    },
+    {
+      "path": "tools/mfx_native_v2_drive_readonly.py",
+      "change": "added",
+      "expected_current_sha": "4ab507457cb4f4ba3f393e8e50727363476f1bac",
+      "reason": "A04/P0.77 scoped injected-session GET-only native EUR/USD H4/D1 V2 Drive reader; bounded namespace/pagination/MIME/parents/size and full P0.75 SHA chain audit. No credentials/workflow/Drive write/live V2 auth/trading; caller tip untrusted."
+    },
+    {
+      "path": "tests/test_a04_p77_native_v2_drive_readonly.py",
+      "change": "added",
+      "expected_current_sha": "535ff4d3b0acdde74ea1ec838f1a98b81c3cdb02",
+      "reason": "A04/P0.77 28 hermetic fake Drive GET tests including H4/D1 isolated namespaces, shard rollover SHA, duplicate ID/index, orphan, malformed/size/parent rows, pagination limit/replay, races and no live V1 workflow changes."
+    },
+    {
+      "path": "docs/MFX_A04_P77_NATIVE_V2_DRIVE_GET_ONLY_READER.md",
+      "change": "added",
+      "expected_current_sha": "3229e825f6beadc9ffcd6db2ce1bfba825bd9a2f",
+      "reason": "A04/P0.77 source-only V2 Drive GET audit design: no actual V2 object or independent external antirollback, no real OAuth acceptance, no V1 cap or source-retention changes."
     }
   ]
 }
