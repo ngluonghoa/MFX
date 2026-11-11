@@ -29,12 +29,12 @@ def stored(tf: str, labels: tuple[str,...]) -> dict[str,object]:
         closed_bars=tuple(
             NativeFXBar(
                 symbol="EUR/USD",interval=tf,
-                native_open_label=l,time_reference=axis,
+                native_open_label=label,time_reference=axis,
                 exchange_timezone="Australia/Sydney",
                 exchange_timezone_origin="DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT",
                 open="1.1000",high="1.1040",low="1.0990",close="1.1030",
             )
-            for l in labels),
+            for label in labels),
     )
     sealed=plan_native_sealed(batch,previous=None)
     assert sealed is not None
