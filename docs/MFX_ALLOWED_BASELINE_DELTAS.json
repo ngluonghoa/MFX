@@ -665,6 +665,12 @@
       "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
     },
     {
+      "path": "docs/MFX_A04_P65_M5_H4_SHADOW_PARITY_DECISION.md",
+      "change": "added",
+      "expected_current_sha": "4735441827b13e490cf0edc1679bbaab306c9d57",
+      "reason": "A04/P0.65 owner-approved but NON-ACTIVATED M5-derived H4 shadow research with 48 closed UTC M5 per H4, strict native EUR/USD MID H4 numeric parity and fail-closed missing/changed inputs. Documentation and acceptance gates; no real Drive/source requests, scheduled workflow change, frozen Forex src, D1 derivation, broker or numeric signal promotion."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -698,6 +704,12 @@
       "change": "added",
       "expected_current_sha": "7a34b7d416366553bb2152e3bee59e195545c9cf",
       "reason": "P045 explicit typed Python package boundary fixes strict mypy duplicate module name detection, no behavioral source or cache logic change."
+    },
+    {
+      "path": "mfx_cache/h4_shadow.py",
+      "change": "added",
+      "expected_current_sha": "6ade104387664f74037093ae2510929dace3ac3e",
+      "reason": "A04/P0.65 pure in-memory standalone M5->H4 48 CLOSED UTC 4h-grid shadow research and typed H4 native-comparison receipt; no changes to P0.46 source-native-only H4/D1 production contract or P0.64 GitHub workflow, no Drive/network/trading and all parity results explicitly unverified until live SHA lineage proof."
     },
     {
       "path": "mfx_cache/native_fx_htf.py",
@@ -1340,6 +1352,12 @@
       "change": "added",
       "expected_current_sha": "ced10db7f95c75a5fe8bc213c6a024e89540399d",
       "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
+    },
+    {
+      "path": "tests/test_a04_p65_m5_h4_shadow_parity.py",
+      "change": "added",
+      "expected_current_sha": "bb21c0530b8d9cb0c03ae4890fdf95d065439424",
+      "reason": "A04/P0.65 hermetic positive/negative H4 shadow tests: 48-M5 required, incomplete gap/UTC alignment/revisions, two windows, native MID parity equality/mismatch/missing, provenance, no D1 M5 promotion, no price/network/Drive/broker actions."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
