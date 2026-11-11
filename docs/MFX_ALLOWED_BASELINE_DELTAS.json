@@ -2144,6 +2144,24 @@
       "change": "added",
       "expected_current_sha": "b32896698f36b1daac00a80f3c4df92e844a1c00",
       "reason": "A04/P0.80 GitHub documented branch effective-rules endpoint and actual GitHub connector allowlist 400 plus ref 404; owner-only staging decision and no claim of independently trusted authenticated antirollback."
+    },
+    {
+      "path": "tools/mfx_native_v2_witness_authority_decision.py",
+      "change": "added",
+      "expected_current_sha": "d34f37d38af4ee8c1a74d0fbb61ef527c112ca3f",
+      "reason": "A04/P0.81 pure research-only typed witness authority decision checklist: distinguish connector allowlist rejection from GitHub HTTP, main-only rules from witness-ref rules, fast-forward ancestry from exact-head CAS; no HTTP/Drive/trade/branch mutation."
+    },
+    {
+      "path": "tests/test_a04_p81_witness_authority_decision.py",
+      "change": "added",
+      "expected_current_sha": "c0ad1f1da906c96658070dbd401ccb54743eb9a3",
+      "reason": "A04/P0.81 24 hermetic negative tests for false witness authority, forged rules/connector result, missing source and owner approvals, owner action separation, no live Drive V2 and existing native schedule untouched."
+    },
+    {
+      "path": "docs/MFX_A04_P81_WITNESS_AUTHORITY_DECISION_GATE.md",
+      "change": "added",
+      "expected_current_sha": "b7ae7c909274d5527a956adec8ddf3df388eb63a",
+      "reason": "A04/P0.81 design/observed endpoint constraint and separate owner-gated trust+GitHub App/ruleset and sandbox proof roadmap. No witness ref, real V2 IO, provider or broker."
     }
   ]
 }
