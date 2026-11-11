@@ -82,6 +82,10 @@ def main() -> None:
         "closed_native_bars_new":total,
         "provider_price_requests":2,
         "source":"TWELVE_DATA_COMPOSITE_MID",
+        "timezone_origin_by_interval": {
+            "4h": h4.closed_bars[0].exchange_timezone_origin,
+            "1day": d1.closed_bars[0].exchange_timezone_origin,
+        },
         "raw_quote_output_in_logs":False,
         "m5_cache_modified":False,
         "broker_orders":0,
