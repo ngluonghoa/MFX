@@ -1,6 +1,17 @@
 name: MFX P0.58 Hourly READ-ONLY Native H4+D1 Full SHA Audit (NO vendor/trading)
 
 on:
+  # Every change to the read-only verifier or native sealed-source model
+  # gets ONE authenticated source SHA check on protected main immediately
+  # after merge. Hourly :45 cadence remains unchanged; no price API key.
+  push:
+    branches: [main]
+    paths:
+      - "tools/run_mfx_native_htf_cache_audit.py"
+      - "tools/mfx_native_htf_drive_seal.py"
+      - "mfx_cache/native_fx_htf.py"
+      - "mfx_cache/native_htf_archive.py"
+      - ".github/workflows/mfx-native-htf-cache-audit.yml"
   schedule:
     - cron: "45 * * * *"
   workflow_dispatch:
