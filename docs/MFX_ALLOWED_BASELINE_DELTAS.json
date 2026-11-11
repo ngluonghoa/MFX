@@ -2028,7 +2028,7 @@
     {
       "path": "tests/test_a04_p74_native_v2_handoff.py",
       "change": "added",
-      "expected_current_sha": "a897864ca3c4922ac0e007dcaed2a8babbac2cf6",
+      "expected_current_sha": "78ed30ab52e0e596d1429985389ea8911d0759e2",
       "reason": "A04/P0.74 fifteen hermetic negative tests for V1 SHA/name, wrong pair/TF, orphan/unequal pair counts, <=256 boundary, clock, proposal tamper, no live adapter, unchanged native writer; no real Drive or Twelve Data."
     },
     {
