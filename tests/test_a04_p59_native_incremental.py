@@ -109,12 +109,12 @@ class P059Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"FUTURE_OR_UNCLOSED"):
             plan_native_fetch(interval="1day",previous=m,now_utc=NOW)
 
-    def test_10_h4_15_second_close_grace_boundary(self) -> None:
+    def test_10_h4_publication_buffer_boundary(self) -> None:
         m=root("4h",H4)
         early=plan_native_fetch(interval="4h",previous=m,
-            now_utc=datetime(2026,11,11,8,0,10,tzinfo=UTC))
+            now_utc=datetime(2026,11,11,8,2,14,tzinfo=UTC))
         late=plan_native_fetch(interval="4h",previous=m,
-            now_utc=datetime(2026,11,11,8,0,16,tzinfo=UTC))
+            now_utc=datetime(2026,11,11,8,2,15,tzinfo=UTC))
         self.assertIsNone(early.request)
         self.assertIsNotNone(late.request)
 

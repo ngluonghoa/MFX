@@ -631,20 +631,26 @@
     {
       "path": "docs/MFX_A04_P59_NATIVE_INCREMENTAL_MANUAL_WRITER.md",
       "change": "added",
-      "expected_current_sha": "8feef7307e222ff594d0ebc731a3e4939ffb49ef",
-      "reason": "A04/P0.59 stage separate EXPLICIT four-gate manually invoked source-native EUR/USD H4 D1 incremental writer. Skip closed-slot current TF to avoid provider price/usage requests, bound 24..120 outputsize/last 16 SHA overlap, quarantine missing or revised prior native candles, full Drive archival pre/post SHA, conservative quota and fail-closed large gaps. Legacy manual native writer and P0.58 hourly read-only auditor unchanged; NO automatic native price writes, broker, numerical BUY/SELL, other pairs, Mac/MOCHI or frozen Forex source deviation. P0.59 real incremental acceptance requires separate owner gate and manual live run."
+      "expected_current_sha": "69c7df8945a8cb1ec4dfd4f001bea62f86c382ad",
+      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
     },
     {
       "path": "docs/MFX_A04_P60_NATIVE_READONLY_PREVIEW_RECEIPT_TRUTH.md",
       "change": "added",
-      "expected_current_sha": "24b3e873ed8538ea56c77835723328c2c1a83f93",
-      "reason": "A04/P0.60: correct source-native P0.59 receipt so a successful but stale provider envelope with zero new closed bars reports NO_NEW and cannot falsely claim COMMITTED; add owner-safe OAuth app-owned Google Drive H4+D1 read-only SHA-verified manual preview without vendor key, provider calls or Drive mutations, plus 18 hermetic tests, runbook and baseline pins. Existing native periodic WRITER remains OFF, P0.59 independent fourth gate unchanged, M5 V2 and frozen Forex 102 blobs untouched."
+      "expected_current_sha": "2e720833153e9a7bb3d33c17bfc3571da25cc159",
+      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
     },
     {
       "path": "docs/MFX_A04_P61_NATIVE_H4_UTC_GRID_AND_DUE_PATH_QA.md",
       "change": "added",
       "expected_current_sha": "30b21afb47aaac40588df259975da759b202aea5",
       "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
+    },
+    {
+      "path": "docs/MFX_A04_P62_NATIVE_CANDLE_PUBLICATION_READINESS.md",
+      "change": "added",
+      "expected_current_sha": "bb62e2cfb09fed07771c4e5884ca9c9109edaeeb",
+      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change. First PR CI 1966 tests PASS but Ruff E741 rejected ambiguous one-letter test fixture variable; fixed test fixture, QA note and rerun required."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -696,8 +702,8 @@
     {
       "path": "mfx_cache/native_htf_incremental.py",
       "change": "added",
-      "expected_current_sha": "4b8aa0a0e11cc85220dfed6d10ee2b98861c5485",
-      "reason": "A04/P0.59 stage separate EXPLICIT four-gate manually invoked source-native EUR/USD H4 D1 incremental writer. Skip closed-slot current TF to avoid provider price/usage requests, bound 24..120 outputsize/last 16 SHA overlap, quarantine missing or revised prior native candles, full Drive archival pre/post SHA, conservative quota and fail-closed large gaps. Legacy manual native writer and P0.58 hourly read-only auditor unchanged; NO automatic native price writes, broker, numerical BUY/SELL, other pairs, Mac/MOCHI or frozen Forex source deviation. P0.59 real incremental acceptance requires separate owner gate and manual live run."
+      "expected_current_sha": "9d4bfb5035ff186456a3c58cbdc7378ff2f6802b",
+      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
     },
     {
       "path": "mfx_cache/td_m5_codec.py",
@@ -1290,8 +1296,8 @@
     {
       "path": "tests/test_a04_p59_native_incremental.py",
       "change": "added",
-      "expected_current_sha": "c43732b93792d0ed1abcf9837a022ea04f89e905",
-      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
+      "expected_current_sha": "af600628ed02b7e6e9f2c1f0e37b3cd239edbbef",
+      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
     },
     {
       "path": "tests/test_a04_p60_native_preview_receipts.py",
@@ -1304,6 +1310,12 @@
       "change": "added",
       "expected_current_sha": "2eefea777ce552ec4fd5bfbd82926cc6e82e9d5f",
       "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
+    },
+    {
+      "path": "tests/test_a04_p62_native_publication_buffer.py",
+      "change": "added",
+      "expected_current_sha": "8d97b9f5b4aea75827975118d95d05b2aa154ea6",
+      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change. First PR CI 1966 tests PASS but Ruff E741 rejected ambiguous one-letter test fixture variable; fixed test fixture, QA note and rerun required."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
