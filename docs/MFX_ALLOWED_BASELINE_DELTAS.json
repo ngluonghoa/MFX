@@ -2036,6 +2036,24 @@
       "change": "added",
       "expected_current_sha": "dfcaa520503c421bcf6907f1c8b67e809dc17fab",
       "reason": "A04/P0.74 design-only Native V2 shard handoff and future trust/lease/CAS/restore/rights gates; no approved V2 runtime, immutable Forex source unchanged."
+    },
+    {
+      "path": "tools/mfx_native_v2_shard_chain.py",
+      "change": "added",
+      "expected_current_sha": "dc37d6ba6c0d63b0f54b798bd1ee0cb1b83cb78c",
+      "reason": "A04/P0.75 pure hermetic full SHA/parent and cross-shard H4/D1 V2 pair planning/read-only audit; V1 256 hard cap, 135-second native close grace, caller-provided untrusted expected head, no Drive adapter/real price/vendor/trading."
+    },
+    {
+      "path": "tests/test_a04_p75_native_v2_shard_chain.py",
+      "change": "added",
+      "expected_current_sha": "36fbddb073d70677d26d39277cbf9de2d2fb6fa1",
+      "reason": "A04/P0.75 24 synthetic adverse cases: full SHA recompute, rollover 1/2 pair, corrupted old Chunk, missing/reordered manifest, wrong head, replay, bad UTC H4/D1 Sydney close, max 8 research shards, 0 actual Drive/vendor/broker."
+    },
+    {
+      "path": "docs/MFX_A04_P75_NATIVE_V2_SHARD_CHAIN_RESEARCH.md",
+      "change": "added",
+      "expected_current_sha": "135b57b7d01d0353431ab8d427e99566d9162b01",
+      "reason": "A04/P0.75 research-only V2 shard integrity/rollback threat model; explicitly no trusted head witness, production CAS/lease, cloud migration, vendor licensing, source numeric signals, HOT or broker changes."
     }
   ]
 }
