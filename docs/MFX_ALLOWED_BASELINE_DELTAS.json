@@ -2126,6 +2126,24 @@
       "change": "added",
       "expected_current_sha": "acfd7eaecc5a6e1474012d188b20c337c18f3c86",
       "reason": "A04/P0.79 researched real GitHub REST force=false fast-forward semantics, current MFX default-branch ruleset scope, required separate owner-approved protected witness authority, backup/readback and documented no real CAS or live V2 approval."
+    },
+    {
+      "path": "tools/mfx_native_v2_github_witness_readonly_preflight.py",
+      "change": "added",
+      "expected_current_sha": "e18cbbddd50c6a64245d3f96653cc5b25b0e539a",
+      "reason": "A04/P0.80 inert caller-observation preflight for exact nonproduction GitHub witness branch: branch-specific rules before/after, ref 404/200, single-parent SHA and payload readback; no HTTP, GitHub refs/rulesets mutations, Drive or trading."
+    },
+    {
+      "path": "tests/test_a04_p80_github_witness_readonly_preflight.py",
+      "change": "added",
+      "expected_current_sha": "47de1364b99fe481509456b929d800d242d824c2",
+      "reason": "A04/P0.80 30 pure synthetic negative tests covering non-existent GitHub witness branch, missing rule visibility, policy drift, forged SHA/signature/payload, head race, and unchanged production workflows."
+    },
+    {
+      "path": "docs/MFX_A04_P80_GITHUB_WITNESS_READONLY_PREFLIGHT.md",
+      "change": "added",
+      "expected_current_sha": "b32896698f36b1daac00a80f3c4df92e844a1c00",
+      "reason": "A04/P0.80 GitHub documented branch effective-rules endpoint and actual GitHub connector allowlist 400 plus ref 404; owner-only staging decision and no claim of independently trusted authenticated antirollback."
     }
   ]
 }
