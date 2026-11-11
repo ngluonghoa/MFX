@@ -1,0 +1,42 @@
+name: MFX P0.59 MANUAL Staged Incremental Native H4+D1 Drive Writer (NO trading)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Existing manual writer/M5 auditor/writer/P0.58 reader share this lock.
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  incremental-native-htf:
+    if: ${{ vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V2_BATCH_CACHE_ACCEPTED == 'true' && vars.MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED == 'true' && vars.MFX_NATIVE_INCREMENTAL_WRITER_ACCEPTED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - name: Checkout protected MFX source
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install pinned OAuth/HTTPS requirements
+        run: python -m pip install --disable-pip-version-check requests==2.32.5 google-auth==2.43.0
+      - name: Four-way-gated source-native incremental plan, provider SHA overlap, sealed readbacks
+        env:
+          PYTHONPATH: src:.
+          MFX_REAL_CACHE_ENABLED: "true"
+          MFX_V2_BATCH_CACHE_ACCEPTED: "true"
+          MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED: "true"
+          MFX_NATIVE_INCREMENTAL_WRITER_ACCEPTED: "true"
+          MFX_TWELVE_DATA_API_KEY: ${{ secrets.MFX_TWELVE_DATA_API_KEY }}
+          MFX_TD_DAILY_CREDIT_CAP: ${{ vars.MFX_TD_DAILY_CREDIT_CAP || '400' }}
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+          MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
+          MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
+        run: python -m tools.run_mfx_native_htf_incremental_commit
