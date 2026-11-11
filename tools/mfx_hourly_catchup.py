@@ -16,6 +16,20 @@ MAX_RECOVERY_BATCHES = 4
 MAX_VENDOR_M5_ROWS = 120
 
 
+def latest_eligible_closed_hour(now_utc: datetime) -> datetime:
+    """Last M5 UTC hourly batch whose END + 5 minutes is safely elapsed.
+
+    A delayed GitHub cron can arrive at :00..:04 *next hour*. Do not skip
+    older catchup hours merely because the current minute is less than five.
+    The immediately previous hour itself still waits for its +5m grace.
+    """
+    if (type(now_utc) is not datetime or now_utc.tzinfo is None
+            or now_utc.utcoffset() != timedelta(0)):
+        raise ValueError("P067_EXACT_UTC_REQUIRED")
+    boundary = now_utc.replace(minute=0, second=0, microsecond=0)
+    return boundary - timedelta(hours=2 if now_utc.minute < 5 else 1)
+
+
 def plan_bounded_catchup(
     observed: tuple[ClosedM5Bar, ...], *,
     previous_hour_utc: str | None, now_utc: datetime,
@@ -31,12 +45,11 @@ def plan_bounded_catchup(
         raise ValueError("P051_EXACT_UTC_REQUIRED")
     if type(observed) is not tuple or len(observed) > MAX_VENDOR_M5_ROWS:
         raise ValueError("P051_VENDOR_M5_BOUNDED_REQUIRED")
-    if not observed or now_utc.minute < 5:
+    if not observed:
         return ()
     validate_m5(observed, asof_utc=now_utc)
 
-    latest_hour = (now_utc.replace(minute=0, second=0, microsecond=0)
-                   - timedelta(hours=1))
+    latest_hour = latest_eligible_closed_hour(now_utc)
     previous: datetime | None = None
     if previous_hour_utc is not None:
         if type(previous_hour_utc) is not str:
