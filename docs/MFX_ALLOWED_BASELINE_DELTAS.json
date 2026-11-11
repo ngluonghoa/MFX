@@ -607,8 +607,8 @@
     {
       "path": "docs/MFX_A04_P55_NATIVE_HTF_DRIVE_MANUAL_SEAL.md",
       "change": "added",
-      "expected_current_sha": "e7f28d4c22391f6fbdbf2c439fec4f97ca071530",
-      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending."
+      "expected_current_sha": "31eaad6e618231cefa9470ae13be0dfe5803dd1f",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
     },
     {
       "path": "docs/MFX_A04_P56_REAL_NATIVE_EXCHANGE_TIMEZONE_GAP_FIX.md",
@@ -631,14 +631,14 @@
     {
       "path": "docs/MFX_A04_P59_NATIVE_INCREMENTAL_MANUAL_WRITER.md",
       "change": "added",
-      "expected_current_sha": "69c7df8945a8cb1ec4dfd4f001bea62f86c382ad",
-      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
+      "expected_current_sha": "cb6c9fe744b975d13ad7260061af6fc3986bed2f",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
     },
     {
       "path": "docs/MFX_A04_P60_NATIVE_READONLY_PREVIEW_RECEIPT_TRUTH.md",
       "change": "added",
-      "expected_current_sha": "2e720833153e9a7bb3d33c17bfc3571da25cc159",
-      "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change."
+      "expected_current_sha": "40b2c793658d284d77992e6c29b033870d6cc9d6",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
     },
     {
       "path": "docs/MFX_A04_P61_NATIVE_H4_UTC_GRID_AND_DUE_PATH_QA.md",
@@ -651,6 +651,12 @@
       "change": "added",
       "expected_current_sha": "bb62e2cfb09fed07771c4e5884ca9c9109edaeeb",
       "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change. First PR CI 1966 tests PASS but Ruff E741 rejected ambiguous one-letter test fixture variable; fixed test fixture, QA note and rerun required."
+    },
+    {
+      "path": "docs/MFX_A04_P63_NATIVE_ARCHIVE_CAPACITY_FAILCLOSED.md",
+      "change": "added",
+      "expected_current_sha": "bccd828e65f56954a29deb9e1541ad2ec82b2b92",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1318,6 +1324,12 @@
       "reason": "A04/P0.62 source-provider-readiness hardening: Twelve Data 2026 support documents typical 0.3-2min REST candle publication delay; staged manual H4/D1 planner and read-only preview wait 2m15 after UTC H4 close/Sydney exchange-local D1 midnight before projected vendor call, while source parser 15s H4 validity unchanged, DST-safe UTC-to-local conversion. Twenty no-network hermetic tests, updated P0.59/P0.60 runbooks, new P0.62 licensing/Forex 24x7 vendor evidence; no native scheduled writer, 4th gate activation, broker, M5 change or frozen Forex original source change. First PR CI 1966 tests PASS but Ruff E741 rejected ambiguous one-letter test fixture variable; fixed test fixture, QA note and rerun required."
     },
     {
+      "path": "tests/test_a04_p63_native_archive_capacity.py",
+      "change": "added",
+      "expected_current_sha": "4f376eca59f49cb10e01752f4b0a2ed09d40de7a",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1566,8 +1578,8 @@
     {
       "path": "tools/mfx_native_htf_drive_seal.py",
       "change": "added",
-      "expected_current_sha": "3f51b6f945ee28d207a71c28dc350d6d195ceedf",
-      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending. A04/P0.57 REAL GitHub manual run #42960645079 failed in list_names after partially sealing one H4 pair. Narrow folder-query/client exact native-prefix isolation, tolerate optional missing parents but reject explicit wrong parent/native MIME, preserve strict SHA/parent chain and cross-TF idempotency. Three additional offline tests and manual-only live acceptance pending."
+      "expected_current_sha": "15d0f7b186ebad09a600d4d8385cba4538018dfc",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
     },
     {
       "path": "tools/postmain_ci_commit_status.py",
@@ -1830,20 +1842,20 @@
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",
       "change": "added",
-      "expected_current_sha": "60432cf2a82e48bf2013263c8c080513a68dbbb0",
-      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
+      "expected_current_sha": "ddd3609c2d6ce6c6c87c9407a4524072d2e768b1",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "a252c56a94f70adc4f5c0611836a373f15522ab1",
-      "reason": "A04/P0.60: correct source-native P0.59 receipt so a successful but stale provider envelope with zero new closed bars reports NO_NEW and cannot falsely claim COMMITTED; add owner-safe OAuth app-owned Google Drive H4+D1 read-only SHA-verified manual preview without vendor key, provider calls or Drive mutations, plus 18 hermetic tests, runbook and baseline pins. Existing native periodic WRITER remains OFF, P0.59 independent fourth gate unchanged, M5 V2 and frozen Forex 102 blobs untouched."
+      "expected_current_sha": "d6c4c4d375a68057c9ea4503f1a09da97a9ac06e",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
       "change": "added",
-      "expected_current_sha": "f1fbb4d646b667177104eb46bccb791d2a75729c",
-      "reason": "A04/P0.60: correct source-native P0.59 receipt so a successful but stale provider envelope with zero new closed bars reports NO_NEW and cannot falsely claim COMMITTED; add owner-safe OAuth app-owned Google Drive H4+D1 read-only SHA-verified manual preview without vendor key, provider calls or Drive mutations, plus 18 hermetic tests, runbook and baseline pins. Existing native periodic WRITER remains OFF, P0.59 independent fourth gate unchanged, M5 V2 and frozen Forex 102 blobs untouched."
+      "expected_current_sha": "1025925270598648df273c9600d03c23e83fcb79",
+      "reason": "A04/P0.63 fail-closed 256-object per-native-TF Chunk/Manifest SHA auditor capacity: pure preflight native_append_slots_remaining with exact orphan-recovery exception, P0.59 checks BOTH due TFs before ANY vendor usage/price calls or Drive mutation, P0.55 legacy validates both vendor envelopes but checks BOTH archive caps before ANY Drive writes, low-level committer blocks 257th object, P0.60 authenticated read-only preview reports capacity and zero hypothetical source calls at full cap. 17 hermetic bounded-cap/zero-credit/one-sided write tests, runbook updated, existing H4 live append #42993880950 intact, no new native schedule/owner gate/broker/frozen Forex 102 source blob changes."
     },
     {
       "path": "tools/run_mfx_native_htf_probe.py",
