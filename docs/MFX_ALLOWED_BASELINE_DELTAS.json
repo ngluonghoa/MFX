@@ -2108,6 +2108,24 @@
       "change": "added",
       "expected_current_sha": "0c2836881a15ed048be53b66dca878b1f1be445b",
       "reason": "A04/P0.78 threat model and NO-GO criteria for real external authenticated CAS witness, independently allocated fence, true Cloud recovery, licensing and owner approval."
+    },
+    {
+      "path": "tools/mfx_native_v2_github_witness_policy.py",
+      "change": "added",
+      "expected_current_sha": "b42e40a2159afe87090c44cb1834b65e4e517a2e",
+      "reason": "A04/P0.79 pure GitHub ref witness policy: observed default-only ruleset coverage and fast-forward ancestry vs exact CAS, source-domain witness metadata payload and untrusted Git ref readback; no GitHub mutation, Drive writes, credentials or broker."
+    },
+    {
+      "path": "tests/test_a04_p79_github_witness_policy.py",
+      "change": "added",
+      "expected_current_sha": "4260ec6905ab310baf40a43d3de1acf46b5110a0",
+      "reason": "A04/P0.79 28 hermetic tests for default-rule noncoverage of dedicated ref, missing/bypass protections, forged parent/payload, competing single-ref fast-forward, force override, split fake authority and no runtime changes."
+    },
+    {
+      "path": "docs/MFX_A04_P79_GITHUB_WITNESS_REF_TRUST_BOUNDARY.md",
+      "change": "added",
+      "expected_current_sha": "acfd7eaecc5a6e1474012d188b20c337c18f3c86",
+      "reason": "A04/P0.79 researched real GitHub REST force=false fast-forward semantics, current MFX default-branch ruleset scope, required separate owner-approved protected witness authority, backup/readback and documented no real CAS or live V2 approval."
     }
   ]
 }
