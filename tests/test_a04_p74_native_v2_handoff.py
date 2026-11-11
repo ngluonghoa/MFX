@@ -164,6 +164,10 @@ class P074NativeV2OfflineTests(TestCase):
         tail["last_native_open_label"]="2026-11-11 09:00:00"
         tail["recent_native_bar_index"][-1]["label"]="2026-11-11 09:00:00"
         from mfx_cache.native_htf_archive import _name
+        # Keep the earlier filename/Chunk-reference guard internally
+        # consistent so this negative fixture reaches the H4 UTC grid gate.
+        tail["chunk_name"]=_name("chunk","EUR/USD","4h",
+                                 tail["last_native_open_label"],tail["chunk_sha256"])
         name=_name("manifest","EUR/USD","4h",
                    tail["last_native_open_label"],digest(tail))
         bad=replace(s,last_manifest=tail,latest_manifest_name=name)
