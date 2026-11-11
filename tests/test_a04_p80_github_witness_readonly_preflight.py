@@ -88,7 +88,7 @@ class A04P080GithubWitnessReadOnlyPreflightTests(TestCase):
         self.assertFalse(r.ruleset_bypass_protection_verified)
         self.assertFalse(r.live_v2_authorized)
         self.assertEqual((r.github_mutations,r.drive_writes,
-                          r.provider_requests,r.broker_orders),(0,0,0))
+                          r.provider_requests,r.broker_orders),(0,0,0,0))
 
     def test_02_absent_branch_cannot_be_treated_as_activated(self):
         r=assess(before_ref=ref(None,status=404,object_type=None),
