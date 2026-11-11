@@ -1218,8 +1218,8 @@
     {
       "path": "tests/test_a04_p55_native_htf_drive.py",
       "change": "added",
-      "expected_current_sha": "b339530b8700330631ad8e700ecf3a240d3f5f36",
-      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending."
+      "expected_current_sha": "76b95e04a31d179c1a36d667c0b27a2013831cee",
+      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending. CI mock portability correction: fake _drive_get/_drive_create callbacks explicitly accept AuthorizedSession as the first parameter."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
