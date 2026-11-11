@@ -641,6 +641,12 @@
       "reason": "A04/P0.60: correct source-native P0.59 receipt so a successful but stale provider envelope with zero new closed bars reports NO_NEW and cannot falsely claim COMMITTED; add owner-safe OAuth app-owned Google Drive H4+D1 read-only SHA-verified manual preview without vendor key, provider calls or Drive mutations, plus 18 hermetic tests, runbook and baseline pins. Existing native periodic WRITER remains OFF, P0.59 independent fourth gate unchanged, M5 V2 and frozen Forex 102 blobs untouched."
     },
     {
+      "path": "docs/MFX_A04_P61_NATIVE_H4_UTC_GRID_AND_DUE_PATH_QA.md",
+      "change": "added",
+      "expected_current_sha": "d860e91f923f002bd8e4b4e981efcac09845baf9",
+      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -678,14 +684,14 @@
     {
       "path": "mfx_cache/native_fx_htf.py",
       "change": "added",
-      "expected_current_sha": "95c2999ac87da2afa5fed92a38e9c1f1111f51c8",
-      "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
+      "expected_current_sha": "ba4349e3706a708c5c2dbbdb53445f214e6eb07c",
+      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
     },
     {
       "path": "mfx_cache/native_htf_archive.py",
       "change": "added",
-      "expected_current_sha": "91604ca66136e67f59ca9f3d49a3914d83a8f0d2",
-      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
+      "expected_current_sha": "0378f2a7f0a127f2716d7a8527d1f3f225e76a65",
+      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
     },
     {
       "path": "mfx_cache/native_htf_incremental.py",
@@ -1284,14 +1290,20 @@
     {
       "path": "tests/test_a04_p59_native_incremental.py",
       "change": "added",
-      "expected_current_sha": "a0bd6a1fc7b1376fd1a1537967c4f58282897fa3",
-      "reason": "A04/P0.59 stage separate EXPLICIT four-gate manually invoked source-native EUR/USD H4 D1 incremental writer. Skip closed-slot current TF to avoid provider price/usage requests, bound 24..120 outputsize/last 16 SHA overlap, quarantine missing or revised prior native candles, full Drive archival pre/post SHA, conservative quota and fail-closed large gaps. Legacy manual native writer and P0.58 hourly read-only auditor unchanged; NO automatic native price writes, broker, numerical BUY/SELL, other pairs, Mac/MOCHI or frozen Forex source deviation. P0.59 real incremental acceptance requires separate owner gate and manual live run."
+      "expected_current_sha": "c43732b93792d0ed1abcf9837a022ea04f89e905",
+      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
     },
     {
       "path": "tests/test_a04_p60_native_preview_receipts.py",
       "change": "added",
       "expected_current_sha": "78bb9d0d92e3779a5656e13c21db947c4ef7e7bf",
       "reason": "A04/P0.60: correct source-native P0.59 receipt so a successful but stale provider envelope with zero new closed bars reports NO_NEW and cannot falsely claim COMMITTED; add owner-safe OAuth app-owned Google Drive H4+D1 read-only SHA-verified manual preview without vendor key, provider calls or Drive mutations, plus 18 hermetic tests, runbook and baseline pins. Existing native periodic WRITER remains OFF, P0.59 independent fourth gate unchanged, M5 V2 and frozen Forex 102 blobs untouched."
+    },
+    {
+      "path": "tests/test_a04_p61_native_h4_grid_and_due_path.py",
+      "change": "added",
+      "expected_current_sha": "2eefea777ce552ec4fd5bfbd82926cc6e82e9d5f",
+      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
