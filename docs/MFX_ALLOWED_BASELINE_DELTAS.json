@@ -2172,7 +2172,7 @@
     {
       "path": "tests/test_a04_p82_m5_lag_evidence.py",
       "change": "added",
-      "expected_current_sha": "1166585b902a71630c21dc9fd21ee75dca901cc4",
+      "expected_current_sha": "19e816fa2f5294d39453aa9d5bd532f2f1c4a68f",
       "reason": "A04/P0.82 12 hermetic M5 audit lag/staleness/grace/schema/no-trade negative tests."
     },
     {
