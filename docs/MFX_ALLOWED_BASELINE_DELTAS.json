@@ -2090,6 +2090,24 @@
       "change": "added",
       "expected_current_sha": "3229e825f6beadc9ffcd6db2ce1bfba825bd9a2f",
       "reason": "A04/P0.77 source-only V2 Drive GET audit design: no actual V2 object or independent external antirollback, no real OAuth acceptance, no V1 cap or source-retention changes."
+    },
+    {
+      "path": "tools/mfx_native_v2_cas_recovery_contract.py",
+      "change": "added",
+      "expected_current_sha": "b60416cdd42ec5395f2f6be92d4207030188f015",
+      "reason": "A04/P0.78 research-only pure external witness head / fencing CAS preconditions and interruption recovery classifier; exact P0.76 witness and P0.75 V2 full SHA rechecks; no trust signature, real atomic service, Drive writes or trading."
+    },
+    {
+      "path": "tests/test_a04_p78_fenced_cas_recovery.py",
+      "change": "added",
+      "expected_current_sha": "3873b00eea512668036649d523129a8aa77c0285",
+      "reason": "A04/P0.78 26 hermetic competing-writer, stale fence/epoch, orphan/unpublished pair and split-authority fake tests, full SHA tamper and one-pair progression, no V1 live workflow change."
+    },
+    {
+      "path": "docs/MFX_A04_P78_FENCED_CAS_RECOVERY_CONTRACT.md",
+      "change": "added",
+      "expected_current_sha": "0c2836881a15ed048be53b66dca878b1f1be445b",
+      "reason": "A04/P0.78 threat model and NO-GO criteria for real external authenticated CAS witness, independently allocated fence, true Cloud recovery, licensing and owner approval."
     }
   ]
 }
