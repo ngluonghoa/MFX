@@ -15,7 +15,8 @@ from zoneinfo import ZoneInfo
 from mfx_cache.td_m5_codec import digest
 from mfx_cache.native_htf_incremental import SOURCE_PUBLICATION_BUFFER
 from tools.mfx_native_htf_drive_seal import (
-    PrivateNativeDriveStore, audit_native_archive,
+    MAX_NATIVE_FILES, NativeArchiveState, PrivateNativeDriveStore,
+    audit_native_archive, native_append_slots_remaining,
 )
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     _drive_auth_info, _require_oauth_cache_folders, _session,
@@ -24,6 +25,33 @@ from tools.run_a04_p45_cloud_twelve_data_cache import (
 SYMBOL = "EUR/USD"
 INTERVALS = ("4h", "1day")
 UTC = timezone.utc
+
+# P0.73: read-only operational lead time for the EXISTING hard 256-per-
+# bucket native archive cap. These are observation tiers, not scheduled
+# cleanup, storage growth, price requests, or authorization to append.
+CAPACITY_EARLY_REVIEW_SLOTS = 64
+CAPACITY_URGENT_REVIEW_SLOTS = 16
+
+
+def native_capacity_readonly_receipt(state: NativeArchiveState) -> dict[str, Any]:
+    """Report remaining native Chunk+Manifest *pairs*, not candles or time."""
+    remaining = native_append_slots_remaining(state)
+    if remaining == 0:
+        status = "AT_LIMIT_NEXT_APPEND_FAILS_CLOSED"
+    elif remaining <= CAPACITY_URGENT_REVIEW_SLOTS:
+        status = "URGENT_SCALING_REVIEW_ONLY"
+    elif remaining <= CAPACITY_EARLY_REVIEW_SLOTS:
+        status = "EARLY_SCALING_REVIEW_ONLY"
+    else:
+        status = "WITHIN_CURRENT_BOUND"
+    return {
+        "native_archive_max_files_per_bucket": MAX_NATIVE_FILES,
+        "native_archive_append_pairs_remaining": remaining,
+        "native_archive_capacity_status": status,
+        "native_archive_capacity_observation_only": True,
+        "native_archive_capacity_is_not_market_session_forecast": True,
+        "native_archive_auto_expansion_authorized": False,
+    }
 
 
 def _now_utc(instant: datetime) -> None:
@@ -115,6 +143,7 @@ def audit_native_cache(
         "read_only": True, "twelve_data_api_calls": 0,
         "drive_writes": 0, "broker_orders": 0,
         "numeric_buy_sell_signals": 0,
+        **native_capacity_readonly_receipt(state),
     }
 
 
