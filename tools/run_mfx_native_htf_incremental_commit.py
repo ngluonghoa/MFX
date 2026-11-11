@@ -1,9 +1,9 @@
-"""A04/P0.59 — gated MANUAL-only incremental native EUR/USD H4/D1 writer.
+"""A04/P0.59/P0.64 — gated hourly + manual native EUR/USD H4/D1 writer.
 
-Preflight and SHA check both archives BEFORE vendor calls. Skip intervals
-without new fully closed slots; always check full provider overlap SHA before
-ANY Drive write. Immutable write is still delegated to existing P0.55
-idempotent Chunk+Manifest commit. No H4/D1 cron or broker.
+P0.64 schedules the previously manual-tested P0.59 source-native incremental
+commit every UTC hour at :25, without changing its data integrity or quota
+contracts. Both modes preflight both archives BEFORE provider calls; skip
+intervals without newly eligible closed slots. No broker or BUY/SELL.
 """
 from __future__ import annotations
 
@@ -88,6 +88,9 @@ def main() -> None:
         print("MFX_A04_P59_INCREMENTAL_DISABLED_EXPLICIT_FOUR_GATE")
         return
 
+    # GitHub injects a protected event name; never report a manual
+    # acceptance marker for an unattended hourly scheduled run.
+    scheduled = os.environ.get("GITHUB_EVENT_NAME") == "schedule"
     key, auth, cap = _settings()
     now = datetime.now(timezone.utc)
     session = _session(auth)
@@ -117,6 +120,8 @@ def main() -> None:
             "status":"NO_NATIVE_CLOSED_SLOTS_DUE",
             "provider_price_requests":0,"provider_usage_requests":0,
             "drive_writes":0,"broker_orders":0,
+            "automatic_native_schedule_activated":scheduled,
+            "execution_mode":"hourly_schedule" if scheduled else "manual",
         },sort_keys=True))
         return
 
@@ -129,6 +134,8 @@ def main() -> None:
         print(json.dumps({
             "status":"NOT_EXECUTED_INSUFFICIENT_QUOTA_HEADROOM",
             "price_requests":0,"drive_writes":0,"broker_orders":0,
+            "automatic_native_schedule_activated":scheduled,
+            "execution_mode":"hourly_schedule" if scheduled else "manual",
         },sort_keys=True))
         return
 
@@ -162,7 +169,9 @@ def main() -> None:
     receipts = [asdict(commit_native_batch(store,batch))
                 for _,batch,store,_ in prepared]
     summary = summarize_incremental_receipts(receipts)
-    print("MFX_A04_P59_NATIVE_INCREMENTAL_MANUAL_SHA_READBACK_PASS")
+    print("MFX_A04_P64_HOURLY_NATIVE_INCREMENTAL_SHA_READBACK_PASS"
+          if scheduled
+          else "MFX_A04_P59_NATIVE_INCREMENTAL_MANUAL_SHA_READBACK_PASS")
     print(json.dumps({
         **summary,
         "results":receipts,"source":"TWELVE_DATA_COMPOSITE_MID",
@@ -176,7 +185,8 @@ def main() -> None:
             if plan.provider_requests_planned == 0],
         "m5_cache_modified":False,"broker_orders":0,
         "source_numeric_signals_approved":False,
-        "automatic_native_schedule_activated":False,
+        "automatic_native_schedule_activated":scheduled,
+        "execution_mode":"hourly_schedule" if scheduled else "manual",
     },sort_keys=True))
 
 

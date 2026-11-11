@@ -288,10 +288,10 @@ class P063NativeCapacityTests(TestCase):
         self.assertEqual(native_append_slots_remaining(h),254)
         self.assertEqual(native_append_slots_remaining(d),255)
 
-    def test_16_workflow_remains_manual_four_way_gated(self) -> None:
+    def test_16_workflow_adds_hourly_four_way_gate(self) -> None:
         y=Path(".github/workflows/mfx-native-htf-incremental-commit.yml").read_text()
         self.assertIn("workflow_dispatch:",y)
-        self.assertNotIn("schedule:",y)
+        self.assertIn('cron: "25 * * * *"',y)
         self.assertIn("MFX_NATIVE_INCREMENTAL_WRITER_ACCEPTED",y)
 
     def test_17_legacy_both_source_probed_but_zero_partial_drive_writes(self) -> None:

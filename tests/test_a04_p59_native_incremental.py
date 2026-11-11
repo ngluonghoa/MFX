@@ -247,10 +247,10 @@ class P059Tests(unittest.TestCase):
         write.assert_not_called()
         self.assertIn("ZERO_VENDOR_CALLS",out.getvalue())
 
-    def test_23_manual_workflow_new_gate_no_cron_and_shared_lock(self) -> None:
+    def test_23_hourly_and_manual_workflow_four_gate_shared_lock(self) -> None:
         y=Path(".github/workflows/mfx-native-htf-incremental-commit.yml").read_text()
         self.assertIn("workflow_dispatch:",y)
-        self.assertNotIn("schedule:",y)
+        self.assertIn('cron: "25 * * * *"',y)
         self.assertIn("MFX_NATIVE_INCREMENTAL_WRITER_ACCEPTED",y)
         self.assertIn("mfx-twelvedata-private-cache",y)
         self.assertIn("contents: read",y)

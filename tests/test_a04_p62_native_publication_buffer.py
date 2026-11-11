@@ -164,10 +164,10 @@ class P062NativePublicationTests(unittest.TestCase):
         self.assertEqual(p.calendar_slots_behind,1)
         self.assertEqual(p.provider_requests_planned,1)
 
-    def test_17_no_changes_to_manual_incremental_workflow(self) -> None:
+    def test_17_hourly_plus_manual_incremental_workflow(self) -> None:
         y=Path(".github/workflows/mfx-native-htf-incremental-commit.yml").read_text()
         self.assertIn("workflow_dispatch:",y)
-        self.assertNotIn("schedule:",y)
+        self.assertIn('cron: "25 * * * *"',y)
         self.assertIn("MFX_NATIVE_INCREMENTAL_WRITER_ACCEPTED",y)
 
     def test_18_original_native_h4_parser_minimum_remains_15_seconds(self) -> None:

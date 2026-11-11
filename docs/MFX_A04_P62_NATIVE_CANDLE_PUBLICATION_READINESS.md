@@ -43,3 +43,7 @@ Official Twelve Data Terms of Use (updated January 1, 2026): https://twelvedata.
 ## First hosted PR CI QA correction
 
 Initial PR #104 CI #42990421300 completed **1966 unit tests PASS on Python 3.11 and 3.12**, but its Ruff E741 lint stage correctly rejected the new test fixture's one-letter variable `l` as ambiguous. The fixture now uses `label` and must be re-pinned by exact Git blob SHA. The first CI is NOT accepted; only a subsequent all-green latest-head PR check followed by an independent protected-main push CI can authorize the P0.62 checkpoint.
+
+## P0.64 hourly operational integration (supersedes historic manual-only label)
+
+The pure `SOURCE_PUBLICATION_BUFFER=2min15s` native source planner remains identical; the same P0.59 manually accepted writer now also executes from owner-approved GitHub Actions **UTC :25 hourly schedule**, with manual fallback. GitHub actual execution time, not cron's nominal timestamp, determines H4 and Sydney-local D1 readiness. No H4/D1 price request if no newly eligible closed slot, and the D1 session ending midnight Sydney cannot be requested until its 2m15s publication buffer has elapsed. P0.64 does not change data values or create a new cache backend; SHA, 256-object preflight, quota headroom and read-only auditors remain independent. A hypothetical D1 at 2026-11-12 00:02:15 Australia/Sydney becomes eligible for the next UTC 13:25 hourly run (20:25 ICT 2026-11-11), not for an immediate forced vendor request. No broker or HOT V3. Documentation: `docs/MFX_A04_P64_HOURLY_NATIVE_H4_D1_AUTOMATION.md`.

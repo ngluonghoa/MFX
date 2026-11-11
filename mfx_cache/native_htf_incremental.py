@@ -1,8 +1,9 @@
-"""A04/P0.59 — PURE bounded source-native H4/D1 incremental fetch planning.
+"""A04/P0.59/P0.64 — PURE bounded source-native H4/D1 planning.
 
 Do NOT infer Forex trading sessions. Provider prices are never fetched here.
-A manual-only writer may skip intervals with no newly closed wall-clock slot,
-request a short overlap window, and fail closed on revisions/history gaps.
+The hourly or manual writer skips intervals without a newly eligible
+closed native slot, requests a bounded overlap window only when due, and
+fails closed for vendor revisions/history gaps.
 """
 from __future__ import annotations
 
