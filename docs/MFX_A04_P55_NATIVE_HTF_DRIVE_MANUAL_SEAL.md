@@ -34,3 +34,7 @@
 6. Only after real acceptance consider separate H4/D1 hourly schedules, per-pair rollouts and retention/compaction policy. Do not automatically enable new schedules.
 
 Rollback: disable `MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED` and revert PR through protected GitHub branch governance; leave previously sealed private Drive data immutable. No Mac/MOCHI/local infrastructure involved.
+
+## P0.63 256-object native scope capacity guard
+
+Legacy P0.55 manual two-source native workflow still fetches/validates H4 and D1 **before** authenticating and reading Drive, so vendor price/usage credits may already be consumed when a full archive is discovered. However P0.63 now preflights both native archives for enough remaining SHA-auditable immutable Chunk+Manifest slots **before writing either TF**. It rejects `P063_NATIVE_LEGACY_CAPACITY_NO_DRIVE_WRITES` if a due append would exceed 256 objects per native interval/bucket, avoiding a one-sided H4 append if D1 cannot append (and vice versa). Additionally the underlying `commit_native_batch` rejects capacity exhaustion before its first write, while allowing an exact already-written orphan Chunk to be completed by one Manifest when within the limit. Prefer P0.59 incremental writer for source-budget efficiency; its P0.63 capacity gate is **before** all vendor API calls. Full details: `docs/MFX_A04_P63_NATIVE_ARCHIVE_CAPACITY_FAILCLOSED.md`.
