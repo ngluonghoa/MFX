@@ -43,8 +43,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-cache-audit.yml",
       "change": "added",
-      "expected_current_sha": "4fbbb61a4315196292a3011b14d711013036a2ea",
-      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run."
+      "expected_current_sha": "d92b0734e4c389de5e1cd249d76d43f26ba8a04d",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker."
     },
     {
       "path": ".github/workflows/mfx-native-htf-drive-commit.yml",
@@ -711,6 +711,12 @@
       "change": "added",
       "expected_current_sha": "8c51ed7d81364ef592c19c3ab7ba343ebad88e6f",
       "reason": "P0.71 read-only native H4/D1 P0.58 lag publication-grace repair runbook, real D1 Sydney first incremental evidence still pending writer schedule, no automatic source cadence or numeric trading change."
+    },
+    {
+      "path": "docs/MFX_A04_P72_NATIVE_SHA_AUDIT_ON_CHANGE.md",
+      "change": "added",
+      "expected_current_sha": "c116b6a741754d42ed50f8152132583e5e025058",
+      "reason": "P0.72 first actual 2026-11-11 Sydney-local D1 incremental source-native child success and independent SHA future acceptance; protected-main read-only on-auditor-change trigger runbook, no source native cadence change."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1436,6 +1442,12 @@
       "change": "added",
       "expected_current_sha": "5c2334c08cc66b741bf6e2ade4211e5fe9fba2a9",
       "reason": "P0.71 14 hermetic H4/D1 source publication-boundary tests at +2m14s/+2m15s, exact Sydney DST AEDT/AEST, shared writer fetch planner parity, no premature future bar, zero API/Drive/broker and honest audit summary."
+    },
+    {
+      "path": "tests/test_a04_p72_native_sha_audit_push.py",
+      "change": "added",
+      "expected_current_sha": "e52273c6e109ff85115d627f857d63c7a765dafb",
+      "reason": "P0.72 9 hermetic read-only native SHA protected-main path trigger and synthetic first native D1 2-pair parent chain full SHA, historical tamper/missing manifest fail-closed, no provider/writes."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
