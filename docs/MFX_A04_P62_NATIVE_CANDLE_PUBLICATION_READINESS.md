@@ -39,3 +39,7 @@ Official Twelve Data Terms of Use (updated January 1, 2026): https://twelvedata.
 - Hosted PR full Python 3.11+3.12 unit/negative tests, source-locked Forex parity, static/security and cross-Python wheel parity; **independent exact protected-main push CI** after merge required. Exact Git blob SHA pins tracked via `docs/MFX_ALLOWED_BASELINE_DELTAS.json`.
 - P0.55 real native root write PASS, P0.58 real scheduled read-only audit PASS, P0.60 real manual Drive-only preview PASS, P0.61 hosted full SHA/4h UTC grid CI PASS. Those proofs remain independent of P0.62.
 - **Do not enable** `MFX_NATIVE_INCREMENTAL_WRITER_ACCEPTED`, any H4/D1 cron, HOT V3, broker trading or source-numeric signals as part of this PR. P0.59 real incremental writer remains pending separate owner-controlled four-way-gated manual dispatch and verification of new native Manifest SHA, provider quota, full historical provenance and M5 isolation.
+
+## First hosted PR CI QA correction
+
+Initial PR #104 CI #42990421300 completed **1966 unit tests PASS on Python 3.11 and 3.12**, but its Ruff E741 lint stage correctly rejected the new test fixture's one-letter variable `l` as ambiguous. The fixture now uses `label` and must be re-pinned by exact Git blob SHA. The first CI is NOT accepted; only a subsequent all-green latest-head PR check followed by an independent protected-main push CI can authorize the P0.62 checkpoint.
