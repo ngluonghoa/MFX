@@ -85,8 +85,12 @@ class FakeGetOnlySession:
             token=params.get("pageToken")
             start=int(token) if token and token.isdigit() else 0
             if self.force_repeated_token:
-                return FakeResponse({"files":items[:1],
-                                     "nextPageToken":"forever"})
+                # The second page must be empty, so the repeated-token
+                # guard is tested instead of the earlier duplicate-ID gate.
+                return FakeResponse({
+                    "files":items[:1] if token is None else [],
+                    "nextPageToken":"forever",
+                })
             if self.force_long_pagination:
                 return FakeResponse({"files":[],
                                      "nextPageToken":str(start+1)})
