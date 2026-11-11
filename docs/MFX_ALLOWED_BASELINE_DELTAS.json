@@ -593,6 +593,12 @@
       "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending."
     },
     {
+      "path": "docs/MFX_A04_P56_REAL_NATIVE_EXCHANGE_TIMEZONE_GAP_FIX.md",
+      "change": "added",
+      "expected_current_sha": "37b29875ad8223f589b6f14224d01c86b9cd7d3b",
+      "reason": "A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -630,14 +636,14 @@
     {
       "path": "mfx_cache/native_fx_htf.py",
       "change": "added",
-      "expected_current_sha": "abc8d1f6dc470a1cd791c8fe26705c390f39c1c5",
-      "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source."
+      "expected_current_sha": "95c2999ac87da2afa5fed92a38e9c1f1111f51c8",
+      "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
     },
     {
       "path": "mfx_cache/native_htf_archive.py",
       "change": "added",
-      "expected_current_sha": "bc16c102c35fbf265e737aa4411c2cddb7dac033",
-      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen."
+      "expected_current_sha": "91604ca66136e67f59ca9f3d49a3914d83a8f0d2",
+      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
     },
     {
       "path": "mfx_cache/td_m5_codec.py",
@@ -1200,8 +1206,8 @@
     {
       "path": "tests/test_a04_p52_native_fx_htf.py",
       "change": "added",
-      "expected_current_sha": "1d08573ed31331ebbc63ffe309876029ebeaf49b",
-      "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source."
+      "expected_current_sha": "92489a5621389459a43b98865aeeec9c67fc0361",
+      "reason": "A04/P0.52 strictly OFFLINE provider-native H4/D1 Forex metadata and time-axis research contract; D1 conservatively retains exchange-local session date (no false UTC D1), intraday H4 timezone=UTC, exact pair/TF/provenance validations, deterministic SHA, 27 hermetic tests and staging document. No Twelve Data REST calls, Google Drive mutation, workflow activation, source numeric signals, broker orders, or changes to frozen 1:1 Forex source. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
     },
     {
       "path": "tests/test_a04_p53_native_htf_manual_probe.py",
@@ -1212,14 +1218,14 @@
     {
       "path": "tests/test_a04_p54_native_htf_archive.py",
       "change": "added",
-      "expected_current_sha": "76e52b9bf5b047ab4a674885c1e6b69edf26e1be",
-      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen."
+      "expected_current_sha": "074d75564f95f076c618a0ffcfb9acbcda94a7f6",
+      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
     },
     {
       "path": "tests/test_a04_p55_native_htf_drive.py",
       "change": "added",
-      "expected_current_sha": "76b95e04a31d179c1a36d667c0b27a2013831cee",
-      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending. CI mock portability correction: fake _drive_get/_drive_create callbacks explicitly accept AuthorizedSession as the first parameter."
+      "expected_current_sha": "254fd9078c008d1d3582ae052b42b2f47166e660",
+      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending. CI mock portability correction: fake _drive_get/_drive_create callbacks explicitly accept AuthorizedSession as the first parameter. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
@@ -1728,14 +1734,14 @@
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",
       "change": "added",
-      "expected_current_sha": "d49ded18b28665ca376abaf2d5aff5cc7ed2db2c",
-      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending."
+      "expected_current_sha": "60432cf2a82e48bf2013263c8c080513a68dbbb0",
+      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
     },
     {
       "path": "tools/run_mfx_native_htf_probe.py",
       "change": "added",
-      "expected_current_sha": "614d4a0c2ee874ed7c81fe1e95252312c3951d68",
-      "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged."
+      "expected_current_sha": "35399638dd5341317140dcecf7c85ae03d203e7f",
+      "reason": "A04/P0.53 MANUAL-ONLY, two-native-TF EUR/USD H4+D1 Twelve Data metadata proof: strictly quota-gated at most 2 time_series requests, provider usage checks, no key/url/raw OHLC output, no Drive credentials or cache mutation, no broker/trading. Includes 15 offline guard tests and acceptance documentation; no new cron, original Forex 1:1 source unchanged. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
     },
     {
       "path": "tools/run_mfx_oauth_drive_bootstrap.py",
