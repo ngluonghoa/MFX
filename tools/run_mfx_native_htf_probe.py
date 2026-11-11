@@ -110,6 +110,7 @@ def main() -> None:
             "interval": result.interval,
             "time_reference": result.time_reference,
             "exchange_timezone": result.exchange_timezone,
+            "timezone_origin": bars[0].exchange_timezone_origin,
             "closed_native_bars": len(bars),
             "incomplete_excluded": result.incomplete_excluded,
             "first_native_open_label": bars[0].native_open_label,
