@@ -154,11 +154,12 @@ class P058NativeAuditTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"FUTURE_OR_UNCLOSED_NATIVE_H4"):
             audit_native_cache(s,interval="4h",now_utc=NOW)
 
-    def test_12_h4_not_4h_utc_grid_rejected(self) -> None:
+    def test_12_h4_not_4h_utc_grid_rejected_before_seal(self) -> None:
         s=ReadOnlyFakeStore()
-        s.seed(native("4h",("2026-11-11 01:00:00",)))
-        with self.assertRaisesRegex(ValueError,"NOT_ON_UTC_GRID"):
-            audit_native_cache(s,interval="4h",now_utc=NOW)
+        # P061 rejects a malformed H4 BEFORE a fake archive can seal it;
+        # the P058 reader cannot receive such a newly sealed root.
+        with self.assertRaisesRegex(ValueError,"P061_H4_UTC_4H_GRID_REQUIRED"):
+            s.seed(native("4h",("2026-11-11 01:00:00",)))
 
     def test_13_future_or_same_day_d1_rejected(self) -> None:
         s=ReadOnlyFakeStore()
