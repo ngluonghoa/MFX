@@ -1,0 +1,39 @@
+name: MFX P0.60 MANUAL READ-ONLY Native H4+D1 Incremental Plan Preview (NO vendor/trading)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Coordinate real Drive reads with all writer/audit workflows.
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  readonly-native-preview:
+    if: ${{ vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V2_BATCH_CACHE_ACCEPTED == 'true' && vars.MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout protected MFX
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install pinned Drive OAuth/HTTPS dependencies
+        run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
+      - name: Authenticated SHA-verified Drive-only next-native-slot plan
+        env:
+          PYTHONPATH: src:.
+          MFX_REAL_CACHE_ENABLED: "true"
+          MFX_V2_BATCH_CACHE_ACCEPTED: "true"
+          MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED: "true"
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+          MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
+          MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
+        run: python -m tools.run_mfx_native_htf_incremental_preview
