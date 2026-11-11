@@ -2018,6 +2018,24 @@
       "change": "added",
       "expected_current_sha": "28b408808281bfc952c66c5fe5e09cd3e76d7107",
       "reason": "A01/P0.1 offline original Git tree/byte parity and exception validator; exact six-file A02 approved typed-source SHA verifier"
+    },
+    {
+      "path": "tools/mfx_native_shard_v2_design.py",
+      "change": "added",
+      "expected_current_sha": "62902bd697e0f7b286d880c8e4c29d014a27b0ea",
+      "reason": "A04/P0.74 Cloud-only inert native H4/D1 V1 to V2 immutable shard proposal, SHA-pinned V1 tail, exact native scope/time grid, fail-closed orphan/mismatched witness/overcap, no write/schedule/provider/broker/permission and does not establish external anti-rollback witness."
+    },
+    {
+      "path": "tests/test_a04_p74_native_v2_handoff.py",
+      "change": "added",
+      "expected_current_sha": "78ed30ab52e0e596d1429985389ea8911d0759e2",
+      "reason": "A04/P0.74 fifteen hermetic negative tests for V1 SHA/name, wrong pair/TF, orphan/unequal pair counts, <=256 boundary, clock, proposal tamper, no live adapter, unchanged native writer; no real Drive or Twelve Data."
+    },
+    {
+      "path": "docs/MFX_A04_P74_NATIVE_V2_SHARD_DESIGN.md",
+      "change": "added",
+      "expected_current_sha": "dfcaa520503c421bcf6907f1c8b67e809dc17fab",
+      "reason": "A04/P0.74 design-only Native V2 shard handoff and future trust/lease/CAS/restore/rights gates; no approved V2 runtime, immutable Forex source unchanged."
     }
   ]
 }
