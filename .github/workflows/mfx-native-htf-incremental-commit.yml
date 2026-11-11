@@ -1,12 +1,19 @@
-name: MFX P0.59 MANUAL Staged Incremental Native H4+D1 Drive Writer (NO trading)
+name: MFX P0.64 Hourly Native H4+D1 Incremental Drive Writer (NO trading)
 
+# Owner approval: hourly unattended cache checks. Manual dispatch remains
+# available. GitHub schedule is UTC, best effort; native TF eligibility
+# and API credits are checked independently in Python on every run.
 on:
+  schedule:
+    - cron: "25 * * * *"
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# Existing manual writer/M5 auditor/writer/P0.58 reader share this lock.
+# Existing M5 writer (:10), read-only M5 audit (:35), native audit (:45)
+# and manual native runs share the SAME lock. No overlapping Drive writes.
+# cancel-in-progress=false protects two-object Chunk+Manifest append.
 concurrency:
   group: mfx-twelvedata-private-cache
   cancel-in-progress: false
