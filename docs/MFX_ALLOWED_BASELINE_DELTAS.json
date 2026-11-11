@@ -35,6 +35,12 @@
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
     },
     {
+      "path": ".github/workflows/mfx-m5-h4-parity-readonly.yml",
+      "change": "added",
+      "expected_current_sha": "1d39ca1fa2fd8b49c9b979c1c86a462bf47a634c",
+      "reason": "P0.66 owner-approved GitHub hosted push+daily 00:55 UTC+manual read-only source parity audit using existing 3 Google Drive gates and shared non-cancellable lock, no Twelve Data API key/writes/signals; initial live evidence distinct from code CI."
+    },
+    {
       "path": ".github/workflows/mfx-native-htf-cache-audit.yml",
       "change": "added",
       "expected_current_sha": "4fbbb61a4315196292a3011b14d711013036a2ea",
@@ -669,6 +675,12 @@
       "change": "added",
       "expected_current_sha": "4735441827b13e490cf0edc1679bbaab306c9d57",
       "reason": "A04/P0.65 owner-approved but NON-ACTIVATED M5-derived H4 shadow research with 48 closed UTC M5 per H4, strict native EUR/USD MID H4 numeric parity and fail-closed missing/changed inputs. Documentation and acceptance gates; no real Drive/source requests, scheduled workflow change, frozen Forex src, D1 derivation, broker or numeric signal promotion."
+    },
+    {
+      "path": "docs/MFX_A04_P66_LIVE_READONLY_H4_SOURCE_PARITY.md",
+      "change": "added",
+      "expected_current_sha": "2f9b6f35a9cbdfe8efca67e42cd01dda5dbd7132",
+      "reason": "P0.66 read-only M5-vs-native H4 archive SHA and OHLC comparison runbook, bounded 256-hour full M5 proof, 30+ complete H4 and >=7d observation, separate owner-gated cutover and D1 native unchanged."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1360,6 +1372,12 @@
       "reason": "A04/P0.65 hermetic positive/negative H4 shadow tests: 48-M5 required, incomplete gap/UTC alignment/revisions, two windows, native MID parity equality/mismatch/missing, provenance, no D1 M5 promotion, no price/network/Drive/broker actions."
     },
     {
+      "path": "tests/test_a04_p66_readonly_m5_h4_live_parity.py",
+      "change": "added",
+      "expected_current_sha": "06882e6b85ab7caa28f406148e212992c4933a8f",
+      "reason": "P0.66 20 fake-Drive hermetic tests validate full SHA chain, derived fields, orphan/history tamper, H4 MID mismatch/missing, time-bound observation and fail-closed no-broker no-write workflow."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1862,6 +1880,12 @@
       "change": "added",
       "expected_current_sha": "9ae58743809913bc434129d19903597dd18852fc",
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
+    },
+    {
+      "path": "tools/run_mfx_m5_h4_live_parity_audit.py",
+      "change": "added",
+      "expected_current_sha": "50537b54e181abd58ac83f5e8f1b7e8067c41e7f",
+      "reason": "P0.66 source-independent authenticated Drive read-only cross-hour full bounded M5 Chain and native H4 sealed source comparison; zero provider price requests, Drive writes, numeric signals, broker; no production H4/D1 promotion."
     },
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",

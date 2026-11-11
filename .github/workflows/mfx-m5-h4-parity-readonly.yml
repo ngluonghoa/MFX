@@ -1,0 +1,50 @@
+name: MFX P0.66 M5-to-Native-H4 READ-ONLY SHA Parity (NO vendor/trading)
+
+# Owner-approved M5-first H4 research: inspect only app-owned existing
+# immutable Google Drive archives. Once after merges affecting the auditor,
+# daily read-only observation, plus manual fallback. No source-price API calls.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/run_mfx_m5_h4_live_parity_audit.py"
+      - "mfx_cache/h4_shadow.py"
+      - ".github/workflows/mfx-m5-h4-parity-readonly.yml"
+  schedule:
+    - cron: "55 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Coordinate with M5 :10, H4/D1 :25, read-only audits :35/:45.
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  readonly-h4-shadow-parity:
+    if: ${{ vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V2_BATCH_CACHE_ACCEPTED == 'true' && vars.MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout protected MFX source (read only)
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install pinned OAuth private Drive HTTPS requirements
+        run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
+      - name: Read full bounded M5 and native H4 SHA archives, compare OHLC without prices or writes
+        env:
+          PYTHONPATH: src:.
+          MFX_REAL_CACHE_ENABLED: "true"
+          MFX_V2_BATCH_CACHE_ACCEPTED: "true"
+          MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED: "true"
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+          MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
+          MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
+        run: python -m tools.run_mfx_m5_h4_live_parity_audit
