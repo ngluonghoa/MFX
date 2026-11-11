@@ -689,6 +689,12 @@
       "reason": "A04/P0.67 real P0.66 M5/H4 zero-vendor SHA parity audit findings and :04 skipped delayed M5 writer operational bug trace, owner-approved safety fix, separate real postmerge source/cache acceptance and rollback."
     },
     {
+      "path": "docs/MFX_A04_P68_H4_EDGE_PARTIAL_PARITY_QUALIFICATION.md",
+      "change": "added",
+      "expected_current_sha": "514c71775f5595752249ceda55bce0e2a87f4f61",
+      "reason": "A04/P0.68 real P0.66 root 18UTC inside H4 16UTC permanent-veto bug and exact boundary-vs-interior partial remediation, strict source parity observation acceptance and no automatic H4 native reduction."
+    },
+    {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
       "change": "added",
       "reason": "A01/P0.1 self-reference without SHA to avoid impossible hash cycle"
@@ -1390,6 +1396,12 @@
       "reason": "A04/P0.67 15 pure delayed-cron UTC grace and overdue batch source-recovery tests, clock validation, no-future commit, parent SHA, no-source broker schedule and legacy bootstrap behavior."
     },
     {
+      "path": "tests/test_a04_p68_h4_boundary_partial_qualification.py",
+      "change": "added",
+      "expected_current_sha": "1e0a9208ed8c7956ede765d5d5f94c2724ca70fd",
+      "reason": "A04/P0.68 six hermetic tests for M5 source initial/trailing partial 4h windows, 47 consecutive fully matching H4 across >=7day observation, interior source hole fail-closed, H4 native mismatch/missing fail-closed, no OHLC leakage, no cutover approval."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1896,8 +1908,8 @@
     {
       "path": "tools/run_mfx_m5_h4_live_parity_audit.py",
       "change": "added",
-      "expected_current_sha": "50537b54e181abd58ac83f5e8f1b7e8067c41e7f",
-      "reason": "P0.66 source-independent authenticated Drive read-only cross-hour full bounded M5 Chain and native H4 sealed source comparison; zero provider price requests, Drive writes, numeric signals, broker; no production H4/D1 promotion."
+      "expected_current_sha": "cbf55410f0bc99612466342b533ece97b6794e0a",
+      "reason": "P0.66 source-independent authenticated Drive read-only cross-hour full bounded M5 Chain and native H4 sealed source comparison; zero provider price requests, Drive writes, numeric signals, broker; no production H4/D1 promotion. P0.68 correct partial archive-edge H4 comparison qualification: skip incomplete first/last UTC 4h windows from candidate-domain veto, keep every skipped window visible and FAIL CLOSED on interior holes/nonconsecutive grids/native mismatch; no source/write/schedule/trade change."
     },
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",
