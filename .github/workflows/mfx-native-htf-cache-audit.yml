@@ -1,0 +1,43 @@
+name: MFX P0.58 Hourly READ-ONLY Native H4+D1 Full SHA Audit (NO vendor/trading)
+
+on:
+  schedule:
+    - cron: "45 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Cross-workflow coordination: native writer, M5 V2 and M5 audit.
+# Google Drive has no multi-object CAS; avoid mid-commit reads.
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  native-htf-readonly-audit:
+    # Reuse already owner-enabled gates. Audit never writes prices or Drive.
+    if: ${{ vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V2_BATCH_CACHE_ACCEPTED == 'true' && vars.MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - name: Checkout protected MFX main (read-only)
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install pinned Drive OAuth/HTTPS requirements
+        run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
+      - name: Full sealed H4+D1 SHA/parent audit; report lag without vendor requests or writes
+        env:
+          PYTHONPATH: src:.
+          MFX_REAL_CACHE_ENABLED: "true"
+          MFX_V2_BATCH_CACHE_ACCEPTED: "true"
+          MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED: "true"
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+          MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
+          MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
+        run: python -m tools.run_mfx_native_htf_cache_audit
