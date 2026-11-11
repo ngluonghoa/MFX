@@ -80,6 +80,10 @@ def _bar_valid(bar: NativeFXBar, *, symbol: str, interval: str, zone: str) -> No
             if (timestamp.strftime("%Y-%m-%d %H:%M:%S") !=
                     bar.native_open_label or timestamp.minute or timestamp.second):
                 raise ValueError("P054_BAD_H4_LABEL")
+            # Apply to EVERY SHA-sealed native H4 row, not only latest
+            # manifest label. A mixed on/off-grid batch must fail closed.
+            if timestamp.hour % 4:
+                raise ValueError("P061_H4_UTC_4H_GRID_REQUIRED")
         else:
             d = date.fromisoformat(bar.native_open_label)
             if d.isoformat() != bar.native_open_label:
