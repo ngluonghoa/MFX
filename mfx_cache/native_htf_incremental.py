@@ -22,6 +22,12 @@ EXCHANGE_ZONE = "Australia/Sydney"
 NATIVE_INTERVALS = ("4h", "1day")
 MIN_OVERLAP_WINDOW = 24
 EXTRA_SAFETY_ROWS = 4
+# Twelve Data documents a typical REST candle publication delay of 0.3-2 min.
+# Wait a conservative additional 15s after the upper end before even making
+# a provider price request. This is an optimization, NOT a finality guarantee.
+# Keep parser H4_CLOSE_GRACE independent: historical validation still filters
+# source bars, and an occasionally stale provider answer still fails safe.
+SOURCE_PUBLICATION_BUFFER = timedelta(minutes=2, seconds=15)
 
 
 @dataclass(frozen=True, slots=True)
@@ -51,8 +57,10 @@ def plan_native_fetch(
         check_native_manifest(
             previous,symbol=SYMBOL,interval=interval,zone=EXCHANGE_ZONE)
     if interval == "4h":
-        # An actual source H4 may not be finalized at the exact boundary.
-        safe = now_utc-H4_CLOSE_GRACE
+        # Avoid paying for H4 provider calls at the instant of candle
+        # close. REST bars commonly appear up to ~2 minutes later; the
+        # buffer also exceeds the parser's strict minimum close grace.
+        safe = now_utc-max(H4_CLOSE_GRACE,SOURCE_PUBLICATION_BUFFER)
         current = safe.replace(hour=(safe.hour//4)*4,minute=0,
                                second=0,microsecond=0)
         expected = current-timedelta(hours=4)
@@ -66,8 +74,12 @@ def plan_native_fetch(
         behind = (int((expected-last)//timedelta(hours=4))
                   if last is not None else 0)
     else:
-        expected_day = now_utc.astimezone(
-            ZoneInfo(EXCHANGE_ZONE)).date()-timedelta(days=1)
+        # Delay a new Sydney-local day until its preceding D1 candle
+        # has had a conservative chance to publish. Subtract from UTC
+        # BEFORE timezone conversion; this handles DST transitions.
+        ready_local_day = (now_utc-SOURCE_PUBLICATION_BUFFER).astimezone(
+            ZoneInfo(EXCHANGE_ZONE)).date()
+        expected_day = ready_local_day-timedelta(days=1)
         expected_label = expected_day.isoformat()
         last_day = (date.fromisoformat(previous["last_native_open_label"])
                     if previous is not None else None)
