@@ -35,6 +35,12 @@
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
     },
     {
+      "path": ".github/workflows/mfx-native-htf-cache-audit.yml",
+      "change": "added",
+      "expected_current_sha": "4fbbb61a4315196292a3011b14d711013036a2ea",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run."
+    },
+    {
       "path": ".github/workflows/mfx-native-htf-drive-commit.yml",
       "change": "added",
       "expected_current_sha": "f841b2ae6f897fd8260b4f4030859de363339c42",
@@ -603,6 +609,12 @@
       "change": "added",
       "expected_current_sha": "7f7953cca3921d23658e1dcc13d229066808ece7",
       "reason": "A04/P0.57 authenticated GitHub manual H4/D1 failed #42960645079 at P055_NATIVE_DRIVE_WRONG_OBJECT_SCOPE after one real sealed H4 Chunk/Manifest was created. This evidence-based recovery report records partial H4 object IDs, existing M5 isolation, D1 not present, uncertainty about exact unexpected item metadata, staged fail-closed per-namespace list fix and independent main/real Drive acceptance requirements. No production native D1 acceptance or broker/BUY SELL."
+    },
+    {
+      "path": "docs/MFX_A04_P58_NATIVE_HTF_READONLY_AUDIT_RUNBOOK.md",
+      "change": "added",
+      "expected_current_sha": "f01d8e704d65fda7f6817de945a58baf291a3187",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1234,6 +1246,12 @@
       "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending. CI mock portability correction: fake _drive_get/_drive_create callbacks explicitly accept AuthorizedSession as the first parameter. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report. A04/P0.57 REAL GitHub manual run #42960645079 failed in list_names after partially sealing one H4 pair. Narrow folder-query/client exact native-prefix isolation, tolerate optional missing parents but reject explicit wrong parent/native MIME, preserve strict SHA/parent chain and cross-TF idempotency. Three additional offline tests and manual-only live acceptance pending."
     },
     {
+      "path": "tests/test_a04_p58_native_htf_cache_audit.py",
+      "change": "added",
+      "expected_current_sha": "c11ac6696c7b239f9f5033cdb614afafae79384f",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1736,6 +1754,12 @@
       "change": "added",
       "expected_current_sha": "9ae58743809913bc434129d19903597dd18852fc",
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
+    },
+    {
+      "path": "tools/run_mfx_native_htf_cache_audit.py",
+      "change": "added",
+      "expected_current_sha": "70122d4e77dd0d29084d8044a7b96aeb7f90373d",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run."
     },
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",
