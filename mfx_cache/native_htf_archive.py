@@ -80,16 +80,17 @@ def _bar_valid(bar: NativeFXBar, *, symbol: str, interval: str, zone: str) -> No
             if (timestamp.strftime("%Y-%m-%d %H:%M:%S") !=
                     bar.native_open_label or timestamp.minute or timestamp.second):
                 raise ValueError("P054_BAD_H4_LABEL")
-            # Apply to EVERY SHA-sealed native H4 row, not only latest
-            # manifest label. A mixed on/off-grid batch must fail closed.
-            if timestamp.hour % 4:
-                raise ValueError("P061_H4_UTC_4H_GRID_REQUIRED")
         else:
             d = date.fromisoformat(bar.native_open_label)
             if d.isoformat() != bar.native_open_label:
                 raise ValueError("P054_BAD_D1_LABEL")
     except (ValueError, TypeError) as exc:
         raise ValueError("P054_BAD_NATIVE_LABEL") from exc
+    # This validation intentionally occurs AFTER the timestamp parse
+    # exception wrapper, preserving the specific fail-closed P061 reason.
+    # Apply to EVERY SHA-sealed bar, not only the last manifest label.
+    if interval == "4h" and timestamp.hour % 4:
+        raise ValueError("P061_H4_UTC_4H_GRID_REQUIRED")
     values: list[Decimal] = []
     for val in (bar.open, bar.high, bar.low, bar.close):
         if type(val) is not str:
