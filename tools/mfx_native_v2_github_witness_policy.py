@@ -8,7 +8,7 @@ git push, permissions update, credentials, secrets, or Drive writes.
 """
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 import re
 from typing import Any
 
