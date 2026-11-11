@@ -12,6 +12,7 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch, PROVIDER
+from mfx_cache.native_htf_incremental import SOURCE_PUBLICATION_BUFFER
 from mfx_cache.native_htf_archive import (
     MAX_BATCH_BARS, _axis, _bar_valid, _stamp,
 )
@@ -25,7 +26,7 @@ from tools.mfx_native_shard_v2_design import (
 SCHEMA = "MFX_A04_P75_NATIVE_V2_SHARD_SEALED_RESEARCH_V1"
 MAX_PAIRS_PER_SHARD = 64
 MAX_RESEARCH_SHARDS = 8
-PUBLICATION_BUFFER = timedelta(minutes=2, seconds=15)
+PUBLICATION_BUFFER = SOURCE_PUBLICATION_BUFFER  # exact P0.59/P0.71 writer guard
 SHA_CHARS = frozenset("0123456789abcdef")
 
 
