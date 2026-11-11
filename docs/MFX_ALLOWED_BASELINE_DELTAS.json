@@ -2040,7 +2040,7 @@
     {
       "path": "tools/mfx_native_v2_shard_chain.py",
       "change": "added",
-      "expected_current_sha": "dc37d6ba6c0d63b0f54b798bd1ee0cb1b83cb78c",
+      "expected_current_sha": "8ce521be6a831738794f4c004bb8432fc16d3b21",
       "reason": "A04/P0.75 pure hermetic full SHA/parent and cross-shard H4/D1 V2 pair planning/read-only audit; V1 256 hard cap, 135-second native close grace, caller-provided untrusted expected head, no Drive adapter/real price/vendor/trading."
     },
     {
