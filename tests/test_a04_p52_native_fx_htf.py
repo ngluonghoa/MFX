@@ -127,11 +127,37 @@ class P052NativeForexTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"TIMEZONE_CONTRACT"):
             parse(vendor("1day",[bar("2026-11-10")]),interval="1day")
 
-    def test_12_exchange_timezone_missing_rejected(self) -> None:
+    def test_12_documented_forex_default_is_explicit_provenance(self) -> None:
         data=vendor("1day",[bar("2026-11-10")])
         data["meta"].pop("exchange_timezone") # type: ignore[union-attr]
+        result=parse(data,interval="1day",timezone_request=None)
+        self.assertEqual(result.exchange_timezone,"Australia/Sydney")
+        self.assertEqual(len(result.closed_bars),1)
+        self.assertEqual(result.closed_bars[0].exchange_timezone_origin,
+                         "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT")
+        self.assertEqual(result.closed_bars[0].time_reference,
+                         "EXCHANGE_LOCAL_SESSION_DATE")
+
+    def test_28_intraday_missing_exchange_zone_is_explicit_not_utc_zone(self) -> None:
+        data=vendor("4h",[bar("2026-11-10 12:00:00")])
+        data["meta"].pop("exchange_timezone") # type: ignore[union-attr]
+        result=parse(data)
+        self.assertEqual(result.exchange_timezone,"Australia/Sydney")
+        self.assertEqual(result.time_reference,"UTC_INTRADAY_OPEN")
+        self.assertEqual(result.closed_bars[0].exchange_timezone_origin,
+                         "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT")
+
+    def test_29_non_eurusd_missing_exchange_zone_fails_closed(self) -> None:
+        data=vendor("1day",[bar("2026-11-10")],symbol="GBP/USD")
+        data["meta"].pop("exchange_timezone") # type: ignore[union-attr]
         with self.assertRaisesRegex(ValueError,"EXCHANGE_TIMEZONE_REQUIRED"):
-            parse(data,interval="1day",timezone_request=None)
+            parse(data,interval="1day",symbol="GBP/USD",timezone_request=None)
+
+    def test_30_explicit_bad_exchange_zone_never_uses_default(self) -> None:
+        data=vendor("4h",[bar("2026-11-10 12:00:00")],
+                    exchange_timezone="Invalid/Zone")
+        with self.assertRaisesRegex(ValueError,"INVALID_EXCHANGE_TIMEZONE"):
+            parse(data)
 
     def test_13_invalid_iana_zone_rejected(self) -> None:
         data=vendor("1day",[bar("2026-11-10")],

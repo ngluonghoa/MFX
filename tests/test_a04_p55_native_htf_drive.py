@@ -374,5 +374,32 @@ class P055NativeHTFDriveTests(unittest.TestCase):
         self.assertNotIn("run_mfx_native_htf_drive_commit",m5)
 
 
+    def test_23_documented_zone_origin_survives_sealed_drive_readback(self) -> None:
+        b=native("1day")
+        b=replace(b,closed_bars=tuple(
+            replace(row,exchange_timezone_origin=
+                    "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT")
+            for row in b.closed_bars))
+        receipt=commit_native_batch(self.store("1day"),b)
+        self.assertEqual(receipt.status,"NATIVE_BATCH_COMMITTED")
+        state=audit_native_archive(
+            self.store("1day"),symbol="EUR/USD",interval="1day")
+        self.assertEqual(state.manifest_count,1)
+        chunk=self.store("1day").read(
+            "chunk",state.last_manifest["chunk_name"])
+        self.assertEqual(
+            chunk["bars"][0]["exchange_timezone_origin"],
+            "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT")
+
+    def test_24_unverified_zone_origin_denied_before_drive_mutation(self) -> None:
+        b=native("4h")
+        b=replace(b,closed_bars=(
+            replace(b.closed_bars[0],exchange_timezone_origin="GUESS"),
+            b.closed_bars[1]))
+        with self.assertRaisesRegex(ValueError,"TIMEZONE_PROVENANCE_INVALID"):
+            commit_native_batch(self.store(),b)
+        self.assertEqual(self.fake.writes,0)
+
+
 if __name__=="__main__":
     unittest.main()

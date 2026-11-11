@@ -40,6 +40,7 @@ class NativeFXBar:
     source: str = PROVIDER
     price_side: str = "MID"
     is_provider_native: bool = True
+    exchange_timezone_origin: str = "PROVIDER_META"
     source_numeric_strategy_approved: bool = False
     broker_orders: int = 0
 
@@ -125,7 +126,19 @@ def parse_native_forex(
         raise ValueError("P052_VENDOR_META_INTERVAL_OR_ROWS_MISMATCH")
 
     exchange_timezone = meta.get("exchange_timezone")
-    if type(exchange_timezone) is not str or not exchange_timezone:
+    timezone_origin = "PROVIDER_META"
+    if exchange_timezone is None or exchange_timezone == "":
+        # Twelve Data documents Australia/Sydney as the default Forex
+        # exchange timezone. Its real EUR/USD response can omit the field.
+        # This narrow EUR/USD-only fallback is explicitly provenance-marked
+        # in the SHA-covered native candle, NOT represented as vendor meta.
+        if (symbol == "EUR/USD" and meta.get("type") in
+                ("Physical Currency", "Forex")):
+            exchange_timezone = "Australia/Sydney"
+            timezone_origin = "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT"
+        else:
+            raise ValueError("P052_EXCHANGE_TIMEZONE_REQUIRED")
+    elif type(exchange_timezone) is not str:
         raise ValueError("P052_EXCHANGE_TIMEZONE_REQUIRED")
     try:
         local_zone = ZoneInfo(exchange_timezone)
@@ -177,6 +190,7 @@ def parse_native_forex(
             symbol=symbol, interval=interval, native_open_label=label,
             time_reference=axis, exchange_timezone=exchange_timezone,
             open=str(o), high=str(hi), low=str(lo), close=str(c),
+            exchange_timezone_origin=timezone_origin,
         ))
     closed.sort(key=lambda bar: bar.native_open_label)
     return NativeFXBatch(
