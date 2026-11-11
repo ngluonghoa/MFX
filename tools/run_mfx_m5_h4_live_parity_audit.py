@@ -179,18 +179,25 @@ def audit_live_m5_h4_parity(
     spans_week = bool(labels) and labels[-1]-labels[0] >= MIN_SPAN
     enough_windows = len(labels) >= MIN_PARITY_WINDOWS
     no_mismatch = observed.mismatches == 0 and observed.missing_native == 0
+    # The M5 archive may begin/end in the MIDDLE of an H4 window. These
+    # boundary partials are not a historical source hole: exclude them
+    # from the qualification interval without fabricating their candles.
+    # A missing 48-M5 H4 window BETWEEN two fully sealed windows remains
+    # an interior hole and must block qualification.
+    skipped = tuple(datetime.fromisoformat(s)
+                    for s in shadow.skipped_incomplete_windows)
+    interior_skipped = tuple(s for s in skipped if labels
+                             and labels[0] <= s <= labels[-1])
+    boundary_skipped = len(skipped) - len(interior_skipped)
     sufficient = (complete_chain and spans_week and enough_windows
-                  and no_mismatch
-                  and not shadow.skipped_incomplete_windows)
+                  and no_mismatch and not interior_skipped)
     # P0.65's "fully_verified" remains FALSE by design. This audit
     # verifies archived sources, NOT account license, broker or cutover.
     status = (
         "SOURCE_PARITY_REVIEW_REQUIRED"
         if not no_mismatch else
         "INCOMPLETE_M5_WINDOWS_REVIEW_REQUIRED"
-        if not complete_chain or (
-            shadow.skipped_incomplete_windows
-            and enough_windows) else
+        if not complete_chain or interior_skipped else
         "SOURCE_PARITY_WINDOW_MET_OWNER_CUTOVER_STILL_DENIED"
         if sufficient else
         "OBSERVATION_WINDOW_NOT_YET_QUALIFIED"
@@ -205,6 +212,10 @@ def audit_live_m5_h4_parity(
         **m5_evidence, **native_evidence,
         "m5_h4_complete_windows": len(observed.rows),
         "m5_h4_incomplete_windows": len(shadow.skipped_incomplete_windows),
+        "m5_h4_boundary_partial_windows": boundary_skipped,
+        "m5_h4_interior_incomplete_windows": len(interior_skipped),
+        "m5_h4_interior_incomplete_samples_utc": [
+            stamp.isoformat() for stamp in interior_skipped[:8]],
         "m5_h4_incomplete_window_samples_utc":
             list(shadow.skipped_incomplete_windows[:8]),
         "h4_compared_match": observed.matches,
