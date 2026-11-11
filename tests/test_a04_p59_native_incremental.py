@@ -140,10 +140,11 @@ class P059Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"UNSUPPORTED_NATIVE"):
             plan_native_fetch(interval="5min",previous=None,now_utc=NOW)
 
-    def test_15_h4_wrong_grid_previous_denied(self) -> None:
-        with self.assertRaisesRegex(ValueError,"OFF_GRID"):
-            plan_native_fetch(interval="4h",
-                previous=root("4h",("2026-11-10 21:00:00",)),now_utc=NOW)
+    def test_15_h4_wrong_grid_source_denied_before_plan(self) -> None:
+        # P0.61 refuses to seal an off-grid root at all. Previously this
+        # test deliberately forged an off-grid root for the planner.
+        with self.assertRaisesRegex(ValueError,"H4_UTC_4H_GRID_REQUIRED"):
+            root("4h",("2026-11-10 21:00:00",))
 
     def test_16_source_exact_overlap_plus_new_valid(self) -> None:
         m=root("4h",H4)
