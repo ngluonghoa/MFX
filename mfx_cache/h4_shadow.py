@@ -117,17 +117,17 @@ def _native_index(bars: tuple[NativeFXBar, ...]) -> dict[str, NativeFXBar]:
             raise ValueError("P065_NATIVE_SCOPE_OR_PROVENANCE_INVALID")
         try:
             stamp = datetime.strptime(bar.native_open_label, "%Y-%m-%d %H:%M:%S")
-            if (stamp.strftime("%Y-%m-%d %H:%M:%S") != bar.native_open_label
-                    or stamp.hour % 4):
-                raise ValueError("P065_NATIVE_H4_UTC_GRID_INVALID")
             vals = tuple(Decimal(getattr(bar, f)) for f in
                          ("open", "high", "low", "close"))
-            o, hi, lo, c = vals
-            if (any(not x.is_finite() or x <= 0 for x in vals)
-                    or lo > min(o, c) or hi < max(o, c) or hi < lo):
-                raise ValueError("P065_NATIVE_OHLC_INVALID")
         except (TypeError, ValueError, ArithmeticError) as exc:
             raise ValueError("P065_NATIVE_LABEL_OR_OHLC_INVALID") from exc
+        if (stamp.strftime("%Y-%m-%d %H:%M:%S") != bar.native_open_label
+                or stamp.hour % 4):
+            raise ValueError("P065_NATIVE_H4_UTC_GRID_INVALID")
+        o, hi, lo, c = vals
+        if (any(not x.is_finite() or x <= 0 for x in vals)
+                or lo > min(o, c) or hi < max(o, c) or hi < lo):
+            raise ValueError("P065_NATIVE_OHLC_INVALID")
         if previous is not None and bar.native_open_label <= previous:
             raise ValueError("P065_DUPLICATE_OR_UNSORTED_NATIVE_H4")
         result[bar.native_open_label] = bar
