@@ -643,8 +643,8 @@
     {
       "path": "docs/MFX_A04_P61_NATIVE_H4_UTC_GRID_AND_DUE_PATH_QA.md",
       "change": "added",
-      "expected_current_sha": "d860e91f923f002bd8e4b4e981efcac09845baf9",
-      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
+      "expected_current_sha": "30b21afb47aaac40588df259975da759b202aea5",
+      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -685,13 +685,13 @@
       "path": "mfx_cache/native_fx_htf.py",
       "change": "added",
       "expected_current_sha": "ba4349e3706a708c5c2dbbdb53445f214e6eb07c",
-      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
+      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
     },
     {
       "path": "mfx_cache/native_htf_archive.py",
       "change": "added",
-      "expected_current_sha": "0378f2a7f0a127f2716d7a8527d1f3f225e76a65",
-      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
+      "expected_current_sha": "7e9762e399ef8c5c896ad6ad75bfdd31b8edba2c",
+      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
     },
     {
       "path": "mfx_cache/native_htf_incremental.py",
@@ -1272,8 +1272,8 @@
     {
       "path": "tests/test_a04_p54_native_htf_archive.py",
       "change": "added",
-      "expected_current_sha": "074d75564f95f076c618a0ffcfb9acbcda94a7f6",
-      "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen. A04/P0.56 real GitHub Actions H4/D1 native metadata repair: documented EUR/USD Forex default Australia/Sydney only when meta.exchange_timezone absent/null/empty, explicit origin SHA-sealed per native bar, provider-supplied origin distinct; invalid explicit zones/other pairs still fail-closed. No M5 source, schedule, broker or activation gate changes; new tests and source-evidence report."
+      "expected_current_sha": "b25f76b02b6216613565ca84789f67526da8fa84",
+      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
     },
     {
       "path": "tests/test_a04_p55_native_htf_drive.py",
@@ -1284,14 +1284,14 @@
     {
       "path": "tests/test_a04_p58_native_htf_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "c11ac6696c7b239f9f5033cdb614afafae79384f",
-      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run."
+      "expected_current_sha": "9e5ce9c68d4da7b3e1fbec5c96561241d3e6b310",
+      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
     },
     {
       "path": "tests/test_a04_p59_native_incremental.py",
       "change": "added",
       "expected_current_sha": "c43732b93792d0ed1abcf9837a022ea04f89e905",
-      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
+      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
     },
     {
       "path": "tests/test_a04_p60_native_preview_receipts.py",
@@ -1303,7 +1303,7 @@
       "path": "tests/test_a04_p61_native_h4_grid_and_due_path.py",
       "change": "added",
       "expected_current_sha": "2eefea777ce552ec4fd5bfbd82926cc6e82e9d5f",
-      "reason": "A04/P0.61 harden source-native EUR/USD H4 UTC four-hour open-label grid in BOTH provider parser and immutable per-bar sealed archive verifier; independently inspected all 119 prior real Drive H4 labels and found 0 off-grid; 16 hermetic full P0.59 due-path scenarios (quota, SHA revision, source-stale truth, two series atomic prevalidation, orphan and race) plus adapted P0.59 off-grid fixture. Original Forex source 102 blobs, M5, P0.58 hourly audit, P0.60 read-only preview and P0.59 manual separate gate unchanged; no live incremental write."
+      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
     },
     {
       "path": "tests/test_a04_plugin_contracts.py",
