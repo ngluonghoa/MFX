@@ -78,9 +78,10 @@ class FakeGetOnlySession:
             items=[
                 {k:v for k,v in obj.items() if k != "body"}
                 for obj in self.rows.values()
-                if folder in obj["parents"] and prefix in obj["name"]
+                if folder in obj.get("parents", []) and prefix in obj["name"]
             ]
-            items.extend(deepcopy(self.force_extra))
+            if folder == MANIFEST_FOLDER:
+                items.extend(deepcopy(self.force_extra))
             token=params.get("pageToken")
             start=int(token) if token and token.isdigit() else 0
             if self.force_repeated_token:
@@ -226,17 +227,20 @@ class A04P077DriveReadOnlyTests(TestCase):
         next(iter(p[0].rows.values()))["parents"]=["otherparent"]
         # Server folder filter ordinarily prevents discovery. Simulate a
         # malicious or malformed Drive list item returned despite query.
-        fake=next(iter(p[0].rows.values()))
+        fake=next(v for v in p[0].rows.values()
+                  if "_manifest_" in v["name"])
+        fake["parents"]=["otherparent"]
         p[0].force_extra=[{k:v for k,v in fake.items() if k != "body"}]
         with self.assertRaisesRegex(ValueError,"OBJECT_METADATA_UNSAFE"):
             audit(p)
 
     def test_11_missing_parent_denied(self):
         p=prepared()
-        row=next(iter(p[0].rows.values()))
+        row=next(v for v in p[0].rows.values()
+                 if "_manifest_" in v["name"])
         row.pop("parents")
-        with self.assertRaisesRegex((ValueError,KeyError),
-                                    "OBJECT_METADATA_UNSAFE|parents"):
+        p[0].force_extra=[{k:v for k,v in row.items() if k != "body"}]
+        with self.assertRaisesRegex(ValueError,"OBJECT_METADATA_UNSAFE"):
             audit(p)
 
     def test_12_oversize_and_zero_size_denied(self):
