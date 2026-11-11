@@ -13,7 +13,7 @@ OPEN = datetime(2026, 11, 11, 16, 0, tzinfo=UTC)
 
 def sample(**kw):
     base = M5LagObservation(
-        audit_at_utc=OPEN + timedelta(minutes=12),
+        audit_at_utc=OPEN + timedelta(minutes=13),
         last_closed_bar_open_utc=OPEN,
         expected_closed_bar_open_utc=OPEN + timedelta(minutes=5),
         manifest_pairs=21, closed_bars=252,
