@@ -2054,6 +2054,24 @@
       "change": "added",
       "expected_current_sha": "135b57b7d01d0353431ab8d427e99566d9162b01",
       "reason": "A04/P0.75 research-only V2 shard integrity/rollback threat model; explicitly no trusted head witness, production CAS/lease, cloud migration, vendor licensing, source numeric signals, HOT or broker changes."
+    },
+    {
+      "path": "tools/mfx_native_v2_witness_draft.py",
+      "change": "added",
+      "expected_current_sha": "95053208326ed77211441666909315ee6af0e320",
+      "reason": "A04/P0.76 OFFLINE ONLY native V2 in-memory witness draft SHA validation, caller-supplied prior digest, strict forward-only record generation and full V2 historic prefix check. No cryptographic external attestation, price/vendor/Drive writes or broker."
+    },
+    {
+      "path": "tests/test_a04_p76_witness_draft.py",
+      "change": "added",
+      "expected_current_sha": "27199e88c498e3771f86c93667327333def7c583",
+      "reason": "A04/P0.76 twenty hermetic tests for source SHA root/pin mismatch, shortened data, generation rollback, forged independent attestation flags, cross-shard H4 and Sydney D1, and unchanged V1 native workflow. No live auth or store."
+    },
+    {
+      "path": "docs/MFX_A04_P76_EXTERNAL_PIN_WITNESS_DRAFT.md",
+      "change": "added",
+      "expected_current_sha": "57e80b1f8cc4c2ed8aed08edc6b3daef9cb55b74",
+      "reason": "A04/P0.76 independent antirollback trust-boundary design and NO-GO on live V2. Requires separate durable external trust anchor, signature/authority, CAS/lease/recovery and owner approval."
     }
   ]
 }
