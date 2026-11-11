@@ -112,10 +112,12 @@ class P055NativeHTFDriveTests(unittest.TestCase):
         self.fake=FakeDrive()
         self.p_create=patch(
             "tools.mfx_native_htf_drive_seal._drive_create",
-            side_effect=self.fake.create)
+            side_effect=lambda session, folder, name, body:
+                self.fake.create(folder,name,body))
         self.p_read=patch(
             "tools.mfx_native_htf_drive_seal._drive_get",
-            side_effect=self.fake.read)
+            side_effect=lambda session, ident:
+                self.fake.read(ident))
         self.p_create.start()
         self.p_read.start()
         self.addCleanup(self.p_create.stop)
