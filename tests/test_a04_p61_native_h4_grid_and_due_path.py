@@ -7,7 +7,6 @@ source-stale valid receipt, changing parent and incomplete/orphan preflight.
 from __future__ import annotations
 
 from contextlib import ExitStack, redirect_stdout
-from dataclasses import asdict
 from datetime import datetime, timezone
 from io import StringIO
 from unittest import TestCase
@@ -280,7 +279,8 @@ class NativeP061QA(TestCase):
         # it is not closed until 12:00:15 UTC. Only 04:00 can append.
         got=parse_native_forex(
             envelope("4h",H4+(H4_NEW,"2026-11-11 08:00:00")),
-            symbol="EUR/USD",interval="4h",now_utc=NOW,
+            symbol="EUR/USD",interval="4h",
+            now_utc=datetime(2026,11,11,9,15,tzinfo=UTC),
             requested_timezone="UTC")
         self.assertEqual(got.incomplete_excluded,1)
         self.assertEqual(got.closed_bars[-1].native_open_label,H4_NEW)
