@@ -271,5 +271,39 @@ class P054NativeHTFArchiveTests(unittest.TestCase):
             _name("chunk","EUR/USD","1day",D1_LABELS[0],x))
 
 
+    def test_31_documented_timezone_origin_is_in_sha_sealed_chunk(self) -> None:
+        base=make_batch("1day")
+        from dataclasses import replace
+        changed=replace(base,closed_bars=tuple(
+            replace(row,exchange_timezone_origin=
+                    "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT")
+            for row in base.closed_bars))
+        a=plan_native_sealed(base,previous=None)
+        b=plan_native_sealed(changed,previous=None)
+        assert a and b
+        verify_native_sealed(b,previous=None)
+        self.assertNotEqual(a.chunk_sha256,b.chunk_sha256)
+        self.assertEqual(
+            b.chunk["bars"][0]["exchange_timezone_origin"],
+            "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT")
+
+    def test_32_fallback_timezone_origin_other_pair_rejected(self) -> None:
+        x=make_batch(symbol="GBP/USD")
+        x=replace(x,closed_bars=tuple(
+            replace(bar,exchange_timezone_origin=
+                    "DOCUMENTED_TWELVE_DATA_FOREX_DEFAULT")
+            for bar in x.closed_bars))
+        with self.assertRaisesRegex(ValueError,"TIMEZONE_PROVENANCE_INVALID"):
+            plan_native_sealed(x,previous=None)
+
+    def test_33_unrecognized_provenance_must_fail_closed(self) -> None:
+        x=make_batch()
+        x=replace(x,closed_bars=(
+            replace(x.closed_bars[0],exchange_timezone_origin="UNVERIFIED"),
+            x.closed_bars[1]))
+        with self.assertRaisesRegex(ValueError,"TIMEZONE_PROVENANCE_INVALID"):
+            plan_native_sealed(x,previous=None)
+
+
 if __name__=="__main__":
     unittest.main()
