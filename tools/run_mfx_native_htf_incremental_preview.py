@@ -17,6 +17,7 @@ from mfx_cache.native_htf_incremental import (
 )
 from tools.mfx_native_htf_drive_seal import (
     PrivateNativeDriveStore, audit_native_archive,
+    native_append_slots_remaining,
 )
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     _drive_auth_info, _require_oauth_cache_folders, _session,
@@ -48,18 +49,24 @@ def preview_incremental_native_cache(
         plan = plan_native_fetch(
             interval=interval,previous=state.last_manifest,
             now_utc=now_utc)
+        room = native_append_slots_remaining(state)
+        capacity_blocked = bool(plan.provider_requests_planned and room < 1)
         reports.append({
             "symbol":SYMBOL,
             "interval":interval,
-            "decision":plan.status,
+            "decision":("NATIVE_ARCHIVE_CAPACITY_BLOCKED_NO_VENDOR_CALL"
+                        if capacity_blocked else plan.status),
+            "archive_append_slots_remaining":room,
+            "source_fetch_blocked_by_capacity":capacity_blocked,
             "last_native_open_label":plan.last_native_open_label,
             "latest_expected_closed_label":plan.latest_expected_closed_label,
             "calendar_slots_behind":plan.calendar_slots_behind,
             "overlap_sha_bars":plan.overlap_bar_count,
             "requested_outputsize_if_approved":(
                 int(plan.request["outputsize"])
-                if plan.request is not None else None),
-            "provider_price_requests_if_approved":plan.provider_requests_planned,
+                if plan.request is not None and not capacity_blocked else None),
+            "provider_price_requests_if_approved":(
+                0 if capacity_blocked else plan.provider_requests_planned),
             "current_manifest_sha256":digest(state.last_manifest),
         })
     return {
