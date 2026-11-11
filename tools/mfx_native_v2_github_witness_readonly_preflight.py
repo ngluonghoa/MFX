@@ -9,7 +9,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from mfx_cache.td_m5_codec import digest
 from tools.mfx_native_v2_github_witness_policy import (
     GithubWitnessCommitPlan, REF, SCHEMA as P079_SCHEMA,
     STATUS as P079_STATUS, _sha40, _sha64, assess_github_ref_readback,
