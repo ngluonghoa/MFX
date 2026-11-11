@@ -35,6 +35,12 @@
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
     },
     {
+      "path": ".github/workflows/mfx-native-htf-drive-commit.yml",
+      "change": "added",
+      "expected_current_sha": "f841b2ae6f897fd8260b4f4030859de363339c42",
+      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending."
+    },
+    {
       "path": ".github/workflows/mfx-native-htf-manual-probe.yml",
       "change": "added",
       "expected_current_sha": "703bef2009cec50e7393a269856bed669a6a3ba1",
@@ -579,6 +585,12 @@
       "change": "added",
       "expected_current_sha": "f98427f50a6fca4c01721f93e138a5c681533cab",
       "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen."
+    },
+    {
+      "path": "docs/MFX_A04_P55_NATIVE_HTF_DRIVE_MANUAL_SEAL.md",
+      "change": "added",
+      "expected_current_sha": "e7f28d4c22391f6fbdbf2c439fec4f97ca071530",
+      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1204,6 +1216,12 @@
       "reason": "A04/P0.54 OFFLINE-only per-pair/per-native-H4,D1 immutable SHA-indexed Chunk/Manifest staging, exact UTC H4 vs exchange-local D1 source-axis isolation, rolling overlap revision quarantine and deterministic 30 regression tests. No Google Drive REST, no vendor API, no live H4/D1 cache activation, no numeric signals or broker, original Forex Trading 1:1 source frozen."
     },
     {
+      "path": "tests/test_a04_p55_native_htf_drive.py",
+      "change": "added",
+      "expected_current_sha": "76b95e04a31d179c1a36d667c0b27a2013831cee",
+      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending. CI mock portability correction: fake _drive_get/_drive_create callbacks explicitly accept AuthorizedSession as the first parameter."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1448,6 +1466,12 @@
       "change": "added",
       "expected_current_sha": "3e5f043aee710c766d9ccdd931fa56b54c49979a",
       "reason": "A04/P0.51 GitHub cloud-only ONE-vendor-request bounded catchup of up to four complete closed UTC M5 hours with existing immutable Drive B1 Chunk/Manifest, offline regression tests and explicit limits. No frozen Forex source changes, no Mac/MOCHI, no signals/broker and no overwrites."
+    },
+    {
+      "path": "tools/mfx_native_htf_drive_seal.py",
+      "change": "added",
+      "expected_current_sha": "90024cda9950ec7cc385aaa739c06cdde0a74c04",
+      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending."
     },
     {
       "path": "tools/postmain_ci_commit_status.py",
@@ -1700,6 +1724,12 @@
       "change": "added",
       "expected_current_sha": "9ae58743809913bc434129d19903597dd18852fc",
       "reason": "A04/P0.50 GitHub cloud-only hourly READ-ONLY V2 latest-three-manifest/chunk SHA chain and lag audit, manual plus scheduled GitHub Actions, offline negative tests and proof runbook. Reuses the same private OAuth Drive folders without Twelve Data request, Drive write/delete, trade signals, or broker; frozen original Forex 1:1 source untouched. Real audit receipt and second-hour continuity still pending."
+    },
+    {
+      "path": "tools/run_mfx_native_htf_drive_commit.py",
+      "change": "added",
+      "expected_current_sha": "d49ded18b28665ca376abaf2d5aff5cc7ed2db2c",
+      "reason": "A04/P0.55 manual-only H4/D1 Native Forex OAuth Drive ARCHIVE STAGING: Three-way independent Repo Variable activation (new MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED default off); two validated provider native envelopes before any Drive write; separate H4/D1 per-pair content-addressed names within existing app-created private folders; full bounded SHA manifest and chunk chain scan; idempotent orphan recovery; 22 hermetic negative/failure-mode tests; NO schedule, no M5 mutation, no numeric BUY/SELL or broker, frozen original Forex 1:1 source unchanged. Real provider/Drive verification still pending."
     },
     {
       "path": "tools/run_mfx_native_htf_probe.py",
