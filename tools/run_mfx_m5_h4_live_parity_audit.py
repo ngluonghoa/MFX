@@ -26,6 +26,7 @@ from tools.run_a04_p45_cloud_twelve_data_cache import (
     _drive_auth_info, _require_oauth_cache_folders, _session,
 )
 from tools.run_a04_p46_cloud_batch_cache import PrivateDriveBatchStore
+from tools.mfx_m5_rolling_manifest_audit import audit_rooted_rolling_m5
 
 UTC = timezone.utc
 SYMBOL = "EUR/USD"
@@ -169,7 +170,15 @@ def audit_live_m5_h4_parity(
 ) -> dict[str, Any]:
     """Return source-verified RESEARCH evidence; never source replacement."""
     _utc(now_utc)
-    rows, m5_evidence = _m5_archive(m5_store,now_utc=now_utc)
+    # Before 256 pairs retain the strict entire raw M5 SHA audit. After
+    # 256, verify ALL pinned-root manifest parents but only latest 256
+    # raw chunks. The receipt MUST disclose that old chunk contents were
+    # not freshly rechecked; never call this full historical SHA proof.
+    if len(m5_store.list_names("manifest")) > MAX_M5_ARCHIVE_HOURS:
+        rows, m5_evidence = audit_rooted_rolling_m5(
+            m5_store,now_utc=now_utc)
+    else:
+        rows, m5_evidence = _m5_archive(m5_store,now_utc=now_utc)
     native, native_evidence = _native_h4_archive(native_store)
     shadow = derive_h4_shadow(rows,asof_utc=now_utc)
     observed = compare_shadow_to_native(shadow,native)

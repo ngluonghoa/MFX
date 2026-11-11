@@ -37,8 +37,8 @@
     {
       "path": ".github/workflows/mfx-m5-h4-parity-readonly.yml",
       "change": "added",
-      "expected_current_sha": "1d39ca1fa2fd8b49c9b979c1c86a462bf47a634c",
-      "reason": "P0.66 owner-approved GitHub hosted push+daily 00:55 UTC+manual read-only source parity audit using existing 3 Google Drive gates and shared non-cancellable lock, no Twelve Data API key/writes/signals; initial live evidence distinct from code CI."
+      "expected_current_sha": "ea078d9f55fff2cc7dace5844176a1ba030b8cfe",
+      "reason": "P0.66 owner-approved GitHub hosted push+daily 00:55 UTC+manual read-only source parity audit using existing 3 Google Drive gates and shared non-cancellable lock, no Twelve Data API key/writes/signals; initial live evidence distinct from code CI. A04/P0.69 read-only runner timeout 25min instead of 15min for longer rooted Manifest GET checks, no cron/secrets/provider permissions/write changes."
     },
     {
       "path": ".github/workflows/mfx-native-htf-cache-audit.yml",
@@ -693,6 +693,12 @@
       "change": "added",
       "expected_current_sha": "514c71775f5595752249ceda55bce0e2a87f4f61",
       "reason": "A04/P0.68 real P0.66 root 18UTC inside H4 16UTC permanent-veto bug and exact boundary-vs-interior partial remediation, strict source parity observation acceptance and no automatic H4 native reduction."
+    },
+    {
+      "path": "docs/MFX_A04_P69_ROOT_PINNED_ROLLING_M5_AUDIT.md",
+      "change": "added",
+      "expected_current_sha": "9995518c1f21a325c3984db58e3b3985d0c25b93",
+      "reason": "A04/P0.69 source-verified historic root/rolling 256 closed M5 SHA two-tier contract, explicit old Chunk uncertainty, no schedule change, Git hosted CI and true Drive read-only acceptance separation."
     },
     {
       "path": "docs/MFX_ALLOWED_BASELINE_DELTAS.json",
@@ -1402,6 +1408,12 @@
       "reason": "A04/P0.68 six hermetic tests for M5 source initial/trailing partial 4h windows, 47 consecutive fully matching H4 across >=7day observation, interior source hole fail-closed, H4 native mismatch/missing fail-closed, no OHLC leakage, no cutover approval."
     },
     {
+      "path": "tests/test_a04_p69_m5_rooted_rolling_sha.py",
+      "change": "added",
+      "expected_current_sha": "8999e804b276935ef1dd61597479284875e86bc9",
+      "reason": "A04/P0.69 hermetic 15 cases test 257 M5 sealed hourly Manifest root parent SHAs, 256 raw Chunk+derived SHA, tampering, orphan, >1024 cap, 7d H4 parity remains no H4 cutover, no credential/broker/source price calls; negative test shows old raw not revalidated."
+    },
+    {
       "path": "tests/test_a04_plugin_contracts.py",
       "change": "added",
       "expected_current_sha": "6a12f62d21d474c98cbb265fb49e6024d6e62441",
@@ -1646,6 +1658,12 @@
       "change": "added",
       "expected_current_sha": "58080356c4b5f81e6a0b42ab2a9ea83f83bfe3a5",
       "reason": "A04/P0.51 GitHub cloud-only ONE-vendor-request bounded catchup of up to four complete closed UTC M5 hours with existing immutable Drive B1 Chunk/Manifest, offline regression tests and explicit limits. No frozen Forex source changes, no Mac/MOCHI, no signals/broker and no overwrites. A04/P0.67 safe M5 overdue eligible UTC hour helper: Github schedule delayed to minute00..04 must recover *older than latest previous* 12-closed-M5 hours without ever fetching or committing an hour younger than end+5m; bounded max4 immutable batches unchanged."
+    },
+    {
+      "path": "tools/mfx_m5_rolling_manifest_audit.py",
+      "change": "added",
+      "expected_current_sha": "4cd5b06d61d41ad9ccca60b295bda180dda90344",
+      "reason": "A04/P0.69 pure read-only Git-root-pinned old 2026-11-10T18Z M5 Manifest SHA, verify all 257-1024 Manifest parent chains and every referenced Chunk name, rehash/rederive latest256 Chunk+Manifest pairs only with explicit old raw not freshly verified flags; never H4/D1 source replace or broker."
     },
     {
       "path": "tools/mfx_native_htf_drive_seal.py",
@@ -1908,8 +1926,8 @@
     {
       "path": "tools/run_mfx_m5_h4_live_parity_audit.py",
       "change": "added",
-      "expected_current_sha": "cbf55410f0bc99612466342b533ece97b6794e0a",
-      "reason": "P0.66 source-independent authenticated Drive read-only cross-hour full bounded M5 Chain and native H4 sealed source comparison; zero provider price requests, Drive writes, numeric signals, broker; no production H4/D1 promotion. P0.68 correct partial archive-edge H4 comparison qualification: skip incomplete first/last UTC 4h windows from candidate-domain veto, keep every skipped window visible and FAIL CLOSED on interior holes/nonconsecutive grids/native mismatch; no source/write/schedule/trade change."
+      "expected_current_sha": "3ea7b1015d6a99ab0fdc1e8adec36fbe9335027c",
+      "reason": "P0.66 source-independent authenticated Drive read-only cross-hour full bounded M5 Chain and native H4 sealed source comparison; zero provider price requests, Drive writes, numeric signals, broker; no production H4/D1 promotion. P0.68 correct partial archive-edge H4 comparison qualification: skip incomplete first/last UTC 4h windows from candidate-domain veto, keep every skipped window visible and FAIL CLOSED on interior holes/nonconsecutive grids/native mismatch; no source/write/schedule/trade change. A04/P0.69 retain <=256 entire history raw SHA P0.66, select root-anchored ALL manifest parent SHA plus 256 latest raw chunk SHA ONLY when count>256, expose full-history raw uncertified explicitly, source-native H4 reduction always denied."
     },
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",
