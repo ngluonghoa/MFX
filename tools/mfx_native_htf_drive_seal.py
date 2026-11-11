@@ -68,13 +68,26 @@ class PrivateNativeDriveStore:
             if type(doc) is not dict or type(doc.get("files")) is not list:
                 raise ValueError("P055_NATIVE_DRIVE_BAD_LIST")
             for item in doc["files"]:
+                # Drive's query is server-side discovery, not the authority
+                # for a namespace. Apply a strict exact-prefix filter here:
+                # sibling H4, D1 and M5 files share the physical folders.
                 if (type(item) is not dict
                         or type(item.get("id")) is not str
+                        or not item["id"]
                         or type(item.get("name")) is not str
-                        or item.get("mimeType") != "application/json"
-                        or folder not in item.get("parents", [])
-                        or not item["name"].startswith(prefix)):
-                    raise ValueError("P055_NATIVE_DRIVE_WRONG_OBJECT_SCOPE")
+                        or not item["name"]):
+                    raise ValueError("P057_NATIVE_DRIVE_BAD_LIST_ITEM")
+                parents = item.get("parents")
+                # Google may omit an unpopulated metadata field. The
+                # folder-constrained server query remains mandatory; an
+                # explicitly conflicting parent must still fail closed.
+                if (parents is not None and
+                        (type(parents) is not list or folder not in parents)):
+                    raise ValueError("P057_NATIVE_DRIVE_WRONG_PARENT")
+                if not item["name"].startswith(prefix):
+                    continue
+                if item.get("mimeType") != "application/json":
+                    raise ValueError("P057_NATIVE_DRIVE_BAD_NATIVE_MIME")
                 if item["name"] in found:
                     raise ValueError("P055_NATIVE_DRIVE_DUPLICATE_NAME")
                 found[item["name"]] = item["id"]
