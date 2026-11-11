@@ -17,7 +17,10 @@ from mfx_cache.v2_batch_commit import (
 )
 from mfx_cache.v2_warm_promotion import WARM_PREFIX, PROMOTION_PREFIX
 from mfx_cache.td_m5_codec import parse_closed_utc_m5
-from tools.mfx_hourly_catchup import plan_bounded_catchup, commit_bounded_catchup
+from tools.mfx_hourly_catchup import (
+    plan_bounded_catchup, commit_bounded_catchup,
+    latest_eligible_closed_hour,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_create, _drive_get, _session,
     _settings, _vendor_m5, _vendor_usage,
@@ -126,14 +129,22 @@ class PrivateDriveBatchStore(PrivateObjectStore):
 
 
 def needs_hourly_fetch(store: PrivateObjectStore, now: datetime) -> bool:
-    if (now.tzinfo is None or now.utcoffset() != timedelta(0)
-            or now.minute < 5):
-        return False
+    """Keep 5m publication grace, but allow older CLOSED-hour catchup at :00..:04.
+
+    GitHub's scheduled runner may arrive late in the next hour at minute 00-04.
+    Blanket minute<5 skip silently strands old immutable M5 hours forever.
+    Preserve original first-boot no-fetch-before-:05 behavior.
+    """
+    if (type(now) is not datetime or now.tzinfo is None
+            or now.utcoffset() != timedelta(0)):
+        raise ValueError("P067_M5_WRITER_EXACT_UTC_REQUIRED")
     _, previous = _last_manifest(store)
-    hour = now.replace(minute=0, second=0, microsecond=0) - timedelta(hours=1)
+    if previous is None and now.minute < 5:
+        return False
+    latest_eligible = latest_eligible_closed_hour(now)
     if previous is None:
         return True
-    return datetime.fromisoformat(previous["hour_utc"]) < hour
+    return datetime.fromisoformat(previous["hour_utc"]) < latest_eligible
 
 
 def quota_headroom(used: int, limit: int, local_cap: int) -> tuple[bool, int]:
