@@ -140,6 +140,30 @@ class NativeArchiveState:
     uncommitted_chunk_names: tuple[str, ...]
 
 
+def native_append_slots_remaining(
+    state: NativeArchiveState, *, reuse_existing_orphan: bool = False,
+) -> int:
+    """Remaining append pairs BEFORE the first immutable Drive write.
+
+    The legacy full SHA auditor refuses >256 objects PER native interval
+    and bucket. Append must never create the 257th Chunk/Manifest.
+    One exact orphan Chunk may be reused by the manual recovery path,
+    in which case only a new Manifest slot is required.
+    """
+    if (type(state) is not NativeArchiveState
+            or type(state.manifest_count) is not int
+            or type(state.chunk_count) is not int
+            or not 0 <= state.manifest_count <= MAX_NATIVE_FILES
+            or not 0 <= state.chunk_count <= MAX_NATIVE_FILES
+            or (reuse_existing_orphan
+                and len(state.uncommitted_chunk_names) != 1)):
+        raise ValueError("P063_NATIVE_CAPACITY_STATE_INVALID")
+    manifests = MAX_NATIVE_FILES-state.manifest_count
+    chunks = (MAX_NATIVE_FILES-state.chunk_count
+              + (1 if reuse_existing_orphan else 0))
+    return max(0,min(manifests,chunks))
+
+
 @dataclass(frozen=True, slots=True)
 class NativeCommitReceipt:
     status: str
@@ -265,6 +289,12 @@ def commit_native_batch(
     if (state.uncommitted_chunk_names
             and state.uncommitted_chunk_names != (plan.chunk_name,)):
         raise ValueError("P055_UNKNOWN_NATIVE_ORPHAN_QUARANTINE")
+    # Prevent an immutable 257th object that the full SHA auditor could
+    # not subsequently read. If one exact orphan Chunk exists, recovery
+    # only needs room for the missing Manifest, not a second Chunk.
+    if native_append_slots_remaining(
+            state,reuse_existing_orphan=bool(state.uncommitted_chunk_names)) < 1:
+        raise ValueError("P063_NATIVE_ARCHIVE_AT_CAPACITY_NO_WRITES")
     # Only cooperative GitHub concurrency; verify parent immediately before
     # and again after the first Drive object, never claim atomic CAS.
     current = audit_native_archive(
