@@ -401,5 +401,76 @@ class P055NativeHTFDriveTests(unittest.TestCase):
         self.assertEqual(self.fake.writes,0)
 
 
+    def test_25_real_drive_broad_results_do_not_cross_native_scopes(self) -> None:
+        # P0.57 replay: H4 was sealed on real Drive; D1 has no objects.
+        # Mock a server list that returns same-folder siblings in addition
+        # to names matching the requested native interval and bucket.
+        self.fake.add_other_m5()
+        self.fake.create(
+            MANIFEST_FOLDER,
+            "MFX_TD_EURUSD_M5_V2_manifest_20261110T1800Z_mock.json",
+            {"source_interval":"M5"})
+        old_m5=copy.deepcopy({
+            name:self.fake.objects[ident]
+            for name,ident in self.fake.names.items()
+            if "_M5_V2_" in name
+        })
+
+        def broad_get(url: str, *, params: dict[str,Any],
+                      timeout: int) -> FakeResponse:
+            self.assertEqual(url,"https://www.googleapis.com/drive/v3/files")
+            bucket="chunk" if "chunk_" in params["q"] else "manifest"
+            folder=CHUNK_FOLDER if bucket=="chunk" else MANIFEST_FOLDER
+            return FakeResponse({"files":[
+                {"id":ident,"name":name,
+                 "mimeType":"application/json","parents":[folder]}
+                for name,ident in self.fake.names.items()
+                if self.fake.parents[ident]==folder
+            ]})
+
+        with patch.object(self.fake,"get",side_effect=broad_get):
+            a=commit_native_batch(self.store(),native("4h"))
+            b=commit_native_batch(self.store("1day"),native("1day"))
+            self.assertEqual((a.status,b.status),
+                             ("NATIVE_BATCH_COMMITTED",)*2)
+            self.assertEqual(
+                audit_native_archive(self.store("4h"),
+                  symbol="EUR/USD",interval="4h").manifest_count,1)
+            self.assertEqual(
+                audit_native_archive(self.store("1day"),
+                  symbol="EUR/USD",interval="1day").manifest_count,1)
+        for name,contents in old_m5.items():
+            self.assertEqual(
+                self.fake.objects[self.fake.names[name]],contents)
+
+    def test_26_optional_list_parents_can_be_absent(self) -> None:
+        # The folder is already constrained by the server-side query.
+        plan=plan_native_sealed(native(),previous=None)
+        assert plan is not None
+        ident=self.fake.create(CHUNK_FOLDER,plan.chunk_name,plan.chunk)
+        response=FakeResponse({"files":[{
+            "id":ident,"name":plan.chunk_name,"mimeType":"application/json"
+        }]})
+        with patch.object(self.fake,"get",return_value=response):
+            self.assertEqual(
+                self.store().list_names("chunk"),(plan.chunk_name,))
+
+    def test_27_wrong_parent_and_native_mime_still_fail_closed(self) -> None:
+        name="MFX_TD_EURUSD_H4_NATIVE_V1_chunk_probe.json"
+        wrong_parent={"id":"x","name":name,"mimeType":"application/json",
+                      "parents":["unrelated-folder"]}
+        wrong_mime={"id":"x","name":name,"mimeType":"text/plain",
+                    "parents":[CHUNK_FOLDER]}
+        for item,reason in (
+            (wrong_parent,"P057_NATIVE_DRIVE_WRONG_PARENT"),
+            (wrong_mime,"P057_NATIVE_DRIVE_BAD_NATIVE_MIME"),
+        ):
+            with self.subTest(reason=reason),patch.object(
+                    self.fake,"get",
+                    return_value=FakeResponse({"files":[item]})):
+                with self.assertRaisesRegex(ValueError,reason):
+                    self.store().list_names("chunk")
+
+
 if __name__=="__main__":
     unittest.main()
