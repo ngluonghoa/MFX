@@ -21,6 +21,7 @@ from mfx_cache.native_htf_incremental import (
 )
 from tools.mfx_native_htf_drive_seal import (
     PrivateNativeDriveStore, audit_native_archive, commit_native_batch,
+    native_append_slots_remaining,
 )
 from tools.run_a04_p45_cloud_twelve_data_cache import _settings, _session
 from tools.run_a04_p46_cloud_batch_cache import quota_headroom
@@ -101,6 +102,14 @@ def main() -> None:
         plan = plan_native_fetch(
             interval=interval, previous=archive.last_manifest, now_utc=now)
         archives.append((interval,store,archive,plan))
+    # Audit BOTH scopes before vendor usage/price calls. Capacity is a
+    # hard bounded SHA-auditor constraint, not available Drive quota.
+    # Fail all due intervals before spending credits if either cannot
+    # safely accept one more immutable Chunk+Manifest pair.
+    for _,_,archive,plan in archives:
+        if (plan.provider_requests_planned
+                and native_append_slots_remaining(archive) < 1):
+            raise ValueError("P063_NATIVE_CAPACITY_EXHAUSTED_NO_VENDOR_CALL")
     due = [a for a in archives if a[3].provider_requests_planned]
     if not due:
         print("MFX_A04_P59_NATIVE_NO_NEW_CLOSED_SLOTS_ZERO_VENDOR_CALLS")
