@@ -167,6 +167,10 @@ def parse_native_forex(
                 raise ValueError("P052_H4_UTC_DATETIME_FORMAT") from exc
             if started.minute or started.second:
                 raise ValueError("P052_H4_NOT_HOUR_ALIGNED")
+            # Native 4h UTC source labels MUST be on 00/04/08/12/16/20.
+            # A valid HH:00 is insufficient (e.g. 01:00 is off-grid).
+            if started.hour % 4:
+                raise ValueError("P061_H4_UTC_4H_GRID_REQUIRED")
             is_closed = started + timedelta(hours=4) <= (
                 now_utc - H4_CLOSE_GRACE)
         else:
