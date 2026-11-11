@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+from datetime import datetime, timedelta
 from pathlib import Path
 import copy
 import unittest
@@ -237,7 +238,9 @@ class P054NativeHTFArchiveTests(unittest.TestCase):
             plan_native_sealed(x,previous=None)
 
     def test_28_recent_index_capped_and_sorted(self) -> None:
-        labels=[f"2026-11-{1+i//24:02d} {i%24:02d}:00:00"
+        # 30 real UTC 4-hour slots, not 30 hourly off-grid fixtures.
+        first=datetime(2026,11,1,0,0,0)
+        labels=[(first+timedelta(hours=4*i)).strftime("%Y-%m-%d %H:%M:%S")
                 for i in range(30)]
         p=plan_native_sealed(make_batch(labels=labels),previous=None)
         assert p is not None
