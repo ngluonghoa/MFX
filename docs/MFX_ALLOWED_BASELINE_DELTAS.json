@@ -2276,6 +2276,24 @@
       "change": "added",
       "expected_current_sha": "e9d29e64ffa6ffa9b0c25c7c9ea3f80a8d891e82",
       "reason": "A04/P0.89 measured 40/40 read-only real M5 full SHA, nine native H4 comparable matches and immutable workflow SHA over seven source HEADs, with prospective instrumentation no-go boundaries."
+    },
+    {
+      "path": "tools/mfx_m5_retrospective_evidence_pack.py",
+      "change": "added",
+      "expected_current_sha": "5e245373ad29a75fa495e4cb54bb7521dd840d31",
+      "reason": "A04/P0.90 offline reviewed twelve-run/seven-head + historical 40-pair SHA anchored cross-plane receipt; fail-closed real freshness and permissions."
+    },
+    {
+      "path": "tests/test_a04_p90_retrospective_evidence_pack.py",
+      "change": "added",
+      "expected_current_sha": "ca5f86340b161c955d31dbe3c73a7c1cac7d0310",
+      "reason": "A04/P0.90 34 hermetic pinned-snapshot, run/head mutation, UTC, H4, historical-vs-current and no-writes regression tests."
+    },
+    {
+      "path": "docs/MFX_A04_P90_PINNED_HISTORICAL_EVIDENCE_PACK.md",
+      "change": "added",
+      "expected_current_sha": "c6816e4a2ede19c91f3d0bb7d183f3db0dbea35e",
+      "reason": "A04/P0.90 GitHub+Drive historical source/job/manifest + full 40-pair SHA evidence; explicitly no fresh archive authentication or production modification."
     }
   ]
 }
