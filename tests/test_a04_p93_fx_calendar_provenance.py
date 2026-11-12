@@ -121,7 +121,8 @@ class CalendarProvenanceTests(TestCase):
         self.assertTrue(r.source_document_observation_not_authenticated)
 
     def test_21_unmodified_inputs(self):
-        a=(TD,OA); b=(SATURDAY,SUNDAY)
+        a=(TD,OA)
+        b=(SATURDAY,SUNDAY)
         review(a,b)
         self.assertEqual(a,(TD,OA))
         self.assertEqual(b,(SATURDAY,SUNDAY))

@@ -2328,8 +2328,8 @@
     {
       "path": "tests/test_a04_p93_fx_calendar_provenance.py",
       "change": "added",
-      "expected_current_sha": "6ca4fc41c598b9782ada06b98512e5ae845552ad",
-      "reason": "A04/P0.93 45 hermetic official publisher scope/24x7 delivery vs 24x5 execution, DST/day/source blob/UTC validation and no source waiver/IO permissions tests."
+      "expected_current_sha": "ed6bb5e4c1fbd3c650d1b0038fa3c63c577cf747",
+      "reason": "A04/P0.93 45 hermetic official publisher scope/24x7 delivery vs 24x5 execution, DST/day/source blob/UTC validation and no source waiver/IO permissions tests. Corrected Ruff E702 CI lint-only finding before merge."
     },
     {
       "path": "docs/MFX_A04_P93_OFFICIAL_FX_CALENDAR_SCOPE_PROVENANCE.md",
