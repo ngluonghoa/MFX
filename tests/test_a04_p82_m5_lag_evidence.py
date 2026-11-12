@@ -114,3 +114,21 @@ class M5LagEvidenceTests(TestCase):
             expected_closed_bar_open_utc=OPEN + timedelta(minutes=5)),
             as_of_utc=OPEN + timedelta(minutes=18))
         self.assertEqual(r.status, "STALE_EXPECTED_TAIL_RECHECK_REQUIRED")
+
+    def test_16_fresh_delayed_audit_uses_audit_clock_not_review_clock(self):
+        r = classify_m5_lag(sample(
+            last_closed_bar_open_utc=OPEN + timedelta(minutes=5)),
+            as_of_utc=OPEN + timedelta(hours=1))
+        self.assertEqual(r.status, "TAIL_MATCH_ONLY")
+        self.assertFalse(r.complete_history_verified)
+
+    def test_17_weekend_utc_grid_does_not_claim_fx_outage(self):
+        saturday = datetime(2026, 11, 14, 12, 0, tzinfo=UTC)
+        r = classify_m5_lag(sample(
+            audit_at_utc=saturday + timedelta(minutes=13),
+            last_closed_bar_open_utc=saturday + timedelta(minutes=5),
+            expected_closed_bar_open_utc=saturday + timedelta(minutes=5)),
+            as_of_utc=saturday + timedelta(minutes=13))
+        self.assertEqual(r.status, "SESSION_CALENDAR_UNVERIFIED_RECHECK_REQUIRED")
+        self.assertFalse(r.outage_proven)
+        self.assertFalse(r.complete_history_verified)
