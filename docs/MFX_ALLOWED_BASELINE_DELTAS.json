@@ -2442,8 +2442,8 @@
     {
       "path": "tests/test_mfx_v1_m5_rolling_six_tf.py",
       "change": "added",
-      "expected_current_sha": "c911d044bda50aed8609f62a84d5901fac08fe17",
-      "reason": "24 hermetic rollover 256/257 M5 SHA ancestry/head-tail, root/checkpoint, unread old chunk integrity disclosure, no source promotion, masked GET-only output and 1024 upper fail-closed tests."
+      "expected_current_sha": "a3dd9bc885707344aa4cedde266804635ef6650f",
+      "reason": "24 hermetic rollover 256/257 M5 SHA ancestry/head-tail, root/checkpoint, unread old chunk integrity disclosure, no source promotion, masked GET-only output and 1024 upper fail-closed tests. CI correction: stale native H4 must be excluded by existing six-TF validator; test expects H4 missing, never auto-substituted."
     },
     {
       "path": "docs/MFX_V1_M5_256_ROLLING_SHA_SIX_TF_CONTINUITY.md",

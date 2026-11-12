@@ -299,7 +299,8 @@ class SixTFRollingM5SourceTests(unittest.TestCase):
 
     def test_24_no_automatic_native_h4_substitution(self):
         r = self.consume()
-        h4 = r.technical.frames[4]
-        self.assertTrue(h4.native)
-        self.assertNotEqual(h4.source_label, r.technical.frames[0].source_label)
+        # The Dec-1 as-of must reject November-12 source-native H4 as stale.
+        # Recent M5 does NOT auto-replace missing provider-native H4.
+        self.assertIn("H4", r.technical.missing_or_stale_frames)
+        self.assertNotIn("H4", tuple(f.frame for f in r.technical.frames))
         self.assertFalse(r.may_publish_buy_sell)
