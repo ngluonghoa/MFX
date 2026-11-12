@@ -2166,14 +2166,14 @@
     {
       "path": "tools/mfx_m5_lag_evidence.py",
       "change": "added",
-      "expected_current_sha": "7daba556fd0a49b910e05785089bfecc14945364",
-      "reason": "A04/P0.82 pure offline M5 lag receipt classifier, 135s publication guard and no live source/trading authorization."
+      "expected_current_sha": "8201712438c85a7fb44f60bb6be38a27a74255a2",
+      "reason": "A04/P0.82 pure offline M5 lag receipt classifier, 135s publication guard and no live source/trading authorization. A04/P0.83: audit-clock due-tail and weekend calendar fail-closed negative evidence."
     },
     {
       "path": "tests/test_a04_p82_m5_lag_evidence.py",
       "change": "added",
-      "expected_current_sha": "9270b4f8ea55f10e118a4a4d2e4ee696cc83f426",
-      "reason": "A04/P0.82 12 hermetic M5 audit lag/staleness/grace/schema/no-trade negative tests."
+      "expected_current_sha": "cad5418b828d07b0c223947dc30f5a080f019c47",
+      "reason": "A04/P0.82 12 hermetic M5 audit lag/staleness/grace/schema/no-trade negative tests. A04/P0.83: audit-clock due-tail and weekend calendar fail-closed negative evidence."
     },
     {
       "path": "docs/MFX_A04_P82_M5_LAG_EVIDENCE.md",
