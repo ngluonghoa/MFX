@@ -49,7 +49,7 @@ class M5LagEvidenceTests(TestCase):
     def test_05_full_history_claim_is_only_caller_supplied(self):
         r = classify_m5_lag(sample(full_history_audited=True),
                             as_of_utc=OPEN + timedelta(minutes=13))
-        self.assertTrue(r.complete_history_verified)
+        self.assertFalse(r.complete_history_verified)
         self.assertFalse(r.outage_proven)
 
     def test_06_future_audit_rejected(self):
@@ -90,3 +90,27 @@ class M5LagEvidenceTests(TestCase):
         self.assertFalse(r.source_substitution_authorized)
         self.assertFalse(r.live_v2_authorized)
         self.assertEqual(r.schema, SCHEMA)
+
+    def test_13_caller_full_history_flag_never_attests_history(self):
+        r = classify_m5_lag(sample(
+            last_closed_bar_open_utc=OPEN + timedelta(minutes=5),
+            full_history_audited=True),
+            as_of_utc=OPEN + timedelta(minutes=13))
+        self.assertEqual(r.status, "TAIL_MATCH_ONLY")
+        self.assertFalse(r.complete_history_verified)
+
+    def test_14_old_caller_expected_tail_cannot_claim_match(self):
+        r = classify_m5_lag(sample(
+            last_closed_bar_open_utc=OPEN,
+            expected_closed_bar_open_utc=OPEN),
+            as_of_utc=OPEN + timedelta(minutes=13))
+        self.assertEqual(r.status, "STALE_EXPECTED_TAIL_RECHECK_REQUIRED")
+        self.assertFalse(r.complete_history_verified)
+
+    def test_15_future_due_tail_from_audit_time_is_rechecked(self):
+        r = classify_m5_lag(sample(
+            audit_at_utc=OPEN + timedelta(minutes=18),
+            last_closed_bar_open_utc=OPEN + timedelta(minutes=5),
+            expected_closed_bar_open_utc=OPEN + timedelta(minutes=5)),
+            as_of_utc=OPEN + timedelta(minutes=18))
+        self.assertEqual(r.status, "STALE_EXPECTED_TAIL_RECHECK_REQUIRED")
