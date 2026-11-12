@@ -63,7 +63,7 @@ class M5ScheduleCohortReceipt:
     median_run_created_after_theoretical_tick_seconds: float
     median_manifest_after_hour_close_seconds: float
     median_run_created_to_manifest_seconds: float
-    maximum_manifest_after_hour_close_seconds: int
+    maximum_manifest_after_hour_close_seconds: float
     github_scheduled_tick_for_run_authenticated: bool = False
     github_schedule_delay_cause_proven: bool = False
     github_concurrency_queue_delay_proven: bool = False
@@ -127,7 +127,7 @@ def evaluate_observed_m5_schedule_cohort(
                     or batch.hour_utc > eligible
                     or batch.hour_utc in hours
                     or (previous is not None
-                        and batch.hour_utc != previous + timedelta(hours=1))):
+                        and batch.hour_utc <= previous))):
                 raise ValueError("P087_BATCH_CLOCK_OR_ORDER_RECHECK_REQUIRED")
             match = _MANIFEST.fullmatch(batch.manifest_name)
             if (not match or match.group(1)
@@ -140,13 +140,13 @@ def evaluate_observed_m5_schedule_cohort(
             previous = batch.hour_utc
             eligible_tick = (
                 batch.hour_utc + timedelta(hours=1, minutes=EXPECTED_CRON_MINUTE))
-            tick_offsets.append(int(
-                (run.run_created_utc - eligible_tick).total_seconds()))
-            after_close.append(int(
+            tick_offsets.append(round(
+                (run.run_created_utc - eligible_tick).total_seconds(), 3))
+            after_close.append(round(
                 (batch.manifest_created_utc
-                 - batch.hour_utc - timedelta(hours=1)).total_seconds()))
-            run_to_manifest.append(int(
-                (batch.manifest_created_utc - run.run_created_utc).total_seconds()))
+                 - batch.hour_utc - timedelta(hours=1)).total_seconds(), 3))
+            run_to_manifest.append(round(
+                (batch.manifest_created_utc - run.run_created_utc).total_seconds(), 3))
     ordered = sorted(hours)
     missing = sum(
         int((b-a).total_seconds()//3600)-1
