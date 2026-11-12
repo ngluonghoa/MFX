@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "0129e24a796d558916f1bfafaa20981b82b501fd",
-      "reason": "MFX 1.0 signal-first bounded read-only SHA/root-checkpoint M5 and native H4/D1 archive composition into existing causal six-TF research receipt; no new vendor/Drive writes, no authenticated live/source BUY SELL claim. CI follow-up: restore required datetime.timedelta import."
+      "expected_current_sha": "1f0f442c361759beb28a2bc412fd288e442505a0",
+      "reason": "MFX 1.0 signal-first bounded read-only SHA/root-checkpoint M5 and native H4/D1 archive composition into existing causal six-TF research receipt; no new vendor/Drive writes, no authenticated live/source BUY SELL claim. CI follow-up: restore required datetime.timedelta import. MFX v1 continuous source: exact root+31 checkpoint full <=256, parent-all/recent-256 SHA for 257–1024 with explicit historic unread disclosure; signals remain blocked."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "37192b63840db3e56736fd86c91e1280fd073e72",
-      "reason": "Signal-first v1 optional owner-gated manual GitHub OAuth Drive GET-only six-TF SHA research consumer, fail-closed and redacted NO_SIGNAL metadata, no vendor/Drive write/trade."
+      "expected_current_sha": "8fb4b2ee5cff1961413a84992ccd15186dd8b834",
+      "reason": "Signal-first v1 optional owner-gated manual GitHub OAuth Drive GET-only six-TF SHA research consumer, fail-closed and redacted NO_SIGNAL metadata, no vendor/Drive write/trade. MFX v1 manual probe emits truthful full vs rolling SHA scope, rejects forged historical-full receipts; zero new Drive/vendor actions."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2438,6 +2438,18 @@
       "change": "added",
       "expected_current_sha": "24e8faa11ad8b6e3ac1f875bbc993876589ae668",
       "reason": "MFX v1 manual-only reader/runbook, exact no-automatic-activation/source-authority distinction, strict initial 256-pair bound, pending live OAuth and numeric strategy rights."
+    },
+    {
+      "path": "tests/test_mfx_v1_m5_rolling_six_tf.py",
+      "change": "added",
+      "expected_current_sha": "a3dd9bc885707344aa4cedde266804635ef6650f",
+      "reason": "24 hermetic rollover 256/257 M5 SHA ancestry/head-tail, root/checkpoint, unread old chunk integrity disclosure, no source promotion, masked GET-only output and 1024 upper fail-closed tests. CI correction: stale native H4 must be excluded by existing six-TF validator; test expects H4 missing, never auto-substituted."
+    },
+    {
+      "path": "docs/MFX_V1_M5_256_ROLLING_SHA_SIX_TF_CONTINUITY.md",
+      "change": "added",
+      "expected_current_sha": "f627e53fd1f75b9204157ed0c2deede08aa5054c",
+      "reason": "Signal-first six-TF hourly M5 continuity beyond 256, reuse existing P0.69 rolling proof and original source-reviewed root+31 pin, explicit not-revalidated historical SHA and NO_SIGNAL authority."
     }
   ]
 }

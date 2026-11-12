@@ -149,9 +149,34 @@ def safe_summary(
             or evidence.technical.action != "NO_SIGNAL"
             or evidence.technical.stage != "UNVERIFIED"
             or evidence.may_publish_buy_sell or evidence.may_trade
-            or not evidence.all_three_bounded_sha_chains_verified
             or not evidence.github_reviewed_m5_anchors_checked):
         raise ValueError("MFX_V1_READONLY_UNSAFE_OR_UNVERIFIED_RECEIPT")
+    full = (
+        evidence.m5_sha_audit_mode == "FULL_BOUNDED_ALL_RAW_SHA"
+        and evidence.all_three_bounded_sha_chains_verified
+        and evidence.m5_full_historical_raw_sha_verified
+        and evidence.m5_historical_raw_chunks_not_reread == 0
+        and evidence.m5_total_archived_manifest_pairs ==
+            evidence.m5_manifest_pairs_full_sha
+        and evidence.m5_total_manifest_parent_chain_verified ==
+            evidence.m5_total_archived_manifest_pairs
+        and evidence.m5_recent_raw_sha_verified
+    )
+    rolling = (
+        evidence.m5_sha_audit_mode ==
+            "ROOT_PINNED_ALL_MANIFESTS_LATEST_256_CHUNKS"
+        and not evidence.all_three_bounded_sha_chains_verified
+        and not evidence.m5_full_historical_raw_sha_verified
+        and evidence.m5_recent_raw_sha_verified
+        and evidence.m5_manifest_pairs_full_sha == 256
+        and evidence.m5_historical_raw_chunks_not_reread > 0
+        and evidence.m5_total_manifest_parent_chain_verified ==
+            evidence.m5_total_archived_manifest_pairs
+        and evidence.m5_total_archived_manifest_pairs ==
+            evidence.m5_historical_raw_chunks_not_reread + 256
+    )
+    if not (full or rolling):
+        raise ValueError("MFX_V1_READONLY_UNSAFE_SHA_SCOPE_NOT_ESTABLISHED")
     technical = evidence.technical
     return {
         "schema": VERSION,
@@ -163,6 +188,15 @@ def safe_summary(
         "frames_missing_or_stale": list(technical.missing_or_stale_frames),
         "technical_six_frame_ready": technical.research_technical_context_complete,
         "m5_manifest_chunk_pairs_full_sha": evidence.m5_manifest_pairs_full_sha,
+        "m5_sha_audit_mode": evidence.m5_sha_audit_mode,
+        "m5_full_historical_raw_sha_verified":
+            evidence.m5_full_historical_raw_sha_verified,
+        "m5_total_manifest_parent_chain_verified":
+            evidence.m5_total_manifest_parent_chain_verified,
+        "m5_total_archived_manifest_pairs":
+            evidence.m5_total_archived_manifest_pairs,
+        "m5_historical_raw_chunks_not_reread":
+            evidence.m5_historical_raw_chunks_not_reread,
         "h4_manifest_chunk_pairs_full_sha": evidence.h4_manifest_pairs_full_sha,
         "d1_manifest_chunk_pairs_full_sha": evidence.d1_manifest_pairs_full_sha,
         "m5_tip_sha256": evidence.m5_manifest_tip_sha256,
