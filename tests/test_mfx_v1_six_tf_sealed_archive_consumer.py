@@ -262,7 +262,7 @@ class SealedSixTFConsumerTests(TestCase):
 
     def test_22_default_reviewed_pins_deny_synthetic_source(self):
         m, h, d, _ = fixtures()
-        with self.assertRaisesRegex(ValueError, "ANCHOR_MISMATCH"):
+        with self.assertRaisesRegex(ValueError, "ROLLBACK_OR_UNVERIFIABLE_BOUND"):
             consume_sealed_archives_for_six_tf(
                 m, h, d, asof_utc=ASOF)
 

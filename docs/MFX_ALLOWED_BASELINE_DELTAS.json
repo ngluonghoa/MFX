@@ -2406,8 +2406,8 @@
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "4c1a2e5f555fc8a773ee53c423ca86e3316de120",
-      "reason": "MFX 1.0 30 hermetic sealed read-only three-archive tests: exact M5 root/checkpoint, native SHA, tamper/rollback/orphans, 6TF causal/stale and strict NO_SIGNAL gates."
+      "expected_current_sha": "8b2b798dc5d3f0d15ab1076dcfd0aeb5223b163c",
+      "reason": "MFX 1.0 30 hermetic sealed read-only three-archive tests: exact M5 root/checkpoint, native SHA, tamper/rollback/orphans, 6TF causal/stale and strict NO_SIGNAL gates. CI: default production checkpoint requires at least 31 pairs; a two-pair synthetic fixture correctly rejects earlier as rollback/unverifiable bound."
     },
     {
       "path": "docs/MFX_V1_SEALED_READONLY_CACHE_SIX_TF_CONSUMER.md",
