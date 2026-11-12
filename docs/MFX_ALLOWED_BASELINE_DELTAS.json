@@ -2226,7 +2226,7 @@
     {
       "path": "tools/mfx_m5_scheduler_cohort_evidence.py",
       "change": "added",
-      "expected_current_sha": "b8e14b8d2d683977b732b838253a0fbf9e08dc5a",
+      "expected_current_sha": "63829a3b502dfcde84874c8a165d50c5308da5cc",
       "reason": "A04/P0.87 offline no-IO cron-to-Drive M5 actual timestamp cohort classifier; event/scheduler/queue/vendor root-cause and trading promotion explicitly denied."
     },
     {
