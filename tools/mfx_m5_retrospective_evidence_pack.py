@@ -125,6 +125,12 @@ def correlate_pinned_historical_m5_evidence(
     anchor, not that a fresh externally authenticated scan was run.
     """
     source = classify_schedule_source_provenance(runs, jobs, sources)
+    # Report pinned run-to-HEAD substitution before a cohort-cardinality
+    # summary error; both paths fail closed, but identify the actual defect.
+    if (set(REVIEWED_HEADS) != {r.run_id for r in runs}
+            or set(REVIEWED_HEADS) != {r.run_id for r in sources}
+            or any(m.head_sha != REVIEWED_HEADS[m.run_id] for m in sources)):
+        raise ValueError("P090_REVIEWED_RUN_HEAD_SUBSTITUTION")
     if (source.status != "P089_WORKFLOW_BLOB_SAME_CAUSAL_ORIGIN_UNVERIFIED"
             or source.run_count != 12
             or source.observed_manifest_count != 14
@@ -133,10 +139,6 @@ def correlate_pinned_historical_m5_evidence(
             or source.retry_attempts_need_separate_review != 0
             or not source.source_blob_identity_matches_pinned_review):
         raise ValueError("P090_REVIEWED_GITHUB_COHORT_NOT_EXACT")
-    if (set(REVIEWED_HEADS) != {r.run_id for r in runs}
-            or set(REVIEWED_HEADS) != {r.run_id for r in sources}
-            or any(m.head_sha != REVIEWED_HEADS[m.run_id] for m in sources)):
-        raise ValueError("P090_REVIEWED_RUN_HEAD_SUBSTITUTION")
     if (type(audit) is not ObservedReviewedFullM5Audit
             or type(audit.audit_run_id) is not int
             or audit.audit_run_id != AUDIT_RUN_ID
