@@ -15,6 +15,9 @@ from typing import Any
 
 from mfx_cache.native_fx_htf import parse_native_forex
 from mfx_cache.native_htf_archive import plan_native_sealed, verify_native_sealed
+from mfx_cache.native_htf_revision_diagnostics import (
+    QUARANTINE_CODES, summarize_native_revision_quarantine,
+)
 from mfx_cache.native_htf_incremental import (
     NATIVE_INTERVALS, SYMBOL, plan_native_fetch,
     validate_incremental_source,
@@ -152,8 +155,25 @@ def main() -> None:
         batch = parse_native_forex(
             envelope,symbol=SYMBOL,interval=interval,now_utc=now,
             requested_timezone="UTC" if interval=="4h" else None)
-        validate_incremental_source(
-            batch,previous=archive.last_manifest,plan=plan)
+        try:
+            validate_incremental_source(
+                batch, previous=archive.last_manifest, plan=plan)
+        except ValueError as error:
+            # Reuse the ALREADY fetched provider batch and SHA-only index
+            # to explain a quarantine. No extra vendor/Drive request, no
+            # price/secret logging, no trading and no override of P0.59.
+            if str(error) in QUARANTINE_CODES and archive.last_manifest is not None:
+                try:
+                    diagnostic = summarize_native_revision_quarantine(
+                        previous=archive.last_manifest, batch=batch,
+                        error_code=str(error),
+                    )
+                except (KeyError, TypeError, ValueError):
+                    print("MFX_P059_NATIVE_OVERLAP_DIAGNOSTIC_UNAVAILABLE_FAIL_CLOSED")
+                else:
+                    print("MFX_P059_NATIVE_OVERLAP_QUARANTINED_NO_DRIVE_WRITE")
+                    print(json.dumps(diagnostic, sort_keys=True))
+            raise
         proposal = plan_native_sealed(batch,previous=archive.last_manifest)
         if proposal is not None:
             verify_native_sealed(proposal,previous=archive.last_manifest)

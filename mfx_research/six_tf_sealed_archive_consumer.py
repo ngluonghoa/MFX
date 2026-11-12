@@ -67,6 +67,7 @@ class SealedArchiveSixTFReceipt:
     d1_manifest_tip_sha256: str
     all_three_bounded_sha_chains_verified: bool
     github_reviewed_m5_anchors_checked: bool
+    m5_latest_source_hour_utc: str = ""
     m5_sha_audit_mode: str = "FULL_BOUNDED_ALL_RAW_SHA"
     m5_total_manifest_parent_chain_verified: int = 0
     m5_total_archived_manifest_pairs: int = 0
@@ -250,6 +251,14 @@ def consume_sealed_archives_for_six_tf(
                _snapshot(d1_store))
     m5_bars, m5_evidence = _m5_pinned_rows(
         m5_store, asof_utc=asof_utc, fixture_pins=fixture_pins)
+    # The audited manifest hour MUST correspond to the latest closed
+    # 12-bar M5 chunk, not just its SHA or one source label.
+    last_source_hour = m5_evidence["m5_latest_hour_utc"]
+    if (type(last_source_hour) is not str
+            or m5_bars[-1].start_utc != (
+                datetime.fromisoformat(last_source_hour)
+                + timedelta(minutes=55)).isoformat()):
+        raise ValueError("V1_CACHE_M5_SOURCE_TIP_HOUR_DRIFT")
     h4, h4_pairs, h4_tip = _native_pinned_rows(h4_store, interval="4h")
     d1, d1_pairs, d1_tip = _native_pinned_rows(d1_store, interval="1day")
 
@@ -277,6 +286,7 @@ def consume_sealed_archives_for_six_tf(
         all_three_bounded_sha_chains_verified=(
             m5_evidence["m5_full_bounded_chain_verified"]),
         github_reviewed_m5_anchors_checked=fixture_pins is None,
+        m5_latest_source_hour_utc=last_source_hour,
         m5_sha_audit_mode=(
             "ROOT_PINNED_ALL_MANIFESTS_LATEST_256_CHUNKS"
             if "m5_rolling_256_chunk_sha_verified" in m5_evidence

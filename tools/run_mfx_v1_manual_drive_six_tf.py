@@ -16,6 +16,7 @@ from mfx_research.six_tf_sealed_archive_consumer import (
     ReadOnlyObjectStore, SealedArchiveSixTFReceipt,
     consume_sealed_archives_for_six_tf,
 )
+from mfx_research.hourly_source_freshness import diagnose_hourly_m5_freshness
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -178,12 +179,22 @@ def safe_summary(
     if not (full or rolling):
         raise ValueError("MFX_V1_READONLY_UNSAFE_SHA_SCOPE_NOT_ESTABLISHED")
     technical = evidence.technical
+    freshness = diagnose_hourly_m5_freshness(
+        m5_latest_hour_utc=evidence.m5_latest_source_hour_utc,
+        asof_utc=datetime.fromisoformat(technical.asof_utc),
+    )
+    if ((freshness["closed_source_slot_gaps"]["M5"] == 0)
+            != ("M5" not in technical.missing_or_stale_frames)
+            or (freshness["closed_source_slot_gaps"]["M15"] == 0)
+            != ("M15" not in technical.missing_or_stale_frames)):
+        raise ValueError("MFX_V1_READONLY_SOURCE_FRESHNESS_RECEIPT_DRIFT")
     return {
         "schema": VERSION,
         "status": "MANUAL_AUTHENTICATED_DRIVE_GET_SOURCE_RESEARCH_ONLY",
         "action": "NO_SIGNAL",
         "stage": "UNVERIFIED",
         "asof_utc": technical.asof_utc,
+        "sha_verified_source_freshness_timing": freshness,
         "frames_present": [f.frame for f in technical.frames],
         "frames_missing_or_stale": list(technical.missing_or_stale_frames),
         "technical_six_frame_ready": technical.research_technical_context_complete,

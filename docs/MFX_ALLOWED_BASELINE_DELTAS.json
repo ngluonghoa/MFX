@@ -1992,8 +1992,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "7d71d5c4e3b420d642c85aed2791cc4f534b2dd2",
-      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
+      "expected_current_sha": "ea217127591c67a440ead57bcd10d52d70c2b2fc",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. Native incremental existing scheduled writer catches known original P059 quarantine only to emit redacted in-memory overlap SHA metadata count/labels; re-raises untouched fail-closed error, no added I/O or writes."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "1f0f442c361759beb28a2bc412fd288e442505a0",
-      "reason": "MFX 1.0 signal-first bounded read-only SHA/root-checkpoint M5 and native H4/D1 archive composition into existing causal six-TF research receipt; no new vendor/Drive writes, no authenticated live/source BUY SELL claim. CI follow-up: restore required datetime.timedelta import. MFX v1 continuous source: exact root+31 checkpoint full <=256, parent-all/recent-256 SHA for 257–1024 with explicit historic unread disclosure; signals remain blocked."
+      "expected_current_sha": "7a07f782db906e7d63a82b9841f3c7a70f45778d",
+      "reason": "MFX 1.0 signal-first bounded read-only SHA/root-checkpoint M5 and native H4/D1 archive composition into existing causal six-TF research receipt; no new vendor/Drive writes, no authenticated live/source BUY SELL claim. CI follow-up: restore required datetime.timedelta import. MFX v1 continuous source: exact root+31 checkpoint full <=256, parent-all/recent-256 SHA for 257–1024 with explicit historic unread disclosure; signals remain blocked. MFX v1 verified M5 source latest hour label derived from SHA audited last 12 closed bars, never forged or future."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "8fb4b2ee5cff1961413a84992ccd15186dd8b834",
-      "reason": "Signal-first v1 optional owner-gated manual GitHub OAuth Drive GET-only six-TF SHA research consumer, fail-closed and redacted NO_SIGNAL metadata, no vendor/Drive write/trade. MFX v1 manual probe emits truthful full vs rolling SHA scope, rejects forged historical-full receipts; zero new Drive/vendor actions."
+      "expected_current_sha": "c4e42fb06c3c20a9588518999317e29036298f70",
+      "reason": "Signal-first v1 optional owner-gated manual GitHub OAuth Drive GET-only six-TF SHA research consumer, fail-closed and redacted NO_SIGNAL metadata, no vendor/Drive write/trade. MFX v1 manual probe emits truthful full vs rolling SHA scope, rejects forged historical-full receipts; zero new Drive/vendor actions. MFX v1 GET-only manual summary includes immutable source-tip-relative M5/M15/M30/H1 CLOSED UTC slot deficits; fail-closed on mismatch, no extra reads or price calls."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2450,6 +2450,30 @@
       "change": "added",
       "expected_current_sha": "f627e53fd1f75b9204157ed0c2deede08aa5054c",
       "reason": "Signal-first six-TF hourly M5 continuity beyond 256, reuse existing P0.69 rolling proof and original source-reviewed root+31 pin, explicit not-revalidated historical SHA and NO_SIGNAL authority."
+    },
+    {
+      "path": "mfx_research/hourly_source_freshness.py",
+      "change": "added",
+      "expected_current_sha": "7bbe145f33f6e81845f271469322a27af96b0139",
+      "reason": "Pure source-tip-verified UTC CLOSED interval deficit report M5/M15/M30/H1, no price/call, never infer live signals."
+    },
+    {
+      "path": "mfx_cache/native_htf_revision_diagnostics.py",
+      "change": "added",
+      "expected_current_sha": "0f5ba974621075dc7b322d0b4b0e2aed0342e37a",
+      "reason": "Pure in-memory native overlap SHA quarantine reasons/counts/timestamps only, no OHLC/logging/API/Drive or SHA bypass."
+    },
+    {
+      "path": "tests/test_mfx_v1_hourly_freshness_native_revision.py",
+      "change": "added",
+      "expected_current_sha": "76aedac1a6552dfbe89e28d89b0a632bf7a8437f",
+      "reason": "30 hermetic source timing, metadata-only quarantines, source 15s grace, no fake live data or SHA relaxation QA."
+    },
+    {
+      "path": "docs/MFX_V1_HOURLY_M5_FRESHNESS_NATIVE_SHA_QUARANTINE_DIAG.md",
+      "change": "added",
+      "expected_current_sha": "11727fdd6e9382c5fb98230d0ddb5887b1752e04",
+      "reason": "MFX v1 real #43269657301 historical authenticated Drive receipt vs current M5 time gaps, exact P059 SHA quarantine cause distinctions and operational no-change policy."
     }
   ]
 }
