@@ -20,3 +20,16 @@ an incident. Never infer the 30-H4/7-day gate from this receipt.
 
 No runtime/workflow/Secrets/Variables, native H4/D1, source Forex 102 blobs,
 frozen 11 Docs, real Drive, vendor or broker mutation in this change.
+
+## A04/P0.83 research-only correction (proposed)
+
+The latest-due M5 tail is now computed from the **audit observation clock**,
+not the later time when an analyst reviews the receipt. A valid snapshot
+reviewed up to two hours later is not falsely compared to future candles.
+When the audit or expected bar falls on Saturday/Sunday UTC, the classifier
+returns `SESSION_CALENDAR_UNVERIFIED_RECHECK_REQUIRED` before any tail-match
+or outage interpretation. This deliberately conservative weekend guard is
+**not** a verified FX holiday/session calendar; Friday close, Sunday reopen,
+provider-specific pauses, DST and unexpected market halts remain unproven.
+Two additional hermetic regression tests bring the targeted suite to 17.
+No production audit, market feed, workflow, credential, cache or broker changes.
