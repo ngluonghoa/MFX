@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "b4e0a16652f4bbc9ef134e141a04a74b51a0d3ca",
-      "reason": "MFX 1.0 signal-first bounded read-only SHA/root-checkpoint M5 and native H4/D1 archive composition into existing causal six-TF research receipt; no new vendor/Drive writes, no authenticated live/source BUY SELL claim."
+      "expected_current_sha": "0129e24a796d558916f1bfafaa20981b82b501fd",
+      "reason": "MFX 1.0 signal-first bounded read-only SHA/root-checkpoint M5 and native H4/D1 archive composition into existing causal six-TF research receipt; no new vendor/Drive writes, no authenticated live/source BUY SELL claim. CI follow-up: restore required datetime.timedelta import."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",

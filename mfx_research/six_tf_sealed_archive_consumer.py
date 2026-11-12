@@ -8,7 +8,7 @@ external anti-rollback witness, or trading strategy authority.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Any, Protocol
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
