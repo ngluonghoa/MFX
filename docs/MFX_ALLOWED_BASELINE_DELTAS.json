@@ -2396,6 +2396,24 @@
       "change": "added",
       "expected_current_sha": "2037d561bd08eecfe7fb8ff36610323287e896d3",
       "reason": "MFX signal-first v1: first actual six-TF executable source layer after owner-approved pivot, unresolved source approval, real archive and numeric TP/SL gates."
+    },
+    {
+      "path": "mfx_research/six_tf_sealed_archive_consumer.py",
+      "change": "added",
+      "expected_current_sha": "b4e0a16652f4bbc9ef134e141a04a74b51a0d3ca",
+      "reason": "MFX 1.0 signal-first bounded read-only SHA/root-checkpoint M5 and native H4/D1 archive composition into existing causal six-TF research receipt; no new vendor/Drive writes, no authenticated live/source BUY SELL claim."
+    },
+    {
+      "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
+      "change": "added",
+      "expected_current_sha": "4c1a2e5f555fc8a773ee53c423ca86e3316de120",
+      "reason": "MFX 1.0 30 hermetic sealed read-only three-archive tests: exact M5 root/checkpoint, native SHA, tamper/rollback/orphans, 6TF causal/stale and strict NO_SIGNAL gates."
+    },
+    {
+      "path": "docs/MFX_V1_SEALED_READONLY_CACHE_SIX_TF_CONSUMER.md",
+      "change": "added",
+      "expected_current_sha": "63b6577b86d2f1a5f3a55cf0d7557696aee4b337",
+      "reason": "MFX 1.0 tested pure source-cache consumer scope, SHA versus vendor rights and first-known limitations, no live OAuth/Drive proof or production workflow; signal-first next."
     }
   ]
 }
