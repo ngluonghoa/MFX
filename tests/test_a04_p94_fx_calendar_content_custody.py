@@ -348,7 +348,18 @@ class CalendarCustodyTests(TestCase):
             check(candidate(d,captured_at_utc="2026-11-12T10:00:00+00:00"),prior=p)
 
     def test_68_extra_untrusted_source_cannot_grant_go(self):
-        p=check()
-        self.assertFalse(p.market_session_or_DST_exception_granted if
-                         hasattr(p,"market_session_or_DST_exception_granted") else
-                         p.owner_calendar_exception_go)
+        self.assertFalse(check().owner_calendar_exception_go)
+
+    def test_69_h4_gap_minute_must_be_zero(self):
+        with self.assertRaisesRegex(ValueError,"GAP_ALIGNMENT"):
+            check(gaps=("2026-11-07T08:05:00+00:00",))
+
+    def test_70_effective_window_minute_must_be_zero(self):
+        with self.assertRaisesRegex(ValueError,"WINDOW_BOUNDS"):
+            check(candidate(payload(
+                effective_start_utc="2026-11-07T00:05:00+00:00")))
+
+    def test_71_candle_closure_minute_must_be_zero(self):
+        with self.assertRaisesRegex(ValueError,"CLOSURE_GRID"):
+            check(candidate(payload(
+                closed_h4_starts_utc=["2026-11-07T08:05:00+00:00"])))

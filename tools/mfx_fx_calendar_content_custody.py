@@ -148,7 +148,7 @@ def inspect_calendar_candidate(
             or len(missing_h4_starts_utc) > MAX_H4_SLOTS):
         raise ValueError("P094_BOUNDED_TYPED_GAPS_REQUIRED")
     missing = tuple(_stamp(x) for x in missing_h4_starts_utc)
-    if (any(x.hour % 4 for x in missing)
+    if (any(x.hour % 4 or x.minute for x in missing)
             or any(a >= b for a, b in zip(missing, missing[1:]))
             or any(x + H4 > reviewed for x in missing)):
         raise ValueError("P094_GAP_ALIGNMENT_OR_CLOCK_INVALID")
@@ -177,7 +177,7 @@ def inspect_calendar_candidate(
     lo, hi, issued = (_stamp(data["effective_start_utc"]),
                       _stamp(data["effective_end_utc"]),
                       _stamp(data["issued_at_utc"]))
-    if (lo.hour % 4 or hi.hour % 4 or hi <= lo
+    if (lo.hour % 4 or hi.hour % 4 or lo.minute or hi.minute or hi <= lo
             or hi - lo > MAX_H4_SLOTS * H4
             or issued > captured):
         raise ValueError("P094_WINDOW_BOUNDS_OR_ISSUE_CLOCK_INVALID")
@@ -185,7 +185,7 @@ def inspect_calendar_candidate(
     if (type(labels_raw) is not list or len(labels_raw) > MAX_H4_SLOTS):
         raise ValueError("P094_TYPED_BOUNDED_CLOSURE_LABELS_REQUIRED")
     labels = tuple(_stamp(x) for x in labels_raw)
-    if (any(x.hour % 4 or not (lo <= x and x + H4 <= hi) for x in labels)
+    if (any(x.hour % 4 or x.minute or not (lo <= x and x + H4 <= hi) for x in labels)
             or any(a >= b for a, b in zip(labels, labels[1:]))):
         raise ValueError("P094_CLOSURE_GRID_OR_SEQUENCE_INVALID")
     sequence = data["sequence"]

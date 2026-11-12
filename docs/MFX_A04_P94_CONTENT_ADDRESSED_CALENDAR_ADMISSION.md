@@ -12,7 +12,7 @@ P0.94 adds `tools/mfx_fx_calendar_content_custody.py` as an isolated research-on
 - Validate exact UTC H4 boundaries, effective start/end exclusive, <=72 H4-slot coverage, closed observed H4 gap windows before review, source issuance/capture/review times, up to 72 label comparisons, and classification of missing requested closure labels.
 - Distinguish a public **service availability** page from an **exact provider M5 closure claim**, even when a crafted byte payload *claims* the latter. An official reference URL is not a publisher signature. A self-reported SHA chain can be checked for structural parent/sequence/capture monotonicity while **external antirollback authority remains FALSE**.
 - Return an immutable conservative `SnapshotCustodyReceipt` with **all operational permissions permanently false**: content SHA is not publisher identity, raw publisher page not authenticated, feed version not independently established, data licence not established, individual real candle exceptions not certified, no external monotonic witness, no owner GO, no automatic weekend waiver, native H4 and Sydney D1 untouched, no BUY/SELL or broker.
-- Add **68 hermetic adversarial tests**, including synthetic source-scope spoofing, replay/chain swap, SHA tampering, calendar slot holes, weekday/weekend gaps, invalid timezone/capture, and I/O zero. Tests use **synthetic candidate JSON only**; there are no live provider-returned calendar snapshots.
+- Add **71 hermetic adversarial tests**, including synthetic source-scope spoofing, replay/chain swap, SHA tampering, calendar slot holes, weekday/weekend gaps, invalid timezone/capture, and I/O zero. Tests use **synthetic candidate JSON only**; there are no live provider-returned calendar snapshots.
 
 ## Authority boundaries
 
