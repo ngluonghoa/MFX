@@ -2354,6 +2354,24 @@
       "change": "added",
       "expected_current_sha": "c341121fc8c8575cb30ebd90ec6e4dfa1ee6500e",
       "reason": "A04/P0.94 candidate canonical SHA vs publisher signature/entitlement/external antirollback limitations; no real signed Twelve Data calendar or production authorization."
+    },
+    {
+      "path": "tools/mfx_fx_calendar_owner_review.py",
+      "change": "added",
+      "expected_current_sha": "5945d06b520c2c136ecd2cdac673092650e3c0a2",
+      "reason": "A04/P0.95 offline five-role separation and unverified provider signature/plan/license claim intake; exact gap/time/baseline scope, all operational permissions false."
+    },
+    {
+      "path": "tests/test_a04_p95_fx_calendar_owner_review.py",
+      "change": "added",
+      "expected_current_sha": "485e27a0b4970e33b67eef261d2232de2ac87d39",
+      "reason": "A04/P0.95 66 hermetic role collisions, claimed signature/license SHA, expiration/replay/UTC gaps and no-production/no-IO tests using P0.94 synthetic custody. Reviewed 69 total: 7d replay boundary, unhashable approval, prior custody forged authorization."
+    },
+    {
+      "path": "docs/MFX_A04_P95_EXTERNAL_ISSUER_OWNER_REVIEW_INTAKE.md",
+      "change": "added",
+      "expected_current_sha": "608f71b01cceec2b59d8b2ead683a423ad182bd9",
+      "reason": "A04/P0.95 owner/custodian/security/rights provenance intake procedure; no fabricated actual publisher signature or rights, no H4 source approval."
     }
   ]
 }
