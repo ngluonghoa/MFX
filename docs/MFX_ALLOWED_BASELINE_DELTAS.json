@@ -2300,6 +2300,24 @@
       "change": "added",
       "expected_current_sha": "aebf9129a0b66fbf8db218bc2eb5e8adef682b23",
       "reason": "A04/P0.91 real GH P0.66 attempt5 authenticated private Drive M5 41/41 SHA with 492 closed bars through UTC 10Z and native H4 9 exact matches; separate 41+8+2 per-folder name metadata; no production change."
+    },
+    {
+      "path": "tools/mfx_h4_qualification_gate.py",
+      "change": "added",
+      "expected_current_sha": "950a7812c6e11a2dfaff64cafc9244b3e4d37462",
+      "reason": "A04/P0.92 pure H4 cross-field source SHA / 30-windows 7d / weekend-weekday dual absence qualification review; always NO_GO for operations."
+    },
+    {
+      "path": "tests/test_a04_p92_h4_qualification_gate.py",
+      "change": "added",
+      "expected_current_sha": "169dd35d5cc6af87844ccd53d60f35ab36d799f2",
+      "reason": "A04/P0.92 40 hermetic P0.91 historical SHA/labels, synthetic H4 7-day boundary, weekend/weekday, 48xM5, OHLC and no-trading/no-IO safeguards."
+    },
+    {
+      "path": "docs/MFX_A04_P92_H4_SESSION_QUALIFICATION_REVIEW.md",
+      "change": "added",
+      "expected_current_sha": "53c6acda1904ae8ad0c97dc24943a2c1d11d25fc",
+      "reason": "A04/P0.92 proof-of-gate research scope; explicit P0.70 reuse, no automatic weekend waiver, numeric threshold not equal H4 owner GO."
     }
   ]
 }
