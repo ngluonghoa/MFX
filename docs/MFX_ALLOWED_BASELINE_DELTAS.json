@@ -2378,6 +2378,24 @@
       "change": "added",
       "expected_current_sha": "9ea55b90492f22ad0c322a501c1bb4cadc4b2f04",
       "reason": "Owner-approved Nov12 2026 signal-first v1 critical path, exact source-anchored gaps, Nov12-Dec10 conditional milestones, paused H4 substitution R&D, unchanged source/workflows."
+    },
+    {
+      "path": "mfx_research/six_tf_readonly_context.py",
+      "change": "added",
+      "expected_current_sha": "aa1a481c5cf8b793d42bd0fd3f645c5caa1ec6a7",
+      "reason": "MFX signal-first v1: executable pure six timeframe latest-closed M5 3/6/12 and native H4/Sydney D1 read-only composition, no verified actionable signal."
+    },
+    {
+      "path": "tests/test_mfx_v1_six_tf_readonly_context.py",
+      "change": "added",
+      "expected_current_sha": "38d15a45646e4d93f6662fa57bd3f24c1b876569",
+      "reason": "MFX signal-first v1: 40 hermetic end-to-end six-frame composition, gap/asof/native-H4/Sydney-D1/fingerprint/NO_SIGNAL and no-I/O tests."
+    },
+    {
+      "path": "docs/MFX_V1_SIX_TF_READONLY_SOURCE_VERTICAL_SLICE.md",
+      "change": "added",
+      "expected_current_sha": "2037d561bd08eecfe7fb8ff36610323287e896d3",
+      "reason": "MFX signal-first v1: first actual six-TF executable source layer after owner-approved pivot, unresolved source approval, real archive and numeric TP/SL gates."
     }
   ]
 }
