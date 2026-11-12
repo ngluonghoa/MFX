@@ -25,6 +25,9 @@ from tools.mfx_native_htf_drive_seal import (
     _batch_from_chunk, audit_native_archive,
 )
 from tools.run_mfx_m5_h4_live_parity_audit import _m5_archive
+from tools.mfx_m5_rolling_manifest_audit import (
+    MAX_ROOTED_MANIFESTS, ROLLING_HOURS, audit_rooted_rolling_m5,
+)
 
 VERSION = "MFX_V1_SEALED_READONLY_SIX_TF_RESEARCH_V1"
 SYMBOL = "EUR/USD"
@@ -64,6 +67,12 @@ class SealedArchiveSixTFReceipt:
     d1_manifest_tip_sha256: str
     all_three_bounded_sha_chains_verified: bool
     github_reviewed_m5_anchors_checked: bool
+    m5_sha_audit_mode: str = "FULL_BOUNDED_ALL_RAW_SHA"
+    m5_total_manifest_parent_chain_verified: int = 0
+    m5_total_archived_manifest_pairs: int = 0
+    m5_historical_raw_chunks_not_reread: int = 0
+    m5_full_historical_raw_sha_verified: bool = True
+    m5_recent_raw_sha_verified: bool = True
     storage_reader_identity_independently_attested: bool = False
     provider_account_data_rights_verified: bool = False
     source_first_known_time_proven: bool = False
@@ -111,11 +120,12 @@ def _m5_pinned_rows(
     if (type(checkpoint_count) is not int
             or not 1 <= checkpoint_count <= MAX_M5_PAIRS
             or len(names) < checkpoint_count
-            or len(names) > MAX_M5_PAIRS
+            or len(names) > MAX_ROOTED_MANIFESTS
             or len(names) != len(chunks)):
         raise ValueError("V1_CACHE_M5_ROLLBACK_OR_UNVERIFIABLE_BOUND")
-    # No call to a writer or a second price feed. Existing P0.66 audits
-    # EVERY M5 manifest/chunk, chain link and 3/6/12 derived fingerprint.
+    # No writer / price feed. <=256: P0.66 checks every raw chunk.
+    # >256: P0.69 checks EVERY manifest SHA/parent and newest 256 raw
+    # chunks, but explicitly cannot certify old raw chunks in this read.
     if (names[0] != _name("manifest", root_hour, root_sha)
             or names[checkpoint_count-1] != _name(
                 "manifest", checkpoint_hour, checkpoint_sha)):
@@ -132,10 +142,26 @@ def _m5_pinned_rows(
             or checkpoint["total_closed_m5"] != 12*checkpoint_count):
         raise ValueError("V1_CACHE_M5_REVIEWED_CONTENT_MISMATCH")
 
-    bars, evidence = _m5_archive(store, now_utc=asof_utc)
+    rolling = len(names) > MAX_M5_PAIRS
+    if rolling:
+        bars, evidence = audit_rooted_rolling_m5(
+            store, now_utc=asof_utc,
+            root_sha256=root_sha, root_hour_utc=root_hour,
+        )
+    else:
+        bars, evidence = _m5_archive(store, now_utc=asof_utc)
     tip = store.read("manifest", names[-1])
-    if (not evidence["m5_full_bounded_chain_verified"]
-            or evidence["m5_manifest_chunk_pairs_full_sha_verified"] != len(names)
+    if (evidence["m5_full_bounded_chain_verified"] is not (not rolling)
+            or evidence["m5_manifest_chunk_pairs_full_sha_verified"] != (
+                ROLLING_HOURS if rolling else len(names))
+            or (rolling and (
+                evidence["m5_manifest_full_sha_parent_chain_verified"] != len(names)
+                or evidence["m5_total_archived_manifest_chunk_pairs"] != len(names)
+                or evidence["m5_historical_unread_chunks"] !=
+                    len(names) - ROLLING_HOURS
+                or evidence["m5_rolling_256_chunk_sha_verified"] is not True
+                or evidence["m5_old_raw_chunks_not_reverified_this_run"] is not True
+            ))
             or evidence["m5_closed_bars"] != len(bars)
             or evidence["m5_latest_manifest_sha256"] != digest(tip)
             or tip["total_batches"] != len(names)
@@ -247,6 +273,23 @@ def consume_sealed_archives_for_six_tf(
         m5_manifest_tip_sha256=m5_evidence["m5_latest_manifest_sha256"],
         h4_manifest_tip_sha256=h4_tip,
         d1_manifest_tip_sha256=d1_tip,
-        all_three_bounded_sha_chains_verified=True,
+        # False in rolling mode: all historic raw M5 chunks NOT re-read.
+        all_three_bounded_sha_chains_verified=(
+            m5_evidence["m5_full_bounded_chain_verified"]),
         github_reviewed_m5_anchors_checked=fixture_pins is None,
+        m5_sha_audit_mode=(
+            "ROOT_PINNED_ALL_MANIFESTS_LATEST_256_CHUNKS"
+            if "m5_rolling_256_chunk_sha_verified" in m5_evidence
+            else "FULL_BOUNDED_ALL_RAW_SHA"),
+        m5_total_manifest_parent_chain_verified=m5_evidence.get(
+            "m5_manifest_full_sha_parent_chain_verified",
+            m5_evidence["m5_manifest_chunk_pairs_full_sha_verified"]),
+        m5_total_archived_manifest_pairs=m5_evidence.get(
+            "m5_total_archived_manifest_chunk_pairs",
+            m5_evidence["m5_manifest_chunk_pairs_full_sha_verified"]),
+        m5_historical_raw_chunks_not_reread=m5_evidence.get(
+            "m5_historical_unread_chunks", 0),
+        m5_full_historical_raw_sha_verified=(
+            m5_evidence["m5_full_bounded_chain_verified"]),
+        m5_recent_raw_sha_verified=True,
     )
