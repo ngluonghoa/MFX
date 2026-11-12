@@ -2180,6 +2180,24 @@
       "change": "added",
       "expected_current_sha": "bfefef5228f679a069e7daad40e91adcc56772e6",
       "reason": "A04/P0.82 inert design and independent read-only audit next step, no live V2 or H4 source reduction. A04/P0.83: documented conservative weekend and audit-clock caveats."
+    },
+    {
+      "path": "tools/mfx_m5_schedule_reconciliation.py",
+      "change": "added",
+      "expected_current_sha": "a1b0b9b88f6af6f55a68e0683ea86727c405d3c8",
+      "reason": "A04/P0.84 hermetic caller-evidence M5 audit vs GitHub writer vs Drive manifest identity timing, no external writes, SHA-history attestation, signal or H4 source authorization."
+    },
+    {
+      "path": "tests/test_a04_p84_m5_schedule_reconciliation.py",
+      "change": "added",
+      "expected_current_sha": "d6fdb2527d2354c9b47d8332045acaa402529b9e",
+      "reason": "A04/P0.84 24 negative/positive timing regression cases, with observed sanitized event timestamps and all runtime/external trust gates denied."
+    },
+    {
+      "path": "docs/MFX_A04_P84_M5_AUDIT_WRITER_TIMELINE.md",
+      "change": "added",
+      "expected_current_sha": "b9488c3169e51b42ed78b9de4518895a2c7b34dd",
+      "reason": "A04/P0.84 independently inspected 2026-11-12 M5 auditor/writer/Drive manifest event evidence, observation-vs-causation limits and unchanged owner gates."
     }
   ]
 }
