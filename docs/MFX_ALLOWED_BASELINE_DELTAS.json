@@ -2216,6 +2216,12 @@
       "change": "added",
       "expected_current_sha": "3e749d529326147bd9038ba3b30cbdbc8dbc82bf",
       "reason": "A04/P0.85 measured real P0.66 31-full vs P0.50 33-tail evidence, explicit limit on stale history, live qualification/owner gates unchanged."
+    },
+    {
+      "path": "docs/MFX_A04_P86_REAL_FULL_M5_SHA_EVIDENCE.md",
+      "change": "added",
+      "expected_current_sha": "953aec612d14531c1c09afd10af720d84e1644a9",
+      "reason": "A04/P0.86 independent real GitHub Actions #43138482666 attempt #2 read-only complete 33/33 M5 full SHA and 7 native H4 matches, preserving trust, calendar and source-switch STOP gates."
     }
   ]
 }
