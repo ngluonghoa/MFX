@@ -2190,7 +2190,7 @@
     {
       "path": "tests/test_a04_p84_m5_schedule_reconciliation.py",
       "change": "added",
-      "expected_current_sha": "4c9684625fd75e3ad01f05c7f40a24958c0dc00e",
+      "expected_current_sha": "d6fdb2527d2354c9b47d8332045acaa402529b9e",
       "reason": "A04/P0.84 24 negative/positive timing regression cases, with observed sanitized event timestamps and all runtime/external trust gates denied."
     },
     {
