@@ -127,7 +127,7 @@ def evaluate_observed_m5_schedule_cohort(
                     or batch.hour_utc > eligible
                     or batch.hour_utc in hours
                     or (previous is not None
-                        and batch.hour_utc <= previous))):
+                        and batch.hour_utc <= previous)):
                 raise ValueError("P087_BATCH_CLOCK_OR_ORDER_RECHECK_REQUIRED")
             match = _MANIFEST.fullmatch(batch.manifest_name)
             if (not match or match.group(1)
