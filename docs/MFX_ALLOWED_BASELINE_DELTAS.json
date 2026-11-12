@@ -2166,13 +2166,13 @@
     {
       "path": "tools/mfx_m5_lag_evidence.py",
       "change": "added",
-      "expected_current_sha": "f927f2f8a36156d9068bf87624d9255cc86ee2bb",
+      "expected_current_sha": "7daba556fd0a49b910e05785089bfecc14945364",
       "reason": "A04/P0.82 pure offline M5 lag receipt classifier, 135s publication guard and no live source/trading authorization."
     },
     {
       "path": "tests/test_a04_p82_m5_lag_evidence.py",
       "change": "added",
-      "expected_current_sha": "19e816fa2f5294d39453aa9d5bd532f2f1c4a68f",
+      "expected_current_sha": "9270b4f8ea55f10e118a4a4d2e4ee696cc83f426",
       "reason": "A04/P0.82 12 hermetic M5 audit lag/staleness/grace/schema/no-trade negative tests."
     },
     {
