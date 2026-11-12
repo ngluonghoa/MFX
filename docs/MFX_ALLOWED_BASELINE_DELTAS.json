@@ -2222,6 +2222,24 @@
       "change": "added",
       "expected_current_sha": "953aec612d14531c1c09afd10af720d84e1644a9",
       "reason": "A04/P0.86 independent real GitHub Actions #43138482666 attempt #2 read-only complete 33/33 M5 full SHA and 7 native H4 matches, preserving trust, calendar and source-switch STOP gates."
+    },
+    {
+      "path": "tools/mfx_m5_scheduler_cohort_evidence.py",
+      "change": "added",
+      "expected_current_sha": "b8e14b8d2d683977b732b838253a0fbf9e08dc5a",
+      "reason": "A04/P0.87 offline no-IO cron-to-Drive M5 actual timestamp cohort classifier; event/scheduler/queue/vendor root-cause and trading promotion explicitly denied."
+    },
+    {
+      "path": "tests/test_a04_p87_m5_schedule_cohort.py",
+      "change": "added",
+      "expected_current_sha": "520bc06ea23f61cdb6f411474e8b4c5b68a3e4e7",
+      "reason": "A04/P0.87 30 hermetic scheduled-run/manifest timestamp and negative-type/clock/duplicate/gap tests, no live price or Drive calls."
+    },
+    {
+      "path": "docs/MFX_A04_P87_M5_SCHEDULE_RUN_TO_DRIVE_COHORT.md",
+      "change": "added",
+      "expected_current_sha": "cc8134fd4c86a6923d1b1ea6532c369b1202ab3e",
+      "reason": "A04/P0.87 cross-checked 12 real scheduled GitHub runs/14 M5 manifest creations, 2 catchup runs and independent cause-attribution caveats."
     }
   ]
 }
