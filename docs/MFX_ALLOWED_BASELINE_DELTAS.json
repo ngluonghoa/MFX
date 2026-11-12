@@ -2178,8 +2178,8 @@
     {
       "path": "docs/MFX_A04_P82_M5_LAG_EVIDENCE.md",
       "change": "added",
-      "expected_current_sha": "cce81354dcb66c61edb296d382106ece27b35c26",
-      "reason": "A04/P0.82 inert design and independent read-only audit next step, no live V2 or H4 source reduction."
+      "expected_current_sha": "bfefef5228f679a069e7daad40e91adcc56772e6",
+      "reason": "A04/P0.82 inert design and independent read-only audit next step, no live V2 or H4 source reduction. A04/P0.83: documented conservative weekend and audit-clock caveats."
     }
   ]
 }
