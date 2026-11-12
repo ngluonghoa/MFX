@@ -2294,6 +2294,12 @@
       "change": "added",
       "expected_current_sha": "c6816e4a2ede19c91f3d0bb7d183f3db0dbea35e",
       "reason": "A04/P0.90 GitHub+Drive historical source/job/manifest + full 40-pair SHA evidence; explicitly no fresh archive authentication or production modification."
+    },
+    {
+      "path": "docs/MFX_A04_P91_REAL_41_M5_SHA_H4_NATIVE_PARITY.md",
+      "change": "added",
+      "expected_current_sha": "aebf9129a0b66fbf8db218bc2eb5e8adef682b23",
+      "reason": "A04/P0.91 real GH P0.66 attempt5 authenticated private Drive M5 41/41 SHA with 492 closed bars through UTC 10Z and native H4 9 exact matches; separate 41+8+2 per-folder name metadata; no production change."
     }
   ]
 }
