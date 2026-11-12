@@ -64,7 +64,12 @@ class M5TimelineTests(TestCase):
         self.assertFalse(r.forex_session_calendar_verified)
 
     def test_05_same_old_hour_not_a_new_slot(self):
-        r = checked(sample(writer_committed_hour_utc=T + timedelta(hours=1)))
+        r = checked(sample(
+            writer_committed_hour_utc=T + timedelta(hours=1),
+            drive_manifest_name=(
+                "MFX_TD_EURUSD_M5_V2_manifest_20261112T0100Z_" + SHA + ".json"
+            ),
+        ))
         self.assertEqual(r.status, "NONCONTIGUOUS_NEXT_SLOT_RECHECK_REQUIRED")
         self.assertFalse(r.observed_next_hour_manifest)
 
