@@ -11,7 +11,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 import re
-from urllib.parse import urlsplit
 
 from tools.mfx_fx_calendar_content_custody import (
     RECEIPT as CUSTODY_SCHEMA, SnapshotCustodyReceipt,
@@ -142,6 +141,17 @@ def review_external_calendar_packet(
             or custody.actual_provider_m5_session_calendar_verified is not False
             or custody.automatic_weekend_gap_waiver is not False
             or custody.owner_calendar_exception_go is not False
+            or custody.actual_mfx_feed_version_verified is not False
+            or custody.separately_licensed_data_usage_verified is not False
+            or custody.trusted_external_monotonic_witness_verified is not False
+            or custody.may_replace_native_h4 is not False
+            or custody.may_reduce_native_h4_requests is not False
+            or custody.may_change_sydney_native_d1 is not False
+            or custody.numeric_buy_sell_authorized is not False
+            or custody.broker_orders_authorized is not False
+            or custody.network_calls != 0
+            or custody.drive_writes != 0
+            or custody.broker_orders != 0
             or not _sha(custody.snapshot_sha256)
             or type(custody.sequence) is not int
             or custody.sequence < 1):
@@ -174,6 +184,7 @@ def review_external_calendar_packet(
             or proposal.price_side_claimed != "MID"
             or proposal.licensing_purpose_claimed != PROPOSED_USE
             or proposal.signature_scheme_claimed != SIGNATURE_SCHEME
+            or type(proposal.owner_request) is not str
             or proposal.owner_request not in ALLOWED_OWNER_REQUESTS):
         raise ValueError("P095_EXTERNAL_CLAIM_WRONG_SOURCE_OR_UNSAFE_ACTION")
     hashes = (

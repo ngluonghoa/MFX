@@ -259,15 +259,12 @@ class P95ExternalCalendarReviewTests(TestCase):
             evaluate(proposal=replace(claim(),evidence_expires_utc=NOW))
 
     def test_50_seven_day_old_collection_still_allowed(self):
-        p=claim()
-        r=evaluate(proposal=replace(p,evidence_collected_utc="2026-11-05T12:00:00+00:00",
-                                   issuer_issued_utc="2026-11-05T10:00:00+00:00"))
+        r=evaluate(now="2026-11-19T11:00:00+00:00")
         self.assertFalse(r.owner_operational_go)
 
     def test_51_more_than_seven_days_stale(self):
         with self.assertRaisesRegex(ValueError,"EXPIRED_REPLAYED"):
-            evaluate(proposal=replace(claim(),evidence_collected_utc="2026-11-05T11:59:00+00:00",
-                                      issuer_issued_utc="2026-11-05T10:00:00+00:00"))
+            evaluate(now="2026-11-19T11:01:00+00:00")
 
     def test_52_issuer_issued_after_capture_denied(self):
         with self.assertRaisesRegex(ValueError,"EXPIRED_REPLAYED"):
@@ -335,3 +332,16 @@ class P95ExternalCalendarReviewTests(TestCase):
         r=repr(evaluate())
         self.assertNotIn("MFX_GDRIVE_OAUTH",r)
         self.assertNotIn("MFX_TWELVE_DATA_API_KEY",r)
+
+    def test_67_unhashable_owner_request_rejected(self):
+        with self.assertRaisesRegex(ValueError,"UNSAFE_ACTION"):
+            evaluate(proposal=replace(claim(),owner_request=[]))
+
+    def test_68_prior_claimed_feed_auth_denied(self):
+        with self.assertRaisesRegex(ValueError,"PRIOR_P94"):
+            evaluate(custody=replace(p94_check(),
+                                   actual_mfx_feed_version_verified=True))
+
+    def test_69_prior_claimed_live_native_change_denied(self):
+        with self.assertRaisesRegex(ValueError,"PRIOR_P94"):
+            evaluate(custody=replace(p94_check(),may_replace_native_h4=True))
