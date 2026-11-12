@@ -2258,6 +2258,24 @@
       "change": "added",
       "expected_current_sha": "5e48c459dc2d83e520523d4354cdf094bec577ed",
       "reason": "A04/P0.88 real P0.66 Actions attempt3 full 34/34 raw M5 SHA + 8 native H4 matches and measured 12 GitHub job stages, no schedule/root cause promotion."
+    },
+    {
+      "path": "tools/mfx_m5_schedule_source_provenance.py",
+      "change": "added",
+      "expected_current_sha": "e28024aa293243b3ef980825f150eab212d16ed7",
+      "reason": "A04/P0.89 pure source-locked seven-HEAD GitHub workflow blob and exact run/job source identity cross-check; fail closed event dispatch/causality and runtime permissions."
+    },
+    {
+      "path": "tests/test_a04_p89_schedule_source_provenance.py",
+      "change": "added",
+      "expected_current_sha": "3990789dd66b9ac5988368f547784c31ef9abdde",
+      "reason": "A04/P0.89 34 hermetic schedule run-source provenance, workflow blob pin, timestamp identity and owner-gate regression checks."
+    },
+    {
+      "path": "docs/MFX_A04_P89_GITHUB_SCHEDULE_SOURCE_PROVENANCE.md",
+      "change": "added",
+      "expected_current_sha": "e9d29e64ffa6ffa9b0c25c7c9ea3f80a8d891e82",
+      "reason": "A04/P0.89 measured 40/40 read-only real M5 full SHA, nine native H4 comparable matches and immutable workflow SHA over seven source HEADs, with prospective instrumentation no-go boundaries."
     }
   ]
 }
