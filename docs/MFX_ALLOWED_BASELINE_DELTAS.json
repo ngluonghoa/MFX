@@ -2318,6 +2318,24 @@
       "change": "added",
       "expected_current_sha": "53c6acda1904ae8ad0c97dc24943a2c1d11d25fc",
       "reason": "A04/P0.92 proof-of-gate research scope; explicit P0.70 reuse, no automatic weekend waiver, numeric threshold not equal H4 owner GO."
+    },
+    {
+      "path": "tools/mfx_fx_calendar_provenance.py",
+      "change": "added",
+      "expected_current_sha": "2a5cec200ccf5a4d8ae6a055387e6aa7a3e0e22b",
+      "reason": "A04/P0.93 scope-strict immutable official FX reference catalog with bounded UTC H4 gap review, pin actual MFX writer blob; perpetual weekend/cutover NO_GO."
+    },
+    {
+      "path": "tests/test_a04_p93_fx_calendar_provenance.py",
+      "change": "added",
+      "expected_current_sha": "ed6bb5e4c1fbd3c650d1b0038fa3c63c577cf747",
+      "reason": "A04/P0.93 45 hermetic official publisher scope/24x7 delivery vs 24x5 execution, DST/day/source blob/UTC validation and no source waiver/IO permissions tests. Corrected Ruff E702 CI lint-only finding before merge."
+    },
+    {
+      "path": "docs/MFX_A04_P93_OFFICIAL_FX_CALENDAR_SCOPE_PROVENANCE.md",
+      "change": "added",
+      "expected_current_sha": "96d1e395c10c3b31066a7dcebb75a30ef1bffb2e",
+      "reason": "A04/P0.93 first-party Twelve Data v2 24/7 vs OANDA/CME venue execution calendars, real writer endpoint/timezone source identity, no weekend M5 waiver or provider entitlement assumption."
     }
   ]
 }
