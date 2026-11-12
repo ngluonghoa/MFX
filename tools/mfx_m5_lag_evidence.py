@@ -73,13 +73,20 @@ def classify_m5_lag(
     publishing = a - (expected + timedelta(minutes=5)) < PUBLISH_GRACE
     # The expected tail is caller-supplied. Independently bound it to the
     # latest M5 bar whose close has cleared the 135-second publication grace.
-    latest_due = as_of_utc - PUBLISH_GRACE - timedelta(minutes=5)
+    # Anchor due-tail to the AUDIT clock, not the later review clock.
+    # A fresh but delayed audit must not be compared with future candles.
+    latest_due = a - PUBLISH_GRACE - timedelta(minutes=5)
     latest_due = latest_due.replace(
         minute=(latest_due.minute // 5) * 5, second=0, microsecond=0
     )
     expected_is_stale = expected < latest_due
+    # The UTC grid is not an FX trading calendar. Weekend observations
+    # cannot establish a missing bar or a verified current tail.
+    weekend_calendar_unknown = a.weekday() >= 5 or expected.weekday() >= 5
     if not current:
         status = "STALE_AUDIT_RECHECK_REQUIRED"
+    elif weekend_calendar_unknown:
+        status = "SESSION_CALENDAR_UNVERIFIED_RECHECK_REQUIRED"
     elif expected_is_stale:
         status = "STALE_EXPECTED_TAIL_RECHECK_REQUIRED"
     elif publishing and lag:
