@@ -2240,6 +2240,24 @@
       "change": "added",
       "expected_current_sha": "dc0bee8a7a558a15b29bb3dc0a398bd76f891e7e",
       "reason": "A04/P0.87 cross-checked 12 real scheduled GitHub runs/14 M5 manifest creations, 2 catchup runs and independent cause-attribution caveats. Further cross-checked all 12 GitHub job-created/start/completed timestamps (2-3s queue, 17-39s runtime), no scheduler-origin claim."
+    },
+    {
+      "path": "tools/mfx_m5_job_lifecycle_evidence.py",
+      "change": "added",
+      "expected_current_sha": "c3df49eb2e1187f158c1816a47ff5b94a05dd41b",
+      "reason": "A04/P0.88 pure bounded REST job-stage vs original scheduled M5 Drive manifest timestamps, fail-closed actor/tick/vendor/root cause and no IO."
+    },
+    {
+      "path": "tests/test_a04_p88_m5_job_lifecycle_evidence.py",
+      "change": "added",
+      "expected_current_sha": "09a42e1d8d0636484fcceb6f03ee1a9276f6ab9c",
+      "reason": "A04/P0.88 28 hermetic actual twelve-job timestamp fixtures and negative cross-system mismatch/identity/clock QA."
+    },
+    {
+      "path": "docs/MFX_A04_P88_JOB_STAGE_AND_REAL_34_M5_SHA.md",
+      "change": "added",
+      "expected_current_sha": "5e48c459dc2d83e520523d4354cdf094bec577ed",
+      "reason": "A04/P0.88 real P0.66 Actions attempt3 full 34/34 raw M5 SHA + 8 native H4 matches and measured 12 GitHub job stages, no schedule/root cause promotion."
     }
   ]
 }
