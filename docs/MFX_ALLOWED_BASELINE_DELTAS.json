@@ -2382,13 +2382,13 @@
     {
       "path": "mfx_research/six_tf_readonly_context.py",
       "change": "added",
-      "expected_current_sha": "aa1a481c5cf8b793d42bd0fd3f645c5caa1ec6a7",
+      "expected_current_sha": "44dbe58bf8066d5ff7f647b2e47dfb5c842c9c51",
       "reason": "MFX signal-first v1: executable pure six timeframe latest-closed M5 3/6/12 and native H4/Sydney D1 read-only composition, no verified actionable signal."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_readonly_context.py",
       "change": "added",
-      "expected_current_sha": "38d15a45646e4d93f6662fa57bd3f24c1b876569",
+      "expected_current_sha": "57993bc324880d6fdda5dc4cc988b9735d1a12b3",
       "reason": "MFX signal-first v1: 40 hermetic end-to-end six-frame composition, gap/asof/native-H4/Sydney-D1/fingerprint/NO_SIGNAL and no-I/O tests."
     },
     {

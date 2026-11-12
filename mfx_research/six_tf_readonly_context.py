@@ -11,7 +11,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
-from hashlib import sha256
 from zoneinfo import ZoneInfo
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
@@ -128,6 +127,8 @@ def _validate_native(
                 )):
             raise ValueError("V1_SIX_TF_NATIVE_BAR_SCOPE_OR_PRIVILEGE_INVALID")
         label = bar.native_open_label
+        if type(label) is not str:
+            raise ValueError("V1_SIX_TF_NATIVE_LABEL_TYPE_REQUIRED")
         if label <= prev:
             raise ValueError("V1_SIX_TF_DUPLICATE_OR_UNSORTED_NATIVE")
         prev = label

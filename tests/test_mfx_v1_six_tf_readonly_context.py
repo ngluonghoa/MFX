@@ -166,12 +166,12 @@ class SixTFSourceSliceTests(TestCase):
         self.assertNotIn("M30",r.missing_or_stale_frames)
 
     def test_19_missing_native_h4_blocks_six_frame_ready(self):
-        r=build(four=h4(labels=()))
+        r=build(four=replace(h4(),closed_bars=()))
         self.assertEqual(r.missing_or_stale_frames,("H4",))
         self.assertFalse(r.research_technical_context_complete)
 
     def test_20_missing_native_d1_blocks_six_frame_ready(self):
-        r=build(daily=d1(labels=()))
+        r=build(daily=replace(d1(),closed_bars=()))
         self.assertEqual(r.missing_or_stale_frames,("D1",))
 
     def test_21_old_native_h4_not_silent_rollforward(self):
