@@ -2198,6 +2198,24 @@
       "change": "added",
       "expected_current_sha": "b9488c3169e51b42ed78b9de4518895a2c7b34dd",
       "reason": "A04/P0.84 independently inspected 2026-11-12 M5 auditor/writer/Drive manifest event evidence, observation-vs-causation limits and unchanged owner gates."
+    },
+    {
+      "path": "tools/mfx_m5_full_sha_two_anchor_audit.py",
+      "change": "added",
+      "expected_current_sha": "0ee635b8036a0959c9963474bbd3608eda832fd8",
+      "reason": "A04/P0.85 pure full bounded M5 all-raw-SHA verifier with reviewed P0.69 root and P0.66 31-pair checkpoint, before/after snapshot identity and no IO/authority promotion."
+    },
+    {
+      "path": "tests/test_a04_p85_full_m5_sha_checkpoint.py",
+      "change": "added",
+      "expected_current_sha": "aa988716fea5798a161ccff47c43faffa307958c",
+      "reason": "A04/P0.85 21 hermetic source root/checkpoint, 31/33 hour bounded full SHA, mutation, rollback and no-trade negative regressions."
+    },
+    {
+      "path": "docs/MFX_A04_P85_FULL_M5_TWO_PIN_SHA_AUDIT.md",
+      "change": "added",
+      "expected_current_sha": "3e749d529326147bd9038ba3b30cbdbc8dbc82bf",
+      "reason": "A04/P0.85 measured real P0.66 31-full vs P0.50 33-tail evidence, explicit limit on stale history, live qualification/owner gates unchanged."
     }
   ]
 }
