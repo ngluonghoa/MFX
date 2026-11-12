@@ -2336,6 +2336,24 @@
       "change": "added",
       "expected_current_sha": "96d1e395c10c3b31066a7dcebb75a30ef1bffb2e",
       "reason": "A04/P0.93 first-party Twelve Data v2 24/7 vs OANDA/CME venue execution calendars, real writer endpoint/timezone source identity, no weekend M5 waiver or provider entitlement assumption."
+    },
+    {
+      "path": "tools/mfx_fx_calendar_content_custody.py",
+      "change": "added",
+      "expected_current_sha": "93da97cb87ca70e439d1e644d6e12b0c5f95dd93",
+      "reason": "A04/P0.94 pure canonical byte SHA, exact publisher-ref/writer-scope, source-calendar H4 closure, timestamps and self-asserted chain admission review; all H4 weekend waivers forbidden."
+    },
+    {
+      "path": "tests/test_a04_p94_fx_calendar_content_custody.py",
+      "change": "added",
+      "expected_current_sha": "7eb9e1509e96522312d6bcd8ae4ea3ef15540dd1",
+      "reason": "A04/P0.94 68 hermetic fake calendar SHA/issuer/owner/calendar/replay/capture/chain/UTC gaps and no vendor IO/cutover tests. Correction: enforce exact H4 xx:00 minutes with three additional adversarial tests (71 total)."
+    },
+    {
+      "path": "docs/MFX_A04_P94_CONTENT_ADDRESSED_CALENDAR_ADMISSION.md",
+      "change": "added",
+      "expected_current_sha": "c341121fc8c8575cb30ebd90ec6e4dfa1ee6500e",
+      "reason": "A04/P0.94 candidate canonical SHA vs publisher signature/entitlement/external antirollback limitations; no real signed Twelve Data calendar or production authorization."
     }
   ]
 }
