@@ -2372,6 +2372,12 @@
       "change": "added",
       "expected_current_sha": "608f71b01cceec2b59d8b2ead683a423ad182bd9",
       "reason": "A04/P0.95 owner/custodian/security/rights provenance intake procedure; no fabricated actual publisher signature or rights, no H4 source approval."
+    },
+    {
+      "path": "docs/MFX_V1_SIGNAL_FIRST_RELEASE_CRITICAL_PATH.md",
+      "change": "added",
+      "expected_current_sha": "9ea55b90492f22ad0c322a501c1bb4cadc4b2f04",
+      "reason": "Owner-approved Nov12 2026 signal-first v1 critical path, exact source-anchored gaps, Nov12-Dec10 conditional milestones, paused H4 substitution R&D, unchanged source/workflows."
     }
   ]
 }
