@@ -2414,6 +2414,30 @@
       "change": "added",
       "expected_current_sha": "63b6577b86d2f1a5f3a55cf0d7557696aee4b337",
       "reason": "MFX 1.0 tested pure source-cache consumer scope, SHA versus vendor rights and first-known limitations, no live OAuth/Drive proof or production workflow; signal-first next."
+    },
+    {
+      "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
+      "change": "added",
+      "expected_current_sha": "37192b63840db3e56736fd86c91e1280fd073e72",
+      "reason": "Signal-first v1 optional owner-gated manual GitHub OAuth Drive GET-only six-TF SHA research consumer, fail-closed and redacted NO_SIGNAL metadata, no vendor/Drive write/trade."
+    },
+    {
+      "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
+      "change": "added",
+      "expected_current_sha": "8f08f0043137106db807c11c5a2c684598333f1f",
+      "reason": "Only manual main-branch workflow_dispatch behind a new off-by-default owner variable, exact manual acknowledgment and existing cache guards; shared lock, contents read, zero schedules or source calls."
+    },
+    {
+      "path": "tests/test_mfx_v1_manual_drive_six_tf_readonly.py",
+      "change": "added",
+      "expected_current_sha": "79888adc07ec776b0f94dda880944ba8be25aa58",
+      "reason": "Thirty hermetic GET-only adapter/URL/source scope, no-writes, manual authorization, workflow static and secret/redaction tests; no live OAuth/price."
+    },
+    {
+      "path": "docs/MFX_V1_MANUAL_PRIVATE_DRIVE_GET_ONLY_SIX_TF_PROBE.md",
+      "change": "added",
+      "expected_current_sha": "24e8faa11ad8b6e3ac1f875bbc993876589ae668",
+      "reason": "MFX v1 manual-only reader/runbook, exact no-automatic-activation/source-authority distinction, strict initial 256-pair bound, pending live OAuth and numeric strategy rights."
     }
   ]
 }

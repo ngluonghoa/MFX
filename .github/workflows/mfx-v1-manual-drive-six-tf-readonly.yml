@@ -1,0 +1,55 @@
+name: MFX 1.0 manual READ-ONLY six-TF Cache evidence (NO price/trading)
+
+# Isolated optional manual-only capability; NEVER run on push or cron.
+# Explicit operator acknowledgment plus a separate OFF-by-default repository
+# variable are both required. Existing production cache is not modified.
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_read_only:
+        description: "Choose READ_ONLY_NO_SIGNAL to run an explicitly authorized GET-only SHA audit"
+        required: true
+        type: choice
+        default: "NO"
+        options:
+          - "NO"
+          - "READ_ONLY_NO_SIGNAL"
+
+permissions:
+  contents: read
+
+# Coordinate with the existing M5 writer, native writer and SHA auditors.
+concurrency:
+  group: mfx-twelvedata-private-cache
+  cancel-in-progress: false
+
+jobs:
+  manual-existing-drive-readonly-six-tf:
+    if: ${{ github.repository == 'ngluonghoa/MFX' && github.ref == 'refs/heads/main' && inputs.confirm_read_only == 'READ_ONLY_NO_SIGNAL' && vars.MFX_V1_SIX_TF_MANUAL_READONLY_APPROVED == 'true' && vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V2_BATCH_CACHE_ACCEPTED == 'true' && vars.MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED == 'true' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - name: Checkout MFX source without persistent repo token
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Setup Python 3.12
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Install existing pinned private Drive OAuth GET dependencies
+        run: python -m pip install --disable-pip-version-check google-auth==2.43.0 requests==2.32.5
+      - name: Read existing M5/H4/D1 SHA archives and output masked NO_SIGNAL receipt
+        env:
+          PYTHONPATH: src:.
+          MFX_V1_SIX_TF_MANUAL_READONLY_APPROVED: ${{ vars.MFX_V1_SIX_TF_MANUAL_READONLY_APPROVED }}
+          MFX_V1_READONLY_CONFIRMATION: ${{ inputs.confirm_read_only }}
+          MFX_REAL_CACHE_ENABLED: ${{ vars.MFX_REAL_CACHE_ENABLED }}
+          MFX_V2_BATCH_CACHE_ACCEPTED: ${{ vars.MFX_V2_BATCH_CACHE_ACCEPTED }}
+          MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED: ${{ vars.MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED }}
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+          MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
+          MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
+        run: python -m tools.run_mfx_v1_manual_drive_six_tf
