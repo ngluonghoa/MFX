@@ -71,16 +71,26 @@ def classify_m5_lag(
     # An audit at the close boundary may precede publication. Do not
     # misclassify that transient as a confirmed missing bar.
     publishing = a - (expected + timedelta(minutes=5)) < PUBLISH_GRACE
+    # The expected tail is caller-supplied. Independently bound it to the
+    # latest M5 bar whose close has cleared the 135-second publication grace.
+    latest_due = as_of_utc - PUBLISH_GRACE - timedelta(minutes=5)
+    latest_due = latest_due.replace(
+        minute=(latest_due.minute // 5) * 5, second=0, microsecond=0
+    )
+    expected_is_stale = expected < latest_due
     if not current:
         status = "STALE_AUDIT_RECHECK_REQUIRED"
+    elif expected_is_stale:
+        status = "STALE_EXPECTED_TAIL_RECHECK_REQUIRED"
     elif publishing and lag:
         status = "PUBLICATION_WINDOW_RECHECK_REQUIRED"
     elif lag:
         status = "LAG_OBSERVED_NOT_OUTAGE_PROOF"
     else:
         status = "TAIL_MATCH_ONLY"
+    # Caller-provided full_history_audited cannot attest complete history.
     return M5LagReceipt(
         schema=SCHEMA, status=status, observed_lag_bars=lag,
         evidence_is_current=current,
-        complete_history_verified=observed.full_history_audited,
+        complete_history_verified=False,
     )
