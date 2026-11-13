@@ -8,6 +8,10 @@ The source-derived P0.155 closed MID candle histories and the P0.156 already rig
 
 The existing six-TF sealed archive consumer computes this private receipt with **no extra Drive GET, provider call, write, workflow, cron or feature flag activation**. Its disabled owner-gated manual GET-only report exposes only bounded profile availability/status, not direction, threshold, price, event or private input hash. The P0.157 36-row source-owner crosswalk remains intact: this M15 micro-break is a useful technical precursor, **not** the original source-owned B2/S2 micro-break policy.
 
+## Privacy hardening follow-up (P0.158a)
+
+Do not project raw `PrivateMicroBreakProfile.status` publicly: `PRIVATE_PRIOR_CONFIRMED...` versus `NO_PRIOR...` reveals whether a price-derived pivot exists even without numeric price or direction. Public manual GET-only projection must map BOTH states to `M15_CLOSED_HISTORY_ONLY_PRIVATE_EVENT_REDACTED`; only missing/stale/insufficient source-history coverage is reportable. Test both synthetic actual cross and flat source map identically. No cache/cron/rights change.
+
 ## Release stop and missing authorities
 
 Original Forex B2/S2 numeric choices still 0/36 signed; 14 other MFX entry candidates still not source-numeric qualified. H1 support/resistance origin and ATR/anti-chase boundaries, D1 2026-11-11 numeric correction quarantine (#147), licensed provider account rights to raw/derived Drive data, publisher first-known/revision, BID/ASK spread/slippage/fees, original structural SL/TP/net R and true historical OOS are NOT satisfied. Closed UTC does not attest when the vendor published the data. All outputs externally stay `NO_SIGNAL / UNVERIFIED`; no broker, no live BUY/SELL or release promotion.
