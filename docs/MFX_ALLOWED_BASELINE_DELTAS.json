@@ -2492,6 +2492,18 @@
       "change": "added",
       "expected_current_sha": "ecb69715d0878a86ea6b5f29111463c0a5ef6e29",
       "reason": "Documented 2026-11-13 live D1 11 Nov quarantine evidence and no-API native previous/full-SHA versus refetched source in-memory forensic policy; owner must separately approve any source restatement."
+    },
+    {
+      "path": "tests/test_mfx_v1_native_private_drive_forensic_integration.py",
+      "change": "added",
+      "expected_current_sha": "226ee1aa3cfd32784e288bb69b75efbf198fc4d6",
+      "reason": "12 hermetic end-to-end production exact PrivateNativeDriveStore full SHA native-forensics adapter tests; verifies Drive GET equivalence without extra vendor calls or writes, original P059 fail-closed and no secret/OHLC logs."
+    },
+    {
+      "path": "docs/MFX_V1_EXACT_NATIVE_DRIVE_FORENSIC_ADAPTER_CONTRACT.md",
+      "change": "added",
+      "expected_current_sha": "4609c9d5e2dffa7c76afe58b1e87db7074c1b9b6",
+      "reason": "Provenance and acceptance/negative-test contract for original cloud MFX P0.145 forensic read-through over real Google Drive v3 adapter, no live credentials or prices, no SHA bypass or cron."
     }
   ]
 }
