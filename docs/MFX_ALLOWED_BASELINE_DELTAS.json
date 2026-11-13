@@ -2417,9 +2417,9 @@
     },
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
-      "change": "added",
-      "expected_current_sha": "c4e42fb06c3c20a9588518999317e29036298f70",
-      "reason": "Signal-first v1 optional owner-gated manual GitHub OAuth Drive GET-only six-TF SHA research consumer, fail-closed and redacted NO_SIGNAL metadata, no vendor/Drive write/trade. MFX v1 manual probe emits truthful full vs rolling SHA scope, rejects forged historical-full receipts; zero new Drive/vendor actions. MFX v1 GET-only manual summary includes immutable source-tip-relative M5/M15/M30/H1 CLOSED UTC slot deficits; fail-closed on mismatch, no extra reads or price calls."
+      "change": "modified",
+      "expected_current_sha": "fba01e4a0114f2762f59b5019b3f710a15e82c6b",
+      "reason": "P0.150 integrate existing P0.149 fail-closed six-TF NO_SIGNAL response into dormant manual GitHub OAuth MFX private Drive GET-only receipt; zero added provider/Drive requests, no activation, no raw prices or broker."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2540,6 +2540,18 @@
       "change": "added",
       "expected_current_sha": "eec0546defa2ad60e364187e73d6aa4b5db8bdc8",
       "reason": "Signal-first offline output interface, immutable source gate, P059 D1 HOLD, cache freshness limitations, Cloud-only QA and no BUY/SELL release permission."
+    },
+    {
+      "path": "tests/test_mfx_v1_manual_signal_only_drive_output.py",
+      "change": "added",
+      "expected_current_sha": "45402db6cbbcff04be3b038125c49a633be91f23",
+      "reason": "14 hermetic negative/positive tests: exact manually gated 6TF Drive receipt renders safe deterministic NO_SIGNAL shell without provider/Drive IO, fabricated owner approval, price logs or unauthorized flag activation."
+    },
+    {
+      "path": "docs/MFX_V1_MANUAL_DRIVE_SIGNAL_ONLY_OUTPUT_INTEGRATION.md",
+      "change": "added",
+      "expected_current_sha": "3ee7ede9d4e81ed14bda8cb1b645f085f38b35d2",
+      "reason": "Document P0.150 real existing manual OAuth read output integration and strict owner HOLD, source licence, M5/M15, P059 quarantine, no external calls/BUY SELL or release."
     }
   ]
 }
