@@ -2646,7 +2646,7 @@
     {
       "path": "mfx_research/sealed_private_pivot_sensitivity.py",
       "change": "added",
-      "expected_current_sha": "c473c3074fed6b6a9fe15c0071e76c65235d9311",
+      "expected_current_sha": "f1e29e5ca5bbcbbfecf25b9d3e269c9334a4ca2e",
       "reason": "P0.156 actual private strict right-bar confirmed extrema on independently SHA checked sealed history with two unapproved research windows, no fake publisher-first-known or numeric 1:1."
     },
     {
