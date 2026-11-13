@@ -26,6 +26,9 @@ from mfx_research.ohlc_first_optional_bidask_policy import (
 from mfx_research.six_tf_private_candle_geometry import (
     compute_private_six_tf_candle_geometry,
 )
+from mfx_research.sealed_multibar_private_features import (
+    PrivateMultiBarReceipt, VERSION as MULTIBAR_VERSION,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -232,6 +235,45 @@ def safe_summary(
             or private_geometry.source_fingerprint_sha256 !=
                 signal_only.evidence_fingerprint_sha256):
         raise ValueError("MFX_V1_READONLY_PRIVATE_GEOMETRY_SOURCE_DRIFT")
+    # P0.155: this is REAL history-based arithmetic computed *inside* the
+    # existing source consumer from exactly the SAME SHA-validated buffers,
+    # not an additional Drive read. Never log returns, TRs, derived highs,
+    # lows, close direction, or the private input fingerprint.
+    multibar = evidence.private_multibar
+    if (type(multibar) is not PrivateMultiBarReceipt
+            or multibar.version != MULTIBAR_VERSION
+            or multibar.asof_utc != technical.asof_utc
+            or multibar.action != "NO_SIGNAL"
+            or multibar.stage != "UNVERIFIED"
+            or multibar.source_price_side != "MID"
+            or multibar.may_publish_prices_or_signals
+            or multibar.may_trade or multibar.vendor_source_license_verified
+            or multibar.first_known_publisher_verified
+            or multibar.original_forex_numeric_source_approved
+            or multibar.historical_asof_replay_proven
+            or multibar.bidask_net_rr_available
+            or multibar.confirmed_pivot_or_original_trend_inferred
+            or multibar.provider_requests
+            or multibar.drive_market_cache_writes
+            or multibar.broker_orders
+            or tuple(f.frame for f in multibar.frames) !=
+                tuple(f.frame for f in technical.frames)
+            or multibar.frames_missing_or_stale !=
+                technical.missing_or_stale_frames
+            or multibar.public_technical_context_complete !=
+                technical.research_technical_context_complete):
+        raise ValueError("MFX_V1_READONLY_MULTIBAR_PRIVATE_SCOPE_DRIFT")
+    if any(
+            (feature.observed_closed_candles < 1
+             or feature.original_numeric_entry_source_approved
+             or feature.data_rights_independently_verified
+             or feature.provider_first_known_proven
+             or feature.publishable_buy_sell
+             or feature.latest_source_sha256_claim !=
+                raw.evidence_sha256
+             or feature.latest_source_label != raw.source_label)
+            for feature, raw in zip(multibar.frames, technical.frames)):
+        raise ValueError("MFX_V1_READONLY_MULTIBAR_SOURCE_DRIFT")
     if (source_mode.publishable_buy_sell
             or source_mode.broker_order_integration
             or source_mode.requires_mt4_or_mt5_terminal
@@ -276,6 +318,32 @@ def safe_summary(
         "drive_writes": 0,
         "broker_orders": 0,
         "raw_price_logged": False,
+        "private_multibar_research": {
+            "status": "MULTIBAR_COMPUTED_PRIVATE_NO_VALUES_PUBLISHED",
+            "frames_processed": len(multibar.frames),
+            "frames_with_two_or_more_closed_candles": [
+                f.frame for f in multibar.frames
+                if f.observed_closed_candles >= 2
+            ],
+            "frames_with_insufficient_closed_history": [
+                f.frame for f in multibar.frames
+                if f.observed_closed_candles < 2
+            ],
+            "missing_or_stale_frames": list(
+                multibar.frames_missing_or_stale),
+            "sydney_d1_session_continuity_independently_proven": False,
+            "published_raw_or_derived_price_values": False,
+            "publisher_first_known_verified": False,
+            "original_source_numeric_rules_approved": False,
+            "source_licence_for_derived_market_values_verified": False,
+            "confirmed_trend_or_pivot_proven": False,
+            "bidask_net_rr_available": False,
+            "action": "NO_SIGNAL",
+            "stage": "UNVERIFIED",
+            "provider_requests": 0,
+            "drive_market_cache_writes": 0,
+            "broker_orders": 0,
+        },
         "private_ohlc_geometry": {
             "status": "COMPUTED_IN_MEMORY_NEVER_PUBLISHED",
             "source_side": "MID",

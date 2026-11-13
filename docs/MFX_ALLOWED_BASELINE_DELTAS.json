@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "7a07f782db906e7d63a82b9841f3c7a70f45778d",
-      "reason": "MFX 1.0 signal-first bounded read-only SHA/root-checkpoint M5 and native H4/D1 archive composition into existing causal six-TF research receipt; no new vendor/Drive writes, no authenticated live/source BUY SELL claim. CI follow-up: restore required datetime.timedelta import. MFX v1 continuous source: exact root+31 checkpoint full <=256, parent-all/recent-256 SHA for 257–1024 with explicit historic unread disclosure; signals remain blocked. MFX v1 verified M5 source latest hour label derived from SHA audited last 12 closed bars, never forged or future."
+      "expected_current_sha": "f4c7970e0ed76be2ff06514fee8f809fc6ea6bc2",
+      "reason": "P0.155: reuse already SHA audited M5/H4/D1 in-memory source buffers for strict UTC contiguous multibar MID arithmetic and metadata-only safe GET report, no new vendor or Drive read/write, no source-owner strategy, broker or release approval."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "7ca154bd564beeb9da87d7dca5dec842db6cc406",
-      "reason": "P0.154: dormant owner-gated existing manual Drive GET-only report actually computes private six-frame closed OHLC Decimal candle geometry from same sealed source; public summary contains ONLY counts/status, zero raw prices/derived values, no added vendor or Drive reads/writes."
+      "expected_current_sha": "5702bd816c5979d7f898a47934589f00f4baad9f",
+      "reason": "P0.155: reuse already SHA audited M5/H4/D1 in-memory source buffers for strict UTC contiguous multibar MID arithmetic and metadata-only safe GET report, no new vendor or Drive read/write, no source-owner strategy, broker or release approval."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2624,6 +2624,24 @@
       "change": "added",
       "expected_current_sha": "29af45871281fe2ea6ae339459a1fb17e51ccc8e",
       "reason": "P0.154 owner decision implementation boundaries: private per-candle math no trend/release and no derived licensed redistribution, same manual GET-only receipt and strict D1 HOLD."
+    },
+    {
+      "path": "mfx_research/sealed_multibar_private_features.py",
+      "change": "added",
+      "expected_current_sha": "348fa63fc717874417fd3fd4c1916215bc7a08e5",
+      "reason": "P0.155 real private bounded multi-candle MID close deltas and observed True Range across exactly contiguous M5/M15/M30/H1/H4 and non-certified D1 sessions, no BUY/SELL."
+    },
+    {
+      "path": "tests/test_mfx_v1_sealed_multibar_private_features.py",
+      "change": "added",
+      "expected_current_sha": "c8545cb89e0590e26f267b939f4001c563d1b001",
+      "reason": "37 hermetic tests verify real multi-bar indicator arithmetic, strict source SHA alignment, temporal history gaps, missing samples, privacy and no source rights/trades."
+    },
+    {
+      "path": "docs/MFX_V1_P155_SEALED_MULTIBAR_PRIVATE_FEATURES.md",
+      "change": "added",
+      "expected_current_sha": "ef456eacfffd11f4864c0e5b3b3b40c785ea7e61",
+      "reason": "Contract, source evidence, risk/rights limitations, no-new-GET private 6TF multibar integration and rollback."
     }
   ]
 }
