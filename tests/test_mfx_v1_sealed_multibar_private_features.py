@@ -7,7 +7,7 @@ real market prices or publishable BUY/SELL.
 from __future__ import annotations
 
 from dataclasses import FrozenInstanceError, replace
-from datetime import timedelta
+from datetime import timedelta, timezone
 from decimal import Decimal as D
 import json
 from unittest import TestCase
@@ -161,7 +161,7 @@ class MfxSealedPrivateMultibarTests(TestCase):
     def test_12_explicit_m5_history_gap_discards_before_gap(self):
         bars,h4,d1,tech=archived()
         first=tuple(replace(x,start_utc=(
-            (ASOF-timedelta(hours=3)+timedelta(minutes=5*i))
+            (ASOF.replace(hour=9,minute=0,second=0,microsecond=0)+timedelta(minutes=5*i))
              .isoformat())) for i,x in enumerate(bars[:12]))
         # Older 09:00-10:00; actual latest 11:00-12:00; missing 10:00-11:00.
         gapped=first+bars[12:]
@@ -189,7 +189,7 @@ class MfxSealedPrivateMultibarTests(TestCase):
     def test_14_private_digest_bound_to_actual_source_prices(self):
         m5,h4,d1,tech=archived()
         a=calculate(m5=m5,native4=h4,native1=d1,technical=tech)
-        changed=tuple(replace(x,close="1.1005") for x in m5[:2])+m5[2:]
+        changed=m5[:-15]+(replace(m5[-15],close="1.1005"),)+m5[-14:]
         b=calculate(m5=changed,native4=h4,native1=d1,technical=tech)
         self.assertNotEqual(a.private_input_digest_sha256,
                             b.private_input_digest_sha256)
@@ -261,7 +261,7 @@ class MfxSealedPrivateMultibarTests(TestCase):
         m5,h4,d1,tech=archived()
         for stamp in (ASOF.replace(tzinfo=None),
                       ASOF+timedelta(days=1),
-                      ASOF.astimezone(timedelta(hours=7))):
+                      ASOF.astimezone(timezone(timedelta(hours=7)))):
             with self.subTest(stamp=stamp),self.assertRaises(ValueError):
                 calculate(m5=m5,native4=h4,native1=d1,
                           technical=tech,asof=stamp)
