@@ -17,6 +17,9 @@ from mfx_research.six_tf_sealed_archive_consumer import (
     consume_sealed_archives_for_six_tf,
 )
 from mfx_research.hourly_source_freshness import diagnose_hourly_m5_freshness
+from mfx_research.signal_only_six_tf_response import (
+    build_signal_only_research_response,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -188,6 +191,19 @@ def safe_summary(
             or (freshness["closed_source_slot_gaps"]["M15"] == 0)
             != ("M15" not in technical.missing_or_stale_frames)):
         raise ValueError("MFX_V1_READONLY_SOURCE_FRESHNESS_RECEIPT_DRIFT")
+    # P0.149 presentation is now consumed by the ACTUAL existing optional
+    # GitHub OAuth GET-only adapter, without making another Drive/vendor call.
+    signal_only = build_signal_only_research_response(evidence)
+    if (signal_only.action != "NO_SIGNAL"
+            or signal_only.stage != "UNVERIFIED"
+            or signal_only.quote_side != "MID"
+            or signal_only.asof_utc != technical.asof_utc
+            or signal_only.frames_present != tuple(
+                f.frame for f in technical.frames)
+            or signal_only.frames_missing_or_stale !=
+                technical.missing_or_stale_frames
+            or signal_only.may_publish_buy_sell or signal_only.may_trade):
+        raise ValueError("MFX_V1_READONLY_SIGNAL_PRESENTATION_DRIFT")
     return {
         "schema": VERSION,
         "status": "MANUAL_AUTHENTICATED_DRIVE_GET_SOURCE_RESEARCH_ONLY",
@@ -226,6 +242,33 @@ def safe_summary(
         "drive_writes": 0,
         "broker_orders": 0,
         "raw_price_logged": False,
+        # This child report is an allowlisted safe projection: never raw OHLC,
+        # source Drive IDs, credentials, candidate trade prices or live alerts.
+        "signal_only_output": {
+            "schema_version": signal_only.schema_version,
+            "action": signal_only.action,
+            "stage": signal_only.stage,
+            "technical_status": signal_only.technical_status,
+            "quote_side": signal_only.quote_side,
+            "frames_present": list(signal_only.frames_present),
+            "frames_missing_or_stale": list(
+                signal_only.frames_missing_or_stale),
+            "reason_codes": list(signal_only.reason_codes),
+            "evidence_fingerprint_sha256":
+                signal_only.evidence_fingerprint_sha256,
+            "zone_label": None,
+            "entry_price": None,
+            "stop_loss": None,
+            "take_profit": None,
+            "net_risk_reward": None,
+            "publisher_first_known_utc": None,
+            "source_numeric_rules_approved": False,
+            "source_account_license_verified": False,
+            "bid_ask_economics_approved": False,
+            "historical_oos_approved": False,
+            "may_publish_buy_sell": False,
+            "may_trade": False,
+        },
     }
 
 
@@ -240,9 +283,12 @@ def main() -> None:
         actual = _session(auth)
         receipt, gets = private_get_only_probe(
             actual, asof_utc=datetime.now(timezone.utc))
+        # Never print PASS before all source/authority validation and JSON
+        # encoding have succeeded. A failure must emit ONLY the FAIL marker.
+        payload = safe_summary(receipt, drive_gets=gets)
+        encoded = json.dumps(payload, sort_keys=True)
         print("MFX_V1_MANUAL_DRIVE_GET_ONLY_TECHNICAL_AUDIT_PASS")
-        print(json.dumps(safe_summary(receipt, drive_gets=gets),
-                         sort_keys=True))
+        print(encoded)
     except Exception:
         # Never leak private Drive object IDs, OAuth errors, URLs or raw prices
         # in Actions stderr. Failure must be nonzero, never a fake PASS.
