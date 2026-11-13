@@ -6,6 +6,8 @@ Date: 13 Nov 2026 (ICT). Prerequisites: accepted PR #149 typed immutable six-fra
 
 Previously, the P0.149 typed report was usable only by pure offline callers while the already existing manual authenticated Drive read tool emitted its older SHA / freshness summary. This PR connects them: **the same single already-authorized GET-only evidence receipt** is passed into `build_signal_only_research_response` after original audited M5/H4/D1 archive and source-time gap validation, without another network request.
 
+The CLI now prepares and JSON-serializes the entire validated safe report **before** printing the technical PASS marker. CI initially caught the prior implementation printing PASS prematurely if report validation failed; it was fixed before merge. Failed validation/encoding prints only a redacted FAIL marker with nonzero exit.
+
 The existing public-safe summary keeps its old schema and fields intact, and adds one nested `signal_only_output` with action, stage, six-frame coverage, missing/stale flags, deterministic fingerprint of source reference hashes, source-quality and authority reason codes. It exposes explicit null zone/entry/SL/TP/net-R:R/publisher-first-known fields. These values are **not** independently authenticated publisher receipts or proof of strategy profitability.
 
 ## Hard stop boundaries
