@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "39349a6734a0e9a4c1651379ca05737e861d1813",
-      "reason": "MFX P0.156: preserve source-SHA-audited private closed six-TF history for genuine right-bar-confirmed SIM-only pivot sensitivity; report coverage metadata with NO_SIGNAL, no Drive GET/write, licence/first-known/Forex source policy."
+      "expected_current_sha": "ba38e3eb0239b16caf45a964d6179c049517ff10",
+      "reason": "P0.157: existing disabled owner-gated Drive GET-only safe report reconciles 36 original B2/S2 source-owner decisions against private SHA-validated sixTF computations; no price/raw pivot exposure, no approval, no new GET/vendor requests."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2660,6 +2660,24 @@
       "change": "added",
       "expected_current_sha": "e492bde62089117cc733aac85643af1c5787d3ff",
       "reason": "P0.156 strict scoped private research bridge, 1/1 and 2/2 SIM-only profiles, owner/rights/D1 HOLD blockers, QA and rollback."
+    },
+    {
+      "path": "mfx_research/b2_s2_source_computation_crosswalk.py",
+      "change": "added",
+      "expected_current_sha": "1cca77a0f4012a6f8d37125eb2b9732ceb96a7b6",
+      "reason": "P0.157 pinned 36 source-owner B2/S2 quantitative obligations to observed private technical readiness, revalidates local SHA + SIM pivots while denying all 1:1 source/data approvals."
+    },
+    {
+      "path": "tests/test_mfx_v1_b2s2_source_computation_crosswalk.py",
+      "change": "added",
+      "expected_current_sha": "a599afe4d2611580d76e15203305d96fcaf0b969",
+      "reason": "P0.157 34 hermetic source requirement row, source SHA/price tamper, no approved BUY/SELL, license, OOS or private-value publication tests."
+    },
+    {
+      "path": "docs/MFX_V1_P157_36_RULE_SOURCE_TO_COMPUTATION_CROSSWALK.md",
+      "change": "added",
+      "expected_current_sha": "7df1b084869faad0f75952b24a96bdb08a470a7c",
+      "reason": "Readback frozen original Google Docs rule/QA gap, current private code capabilities and precise pending 36 numeric owner decisions without SIM approval promotion."
     }
   ]
 }
