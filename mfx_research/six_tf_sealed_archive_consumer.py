@@ -26,6 +26,9 @@ from mfx_research.sealed_private_pivot_sensitivity import (
 from mfx_research.sealed_private_m15_microbreak import (
     PrivateMicroBreakReceipt, compute_private_sealed_m15_microbreak,
 )
+from mfx_research.sealed_private_m15_prefix_replay import (
+    PrivateM15PrefixReplay, replay_private_m15_closed_prefixes,
+)
 from tools.mfx_m5_full_sha_two_anchor_audit import (
     ROOT_UTC, ROOT_MANIFEST_SHA256, REVIEWED_CHECKPOINT_UTC,
     REVIEWED_CHECKPOINT_SHA256, REVIEWED_CHECKPOINT_PAIRS,
@@ -104,6 +107,9 @@ class SealedArchiveSixTFReceipt:
         default=None, repr=False,
     )
     private_m15_microbreak: PrivateMicroBreakReceipt | None = field(
+        default=None, repr=False,
+    )
+    private_m15_prefix_replay: PrivateM15PrefixReplay | None = field(
         default=None, repr=False,
     )
 
@@ -344,6 +350,23 @@ def consume_sealed_archives_for_six_tf(
             or private_microbreak.broker_orders):
         raise ValueError("V1_CACHE_PRIVATE_M15_MICROBREAK_AUTHORITY_DRIFT")
 
+    # P0.159: deterministic historical-prefix *research* on the SAME
+    # source-audited in-memory M15 bars; no historical first-known/OOS claim.
+    prefix_replay = replay_private_m15_closed_prefixes(
+        multi, technical, private_pivots, private_microbreak,
+    )
+    if (prefix_replay.action != "NO_SIGNAL"
+            or prefix_replay.stage != "UNVERIFIED"
+            or prefix_replay.may_publish_prices_or_signals
+            or prefix_replay.may_trade
+            or prefix_replay.original_b2s2_source_owner_numeric_approved
+            or prefix_replay.true_historical_oos_accepted
+            or prefix_replay.provider_requests
+            or prefix_replay.drive_gets_added
+            or prefix_replay.drive_writes
+            or prefix_replay.broker_orders):
+        raise ValueError("V1_CACHE_PRIVATE_M15_PREFIX_AUTHORITY_DRIFT")
+
     return SealedArchiveSixTFReceipt(
         version=VERSION,
         status="SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL",
@@ -378,4 +401,5 @@ def consume_sealed_archives_for_six_tf(
         private_multibar=multi,
         private_pivot_sensitivity=private_pivots,
         private_m15_microbreak=private_microbreak,
+        private_m15_prefix_replay=prefix_replay,
     )
