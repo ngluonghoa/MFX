@@ -23,6 +23,9 @@ from mfx_research.sealed_multibar_private_features import (
 from mfx_research.sealed_private_pivot_sensitivity import (
     PrivatePivotSensitivityReceipt, scan_private_sealed_pivot_sensitivity,
 )
+from mfx_research.sealed_private_m15_microbreak import (
+    PrivateMicroBreakReceipt, compute_private_sealed_m15_microbreak,
+)
 from tools.mfx_m5_full_sha_two_anchor_audit import (
     ROOT_UTC, ROOT_MANIFEST_SHA256, REVIEWED_CHECKPOINT_UTC,
     REVIEWED_CHECKPOINT_SHA256, REVIEWED_CHECKPOINT_PAIRS,
@@ -98,6 +101,9 @@ class SealedArchiveSixTFReceipt:
         default=None, repr=False,
     )
     private_pivot_sensitivity: PrivatePivotSensitivityReceipt | None = field(
+        default=None, repr=False,
+    )
+    private_m15_microbreak: PrivateMicroBreakReceipt | None = field(
         default=None, repr=False,
     )
 
@@ -323,6 +329,21 @@ def consume_sealed_archives_for_six_tf(
                 multi.private_input_digest_sha256):
         raise ValueError("V1_CACHE_PIVOT_RESEARCH_AUTHORITY_DRIFT")
 
+    # P0.158: evaluate latest closed M15 against levels independently
+    # right-confirmed before that candle opened; NEVER emit private events.
+    private_microbreak = compute_private_sealed_m15_microbreak(
+        multi, technical, private_pivots,
+    )
+    if (private_microbreak.action != "NO_SIGNAL"
+            or private_microbreak.stage != "UNVERIFIED"
+            or private_microbreak.may_publish_prices_or_signals
+            or private_microbreak.may_trade
+            or private_microbreak.provider_requests
+            or private_microbreak.drive_gets_added
+            or private_microbreak.drive_writes
+            or private_microbreak.broker_orders):
+        raise ValueError("V1_CACHE_PRIVATE_M15_MICROBREAK_AUTHORITY_DRIFT")
+
     return SealedArchiveSixTFReceipt(
         version=VERSION,
         status="SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL",
@@ -356,4 +377,5 @@ def consume_sealed_archives_for_six_tf(
         m5_recent_raw_sha_verified=True,
         private_multibar=multi,
         private_pivot_sensitivity=private_pivots,
+        private_m15_microbreak=private_microbreak,
     )
