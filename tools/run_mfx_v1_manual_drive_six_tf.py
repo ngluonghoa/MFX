@@ -23,6 +23,9 @@ from mfx_research.signal_only_six_tf_response import (
 from mfx_research.ohlc_first_optional_bidask_policy import (
     classify_ohlc_first_mode,
 )
+from mfx_research.six_tf_private_candle_geometry import (
+    compute_private_six_tf_candle_geometry,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -211,6 +214,24 @@ def safe_summary(
     # a terminal or BID/ASK; live net-R:R does need separate licensed API data.
     # No additional Drive GET or quote request: classify the existing view.
     source_mode = classify_ohlc_first_mode(signal_only)
+    # P0.154: the first REAL technical arithmetic over all PRESENT, sealed,
+    # closed MID OHLC candles. Shapes remain private and in memory; do not
+    # stringify prices, derived candle directions, body or wick calculations.
+    private_geometry = compute_private_six_tf_candle_geometry(evidence)
+    if (private_geometry.action != "NO_SIGNAL"
+            or private_geometry.stage != "UNVERIFIED"
+            or private_geometry.source_price_side != "MID"
+            or private_geometry.may_publish_prices_or_derived_signals
+            or private_geometry.may_trade
+            or private_geometry.provider_requests
+            or private_geometry.drive_price_cache_writes
+            or private_geometry.broker_orders
+            or len(private_geometry.shapes) != len(technical.frames)
+            or private_geometry.frames_missing_or_stale !=
+                technical.missing_or_stale_frames
+            or private_geometry.source_fingerprint_sha256 !=
+                signal_only.evidence_fingerprint_sha256):
+        raise ValueError("MFX_V1_READONLY_PRIVATE_GEOMETRY_SOURCE_DRIFT")
     if (source_mode.publishable_buy_sell
             or source_mode.broker_order_integration
             or source_mode.requires_mt4_or_mt5_terminal
@@ -255,6 +276,26 @@ def safe_summary(
         "drive_writes": 0,
         "broker_orders": 0,
         "raw_price_logged": False,
+        "private_ohlc_geometry": {
+            "status": "COMPUTED_IN_MEMORY_NEVER_PUBLISHED",
+            "source_side": "MID",
+            "frames_computed": len(private_geometry.shapes),
+            "frames_missing_or_stale": list(
+                private_geometry.frames_missing_or_stale),
+            "six_frame_technical_complete":
+                private_geometry.technical_six_frame_complete,
+            "single_candle_not_trend_or_confirmed_pivot": True,
+            "prices_and_derived_values_published": False,
+            "external_derived_data_rights_verified": False,
+            "original_strategy_numeric_rules_approved": False,
+            "source_first_known_proven": False,
+            "bidask_execution_net_rr_available": False,
+            "action": "NO_SIGNAL",
+            "stage": "UNVERIFIED",
+            "provider_requests": 0,
+            "drive_price_cache_writes": 0,
+            "broker_orders": 0,
+        },
         "analysis_mode_decision": {
             "schema_version": source_mode.schema_version,
             "analysis_lane": source_mode.analysis_lane,
