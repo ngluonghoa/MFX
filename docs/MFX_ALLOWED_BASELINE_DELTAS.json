@@ -2522,6 +2522,24 @@
       "change": "added",
       "expected_current_sha": "61274de90ff7f63b82193893fcd0eeca572740e1",
       "reason": "Document P059 real incident #147, inert versioned source candidate SHA chain with explicit owner review and no first-known/provider licence/trading approval or Drive writes."
+    },
+    {
+      "path": "mfx_research/signal_only_six_tf_response.py",
+      "change": "added",
+      "expected_current_sha": "fa8cec9bd52945eb6303419589214d64f5bdec98",
+      "reason": "Signal-first v1 typed pure six-TF sealed cache research NO_SIGNAL output, strict source rights/numeric/economic gate rejection; no live source IO, vendor, cache write or broker."
+    },
+    {
+      "path": "tests/test_mfx_v1_signal_only_six_tf_response.py",
+      "change": "added",
+      "expected_current_sha": "39db1cc5e7201dfbc0bb3db211cf09ed22a4840a",
+      "reason": "18 synthetic hermetic positive/negative tests for six-TF NO_SIGNAL display, stale/rolling SHA, source authority forgery, null TP/SL/net-R and no IO."
+    },
+    {
+      "path": "docs/MFX_V1_SIGNAL_ONLY_SIX_TF_NO_SIGNAL_OUTPUT_CONTRACT.md",
+      "change": "added",
+      "expected_current_sha": "eec0546defa2ad60e364187e73d6aa4b5db8bdc8",
+      "reason": "Signal-first offline output interface, immutable source gate, P059 D1 HOLD, cache freshness limitations, Cloud-only QA and no BUY/SELL release permission."
     }
   ]
 }
