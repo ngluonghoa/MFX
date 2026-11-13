@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "fee8362003ff4a3b3300137cccee24a7db079a93",
-      "reason": "P0.158 same exact in-memory validated receipt, status-only safe manual read report, never price or crossing direction."
+      "expected_current_sha": "73e1cd244d425ed3e39cbf1a3bd65973cd00458e",
+      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2688,14 +2688,14 @@
     {
       "path": "tests/test_mfx_v1_sealed_private_m15_microbreak.py",
       "change": "added",
-      "expected_current_sha": "f708d8344dbcf19fa627fc07618cfa62a46707f3",
-      "reason": "P0.158 20 hermetic strict time/side/first-known/rights/tamper and privacy tests; no live source or trade claims."
+      "expected_current_sha": "4a010f6a3042b60a12a7abee686aebdb6c63f404",
+      "reason": "P0.158a 23 total tests; compare actual private crossing vs no pivot public status equality, reject unrecognized status."
     },
     {
       "path": "docs/MFX_V1_P158_PRIVATE_M15_MICROBREAK_RESEARCH.md",
       "change": "added",
-      "expected_current_sha": "704aa85e3c5040d64df5cabf74dd774374f525da",
-      "reason": "P0.158 scope and research versus original numeric source authority, QA and rollback, no new network/Cache changes."
+      "expected_current_sha": "a766d1ba50fe123ec85e2d4f750b8cdc532b7e3f",
+      "reason": "P0.158a explicit public redaction of private pivot existence; no source permissions or source price publication."
     }
   ]
 }
