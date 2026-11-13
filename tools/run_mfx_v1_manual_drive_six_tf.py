@@ -36,6 +36,9 @@ from mfx_research.sealed_private_pivot_sensitivity import (
 from mfx_research.b2_s2_source_computation_crosswalk import (
     reconcile_b2s2_source_to_computation,
 )
+from mfx_research.sealed_private_m15_microbreak import (
+    PrivateMicroBreakReceipt, compute_private_sealed_m15_microbreak,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -344,6 +347,23 @@ def safe_summary(
             or source_crosswalk.drive_market_cache_writes
             or source_crosswalk.broker_orders):
         raise ValueError("MFX_V1_READONLY_SOURCE_COMPUTATION_36_NO_GO_DRIFT")
+    # P0.158: independent re-check of the same private in-memory M15
+    # computation. Never leak computed crossing direction or MID level.
+    microbreak = evidence.private_m15_microbreak
+    if (type(microbreak) is not PrivateMicroBreakReceipt
+            or microbreak != compute_private_sealed_m15_microbreak(
+                evidence.private_multibar, technical,
+                evidence.private_pivot_sensitivity,
+            )
+            or microbreak.action != "NO_SIGNAL"
+            or microbreak.stage != "UNVERIFIED"
+            or microbreak.may_publish_prices_or_signals
+            or microbreak.may_trade
+            or microbreak.provider_requests
+            or microbreak.drive_gets_added
+            or microbreak.drive_writes
+            or microbreak.broker_orders):
+        raise ValueError("MFX_V1_READONLY_PRIVATE_M15_MICROBREAK_DRIFT")
     if (source_mode.publishable_buy_sell
             or source_mode.broker_order_integration
             or source_mode.requires_mt4_or_mt5_terminal
@@ -413,6 +433,24 @@ def safe_summary(
                 } for row in source_crosswalk.rows
             ],
             "published_ohlc_or_private_pivot_price": False,
+            "provider_requests_added": 0,
+            "drive_gets_added": 0,
+            "drive_writes": 0,
+            "broker_orders": 0,
+        },
+        "private_m15_microbreak": {
+            "status": "PRIVATE_CLOSED_M15_PREKNOWN_PIVOT_RESEARCH_ONLY",
+            "profile_statuses": [x.status for x in microbreak.profiles],
+            "profiles": ["SIM_1_LEFT_1_RIGHT", "SIM_2_LEFT_2_RIGHT"],
+            "m15_missing_or_stale":
+                "M15" in microbreak.frames_missing_or_stale,
+            "experimental_cross_direction_or_prices_published": False,
+            "numeric_source_owner_approved": False,
+            "publisher_first_known_verified": False,
+            "real_bidask_risk_approved": False,
+            "source_d1_revision_hold_cleared": False,
+            "action": "NO_SIGNAL",
+            "stage": "UNVERIFIED",
             "provider_requests_added": 0,
             "drive_gets_added": 0,
             "drive_writes": 0,
