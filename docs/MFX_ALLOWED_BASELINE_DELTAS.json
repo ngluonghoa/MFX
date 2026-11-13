@@ -2714,6 +2714,30 @@
       "change": "added",
       "expected_current_sha": "d42a6a1e0e1d2a19b193086f50766ad1eaeac1da",
       "reason": "P0.159 M15 prefix replay contract, separate true historical OOS and lawful provider rights, QA and rollback."
+    },
+    {
+      "path": "docs/MFX_V1_B2S2_INDEPENDENT_POLICY_DRAFT.json",
+      "change": "added",
+      "expected_current_sha": "dbaed8ca436904fd83c528818358e677def43be3",
+      "reason": "Versioned Option B B2/S2 MFX-only numeric draft, five explicit research values; no original 1:1 numeric approval, no live output."
+    },
+    {
+      "path": "mfx_research/mfx_b2s2_independent_policy_draft.py",
+      "change": "added",
+      "expected_current_sha": "dacf6bc599bfffe73884b56e8717840cf492163d",
+      "reason": "Typed immutable MFX Option B draft validator and numeric closed-SIM B2/S2 adapter reusing P0.19/P0.32; no production market signal or source permission. Cloud CI P0.160 PosixPath subclass compatibility fixed (Path accepts platform-specific Path classes)."
+    },
+    {
+      "path": "tests/test_mfx_v1_p160_independent_b2s2_policy_draft.py",
+      "change": "added",
+      "expected_current_sha": "dc991e8cae0bcc8cc29600e80f937a16691e2f44",
+      "reason": "24 hermetic BUY/SELL internal positive/negative policy integrity and rights/first-known/no-broker safety tests."
+    },
+    {
+      "path": "docs/MFX_V1_P160_OPTION_B_B2S2_INDEPENDENT_NUMERIC_DRAFT.md",
+      "change": "added",
+      "expected_current_sha": "2d5f327b7bb80f7e569d801aee4945318977d0c9",
+      "reason": "User-approved independent numeric strategy direction, explicit candidate numbers and hard source/legal/OOS release gates."
     }
   ]
 }

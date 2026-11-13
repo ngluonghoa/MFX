@@ -1,0 +1,38 @@
+{
+  "schema": "MFX_B2S2_INDEPENDENT_NUMERIC_POLICY_DRAFT_V1",
+  "version": "MFX:B2S2-NEW-STRATEGY-DRAFT-001",
+  "strategy_lineage": "MFX_NEW_NUMERIC_FORMULA_NOT_ORIGINAL_FOREX_1TO1",
+  "user_approved_scope": "OPTION_B_NEW_MFX_RULE_DEVELOPMENT_ONLY",
+  "rules": [
+    "B2",
+    "S2"
+  ],
+  "qualitative_source": "SOURCE_LOCKED_03_DETECTOR_AUDIT_B2_S2_DESIGN_ONLY",
+  "source_policy_status": "ORIGINAL_FOREX_NUMERIC_36_PENDING",
+  "technical_method_limits": {
+    "trend": "EXPERIMENTAL_TWO_CLOSED_HTF_CANDLE_EXTREMA_PROXY_NOT_CONFIRMED_SWINGS",
+    "h1_tr": "SIMPLE_MEAN_TRUE_RANGE_NOT_WILDER_ATR",
+    "micro": "PRIOR_CLOSED_M15_SEED_EXTREME_NOT_RIGHT_BAR_CONFIRMED_PIVOT",
+    "fx_side": "MID_TECHNICAL_ONLY",
+    "calendar": "SYNTHETIC_UTC_ONLY"
+  },
+  "numeric_candidate": {
+    "h1_true_range_mean_period": 3,
+    "h1_zone_lookback": 3,
+    "h1_zone_width_tr_multiple": "0.3",
+    "h1_near_zone_tr_multiple": "0.5",
+    "max_chase_tr_multiple": "0.5"
+  },
+  "numeric_review_status": "PROPOSED_NOT_APPROVED",
+  "validation_status": "SYNTHETIC_CLOSED_CANDLE_ONLY_NOT_HISTORICAL_OOS",
+  "permission_flags": {
+    "numeric_rule_owner_signed": false,
+    "licensed_real_source_rights": false,
+    "native_d1_revision_hold_cleared": false,
+    "publisher_first_known_verified": false,
+    "broker_bidask_economics_verified": false,
+    "historical_oos_qualified": false,
+    "may_publish_buy_sell": false,
+    "may_trade": false
+  }
+}
