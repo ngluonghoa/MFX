@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "504e3050b732ad442f1f4e57de184fe99474e12a",
-      "reason": "P0.153: existing disabled GitHub owner-only Drive GET report adds public-safe OHLC-first versus optional legally verified API BID/ASK mode; no additional requests/permissions, no price, no MT4/MT5 dependency or broker integration."
+      "expected_current_sha": "7ca154bd564beeb9da87d7dca5dec842db6cc406",
+      "reason": "P0.154: dormant owner-gated existing manual Drive GET-only report actually computes private six-frame closed OHLC Decimal candle geometry from same sealed source; public summary contains ONLY counts/status, zero raw prices/derived values, no added vendor or Drive reads/writes."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2606,6 +2606,24 @@
       "change": "added",
       "expected_current_sha": "46c0be68c649fd674422c29c5f9ce74f5c27f2d0",
       "reason": "Record owner-approved architecture: MFX OHLC pattern research first; broker terminal not necessary, BID/ASK read-only API only after source licence/rights verification; preserve owner HOLD."
+    },
+    {
+      "path": "mfx_research/six_tf_private_candle_geometry.py",
+      "change": "added",
+      "expected_current_sha": "877e77b90429a3f10f70cd93936ebb75982dc5f9",
+      "reason": "P0.154 functional in-memory precise six-TF MID OHLC range/body/wick/close-position research on sealed present frames; no independent source authority, trading or public price output."
+    },
+    {
+      "path": "tests/test_mfx_v1_sealed_private_six_tf_geometry.py",
+      "change": "added",
+      "expected_current_sha": "d0d75e96b414e71ef1ae3dc7a13875bab2cdb1dc",
+      "reason": "35 hermetic positive/negative tests for actual closed MID six-frame candle arithmetic, strict source/UTC/count checks, no private value logging, no original numeric/source authority."
+    },
+    {
+      "path": "docs/MFX_V1_P154_SEALED_SIX_TF_PRIVATE_CANDLE_GEOMETRY.md",
+      "change": "added",
+      "expected_current_sha": "29af45871281fe2ea6ae339459a1fb17e51ccc8e",
+      "reason": "P0.154 owner decision implementation boundaries: private per-candle math no trend/release and no derived licensed redistribution, same manual GET-only receipt and strict D1 HOLD."
     }
   ]
 }
