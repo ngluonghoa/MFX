@@ -163,6 +163,27 @@ def private_get_only_probe(
     return evidence, session.get_count
 
 
+def _safe_microbreak_public_history(status: str) -> str:
+    """Never expose whether a private pivot or crossing was actually seen.
+
+    Only input history sufficiency may cross into public GitHub logs; both
+    'there is a known pivot' and 'there is no pivot' yield identical text.
+    """
+    if type(status) is not str:
+        raise ValueError("MFX_V1_PRIVATE_M15_STATUS_TYPE_DENIED")
+    if status in (
+        "PRIVATE_PRIOR_CONFIRMED_M15_LEVEL_EVALUATED",
+        "NO_PRIOR_RIGHT_CLOSED_M15_PIVOT",
+    ):
+        return "M15_CLOSED_HISTORY_ONLY_PRIVATE_EVENT_REDACTED"
+    if status in (
+        "M15_MISSING_OR_STALE",
+        "INSUFFICIENT_CLOSED_M15_HISTORY",
+    ):
+        return status
+    raise ValueError("MFX_V1_PRIVATE_M15_UNKNOWN_STATUS_DENIED")
+
+
 def safe_summary(
     evidence: SealedArchiveSixTFReceipt, *, drive_gets: int,
 ) -> dict[str, Any]:
@@ -440,7 +461,10 @@ def safe_summary(
         },
         "private_m15_microbreak": {
             "status": "PRIVATE_CLOSED_M15_PREKNOWN_PIVOT_RESEARCH_ONLY",
-            "profile_statuses": [x.status for x in microbreak.profiles],
+            "profile_history_availability": [
+                _safe_microbreak_public_history(x.status)
+                for x in microbreak.profiles
+            ],
             "profiles": ["SIM_1_LEFT_1_RIGHT", "SIM_2_LEFT_2_RIGHT"],
             "m15_missing_or_stale":
                 "M15" in microbreak.frames_missing_or_stale,

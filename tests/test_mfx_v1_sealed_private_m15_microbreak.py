@@ -26,7 +26,9 @@ from mfx_research.six_tf_readonly_context import (
 from test_mfx_v1_sealed_multibar_private_features import archived
 from test_mfx_v1_six_tf_sealed_archive_consumer import ASOF, consume
 from test_mfx_v1_manual_signal_only_drive_output import mocked
-from tools.run_mfx_v1_manual_drive_six_tf import safe_summary
+from tools.run_mfx_v1_manual_drive_six_tf import (
+    safe_summary, _safe_microbreak_public_history,
+)
 
 
 def manufactured(*, direction="FLAT", prev_already_crossed=False):
@@ -226,6 +228,35 @@ class MfxP158SealedM15MicroBreakTests(TestCase):
 
     def test_19_replay_is_deterministic(self):
         self.assertEqual(actual(), actual())
+
+    def test_21_even_real_private_cross_and_no_pivot_map_same_public_status(self):
+        flat = actual()
+        micro, tech, pivots = manufactured(direction="UP")
+        crossed = compute_private_sealed_m15_microbreak(micro, tech, pivots)
+        self.assertNotEqual(flat.profiles[0].experimental_cross,
+                            crossed.profiles[0].experimental_cross)
+        self.assertEqual(
+            tuple(_safe_microbreak_public_history(x.status)
+                  for x in flat.profiles),
+            tuple(_safe_microbreak_public_history(x.status)
+                  for x in crossed.profiles),
+        )
+        self.assertEqual(
+            _safe_microbreak_public_history(crossed.profiles[0].status),
+            "M15_CLOSED_HISTORY_ONLY_PRIVATE_EVENT_REDACTED",
+        )
+
+    def test_22_live_safe_summary_does_not_dump_private_status(self):
+        item = safe_summary(mocked(), drive_gets=0)["private_m15_microbreak"]
+        self.assertNotIn("profile_statuses", item)
+        self.assertEqual(len(item["profile_history_availability"]), 2)
+        self.assertNotIn("PRIOR_CONFIRMED", json.dumps(item))
+        self.assertNotIn("NO_PRIOR_RIGHT_CLOSED", json.dumps(item))
+
+    def test_23_unrecognized_private_state_fails_closed(self):
+        for bad in (None, False, "M15_HAS_PIVOT_AND_BULLISH_BREAK"):
+            with self.subTest(value=bad), self.assertRaises(ValueError):
+                _safe_microbreak_public_history(bad)
 
     def test_20_no_signed_owner_source_from_private_math(self):
         a = actual()
