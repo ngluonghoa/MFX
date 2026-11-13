@@ -2724,8 +2724,8 @@
     {
       "path": "mfx_research/mfx_b2s2_independent_policy_draft.py",
       "change": "added",
-      "expected_current_sha": "a79c584ed3c4ab251ae2ee3e830c2d54d77f16dc",
-      "reason": "Typed immutable MFX Option B draft validator and numeric closed-SIM B2/S2 adapter reusing P0.19/P0.32; no production market signal or source permission."
+      "expected_current_sha": "dacf6bc599bfffe73884b56e8717840cf492163d",
+      "reason": "Typed immutable MFX Option B draft validator and numeric closed-SIM B2/S2 adapter reusing P0.19/P0.32; no production market signal or source permission. Cloud CI P0.160 PosixPath subclass compatibility fixed (Path accepts platform-specific Path classes)."
     },
     {
       "path": "tests/test_mfx_v1_p160_independent_b2s2_policy_draft.py",
