@@ -183,3 +183,22 @@ class P0150ManualSignalOnlyIntegrationTests(TestCase):
         self.assertFalse(report["may_publish_buy_sell"])
         self.assertFalse(report["signal_only_output"]["may_publish_buy_sell"])
         self.assertEqual(report["broker_orders"],0)
+
+    def test_15_json_encoding_failure_never_prints_premature_PASS(self):
+        output=StringIO()
+        with patch.dict("os.environ",settings(),clear=True), \
+             patch("tools.run_mfx_v1_manual_drive_six_tf._drive_auth_info",
+                   return_value=object()), \
+             patch("tools.run_mfx_v1_manual_drive_six_tf._require_oauth_cache_folders"), \
+             patch("tools.run_mfx_v1_manual_drive_six_tf._session",
+                   return_value=object()), \
+             patch("tools.run_mfx_v1_manual_drive_six_tf.private_get_only_probe",
+                   return_value=(mocked(),2)), \
+             patch("tools.run_mfx_v1_manual_drive_six_tf.safe_summary",
+                   return_value={"nonserializable_private":object()}), \
+             redirect_stdout(output):
+            with self.assertRaises(SystemExit) as context:
+                main()
+        self.assertEqual(context.exception.code,1)
+        self.assertEqual(output.getvalue().strip(),
+                         "MFX_V1_MANUAL_DRIVE_GET_ONLY_FAILED_FAIL_CLOSED")
