@@ -2504,6 +2504,24 @@
       "change": "added",
       "expected_current_sha": "4609c9d5e2dffa7c76afe58b1e87db7074c1b9b6",
       "reason": "Provenance and acceptance/negative-test contract for original cloud MFX P0.145 forensic read-through over real Google Drive v3 adapter, no live credentials or prices, no SHA bypass or cron."
+    },
+    {
+      "path": "mfx_cache/native_htf_revision_candidate.py",
+      "change": "added",
+      "expected_current_sha": "370af2ac4eee19e79ab5dc1a9d109244071552c6",
+      "reason": "Pure OFFLINE D1 2026-11-11 owner-HOLD-only deterministic two-observation SHA-linked source numerical correction candidate receipts; never touches old archive, vendor, Drive, broker or signal flags."
+    },
+    {
+      "path": "tests/test_mfx_p059_d1_source_revision_candidate.py",
+      "change": "added",
+      "expected_current_sha": "d061901e206cc84818ed78b93bf17e63eac00c85",
+      "reason": "41 hermetic positive/negative tests of D1 numeric source drift candidate, real existing manifest/index typed SHA checks, UTC Sydney closure, no I/O, approval/rollback tampering guard."
+    },
+    {
+      "path": "docs/MFX_P059_D1_VERSIONED_REVISION_DRAFT_ONLY.md",
+      "change": "added",
+      "expected_current_sha": "61274de90ff7f63b82193893fcd0eeca572740e1",
+      "reason": "Document P059 real incident #147, inert versioned source candidate SHA chain with explicit owner review and no first-known/provider licence/trading approval or Drive writes."
     }
   ]
 }
