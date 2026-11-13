@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "429b70c1ae9584ebc0b414b5f6c0667c876257a0",
-      "reason": "P0.150 existing disabled manual OAuth six-TF GET-only output now uses P0.149 typed NO_SIGNAL contract; prepares validated serialized report BEFORE PASS marker, fails closed without contradictory PASS+FAIL; no additional HTTP/Drive/vendor calls/writes, no gate activation or broker."
+      "expected_current_sha": "504e3050b732ad442f1f4e57de184fe99474e12a",
+      "reason": "P0.153: existing disabled GitHub owner-only Drive GET report adds public-safe OHLC-first versus optional legally verified API BID/ASK mode; no additional requests/permissions, no price, no MT4/MT5 dependency or broker integration."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2588,6 +2588,24 @@
       "change": "added",
       "expected_current_sha": "53c8b63e031b0fe42491caf6b953b387a3c3214d",
       "reason": "Document self-contained SIM B2/S2 closed-OHLC → P0.151 net R math research vertical, strict market/source D1 quarantined no-GO and rollback boundaries."
+    },
+    {
+      "path": "mfx_research/ohlc_first_optional_bidask_policy.py",
+      "change": "added",
+      "expected_current_sha": "dd1b569f30396b18eef7d301e07bfa9043c34801",
+      "reason": "P0.153 owner decision OHLC-first research does not need MT4/MT5 or BID/ASK; optional licensed read-only API pricing separately gated and never self-certified, NO_SIGNAL unprivileged."
+    },
+    {
+      "path": "tests/test_mfx_v1_ohlc_first_optional_bidask_policy.py",
+      "change": "added",
+      "expected_current_sha": "ae0795d3e70b843924210a7fb5a91d0127f0ba83",
+      "reason": "24 Cloud-hermetic safety tests: no broker terminal, no quote rights forging, incomplete/full six-TF, unchanged Drive I/O/SHA output and no numeric economics from MID."
+    },
+    {
+      "path": "docs/MFX_V1_OHLC_FIRST_OPTIONAL_BIDASK_API_DECISION.md",
+      "change": "added",
+      "expected_current_sha": "46c0be68c649fd674422c29c5f9ce74f5c27f2d0",
+      "reason": "Record owner-approved architecture: MFX OHLC pattern research first; broker terminal not necessary, BID/ASK read-only API only after source licence/rights verification; preserve owner HOLD."
     }
   ]
 }
