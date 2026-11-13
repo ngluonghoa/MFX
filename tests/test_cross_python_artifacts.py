@@ -4,22 +4,29 @@ from __future__ import annotations
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
-from zipfile import ZipFile
+from zipfile import ZipFile, ZipInfo
 
 from tools.check_cross_python_artifacts import check_cross_python_artifacts
 
 
 def make_wheel(path: Path, content: bytes, *, extra: str | None = None) -> None:
     base = "forex_trading_core-0.1.0.dist-info"
+    # Hermetic synthetic wheels must not embed wall-clock ZIP timestamps:
+    # otherwise identical test fixtures randomly differ at a 2s ZIP tick.
+    # Keep the actual verifier's FULL wheel SHA equality check unchanged.
     with ZipFile(path, "w") as archive:
-        archive.writestr(base + "/METADATA",
-                         "Metadata-Version: 2.3\nName: forex-trading-core\n"
-                         "Version: 0.1.0\n")
-        archive.writestr(base + "/WHEEL", "Wheel-Version: 1.0\n")
-        archive.writestr(base + "/RECORD", "")
-        archive.writestr("forex_trading/__init__.py", content)
+        def write_fixed(name: str, data: bytes | str) -> None:
+            info = ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            archive.writestr(info, data)
+
+        write_fixed(base + "/METADATA",
+                    "Metadata-Version: 2.3\nName: forex-trading-core\n"
+                    "Version: 0.1.0\n")
+        write_fixed(base + "/WHEEL", "Wheel-Version: 1.0\n")
+        write_fixed(base + "/RECORD", "")
+        write_fixed("forex_trading/__init__.py", content)
         if extra is not None:
-            archive.writestr(extra, "unexpected")
+            write_fixed(extra, "unexpected")
 
 
 class CrossPythonArtifactTests(unittest.TestCase):
@@ -61,6 +68,17 @@ class CrossPythonArtifactTests(unittest.TestCase):
             "may_deploy_or_trade",
         ):
             self.assertFalse(proof[field])
+
+    def test_fixture_wheel_uses_fixed_zip_timestamps(self) -> None:
+        self.make()
+        with ZipFile(self.left / self.filename) as left, ZipFile(
+                self.right / self.filename) as right:
+            expected=(1980, 1, 1, 0, 0, 0)
+            self.assertTrue(all(info.date_time == expected
+                                for info in left.infolist()))
+            self.assertTrue(all(info.date_time == expected
+                                for info in right.infolist()))
+        self.assertTrue(self.check()["cross_python_wheel_byte_parity_observed"])
 
     def test_missing_second_wheel_fails_closed(self) -> None:
         make_wheel(self.left / self.filename, self.src_file.read_bytes())
