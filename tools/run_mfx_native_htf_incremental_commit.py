@@ -15,7 +15,9 @@ from typing import Any
 
 from mfx_cache.native_fx_htf import parse_native_forex
 from mfx_cache.native_htf_archive import plan_native_sealed, verify_native_sealed
-from mfx_cache.native_htf_revision_diagnostics import QUARANTINE_CODES
+from mfx_cache.native_htf_revision_diagnostics import (
+    QUARANTINE_CODES, summarize_native_revision_quarantine,
+)
 from mfx_cache.native_htf_sha_forensics import (
     NativeAuditReadThroughWitness, classify_stored_vs_refetched_native,
 )
@@ -105,11 +107,18 @@ def main() -> None:
         # Mirror the ALREADY scheduled full native archive SHA reads in
         # bounded memory. No additional Drive request, vendor price call or
         # change to original writer's commit store/append semantics.
-        witness = NativeAuditReadThroughWitness(store)
-        archive = audit_native_archive(
-            witness, symbol=SYMBOL, interval=interval)
-        sha_verified_recent[interval] = witness.verified_recent_rows(
-            archive, symbol=SYMBOL, interval=interval)
+        if type(store) is PrivateNativeDriveStore:
+            # Real, pinned GitHub OAuth Drive adapter only. Tests that
+            # deliberately replace this store with scripted doubles retain
+            # the exact original P0.59 auditor API/call sequence.
+            witness = NativeAuditReadThroughWitness(store)
+            archive = audit_native_archive(
+                witness, symbol=SYMBOL, interval=interval)
+            sha_verified_recent[interval] = witness.verified_recent_rows(
+                archive, symbol=SYMBOL, interval=interval)
+        else:
+            archive = audit_native_archive(
+                store, symbol=SYMBOL, interval=interval)
         if archive.uncommitted_chunk_names:
             # One orphan might be recoverable in the legacy writer, but
             # this *incremental* approval does not allow ambiguous resume.
@@ -173,15 +182,25 @@ def main() -> None:
             # price/secret logging, no trading and no override of P0.59.
             if str(error) in QUARANTINE_CODES and archive.last_manifest is not None:
                 try:
-                    diagnostic = classify_stored_vs_refetched_native(
-                        previous=archive.last_manifest,
-                        old_verified=sha_verified_recent[interval],
-                        fresh=batch, quarantine_error=str(error),
-                    )
+                    if interval in sha_verified_recent:
+                        diagnostic = classify_stored_vs_refetched_native(
+                            previous=archive.last_manifest,
+                            old_verified=sha_verified_recent[interval],
+                            fresh=batch, quarantine_error=str(error),
+                        )
+                    else:
+                        # Scripted/legacy store doubles never claim real
+                        # previous raw source forensic custody.
+                        diagnostic = summarize_native_revision_quarantine(
+                            previous=archive.last_manifest, batch=batch,
+                            error_code=str(error),
+                        )
                 except (KeyError, TypeError, ValueError):
                     print("MFX_P059_NATIVE_OVERLAP_DIAGNOSTIC_UNAVAILABLE_FAIL_CLOSED")
                 else:
-                    print("MFX_P059_NATIVE_OVERLAP_FORENSICS_NO_DRIVE_WRITE")
+                    print("MFX_P059_NATIVE_OVERLAP_QUARANTINED_NO_DRIVE_WRITE")
+                    if interval in sha_verified_recent:
+                        print("MFX_P059_NATIVE_OVERLAP_FORENSICS_NO_DRIVE_WRITE")
                     print(json.dumps(diagnostic, sort_keys=True))
             raise
         proposal = plan_native_sealed(batch,previous=archive.last_manifest)
