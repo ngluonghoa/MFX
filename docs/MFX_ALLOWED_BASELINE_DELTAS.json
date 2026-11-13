@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "5d8b165bb963e2644890c1820375258c641bc1c9",
-      "reason": "P0.158 attach validated private M15 prior-confirmed pivot microbreak to existing sealed M5/H4/D1 READ-only receipt; same buffers and no new GET."
+      "expected_current_sha": "3f2af127854612b2c94ee0cc0fc6c66fb0a46005",
+      "reason": "P0.159 attach validated private per-prefix replay to original SHA sealed six-TF read-only receipt without extra Drive calls."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2696,6 +2696,24 @@
       "change": "added",
       "expected_current_sha": "a766d1ba50fe123ec85e2d4f750b8cdc532b7e3f",
       "reason": "P0.158a explicit public redaction of private pivot existence; no source permissions or source price publication."
+    },
+    {
+      "path": "mfx_research/sealed_private_m15_prefix_replay.py",
+      "change": "added",
+      "expected_current_sha": "d2507014376aaa646a400a2b2085dc539d342382",
+      "reason": "P0.159 true per-prefix private CLOSED M15 asof research on same SHA audited six-timeframe in-memory source, 1/1 and 2/2 strictly causal, no market first-known/OOS or live signal."
+    },
+    {
+      "path": "tests/test_mfx_v1_sealed_private_m15_prefix_replay.py",
+      "change": "added",
+      "expected_current_sha": "a13436c1b72d2dc043640f9cad0521312d128cdb",
+      "reason": "P0.159 20 hermetic positive and negative tests for asof prefix evidence, no future pivots, tamper/rights/privacy, no vendor calls/writes or signal."
+    },
+    {
+      "path": "docs/MFX_V1_P159_PRIVATE_M15_PREFIX_REPLAY.md",
+      "change": "added",
+      "expected_current_sha": "d42a6a1e0e1d2a19b193086f50766ad1eaeac1da",
+      "reason": "P0.159 M15 prefix replay contract, separate true historical OOS and lawful provider rights, QA and rollback."
     }
   ]
 }
