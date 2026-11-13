@@ -143,9 +143,12 @@ def _recheck_private_source(
                 or meta.observed_closed_candles != len(rows)):
             raise ValueError("V1_PRIVATE_PIVOT_SOURCE_CANDLE_SHA_MISMATCH")
         for row in rows:
-            o,h,l,c = (_number(v) for v in
-                       (row.open,row.high,row.low,row.close))
-            if not l <= min(o,c) <= max(o,c) <= h:
+            open_price, high_price, low_price, close_price = (
+                _number(v) for v in
+                (row.open, row.high, row.low, row.close)
+            )
+            if not (low_price <= min(open_price, close_price)
+                    <= max(open_price, close_price) <= high_price):
                 raise ValueError("V1_PRIVATE_PIVOT_INVALID_CLOSED_OHLC")
             if frame != "D1":
                 if (_ts(row.label,frame)+timedelta(
