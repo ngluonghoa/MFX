@@ -2634,7 +2634,7 @@
     {
       "path": "tests/test_mfx_v1_sealed_multibar_private_features.py",
       "change": "added",
-      "expected_current_sha": "9a50b94a51d7d9d96e25e88a90dedd9b10e8f6eb",
+      "expected_current_sha": "c8545cb89e0590e26f267b939f4001c563d1b001",
       "reason": "37 hermetic tests verify real multi-bar indicator arithmetic, strict source SHA alignment, temporal history gaps, missing samples, privacy and no source rights/trades."
     },
     {
