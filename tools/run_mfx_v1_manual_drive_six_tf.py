@@ -33,6 +33,9 @@ from mfx_research.sealed_private_pivot_sensitivity import (
     PrivatePivotSensitivityReceipt, VERSION as PRIVATE_PIVOT_VERSION,
     POLICY_WINDOWS,
 )
+from mfx_research.b2_s2_source_computation_crosswalk import (
+    reconcile_b2s2_source_to_computation,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -322,6 +325,25 @@ def safe_summary(
                             or r.pivots))
                        for r in batch)):
             raise ValueError("MFX_V1_READONLY_PIVOT_SOURCE_POLICY_DRIFT")
+    # P0.157: reconcile the EXACT 36 pinned B2/S2 owner obligations
+    # against current private technical capability, NOT the source approval.
+    # This re-checks local Git blob pins, not extra vendor/Drive GETs.
+    source_crosswalk = reconcile_b2s2_source_to_computation(evidence)
+    if (len(source_crosswalk.rows) != 36
+            or source_crosswalk.original_b2s2_numeric_approvals
+            or source_crosswalk.original_source_numeric_decisions_pending != 36
+            or source_crosswalk.independently_authenticated_source_owner_formula
+            or source_crosswalk.authorized_real_bidask_net_rr
+            or source_crosswalk.original_forex_parity_proven
+            or source_crosswalk.historical_oos_qualified
+            or source_crosswalk.live_signal_release_approved
+            or source_crosswalk.action != "NO_SIGNAL"
+            or source_crosswalk.stage != "UNVERIFIED"
+            or source_crosswalk.may_trade
+            or source_crosswalk.provider_calls
+            or source_crosswalk.drive_market_cache_writes
+            or source_crosswalk.broker_orders):
+        raise ValueError("MFX_V1_READONLY_SOURCE_COMPUTATION_36_NO_GO_DRIFT")
     if (source_mode.publishable_buy_sell
             or source_mode.broker_order_integration
             or source_mode.requires_mt4_or_mt5_terminal
@@ -366,6 +388,36 @@ def safe_summary(
         "drive_writes": 0,
         "broker_orders": 0,
         "raw_price_logged": False,
+        "b2_s2_source_computation_crosswalk": {
+            "status": "36_PINNED_OWNER_DECISIONS_PENDING_RESEARCH_ONLY",
+            "source_locked_doc_id": source_crosswalk.source_locked_doc_id,
+            "original_numeric_approvals":
+                source_crosswalk.original_b2s2_numeric_approvals,
+            "remaining_numeric_owner_decisions":
+                source_crosswalk.original_source_numeric_decisions_pending,
+            "original_forex_1to1_parity_proven": False,
+            "licensed_real_bidask_net_rr": False,
+            "first_known_verified": False,
+            "historical_oos_approved": False,
+            "public_signal_action": "NO_SIGNAL",
+            "rows": [
+                {
+                    "rule_id": row.rule_id,
+                    "requirement_id": row.source_requirement_id,
+                    "phase": row.phase,
+                    "original_source_paragraph_index":
+                        row.original_source_paragraph_index,
+                    "private_computation_state":
+                        row.observed_research_state,
+                    "original_numeric_owner_approved": False,
+                } for row in source_crosswalk.rows
+            ],
+            "published_ohlc_or_private_pivot_price": False,
+            "provider_requests_added": 0,
+            "drive_gets_added": 0,
+            "drive_writes": 0,
+            "broker_orders": 0,
+        },
         "private_pivot_sensitivity": {
             "status": "TWO_SIM_ONLY_RESEARCH_POLICIES_NO_SIGNAL",
             "sim_research_only_profiles": [
