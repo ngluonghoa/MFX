@@ -2417,7 +2417,7 @@
     },
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
-      "change": "modified",
+      "change": "added",
       "expected_current_sha": "429b70c1ae9584ebc0b414b5f6c0667c876257a0",
       "reason": "P0.150 existing disabled manual OAuth six-TF GET-only output now uses P0.149 typed NO_SIGNAL contract; prepares validated serialized report BEFORE PASS marker, fails closed without contradictory PASS+FAIL; no additional HTTP/Drive/vendor calls/writes, no gate activation or broker."
     },
