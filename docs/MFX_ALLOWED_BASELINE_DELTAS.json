@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "e5ccc4beaaf74bd39d29e4c287379f998370b1ef",
-      "reason": "MFX P0.156: preserve source-SHA-audited private closed six-TF history for genuine right-bar-confirmed SIM-only pivot sensitivity; report coverage metadata with NO_SIGNAL, no Drive GET/write, licence/first-known/Forex source policy."
+      "expected_current_sha": "5d8b165bb963e2644890c1820375258c641bc1c9",
+      "reason": "P0.158 attach validated private M15 prior-confirmed pivot microbreak to existing sealed M5/H4/D1 READ-only receipt; same buffers and no new GET."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "ba38e3eb0239b16caf45a964d6179c049517ff10",
-      "reason": "P0.157: existing disabled owner-gated Drive GET-only safe report reconciles 36 original B2/S2 source-owner decisions against private SHA-validated sixTF computations; no price/raw pivot exposure, no approval, no new GET/vendor requests."
+      "expected_current_sha": "fee8362003ff4a3b3300137cccee24a7db079a93",
+      "reason": "P0.158 same exact in-memory validated receipt, status-only safe manual read report, never price or crossing direction."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2678,6 +2678,24 @@
       "change": "added",
       "expected_current_sha": "7df1b084869faad0f75952b24a96bdb08a470a7c",
       "reason": "Readback frozen original Google Docs rule/QA gap, current private code capabilities and precise pending 36 numeric owner decisions without SIM approval promotion."
+    },
+    {
+      "path": "mfx_research/sealed_private_m15_microbreak.py",
+      "change": "added",
+      "expected_current_sha": "61e6a3fa6f46c325c1166afdbc23d8cb6c093bfc",
+      "reason": "P0.158 causal private M15 latest CLOSED-bar experimental crossing of prior RIGHT-closed SIM pivot on same verified six-TF in-memory source; fail closed, no signal/data rights."
+    },
+    {
+      "path": "tests/test_mfx_v1_sealed_private_m15_microbreak.py",
+      "change": "added",
+      "expected_current_sha": "f708d8344dbcf19fa627fc07618cfa62a46707f3",
+      "reason": "P0.158 20 hermetic strict time/side/first-known/rights/tamper and privacy tests; no live source or trade claims."
+    },
+    {
+      "path": "docs/MFX_V1_P158_PRIVATE_M15_MICROBREAK_RESEARCH.md",
+      "change": "added",
+      "expected_current_sha": "704aa85e3c5040d64df5cabf74dd774374f525da",
+      "reason": "P0.158 scope and research versus original numeric source authority, QA and rollback, no new network/Cache changes."
     }
   ]
 }
