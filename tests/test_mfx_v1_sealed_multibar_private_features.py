@@ -271,8 +271,8 @@ class MfxSealedPrivateMultibarTests(TestCase):
         for value in (None,{},[],1):
             with self.subTest(value=value),self.assertRaisesRegex(
                     ValueError,"NO_AUTHORITY"):
-                calculate(m5=m5,native4=h4,native1=d1,
-                          technical=value)
+                calculate_private_multibar_from_sealed_rows(
+                    m5,h4,d1,value,asof_utc=ASOF)
 
     def test_26_corrupt_source_candle_envelope_rejected(self):
         m5,h4,d1,tech=archived()
