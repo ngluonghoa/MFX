@@ -2570,6 +2570,24 @@
       "change": "added",
       "expected_current_sha": "0c5b0010ac28e400ab70f54d1760a8f8f160075c",
       "reason": "P0.151 source-gated cost-aware experimental NET R:R mathematical contract, quote/side/cost units, no certified publisher rights/owner numeric/OOS, strict no release/zero real IO."
+    },
+    {
+      "path": "mfx_research/p152_sim_signal_risk_vertical_slice.py",
+      "change": "added",
+      "expected_current_sha": "d151f34f55249084c7cc7733bea69e2b36c96cb7",
+      "reason": "MFX signal-first P0.152 pure offline actual B2/S2 synthetic closed-candle research detection → same-event simulated BID/ASK quote and cost-aware net R:R, research-only no market provider/Drive/broker."
+    },
+    {
+      "path": "tests/test_mfx_v1_p152_sim_signal_risk_vertical_slice.py",
+      "change": "added",
+      "expected_current_sha": "be50cb12e9de505813301679a8efc6f4d7f70ed3",
+      "reason": "32 hermetic positive/negative tests for B2/S2 computed SIM pattern + quote-side economics, stale/future quote, no-pattern, no source approval or market action."
+    },
+    {
+      "path": "docs/MFX_V1_P152_SIM_B2S2_NET_R_END_TO_END_CONTRACT.md",
+      "change": "added",
+      "expected_current_sha": "53c8b63e031b0fe42491caf6b953b387a3c3214d",
+      "reason": "Document self-contained SIM B2/S2 closed-OHLC → P0.151 net R math research vertical, strict market/source D1 quarantined no-GO and rollback boundaries."
     }
   ]
 }
