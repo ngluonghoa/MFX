@@ -262,7 +262,7 @@ class V1PrivateSixTfGeometryTests(TestCase):
         for x in (None,{},[],"EUR/USD"):
             with self.subTest(x=x),self.assertRaisesRegex(
                     TypeError,"TYPED_SEALED"):
-                result(x)
+                compute_private_six_tf_candle_geometry(x)
 
     def test_29_readonly_safe_report_runs_geometry_but_omits_prices(self):
         r=safe_summary(mocked(),drive_gets=7)
