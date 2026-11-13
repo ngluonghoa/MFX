@@ -283,9 +283,12 @@ def main() -> None:
         actual = _session(auth)
         receipt, gets = private_get_only_probe(
             actual, asof_utc=datetime.now(timezone.utc))
+        # Never print PASS before all source/authority validation and JSON
+        # encoding have succeeded. A failure must emit ONLY the FAIL marker.
+        payload = safe_summary(receipt, drive_gets=gets)
+        encoded = json.dumps(payload, sort_keys=True)
         print("MFX_V1_MANUAL_DRIVE_GET_ONLY_TECHNICAL_AUDIT_PASS")
-        print(json.dumps(safe_summary(receipt, drive_gets=gets),
-                         sort_keys=True))
+        print(encoded)
     except Exception:
         # Never leak private Drive object IDs, OAuth errors, URLs or raw prices
         # in Actions stderr. Failure must be nonzero, never a fake PASS.
