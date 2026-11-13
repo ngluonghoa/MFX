@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "f4c7970e0ed76be2ff06514fee8f809fc6ea6bc2",
-      "reason": "P0.155: reuse already SHA audited M5/H4/D1 in-memory source buffers for strict UTC contiguous multibar MID arithmetic and metadata-only safe GET report, no new vendor or Drive read/write, no source-owner strategy, broker or release approval."
+      "expected_current_sha": "e5ccc4beaaf74bd39d29e4c287379f998370b1ef",
+      "reason": "MFX P0.156: preserve source-SHA-audited private closed six-TF history for genuine right-bar-confirmed SIM-only pivot sensitivity; report coverage metadata with NO_SIGNAL, no Drive GET/write, licence/first-known/Forex source policy."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "5702bd816c5979d7f898a47934589f00f4baad9f",
-      "reason": "P0.155: reuse already SHA audited M5/H4/D1 in-memory source buffers for strict UTC contiguous multibar MID arithmetic and metadata-only safe GET report, no new vendor or Drive read/write, no source-owner strategy, broker or release approval."
+      "expected_current_sha": "39349a6734a0e9a4c1651379ca05737e861d1813",
+      "reason": "MFX P0.156: preserve source-SHA-audited private closed six-TF history for genuine right-bar-confirmed SIM-only pivot sensitivity; report coverage metadata with NO_SIGNAL, no Drive GET/write, licence/first-known/Forex source policy."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2628,8 +2628,8 @@
     {
       "path": "mfx_research/sealed_multibar_private_features.py",
       "change": "added",
-      "expected_current_sha": "348fa63fc717874417fd3fd4c1916215bc7a08e5",
-      "reason": "P0.155 real private bounded multi-candle MID close deltas and observed True Range across exactly contiguous M5/M15/M30/H1/H4 and non-certified D1 sessions, no BUY/SELL."
+      "expected_current_sha": "56e9fc029aee2be91d29f76cca4e2b2cf24cd4dd",
+      "reason": "MFX P0.156: preserve source-SHA-audited private closed six-TF history for genuine right-bar-confirmed SIM-only pivot sensitivity; report coverage metadata with NO_SIGNAL, no Drive GET/write, licence/first-known/Forex source policy."
     },
     {
       "path": "tests/test_mfx_v1_sealed_multibar_private_features.py",
@@ -2642,6 +2642,24 @@
       "change": "added",
       "expected_current_sha": "ef456eacfffd11f4864c0e5b3b3b40c785ea7e61",
       "reason": "Contract, source evidence, risk/rights limitations, no-new-GET private 6TF multibar integration and rollback."
+    },
+    {
+      "path": "mfx_research/sealed_private_pivot_sensitivity.py",
+      "change": "added",
+      "expected_current_sha": "f1e29e5ca5bbcbbfecf25b9d3e269c9334a4ca2e",
+      "reason": "P0.156 actual private strict right-bar confirmed extrema on independently SHA checked sealed history with two unapproved research windows, no fake publisher-first-known or numeric 1:1."
+    },
+    {
+      "path": "tests/test_mfx_v1_private_sealed_pivot_sensitivity.py",
+      "change": "added",
+      "expected_current_sha": "ffe720c8032b722a352e5e4309fd5b7edf8ffd3d",
+      "reason": "40 Cloud hermetic tests for causal closed high/low pivots, gap/source SHA/rights spoofing, locked native D1 calendar, and public-safe NO_SIGNAL."
+    },
+    {
+      "path": "docs/MFX_V1_P156_SEALED_PRIVATE_RIGHT_CONFIRMED_PIVOT_RESEARCH.md",
+      "change": "added",
+      "expected_current_sha": "e492bde62089117cc733aac85643af1c5787d3ff",
+      "reason": "P0.156 strict scoped private research bridge, 1/1 and 2/2 SIM-only profiles, owner/rights/D1 HOLD blockers, QA and rollback."
     }
   ]
 }

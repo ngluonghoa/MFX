@@ -20,6 +20,9 @@ from mfx_research.six_tf_readonly_context import (
 from mfx_research.sealed_multibar_private_features import (
     PrivateMultiBarReceipt, calculate_private_multibar_from_sealed_rows,
 )
+from mfx_research.sealed_private_pivot_sensitivity import (
+    PrivatePivotSensitivityReceipt, scan_private_sealed_pivot_sensitivity,
+)
 from tools.mfx_m5_full_sha_two_anchor_audit import (
     ROOT_UTC, ROOT_MANIFEST_SHA256, REVIEWED_CHECKPOINT_UTC,
     REVIEWED_CHECKPOINT_SHA256, REVIEWED_CHECKPOINT_PAIRS,
@@ -92,6 +95,9 @@ class SealedArchiveSixTFReceipt:
     # Actual decoded multi-candle analysis, derived from exactly the already
     # audited buffers: private and NEVER included in CI JSON / repr.
     private_multibar: PrivateMultiBarReceipt | None = field(
+        default=None, repr=False,
+    )
+    private_pivot_sensitivity: PrivatePivotSensitivityReceipt | None = field(
         default=None, repr=False,
     )
 
@@ -295,6 +301,28 @@ def consume_sealed_archives_for_six_tf(
                 technical.missing_or_stale_frames):
         raise ValueError("V1_CACHE_PRIVATE_MULTIBAR_AUTHORITY_DRIFT")
 
+    # Strict right-closed pivot research uses EXACT SAME private contiguous
+    # histories and checks their local input digest; both 1/1 and 2/2 are
+    # explicitly SIM stress profiles, never owner-approved Forex thresholds.
+    private_pivots = scan_private_sealed_pivot_sensitivity(
+        multi, technical,
+    )
+    if (private_pivots.action != "NO_SIGNAL"
+            or private_pivots.stage != "UNVERIFIED"
+            or private_pivots.may_publish_price_derived_values_or_signals
+            or private_pivots.may_trade
+            or private_pivots.original_forex_numeric_pivot_policy_approved
+            or private_pivots.data_license_and_redistribution_verified
+            or private_pivots.real_historical_first_known_verified
+            or private_pivots.chronological_oos_acceptance
+            or private_pivots.real_d1_session_continuity_qualified
+            or private_pivots.provider_requests
+            or private_pivots.drive_cache_writes
+            or private_pivots.broker_orders
+            or private_pivots.source_private_multibar_digest_sha256 !=
+                multi.private_input_digest_sha256):
+        raise ValueError("V1_CACHE_PIVOT_RESEARCH_AUTHORITY_DRIFT")
+
     return SealedArchiveSixTFReceipt(
         version=VERSION,
         status="SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL",
@@ -327,4 +355,5 @@ def consume_sealed_archives_for_six_tf(
             m5_evidence["m5_full_bounded_chain_verified"]),
         m5_recent_raw_sha_verified=True,
         private_multibar=multi,
+        private_pivot_sensitivity=private_pivots,
     )

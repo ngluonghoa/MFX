@@ -9,7 +9,7 @@ historical publisher first-known/revision or source-owner numeric strategy.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation
 from hashlib import sha256
@@ -59,6 +59,12 @@ class PrivateMultiBarReceipt:
     frames_missing_or_stale: tuple[str, ...]
     private_input_digest_sha256: str
     public_technical_context_complete: bool
+    # P0.156: keep exactly the already-audited contiguous candle suffixes
+    # IN MEMORY so right-closed pivot research never triggers another GET.
+    # Never expose these price-bearing rows to public CI logs or export.
+    private_closed_histories: tuple[tuple[str, tuple[_Bar, ...]], ...] = field(
+        default=(), repr=False, compare=False,
+    )
     source_price_side: str = "MID"
     actual_multi_bar_technical_arithmetic: bool = True
     confirmed_pivot_or_original_trend_inferred: bool = False
@@ -251,12 +257,14 @@ def calculate_private_multibar_from_sealed_rows(
         raise ValueError("V1_MULTIBAR_SIX_TF_TECHNICAL_COVERAGE_DRIFT")
     frames: list[PrivateMultiBarFrame] = []
     private_input: list[dict[str, object]] = []
+    private_histories: list[tuple[str, tuple[_Bar, ...]]] = []
     for e in technical.frames:
         if type(e) is not ReadonlyTimeframeEvidence:
             raise TypeError("V1_MULTIBAR_TYPED_FRAME_REQUIRED")
         rows = data[e.frame]
         feature = _compute_frame(e.frame, rows, e)
         frames.append(feature)
+        private_histories.append((e.frame, _latest_contiguous(rows, e.frame)))
         # Fingerprint includes ALL private source numbers, not just the
         # caller-provided public SHA metadata. Do not publish this digest.
         private_input.append({
@@ -277,4 +285,5 @@ def calculate_private_multibar_from_sealed_rows(
         frames=tuple(frames), frames_missing_or_stale=missing,
         private_input_digest_sha256=fingerprint,
         public_technical_context_complete=len(frames) == len(FRAMES),
+        private_closed_histories=tuple(private_histories),
     )
