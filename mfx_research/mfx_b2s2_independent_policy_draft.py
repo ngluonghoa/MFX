@@ -199,7 +199,7 @@ def verify_independent_mfx_policy_draft(obj: object) -> IndependentMFXNumericDra
 def read_independent_mfx_policy_draft(
     path: Path = CONFIG_PATH,
 ) -> IndependentMFXNumericDraft:
-    if type(path) is not Path:
+    if not isinstance(path, Path):
         raise TypeError("P160_TYPED_DRAFT_PATH_REQUIRED")
     raw = path.read_bytes()
     if not raw or len(raw) > MAX_BYTES:
