@@ -20,6 +20,9 @@ from mfx_research.hourly_source_freshness import diagnose_hourly_m5_freshness
 from mfx_research.signal_only_six_tf_response import (
     build_signal_only_research_response,
 )
+from mfx_research.ohlc_first_optional_bidask_policy import (
+    classify_ohlc_first_mode,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -204,6 +207,16 @@ def safe_summary(
                 technical.missing_or_stale_frames
             or signal_only.may_publish_buy_sell or signal_only.may_trade):
         raise ValueError("MFX_V1_READONLY_SIGNAL_PRESENTATION_DRIFT")
+    # Explicit owner-selected architecture: MID OHLC research does not need
+    # a terminal or BID/ASK; live net-R:R does need separate licensed API data.
+    # No additional Drive GET or quote request: classify the existing view.
+    source_mode = classify_ohlc_first_mode(signal_only)
+    if (source_mode.publishable_buy_sell
+            or source_mode.broker_order_integration
+            or source_mode.requires_mt4_or_mt5_terminal
+            or source_mode.bidask_quote_observed_and_licensed
+            or source_mode.source_data_account_rights_verified):
+        raise ValueError("MFX_V1_READONLY_OHLC_MODE_AUTHORITY_DRIFT")
     return {
         "schema": VERSION,
         "status": "MANUAL_AUTHENTICATED_DRIVE_GET_SOURCE_RESEARCH_ONLY",
@@ -242,6 +255,39 @@ def safe_summary(
         "drive_writes": 0,
         "broker_orders": 0,
         "raw_price_logged": False,
+        "analysis_mode_decision": {
+            "schema_version": source_mode.schema_version,
+            "analysis_lane": source_mode.analysis_lane,
+            "market_quote_mode": source_mode.market_quote_mode,
+            "technical_status": source_mode.technical_status,
+            "frames_missing_or_stale": list(
+                source_mode.frames_missing_or_stale),
+            "ohlc_research_implementation_may_proceed_offline":
+                source_mode.ohlc_research_implementation_may_proceed_offline,
+            "sealed_six_frame_context_complete":
+                source_mode.sealed_six_frame_context_complete,
+            "requires_bidask_for_closed_ohlc_pattern_research":
+                source_mode.requires_bidask_for_closed_ohlc_pattern_research,
+            "requires_bidask_for_executable_net_rr":
+                source_mode.requires_bidask_for_executable_net_rr,
+            "requires_mt4_or_mt5_terminal":
+                source_mode.requires_mt4_or_mt5_terminal,
+            "future_bidask_route": source_mode.future_bidask_route,
+            "future_broker_connection_required":
+                source_mode.future_broker_connection_required,
+            "source_data_account_rights_verified":
+                source_mode.source_data_account_rights_verified,
+            "bidask_quote_observed_and_licensed":
+                source_mode.bidask_quote_observed_and_licensed,
+            "original_numeric_rules_approved":
+                source_mode.original_numeric_rules_approved,
+            "net_rr_status": source_mode.net_rr_status,
+            "publishable_buy_sell": source_mode.publishable_buy_sell,
+            "broker_order_integration": source_mode.broker_order_integration,
+            "provider_requests": source_mode.provider_requests,
+            "drive_price_cache_writes": source_mode.drive_price_cache_writes,
+            "broker_orders": source_mode.broker_orders,
+        },
         # This child report is an allowlisted safe projection: never raw OHLC,
         # source Drive IDs, credentials, candidate trade prices or live alerts.
         "signal_only_output": {
