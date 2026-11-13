@@ -2552,6 +2552,24 @@
       "change": "added",
       "expected_current_sha": "6163a7d6f75f8bfd86d16babef13f476028ff14d",
       "reason": "P0.150 documentation: integrate P0.149 sealed six-TF NO_SIGNAL report into dormant existing Drive GET-only probe and fix premature PASS marker; all owner/source/cost/OOS gates unchanged."
+    },
+    {
+      "path": "mfx_research/bidask_cost_aware_sim_risk.py",
+      "change": "added",
+      "expected_current_sha": "1189beefe249970dab5f73bbb50337f31e4f2426",
+      "reason": "P0.151: MFX-only pure exact Decimal hypothetical BID/ASK LONG/SHORT cost/slippage and net-risk/net-RR research, no original Forex or signal authorization; provider/broker/Drive zero."
+    },
+    {
+      "path": "tests/test_mfx_v1_bidask_cost_aware_sim_risk.py",
+      "change": "added",
+      "expected_current_sha": "61f45a39493da275b1f55b5adec1bdda00cd918f",
+      "reason": "31 hermetic positive/negative tests for LONG ASK/BID vs SHORT BID/ASK quote-price/slippage/fee net-risk arithmetic, stale source/side safety, no trade action."
+    },
+    {
+      "path": "docs/MFX_V1_BIDASK_COST_AWARE_SIM_RISK_CONTRACT.md",
+      "change": "added",
+      "expected_current_sha": "0c5b0010ac28e400ab70f54d1760a8f8f160075c",
+      "reason": "P0.151 source-gated cost-aware experimental NET R:R mathematical contract, quote/side/cost units, no certified publisher rights/owner numeric/OOS, strict no release/zero real IO."
     }
   ]
 }
