@@ -29,6 +29,10 @@ from mfx_research.six_tf_private_candle_geometry import (
 from mfx_research.sealed_multibar_private_features import (
     PrivateMultiBarReceipt, VERSION as MULTIBAR_VERSION,
 )
+from mfx_research.sealed_private_pivot_sensitivity import (
+    PrivatePivotSensitivityReceipt, VERSION as PRIVATE_PIVOT_VERSION,
+    POLICY_WINDOWS,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -274,6 +278,50 @@ def safe_summary(
              or feature.latest_source_label != raw.source_label)
             for feature, raw in zip(multibar.frames, technical.frames)):
         raise ValueError("MFX_V1_READONLY_MULTIBAR_SOURCE_DRIFT")
+    # P0.156: strict right-candle closure research on the SAME source
+    # buffers; no new Drive GET or price logs. These two exploratory pivot
+    # window policies must NEVER become source-owner approved thresholds.
+    pivot = evidence.private_pivot_sensitivity
+    if (type(pivot) is not PrivatePivotSensitivityReceipt
+            or pivot.version != PRIVATE_PIVOT_VERSION
+            or pivot.asof_utc != technical.asof_utc
+            or pivot.action != "NO_SIGNAL" or pivot.stage != "UNVERIFIED"
+            or pivot.source_private_multibar_digest_sha256 !=
+                multibar.private_input_digest_sha256
+            or pivot.frames_missing_or_stale !=
+                technical.missing_or_stale_frames
+            or pivot.source_price_side != "MID"
+            or pivot.original_forex_numeric_pivot_policy_approved
+            or pivot.real_historical_first_known_verified
+            or pivot.data_license_and_redistribution_verified
+            or pivot.chronological_oos_acceptance
+            or pivot.real_d1_session_continuity_qualified
+            or pivot.net_bidask_rr_available
+            or pivot.may_publish_price_derived_values_or_signals
+            or pivot.may_trade or pivot.provider_requests
+            or pivot.drive_cache_writes or pivot.broker_orders
+            or len(pivot.studied) != len(POLICY_WINDOWS)*len(technical.frames)):
+        raise ValueError("MFX_V1_READONLY_PIVOT_SENSITIVITY_AUTHORITY_DRIFT")
+    for index, (left,right) in enumerate(POLICY_WINDOWS):
+        batch=pivot.studied[
+            index*len(technical.frames):(index+1)*len(technical.frames)]
+        if (tuple(r.frame for r in batch) !=
+                tuple(r.frame for r in technical.frames)
+                or any(r.left_bars != left or r.right_bars != right
+                       or r.source_price_side != "MID"
+                       or r.real_data_rights_verified
+                       or r.source_numeric_policy_verified
+                       or r.may_publish_buy_sell
+                       or any(p.independently_proven_first_known
+                              or p.source_owner_numeric_rule_approved
+                              or p.may_publish_buy_sell
+                              for p in r.pivots)
+                       or (r.frame == "D1" and
+                           (r.status !=
+                            "D1_SOURCE_SESSION_CALENDAR_UNVERIFIED"
+                            or r.pivots))
+                       for r in batch)):
+            raise ValueError("MFX_V1_READONLY_PIVOT_SOURCE_POLICY_DRIFT")
     if (source_mode.publishable_buy_sell
             or source_mode.broker_order_integration
             or source_mode.requires_mt4_or_mt5_terminal
@@ -318,6 +366,32 @@ def safe_summary(
         "drive_writes": 0,
         "broker_orders": 0,
         "raw_price_logged": False,
+        "private_pivot_sensitivity": {
+            "status": "TWO_SIM_ONLY_RESEARCH_POLICIES_NO_SIGNAL",
+            "sim_research_only_profiles": [
+                "SIM_1_LEFT_1_RIGHT", "SIM_2_LEFT_2_RIGHT"
+            ],
+            "frames_studied": list(f.frame for f in technical.frames),
+            "frames_with_enough_contiguous_closed_history_by_profile": [
+                [r.frame for r in pivot.studied[
+                    i*len(technical.frames):(i+1)*len(technical.frames)]
+                 if r.status ==
+                    "PRIVATE_RESEARCH_RIGHT_BARS_CLOSED_NO_FIRST_KNOWN_PROOF"]
+                for i in range(len(POLICY_WINDOWS))
+            ],
+            "frames_missing_or_stale": list(pivot.frames_missing_or_stale),
+            "source_right_confirmed_only_after_candle_close": True,
+            "publisher_first_known_verified": False,
+            "sydney_d1_session_calendar_verified": False,
+            "original_forex_numeric_pivot_policy_approved": False,
+            "reported_pivot_prices_or_directions": False,
+            "bidask_net_rr_available": False,
+            "action": "NO_SIGNAL",
+            "stage": "UNVERIFIED",
+            "drive_reads_added": 0,
+            "provider_requests": 0,
+            "broker_orders": 0,
+        },
         "private_multibar_research": {
             "status": "MULTIBAR_COMPUTED_PRIVATE_NO_VALUES_PUBLISHED",
             "frames_processed": len(multibar.frames),
