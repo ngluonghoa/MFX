@@ -7,7 +7,7 @@ external anti-rollback witness, or trading strategy authority.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Any, Protocol
 
@@ -16,6 +16,9 @@ from mfx_cache.td_m5_codec import digest
 from mfx_cache.v2_batch_commit import _name, _validate_manifest
 from mfx_research.six_tf_readonly_context import (
     SixTimeframeResearchReceipt, build_six_timeframe_readonly_context,
+)
+from mfx_research.sealed_multibar_private_features import (
+    PrivateMultiBarReceipt, calculate_private_multibar_from_sealed_rows,
 )
 from tools.mfx_m5_full_sha_two_anchor_audit import (
     ROOT_UTC, ROOT_MANIFEST_SHA256, REVIEWED_CHECKPOINT_UTC,
@@ -86,6 +89,11 @@ class SealedArchiveSixTFReceipt:
     provider_price_calls: int = 0
     drive_cache_writes: int = 0
     broker_orders: int = 0
+    # Actual decoded multi-candle analysis, derived from exactly the already
+    # audited buffers: private and NEVER included in CI JSON / repr.
+    private_multibar: PrivateMultiBarReceipt | None = field(
+        default=None, repr=False,
+    )
 
 
 def _snapshot(store: ReadOnlyObjectStore) -> tuple[tuple[str, ...], tuple[str, ...]]:
@@ -271,6 +279,22 @@ def consume_sealed_archives_for_six_tf(
          _snapshot(d1_store)) != initial):
         raise ValueError("V1_CACHE_CROSS_ARCHIVE_CHANGED_DURING_READ")
 
+    # No extra GET: use the SAME SHA-audited M5/H4/D1 buffers to calculate
+    # per-frame true ranges and prior-close deltas. All values stay private.
+    multi = calculate_private_multibar_from_sealed_rows(
+        m5_bars, h4, d1, technical, asof_utc=asof_utc,
+    )
+    if (multi.action != "NO_SIGNAL" or multi.stage != "UNVERIFIED"
+            or multi.source_price_side != "MID"
+            or multi.may_publish_prices_or_signals or multi.may_trade
+            or multi.provider_requests or multi.drive_market_cache_writes
+            or multi.broker_orders or
+            tuple(x.frame for x in multi.frames) !=
+                tuple(x.frame for x in technical.frames)
+            or multi.frames_missing_or_stale !=
+                technical.missing_or_stale_frames):
+        raise ValueError("V1_CACHE_PRIVATE_MULTIBAR_AUTHORITY_DRIFT")
+
     return SealedArchiveSixTFReceipt(
         version=VERSION,
         status="SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL",
@@ -302,4 +326,5 @@ def consume_sealed_archives_for_six_tf(
         m5_full_historical_raw_sha_verified=(
             m5_evidence["m5_full_bounded_chain_verified"]),
         m5_recent_raw_sha_verified=True,
+        private_multibar=multi,
     )
