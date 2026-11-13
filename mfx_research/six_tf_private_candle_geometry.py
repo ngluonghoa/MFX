@@ -11,6 +11,8 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from decimal import Decimal, InvalidOperation
+from hashlib import sha256
+import json
 
 from mfx_cache.td_m5_codec import SYMBOL
 from mfx_research.ohlc_first_optional_bidask_policy import (
@@ -102,6 +104,7 @@ class PrivateSixTfCandleGeometry:
     shapes: tuple[PrivateCandleShape, ...]
     frames_missing_or_stale: tuple[str, ...]
     source_fingerprint_sha256: str
+    private_geometry_fingerprint_sha256: str
     technical_six_frame_complete: bool
     source_price_side: str = "MID"
     resolution: str = "ONE_LATEST_CLOSED_CANDLE_PER_PRESENT_FRAME"
@@ -182,6 +185,23 @@ def compute_private_six_tf_candle_geometry(
                != signal.frames_missing_or_stale
             or mode.sealed_six_frame_context_complete != (len(shapes) == 6)):
         raise ValueError("V1_GEOMETRY_SIX_FRAME_COVERAGE_DRIFT")
+    # Local calculation fingerprint binds ALL private raw inputs and source
+    # SHAs. This is not a vendor signature and must never go in public logs.
+    fingerprint_payload = {
+        "version": VERSION,
+        "source_fingerprint": signal.evidence_fingerprint_sha256,
+        "asof": signal.asof_utc,
+        "frames": [{
+            "frame": e.frame,
+            "source_sha_claim": e.evidence_sha256,
+            "open": e.open, "high": e.high,
+            "low": e.low, "close": e.close,
+        } for e in evidence.technical.frames],
+    }
+    fingerprint = sha256(json.dumps(
+        fingerprint_payload, sort_keys=True, ensure_ascii=True,
+        separators=(",", ":"),
+    ).encode("utf-8")).hexdigest()
     return PrivateSixTfCandleGeometry(
         version=VERSION,
         instrument=SYMBOL,
@@ -189,5 +209,6 @@ def compute_private_six_tf_candle_geometry(
         shapes=tuple(shapes),
         frames_missing_or_stale=signal.frames_missing_or_stale,
         source_fingerprint_sha256=signal.evidence_fingerprint_sha256,
+        private_geometry_fingerprint_sha256=fingerprint,
         technical_six_frame_complete=mode.sealed_six_frame_context_complete,
     )
