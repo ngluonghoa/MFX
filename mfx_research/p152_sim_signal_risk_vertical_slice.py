@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from hashlib import sha256
 import json
 
+from forex_trading.market_data import MarketBar
 from forex_trading.model import ActionIntent, SignalStage
 from forex_trading.quotes import Quote, QuoteQuality, ensure_utc
 from mfx_research.bidask_cost_aware_sim_risk import (
@@ -31,7 +32,6 @@ VERSION = "MFX_V1_P152_OFFLINE_B2_S2_PATTERN_TO_NET_R_RESEARCH_V1"
 _EXPECTED = {"B2": CandidateAction.BUY, "S2": CandidateAction.SELL}
 _HINT = {"B2": "SIM_BUY_RESEARCH_CANDIDATE_ONLY",
          "S2": "SIM_SELL_RESEARCH_CANDIDATE_ONLY"}
-_HEX = set("0123456789abcdef")
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,7 +60,7 @@ class SyntheticPatternWithNetRisk:
 
 
 def _join_quote(
-    *, quote: Quote, last_mid: object, decision_utc: datetime,
+    *, quote: Quote, last_mid: MarketBar, decision_utc: datetime,
 ) -> None:
     if type(quote) is not Quote:
         raise TypeError("P152_TYPED_CALLER_CLAIMED_SIM_QUOTE_REQUIRED")
@@ -167,6 +167,11 @@ def review_sim_b2_s2_with_net_risk(
     if candidate is expected:
         cost_status = "PATTERN_RESEARCH_ONLY_NO_SIM_RISK_BUNDLE"
         if all(v is not None for v in bundle):
+            if (type(quote) is not Quote
+                    or type(exits) is not SimExitLevels
+                    or type(costs) is not SimPerUnitCosts
+                    or type(max_quote_age) is not timedelta):
+                raise TypeError("P152_TYPED_SIM_RISK_BUNDLE_REQUIRED")
             last = bars.trigger_m15[-1]
             _join_quote(quote=quote, last_mid=last, decision_utc=decision_utc)
             intent = (ActionIntent.ENTRY_LONG if rule_id == "B2"
