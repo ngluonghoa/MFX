@@ -22,6 +22,12 @@ from test_mfx_v1_six_tf_sealed_archive_consumer import (
     ASOF, consume,
 )
 
+def authenticated_synthetic_fixture():
+    """Synthetic sealed receipt with the existing reviewed-anchor test switch."""
+    return replace(consume(asof=ASOF),
+                   github_reviewed_m5_anchors_checked=True)
+
+
 def full():
     return build_signal_only_research_response(sealed())
 
@@ -163,7 +169,7 @@ class MfxOhlcFirstOptionalBidaskPolicyTests(TestCase):
             a.requires_mt4_or_mt5_terminal=True
 
     def test_20_actual_dormant_drive_safe_summary_includes_policy(self):
-        s=safe_summary(consume(asof=ASOF),drive_gets=3)
+        s=safe_summary(authenticated_synthetic_fixture(),drive_gets=3)
         p=s["analysis_mode_decision"]
         self.assertEqual(p["analysis_lane"],"CLOSED_OHLC_RESEARCH_ONLY")
         self.assertEqual(p["market_quote_mode"],"MID_TECHNICAL_REFERENCE_ONLY")
@@ -176,7 +182,7 @@ class MfxOhlcFirstOptionalBidaskPolicyTests(TestCase):
         self.assertIsNone(s["signal_only_output"]["net_risk_reward"])
 
     def test_21_legacy_metadata_and_no_additional_drive_get(self):
-        s=safe_summary(consume(asof=ASOF),drive_gets=5)
+        s=safe_summary(authenticated_synthetic_fixture(),drive_gets=5)
         self.assertEqual(s["drive_reads"],5)
         self.assertEqual(s["provider_price_requests"],0)
         self.assertEqual(s["drive_writes"],0)
@@ -185,7 +191,7 @@ class MfxOhlcFirstOptionalBidaskPolicyTests(TestCase):
         self.assertIn("sha_verified_source_freshness_timing",s)
 
     def test_22_output_contains_no_prices_secrets_or_vendor_credentials(self):
-        r=safe_summary(consume(asof=ASOF),drive_gets=0)
+        r=safe_summary(authenticated_synthetic_fixture(),drive_gets=0)
         serial=json.dumps(r,sort_keys=True)
         for token in ("1.1000","1.1020","oauth_client_secret",
                       "refresh_token","MT5_PASSWORD","api_key","file_id"):
@@ -195,7 +201,7 @@ class MfxOhlcFirstOptionalBidaskPolicyTests(TestCase):
         self.assertNotIn("net_risk_reward",r["analysis_mode_decision"])
 
     def test_23_sha_fingerprint_unchanged_by_separate_policy_projection(self):
-        receipt=consume(asof=ASOF)
+        receipt=authenticated_synthetic_fixture()
         prior=build_signal_only_research_response(receipt)
         status=safe_summary(receipt,drive_gets=1)
         self.assertEqual(status["signal_only_output"]
