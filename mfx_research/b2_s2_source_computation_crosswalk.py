@@ -13,10 +13,11 @@ from mfx_research.p034_sim_adversarial_review import (
     verify_owner_decision_dossier,
 )
 from mfx_research.sealed_multibar_private_features import (
-    PrivateMultiBarReceipt,
+    PrivateMultiBarFrame, PrivateMultiBarReceipt,
 )
 from mfx_research.sealed_private_pivot_sensitivity import (
-    POLICY_WINDOWS, PrivatePivotSensitivityReceipt,
+    POLICY_WINDOWS, PrivatePivotFrameStudy, PrivatePivotSensitivityReceipt,
+    scan_private_sealed_pivot_sensitivity,
 )
 from mfx_research.signal_only_six_tf_response import (
     build_signal_only_research_response,
@@ -137,6 +138,11 @@ def _private_inputs(evidence: SealedArchiveSixTFReceipt) -> tuple[
                 signal.frames_missing_or_stale
             or len(pivots.studied) != len(POLICY_WINDOWS) * len(present)):
         raise ValueError("P157_SIX_TF_RESEARCH_COVERAGE_DRIFT")
+    # Re-run private SHA/closed-source validation from the same in-memory
+    # bars: a caller-replaced pivot receipt cannot gain a 'ready' status.
+    if pivots != scan_private_sealed_pivot_sensitivity(
+            multi, evidence.technical):
+        raise ValueError("P157_PIVOT_RESULT_OR_PRIVATE_INPUT_TAMPERED")
     for i, (left, right) in enumerate(POLICY_WINDOWS):
         chunk = pivots.studied[i * len(present):(i + 1) * len(present)]
         if (tuple(row.frame for row in chunk) != present
@@ -149,8 +155,8 @@ def _private_inputs(evidence: SealedArchiveSixTFReceipt) -> tuple[
 
 
 def _research_state(
-    category: str, frames: dict[str, object],
-    studied: dict[tuple[str, int, int], object],
+    category: str, frames: dict[str, PrivateMultiBarFrame],
+    studied: dict[tuple[str, int, int], PrivatePivotFrameStudy],
 ) -> str:
     if category == "H1_ENVELOPE_ONLY":
         h1 = frames.get("H1")
