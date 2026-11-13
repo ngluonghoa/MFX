@@ -2616,7 +2616,7 @@
     {
       "path": "tests/test_mfx_v1_sealed_private_six_tf_geometry.py",
       "change": "added",
-      "expected_current_sha": "d0d75e96b414e71ef1ae3dc7a13875bab2cdb1dc",
+      "expected_current_sha": "902039d5887c5cfa284e72e4ee9937c21ed7b112",
       "reason": "35 hermetic positive/negative tests for actual closed MID six-frame candle arithmetic, strict source/UTC/count checks, no private value logging, no original numeric/source authority."
     },
     {
