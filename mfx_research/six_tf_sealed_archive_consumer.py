@@ -46,6 +46,14 @@ SYMBOL = "EUR/USD"
 SYDNEY = "Australia/Sydney"
 MAX_M5_PAIRS = 256
 MAX_NATIVE_ROWS_FOR_CONTEXT = 120
+# #147 confirms a REAL 2026-11-11 Sydney D1 numeric OHLC mismatch (1/16).
+# SHA custody alone does NOT qualify that source as historically stable.
+# Conservatively HOLD *every* real MFX EUR/USD native-D1 consumer until
+# separately accepted publisher/owner policy resolves the incident.
+# Never auto-unlock after a rolling window drops the affected date.
+D1_KNOWN_SOURCE_REVISION_INCIDENT = "EURUSD_SYDNEY_D1_2026_11_11_NUMERIC_OHLC_1_OF_16"
+D1_KNOWN_SOURCE_REVISION_HOLD = True
+D1_HOLD_PUBLIC_STATUS = "P059_NATIVE_D1_SOURCE_REVISION_QUARANTINE_NO_SIGNAL"
 
 
 class ReadOnlyObjectStore(Protocol):
@@ -89,6 +97,9 @@ class SealedArchiveSixTFReceipt:
     storage_reader_identity_independently_attested: bool = False
     provider_account_data_rights_verified: bool = False
     source_first_known_time_proven: bool = False
+    native_d1_numeric_revision_quarantine_active: bool = False
+    native_d1_numeric_revision_quarantine_incident: str = ""
+    private_signal_research_suppressed_by_d1_hold: bool = False
     independent_monotonic_witness_verified: bool = False
     historical_asof_replay_proven: bool = False
     source_numeric_entry_rules_approved: bool = False
@@ -296,6 +307,50 @@ def consume_sealed_archives_for_six_tf(
     if ((_snapshot(m5_store), _snapshot(h4_store),
          _snapshot(d1_store)) != initial):
         raise ValueError("V1_CACHE_CROSS_ARCHIVE_CHANGED_DURING_READ")
+
+    # P0.162: the real EUR/USD native Sydney D1 series is under an
+    # independently documented price-restatement HOLD (#147).
+    # Even full original SHA and six physical bars cannot prove source
+    # correctness. A test fixture pin is NOT reviewed storage authority;
+    # only genuine mode is subject to this persistent unapproved-source STOP.
+    if fixture_pins is None and D1_KNOWN_SOURCE_REVISION_HOLD:
+        return SealedArchiveSixTFReceipt(
+            version=VERSION, status=D1_HOLD_PUBLIC_STATUS,
+            technical=technical,
+            m5_manifest_pairs_full_sha=(
+                m5_evidence["m5_manifest_chunk_pairs_full_sha_verified"]),
+            h4_manifest_pairs_full_sha=h4_pairs,
+            d1_manifest_pairs_full_sha=d1_pairs,
+            m5_manifest_tip_sha256=m5_evidence["m5_latest_manifest_sha256"],
+            h4_manifest_tip_sha256=h4_tip,
+            d1_manifest_tip_sha256=d1_tip,
+            all_three_bounded_sha_chains_verified=(
+                m5_evidence["m5_full_bounded_chain_verified"]),
+            github_reviewed_m5_anchors_checked=True,
+            m5_latest_source_hour_utc=last_source_hour,
+            m5_sha_audit_mode=(
+                "ROOT_PINNED_ALL_MANIFESTS_LATEST_256_CHUNKS"
+                if "m5_rolling_256_chunk_sha_verified" in m5_evidence
+                else "FULL_BOUNDED_ALL_RAW_SHA"),
+            m5_total_manifest_parent_chain_verified=m5_evidence.get(
+                "m5_manifest_full_sha_parent_chain_verified",
+                m5_evidence["m5_manifest_chunk_pairs_full_sha_verified"]),
+            m5_total_archived_manifest_pairs=m5_evidence.get(
+                "m5_total_archived_manifest_chunk_pairs",
+                m5_evidence["m5_manifest_chunk_pairs_full_sha_verified"]),
+            m5_historical_raw_chunks_not_reread=m5_evidence.get(
+                "m5_historical_unread_chunks", 0),
+            m5_full_historical_raw_sha_verified=(
+                m5_evidence["m5_full_bounded_chain_verified"]),
+            m5_recent_raw_sha_verified=True,
+            native_d1_numeric_revision_quarantine_active=True,
+            native_d1_numeric_revision_quarantine_incident=(
+                D1_KNOWN_SOURCE_REVISION_INCIDENT),
+            private_signal_research_suppressed_by_d1_hold=True,
+            # Private signal work is intentionally not evaluated here:
+            # its D1 context is knowingly disputed. Other default
+            # authorization flags and all private receipts remain FALSE/None.
+        )
 
     # No extra GET: use the SAME SHA-audited M5/H4/D1 buffers to calculate
     # per-frame true ranges and prior-close deltas. All values stay private.
