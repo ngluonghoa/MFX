@@ -2774,6 +2774,30 @@
       "change": "added",
       "expected_current_sha": "b1079907652dd1758f0d14f5ced7c986abc23bc3",
       "reason": "P0.163 narrow D1 source-HOLD manual report contract, QA, unresolved external gates and rollback."
+    },
+    {
+      "path": "tools/check_mfx_p164_issue147_governance.py",
+      "change": "added",
+      "expected_current_sha": "eabbf65434f5d634bcdd8308b7a5b2c22a8f3e2e",
+      "reason": "P0.164 pure GitHub issue event validator guards active D1 source quarantine against premature issue #147 closure."
+    },
+    {
+      "path": "tests/test_mfx_p164_issue147_governance.py",
+      "change": "added",
+      "expected_current_sha": "ab06613df08595ea5e96a859f969cc6a9709c086",
+      "reason": "P0.164 sixteen hermetic negative/positive event governance tests including redacted CLI error and pinned incident."
+    },
+    {
+      "path": ".github/workflows/mfx-issue147-source-hold-audit.yml",
+      "change": "added",
+      "expected_current_sha": "47d4491a7929a9df0a04cdd0806aa137a075d3d8",
+      "reason": "P0.164 read-only no-schedule GitHub issues closed/reopened audit for exactly #147; never changes issue or cache."
+    },
+    {
+      "path": "docs/MFX_P164_ISSUE147_SOURCE_HOLD_GOVERNANCE.md",
+      "change": "added",
+      "expected_current_sha": "42aef901ed7f476a217c03044bfee701f47a91b5",
+      "reason": "P0.164 governance incident chronology, workflow scope, acceptance, unresolved release gates and rollback."
     }
   ]
 }
