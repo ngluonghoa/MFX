@@ -222,7 +222,17 @@ class P167BidAskExitTouchTests(TestCase):
     def test_17_wrong_tf_denied(self):
         s,r=case()
         b=make_bar(s)
-        changed=replace(b,key=replace(b.key,timeframe=Timeframe.M15))
+        new_end=b.key.bar_start_utc+timedelta(minutes=15)
+        published=new_end+timedelta(seconds=1)
+        changed=replace(
+            b,
+            key=replace(b.key,timeframe=Timeframe.M15,
+                        bar_end_utc=new_end),
+            observation=replace(
+                b.observation,first_known_utc=published,
+                retrieved_at_utc=published),
+            first_known_utc=published,
+        )
         with self.assertRaisesRegex(ValueError,"NONCAUSAL"):
             audit(s,r,(changed,))
 
@@ -323,3 +333,22 @@ class P167BidAskExitTouchTests(TestCase):
         self.assertFalse(a.true_oos_qualified)
         self.assertFalse(a.real_bidask_or_tick_data_verified)
         self.assertFalse(a.may_publish_buy_sell)
+
+    def test_27_metadata_change_does_not_reuse_old_custody_digest(self):
+        s,r=case()
+        original=make_bar(s)
+        a=audit(s,r,(original,))
+        amended=replace(original,observation=replace(
+            original.observation,endpoint="SIM:SECOND_ENDPOINT"))
+        with self.assertRaisesRegex(ValueError,"CHAIN_OR_RIGHTS_DRIFT"):
+            verify_option_b_v2_sim_exit_touch_audit(
+                replace(a,paths=((amended,),)))
+
+    def test_28_revision_number_change_detected_without_price_change(self):
+        s,r=case()
+        original=make_bar(s)
+        a=audit(s,r,(original,))
+        revised=replace(original,revision_number=2)
+        with self.assertRaisesRegex(ValueError,"CHAIN_OR_RIGHTS_DRIFT"):
+            verify_option_b_v2_sim_exit_touch_audit(
+                replace(a,paths=((revised,),)))

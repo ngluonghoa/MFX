@@ -2838,19 +2838,19 @@
     {
       "path": "mfx_research/option_b_v2_exit_touch_audit.py",
       "change": "added",
-      "expected_current_sha": "1deef5130c0d6eebe73382cf30694fc39913f600",
+      "expected_current_sha": "29a359055b6419bf7f5a89a471041b568bc14dc7",
       "reason": "P0.167 SIM M5 BID/ASK postentry stop/target touch and collision ambiguity evaluator, source-causal, no-fill no-PnL."
     },
     {
       "path": "tests/test_mfx_p167_option_b_v2_exit_touch_audit.py",
       "change": "added",
-      "expected_current_sha": "dfbbfd90fc6534cc84830c37e4db883f0652e334",
+      "expected_current_sha": "e3cb5fd46ab4a294b35f775374048bfad88515fe",
       "reason": "P0.167 26 hermetic side-specific M5 exit touch/collision source-identity and report tamper tests."
     },
     {
       "path": "docs/MFX_P167_BIDASK_EXIT_TOUCH_AMBIGUITY.md",
       "change": "added",
-      "expected_current_sha": "666932e35afebe2fb8308126382c3ee96667c9a0",
+      "expected_current_sha": "dcd4a14e41645093be629bc81b82bd3af1779f52",
       "reason": "P0.167 exit outcome uncertainty scope, lack of real fill/OOS proof, QA and rollback."
     }
   ]

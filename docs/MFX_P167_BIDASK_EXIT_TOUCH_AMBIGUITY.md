@@ -20,4 +20,4 @@ No new provider calls or real Drive reads/writes, scheduled workflow, secrets, s
 
 ## QA and release gates
 
-26 hermetic cases for side-specific stop/target, both-collision ambiguity, gap/no-path distinction, contiguous M5, UTC first-known/retrieved, source identity, SIM only, duplicate and no-pattern exclusion, receipt chain tamper, redacted public counts and rights/PNL false. Accept only exact PR and independent protected main Python 3.11+3.12 CI, static/security/frozen-source and crosswheel. Roll back only the P0.167 helper/test/doc/allowlist; do not rewrite original D1 or source quarantine.
+28 hermetic cases for side-specific stop/target, both-collision ambiguity, gap/no-path distinction, contiguous M5, UTC first-known/retrieved, source identity, SIM only, duplicate and no-pattern exclusion, receipt chain tamper, redacted public counts and rights/PNL false. Accept only exact PR and independent protected main Python 3.11+3.12 CI, static/security/frozen-source and crosswheel. Roll back only the P0.167 helper/test/doc/allowlist; do not rewrite original D1 or source quarantine.
