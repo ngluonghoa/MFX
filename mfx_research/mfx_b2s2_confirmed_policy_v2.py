@@ -8,12 +8,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from decimal import Decimal
 from hashlib import sha1, sha256
 import json
 from pathlib import Path
 from typing import Any
 
+from forex_trading.market_data import MarketBar
 from forex_trading.model import SignalStage
 from mfx_research.causal_multitf_context import (
     SyntheticDerivationParameters, SyntheticMultiTfBars,
@@ -207,7 +207,7 @@ def _p160_still_pinned() -> None:
 def compute_mfx_b2s2_v2_closed_candidate(
     rule_id: str,
     bars: SyntheticMultiTfBars,
-    confirmed_m15_history: tuple,
+    confirmed_m15_history: tuple[MarketBar, ...],
     policy: MfxConfirmedB2S2V2Policy,
     decision_utc: datetime,
 ) -> MfxB2S2V2ClosedResearch:
