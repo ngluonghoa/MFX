@@ -5,13 +5,16 @@ import copy
 from datetime import datetime, timedelta, timezone
 from typing import Any
 from unittest import TestCase
+from unittest.mock import patch
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
 from mfx_cache.native_htf_archive import plan_native_sealed
 from mfx_cache.td_m5_codec import ClosedM5Bar, digest
 from mfx_cache.v2_batch_commit import _make_plan
 from mfx_research.six_tf_sealed_archive_consumer import (
-    SyntheticFixturePins, consume_sealed_archives_for_six_tf,
+    D1_KNOWN_SOURCE_REVISION_HOLD, D1_HOLD_PUBLIC_STATUS,
+    D1_KNOWN_SOURCE_REVISION_INCIDENT, SyntheticFixturePins,
+    _m5_pinned_rows, consume_sealed_archives_for_six_tf,
 )
 
 UTC = timezone.utc
@@ -315,3 +318,114 @@ class SealedSixTFConsumerTests(TestCase):
         self.assertFalse(r.technical.source_feed_subscription_verified)
         self.assertFalse(r.technical.forex_1to1_numerical_parity_verified)
         self.assertFalse(r.technical.entry_sl_tp_net_rr_approved)
+
+    @staticmethod
+    def _reviewed_mode_with_in_memory_pinned_fixture(
+        m: ReadOnlyStore, h: ReadOnlyStore, d: ReadOnlyStore,
+        pins: SyntheticFixturePins,
+    ):
+        """Mock ONLY external M5 anchor validation to exercise real-only path.
+
+        NOT a real producer/source proof. Native H4/D1 SHA checks remain real.
+        """
+        bars, evidence = _m5_pinned_rows(
+            m, asof_utc=ASOF, fixture_pins=pins,
+        )
+        with patch(
+            "mfx_research.six_tf_sealed_archive_consumer._m5_pinned_rows",
+            return_value=(bars, evidence),
+        ):
+            return consume_sealed_archives_for_six_tf(
+                m, h, d, asof_utc=ASOF,
+            )
+
+    def test_31_known_source_d1_hold_is_versioned_no_silent_timeout(self):
+        self.assertIs(D1_KNOWN_SOURCE_REVISION_HOLD, True)
+        self.assertIn("2026_11_11", D1_KNOWN_SOURCE_REVISION_INCIDENT)
+        self.assertIn("QUARANTINE", D1_HOLD_PUBLIC_STATUS)
+
+    def test_32_original_sha_audited_archive_is_still_d1_hold(self):
+        m, h, d, pins = fixtures()
+        r = self._reviewed_mode_with_in_memory_pinned_fixture(m, h, d, pins)
+        self.assertEqual(r.status, D1_HOLD_PUBLIC_STATUS)
+        self.assertTrue(r.native_d1_numeric_revision_quarantine_active)
+        self.assertEqual(
+            r.native_d1_numeric_revision_quarantine_incident,
+            D1_KNOWN_SOURCE_REVISION_INCIDENT,
+        )
+        self.assertTrue(r.private_signal_research_suppressed_by_d1_hold)
+        self.assertEqual(r.technical.total_frames, 6)
+        self.assertTrue(r.technical.research_technical_context_complete)
+        # Physically available 6/6 is NOT the same as trusted for strategy.
+
+    def test_33_quarantine_skips_all_private_swing_and_signal_calculations(self):
+        m, h, d, pins = fixtures()
+        with patch(
+            "mfx_research.six_tf_sealed_archive_consumer."
+            "calculate_private_multibar_from_sealed_rows",
+            side_effect=AssertionError("DISPUTED_D1_MUST_NOT_ENTER_RESEARCH"),
+        ):
+            r = self._reviewed_mode_with_in_memory_pinned_fixture(m, h, d, pins)
+        self.assertIsNone(r.private_multibar)
+        self.assertIsNone(r.private_pivot_sensitivity)
+        self.assertIsNone(r.private_m15_microbreak)
+        self.assertIsNone(r.private_m15_prefix_replay)
+
+    def test_34_source_hold_keeps_original_sha_evidence_and_zero_permissions(self):
+        m, h, d, pins = fixtures()
+        r = self._reviewed_mode_with_in_memory_pinned_fixture(m, h, d, pins)
+        self.assertEqual(
+            (r.m5_manifest_pairs_full_sha,
+             r.h4_manifest_pairs_full_sha, r.d1_manifest_pairs_full_sha),
+            (2, 1, 1),
+        )
+        for sha in (
+            r.m5_manifest_tip_sha256,
+            r.h4_manifest_tip_sha256,
+            r.d1_manifest_tip_sha256,
+        ):
+            self.assertEqual(len(sha), 64)
+        self.assertTrue(r.github_reviewed_m5_anchors_checked)
+        self.assertFalse(r.provider_account_data_rights_verified)
+        self.assertFalse(r.source_first_known_time_proven)
+        self.assertFalse(r.may_publish_buy_sell)
+        self.assertFalse(r.may_trade)
+        self.assertEqual(
+            (r.provider_price_calls, r.drive_cache_writes, r.broker_orders),
+            (0, 0, 0),
+        )
+
+    def test_35_quarantine_read_only_does_not_modify_cached_objects(self):
+        m, h, d, pins = fixtures()
+        before = [copy.deepcopy(s.objects) for s in (m, h, d)]
+        self._reviewed_mode_with_in_memory_pinned_fixture(m, h, d, pins)
+        self.assertEqual([s.objects for s in (m, h, d)], before)
+
+    def test_36_sha_tampering_still_rejected_before_quarantine_result(self):
+        m, h, d, pins = fixtures()
+        k = next(iter(d.objects["chunk"]))
+        d.objects["chunk"][k]["bars"][0]["high"] = "1.9999"
+        with self.assertRaises(ValueError):
+            self._reviewed_mode_with_in_memory_pinned_fixture(m, h, d, pins)
+
+    def test_37_synthetic_fixture_mode_retains_existing_research_only(self):
+        result = consume()
+        self.assertFalse(result.native_d1_numeric_revision_quarantine_active)
+        self.assertFalse(result.private_signal_research_suppressed_by_d1_hold)
+        self.assertEqual(
+            result.status,
+            "SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL",
+        )
+        self.assertIsNotNone(result.private_multibar)
+        self.assertIsNotNone(result.private_m15_prefix_replay)
+
+    def test_38_hold_applies_even_when_affected_date_ages_out_of_recent_native(self):
+        m, h, d, pins = fixtures()
+        d.objects = {"manifest": {}, "chunk": {}}
+        _seed_native(d, "1day", ("2026-11-12",))
+        # The source policy is still on HOLD even if the latest D1 row
+        # no longer equals the 2026-11-11 incident label.
+        r = self._reviewed_mode_with_in_memory_pinned_fixture(m, h, d, pins)
+        self.assertTrue(r.native_d1_numeric_revision_quarantine_active)
+        self.assertTrue(r.private_signal_research_suppressed_by_d1_hold)
+        self.assertEqual(r.status, D1_HOLD_PUBLIC_STATUS)
