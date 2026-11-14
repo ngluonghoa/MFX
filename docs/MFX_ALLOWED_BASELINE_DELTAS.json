@@ -2798,6 +2798,24 @@
       "change": "added",
       "expected_current_sha": "42aef901ed7f476a217c03044bfee701f47a91b5",
       "reason": "P0.164 governance incident chronology, workflow scope, acceptance, unresolved release gates and rollback."
+    },
+    {
+      "path": "mfx_research/option_b_v2_chronological_replay.py",
+      "change": "added",
+      "expected_current_sha": "1e4a9e3f1897e9ae4dc889795e7d5e72ab86126d",
+      "reason": "P0.165 bounded causal chronological Option B v2 SIM replay, source identity dedup and SHA chain with zero real source rights."
+    },
+    {
+      "path": "tests/test_mfx_p165_option_b_v2_chronological_replay.py",
+      "change": "added",
+      "expected_current_sha": "1c1edd331236f898c329742878490dc615816f90",
+      "reason": "P0.165 22 actual P0.161 synthetic replay test cases: B2/S2 chronology, conflicts, edits, replay validation and privacy."
+    },
+    {
+      "path": "docs/MFX_P165_OPTION_B_V2_CHRONOLOGICAL_REPLAY.md",
+      "change": "added",
+      "expected_current_sha": "d6cbe17466b719f30f2cfc243ae9d2686f79a0bc",
+      "reason": "P0.165 release-critical Option B v2 replay design, QA boundaries, external blockers and rollback."
     }
   ]
 }
