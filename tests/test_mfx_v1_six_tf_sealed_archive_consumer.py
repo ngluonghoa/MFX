@@ -422,9 +422,9 @@ class SealedSixTFConsumerTests(TestCase):
     def test_38_hold_applies_even_when_affected_date_ages_out_of_recent_native(self):
         m, h, d, pins = fixtures()
         d.objects = {"manifest": {}, "chunk": {}}
-        _seed_native(d, "1day", ("2026-11-12",))
-        # The source policy is still on HOLD even if the latest D1 row
-        # no longer equals the 2026-11-11 incident label.
+        _seed_native(d, "1day", ("2026-11-10",))
+        # The source policy remains on HOLD even when the injected
+        # source slice does not include the exact incident-date row.
         r = self._reviewed_mode_with_in_memory_pinned_fixture(m, h, d, pins)
         self.assertTrue(r.native_d1_numeric_revision_quarantine_active)
         self.assertTrue(r.private_signal_research_suppressed_by_d1_hold)
