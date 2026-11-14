@@ -189,12 +189,21 @@ class OptionBV2ChronologicalReplayTests(TestCase):
         snap=snapshot()
         history=list(snap.confirmed_m15_history)
         sample=history[2]
+        delay=timedelta(minutes=1)
         history[2]=replace(
-            sample,key=replace(
+            sample,
+            key=replace(
                 sample.key,
-                bar_start_utc=sample.key.bar_start_utc+timedelta(minutes=1),
-                bar_end_utc=sample.key.bar_end_utc+timedelta(minutes=1),
-            ))
+                bar_start_utc=sample.key.bar_start_utc+delay,
+                bar_end_utc=sample.key.bar_end_utc+delay,
+            ),
+            observation=replace(
+                sample.observation,
+                first_known_utc=sample.observation.first_known_utc+delay,
+                retrieved_at_utc=sample.observation.retrieved_at_utc+delay,
+            ),
+            first_known_utc=sample.first_known_utc+delay,
+        )
         with self.assertRaises(ValueError):
             replay(replace(snap,confirmed_m15_history=tuple(history)))
 
