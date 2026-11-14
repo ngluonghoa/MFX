@@ -14,6 +14,7 @@ from urllib.parse import urlsplit
 
 from mfx_research.six_tf_sealed_archive_consumer import (
     ReadOnlyObjectStore, SealedArchiveSixTFReceipt,
+    D1_HOLD_PUBLIC_STATUS, D1_KNOWN_SOURCE_REVISION_INCIDENT,
     consume_sealed_archives_for_six_tf,
 )
 from mfx_research.hourly_source_freshness import diagnose_hourly_m5_freshness
@@ -244,6 +245,117 @@ def safe_summary(
                 technical.missing_or_stale_frames
             or signal_only.may_publish_buy_sell or signal_only.may_trade):
         raise ValueError("MFX_V1_READONLY_SIGNAL_PRESENTATION_DRIFT")
+    # P0.163: REAL D1 source is on persistent owner HOLD (#147).
+    # P0.162 intentionally returns NONE for all private computations.
+    # Present only previously SHA-audited custody metadata plus NO_SIGNAL:
+    # never run geometry, private pivots, 36-rule crosswalk or risk research.
+    if evidence.status == D1_HOLD_PUBLIC_STATUS:
+        if (signal_only.technical_status !=
+                "SIX_TF_SOURCE_QUARANTINED_NO_SIGNAL"
+                or D1_HOLD_PUBLIC_STATUS not in signal_only.reason_codes
+                or evidence.native_d1_numeric_revision_quarantine_incident !=
+                    D1_KNOWN_SOURCE_REVISION_INCIDENT):
+            raise ValueError("MFX_V1_D1_SOURCE_HOLD_PROJECTION_DRIFT")
+        return {
+            "schema": VERSION,
+            "status": D1_HOLD_PUBLIC_STATUS,
+            "action": "NO_SIGNAL",
+            "stage": "UNVERIFIED",
+            "asof_utc": technical.asof_utc,
+            "sha_verified_source_freshness_timing": freshness,
+            "frames_present": [f.frame for f in technical.frames],
+            "frames_missing_or_stale": list(
+                technical.missing_or_stale_frames),
+            "technical_six_frame_ready":
+                technical.research_technical_context_complete,
+            "source_authoritative_for_signals": False,
+            "m5_manifest_chunk_pairs_full_sha":
+                evidence.m5_manifest_pairs_full_sha,
+            "m5_sha_audit_mode": evidence.m5_sha_audit_mode,
+            "m5_full_historical_raw_sha_verified":
+                evidence.m5_full_historical_raw_sha_verified,
+            "m5_total_manifest_parent_chain_verified":
+                evidence.m5_total_manifest_parent_chain_verified,
+            "m5_total_archived_manifest_pairs":
+                evidence.m5_total_archived_manifest_pairs,
+            "m5_historical_raw_chunks_not_reread":
+                evidence.m5_historical_raw_chunks_not_reread,
+            "h4_manifest_chunk_pairs_full_sha":
+                evidence.h4_manifest_pairs_full_sha,
+            "d1_manifest_chunk_pairs_full_sha":
+                evidence.d1_manifest_pairs_full_sha,
+            "m5_tip_sha256": evidence.m5_manifest_tip_sha256,
+            "h4_tip_sha256": evidence.h4_manifest_tip_sha256,
+            "d1_tip_sha256": evidence.d1_manifest_tip_sha256,
+            "reviewed_m5_source_pins_matched": True,
+            "native_d1_numeric_revision_quarantine_active": True,
+            "native_d1_numeric_revision_quarantine_incident":
+                D1_KNOWN_SOURCE_REVISION_INCIDENT,
+            "private_signal_research_suppressed_by_d1_hold": True,
+            "source_account_license_verified": False,
+            "source_first_known_verified": False,
+            "independent_external_witness_verified": False,
+            "numeric_buy_sell_rules_approved": False,
+            "bid_ask_cost_sl_tp_net_rr_approved": False,
+            "historical_replay_oos_proven": False,
+            "may_publish_buy_sell": False,
+            "provider_price_requests": 0,
+            "drive_reads": drive_gets,
+            "drive_writes": 0,
+            "broker_orders": 0,
+            "raw_price_logged": False,
+            "b2_s2_source_computation_crosswalk": {
+                "status": "NOT_RUN_D1_SOURCE_QUARANTINE",
+                "original_numeric_approvals": 0,
+                "remaining_numeric_owner_decisions": 36,
+                "rows": [],
+            },
+            "private_m15_microbreak": {
+                "status": "NOT_RUN_D1_SOURCE_QUARANTINE",
+            },
+            "private_pivot_sensitivity": {
+                "status": "NOT_RUN_D1_SOURCE_QUARANTINE",
+            },
+            "private_multibar_research": {
+                "status": "NOT_RUN_D1_SOURCE_QUARANTINE",
+            },
+            "private_ohlc_geometry": {
+                "status": "NOT_RUN_D1_SOURCE_QUARANTINE",
+            },
+            "analysis_mode_decision": {
+                "status": "NOT_RUN_D1_SOURCE_QUARANTINE",
+                "requires_mt4_or_mt5_terminal": False,
+                "requires_bidask_for_executable_net_rr": True,
+                "publishable_buy_sell": False,
+                "broker_order_integration": False,
+            },
+            "signal_only_output": {
+                "schema_version": signal_only.schema_version,
+                "action": signal_only.action,
+                "stage": signal_only.stage,
+                "technical_status": signal_only.technical_status,
+                "quote_side": signal_only.quote_side,
+                "frames_present": list(signal_only.frames_present),
+                "frames_missing_or_stale": list(
+                    signal_only.frames_missing_or_stale),
+                "reason_codes": list(signal_only.reason_codes),
+                "evidence_fingerprint_sha256":
+                    signal_only.evidence_fingerprint_sha256,
+                "zone_label": None,
+                "entry_price": None,
+                "stop_loss": None,
+                "take_profit": None,
+                "net_risk_reward": None,
+                "publisher_first_known_utc": None,
+                "source_numeric_rules_approved": False,
+                "source_account_license_verified": False,
+                "bid_ask_economics_approved": False,
+                "historical_oos_approved": False,
+                "may_publish_buy_sell": False,
+                "may_trade": False,
+            },
+        }
+
     # Explicit owner-selected architecture: MID OHLC research does not need
     # a terminal or BID/ASK; live net-R:R does need separate licensed API data.
     # No additional Drive GET or quote request: classify the existing view.
@@ -630,6 +742,11 @@ def main() -> None:
         # encoding have succeeded. A failure must emit ONLY the FAIL marker.
         payload = safe_summary(receipt, drive_gets=gets)
         encoded = json.dumps(payload, sort_keys=True)
+        if payload["status"] == D1_HOLD_PUBLIC_STATUS:
+            print("MFX_V1_MANUAL_DRIVE_GET_ONLY_D1_QUARANTINED_NO_SIGNAL")
+            print(encoded)
+            # Explicit nonzero source-fitness HOLD, never a green audit.
+            raise SystemExit(2)
         print("MFX_V1_MANUAL_DRIVE_GET_ONLY_TECHNICAL_AUDIT_PASS")
         print(encoded)
     except Exception:
