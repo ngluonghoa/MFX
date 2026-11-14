@@ -1,0 +1,22 @@
+name: MFX P0.164 Source D1 HOLD Issue Governance (READ-ONLY)
+on:
+  issues:
+    types: [closed, reopened]
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  issue147-source-hold-audit:
+    if: ${{ github.repository == 'ngluonghoa/MFX' && github.event.issue.number == 147 }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5 pinned
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6 pinned
+        with:
+          python-version: "3.12"
+      - name: Fail source governance if issue 147 is closed while native D1 HOLD remains
+        run: python -m tools.check_mfx_p164_issue147_governance
