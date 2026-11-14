@@ -1,0 +1,28 @@
+{
+  "schema": "MFX_OPTION_B_CONFIRMED_SWING_DRAFT_V1",
+  "version": "MFX:B2S2-NEW-STRATEGY-DRAFT-002",
+  "strategy_lineage": "MFX_NEW_NUMERIC_FORMULA_NOT_ORIGINAL_FOREX_1TO1",
+  "parent_numeric_config_git_blob": "dbaed8ca436904fd83c528818358e677def43be3",
+  "scope": "OPTION_B_DEVELOPMENT_ONLY_NOT_NUMERIC_REVIEW",
+  "experimental_params": {
+    "d1_h4_confirmed_swing_left_bars": 1,
+    "d1_h4_confirmed_swing_right_bars": 1,
+    "m15_confirmed_micro_left_bars": 1,
+    "m15_confirmed_micro_right_bars": 1,
+    "requires_two_confirmed_highs_and_lows_per_htf": true,
+    "requires_m15_pivot_confirmed_before_trigger_open": true,
+    "requires_source_closed_at_asof": true
+  },
+  "validation": "SYNTHETIC_ONLY_NOT_LIVE_POINT_IN_TIME_OOS",
+  "owner_numeric_review": "PENDING",
+  "permissions": {
+    "numeric_policy_approved": false,
+    "original_forex_numeric_1to1_parity": false,
+    "real_source_licence_approved": false,
+    "source_d1_revision_qualified": false,
+    "live_bidask_risk_approved": false,
+    "historical_oos_approved": false,
+    "public_buy_sell_allowed": false,
+    "broker_order_allowed": false
+  }
+}
