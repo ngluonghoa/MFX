@@ -840,8 +840,8 @@
     {
       "path": "mfx_research/confirmed_swings.py",
       "change": "added",
-      "expected_current_sha": "71dc5ca76881e6542c36ecdf47ab985a684c670c",
-      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker"
+      "expected_current_sha": "7e1ba17918f1c170c6396399a616e0d0b9306a4f",
+      "reason": "P0.161 backward-compatible P020 confirmed pivot M15 scanner and exact prior-closed micro level for MFX v2 B2/S2, no original Forex rule or live data."
     },
     {
       "path": "mfx_research/offline_ema_signals.py",
@@ -2738,6 +2738,30 @@
       "change": "added",
       "expected_current_sha": "2d5f327b7bb80f7e569d801aee4945318977d0c9",
       "reason": "User-approved independent numeric strategy direction, explicit candidate numbers and hard source/legal/OOS release gates."
+    },
+    {
+      "path": "docs/MFX_V1_B2S2_CONFIRMED_SWING_DRAFT_V2.json",
+      "change": "added",
+      "expected_current_sha": "3e172f48458ccf953f2fba2e31dde7572059e00f",
+      "reason": "P0.161 versioned independent Option B MFX v2 candidate profile for right-closed D1/H4 and M15 1/1 experimental pivots, not owner-approved."
+    },
+    {
+      "path": "mfx_research/mfx_b2s2_confirmed_policy_v2.py",
+      "change": "added",
+      "expected_current_sha": "eb19213a8f66087081be7e397389a31f3d4acfbe",
+      "reason": "P0.161 actual B2/S2 confirmed HTF and M15 causal synthetic numerical strategy candidate composed from existing P020/P018/P031; public NO_SIGNAL."
+    },
+    {
+      "path": "tests/test_mfx_v1_p161_option_b_confirmed_b2s2_v2.py",
+      "change": "added",
+      "expected_current_sha": "b090a99a7c297cd97f59ea3c657caa4d365b709a",
+      "reason": "P0.161 28 synthetic hermetic positive and negative tests for causal D1/H4/M15 strategy, source rights and no release."
+    },
+    {
+      "path": "docs/MFX_V1_P161_OPTION_B_RIGHT_CONFIRMED_B2S2_CANDIDATE.md",
+      "change": "added",
+      "expected_current_sha": "a38f9310afb9388ba82d29be2d3418c2325295b4",
+      "reason": "P0.161 specification, source lineage, external rights/D1/OOS blockers, exact QA and rollback."
     }
   ]
 }

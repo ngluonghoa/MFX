@@ -80,6 +80,7 @@ class ConfirmedSwingResearchReceipt:
     derived_context: ClaimedStructuralContext
     signal: ResearchPullbackResult
     structural_pivot_policy: str
+    m15_confirmed_pivots: SwingScanReceipt | None = None
     source_forex_1to1_numerical_parity: bool = False
     may_send_confirmed_signal: bool = False
     can_trade: bool = False
@@ -109,8 +110,8 @@ def detect_confirmed_swings(
     first = series[0]
     if not isinstance(first, MarketBar):
         raise TypeError("P020_TYPED_SYNTHETIC_BARS_REQUIRED")
-    if timeframe not in (Timeframe.D1, Timeframe.H4):
-        raise ValueError("P020_ONLY_D1_AND_H4_PIVOT_RESEARCH")
+    if timeframe not in (Timeframe.D1, Timeframe.H4, Timeframe.M15):
+        raise ValueError("P020_ONLY_D1_H4_M15_PIVOT_RESEARCH")
     pair = first.key.instrument_version
     provider = first.observation.provider_id
     calendar = first.key.calendar_version
@@ -185,6 +186,8 @@ def derive_swing_b2_s2_research(
     decision_utc: datetime,
     *,
     origin_event_id: str,
+    confirmed_m15_history: tuple[MarketBar, ...] | None = None,
+    confirmed_m15_policy: SyntheticPivotParameters | None = None,
 ) -> ConfirmedSwingResearchReceipt:
     """Actual confirmed-pivot context feeding B2/S2 *synthetic* evaluator.
 
@@ -204,6 +207,8 @@ def derive_swing_b2_s2_research(
             or len(origin_event_id) <= 4 or len(origin_event_id) > 128
             or any(ch.isspace() for ch in origin_event_id)):
         raise ValueError("P020_REQUIRES_SYNTHETIC_ORIGIN_EVENT")
+    if (confirmed_m15_history is None) != (confirmed_m15_policy is None):
+        raise ValueError("P020_EXACT_COMPLETE_CONFIRMED_M15_POLICY_PAIR")
     m15 = bars.trigger_m15
     if (not isinstance(m15, tuple) or len(m15) != 2
             or not all(isinstance(x, MarketBar) for x in m15)):
@@ -250,6 +255,40 @@ def derive_swing_b2_s2_research(
         raise ValueError("P020_MICRO_SEED_NOT_KNOWN_BEFORE_TRIGGER")
     if first.key.bar_end_utc != m15[1].key.bar_start_utc:
         raise ValueError("P020_TRIGGER_GAP_OR_REORDER")
+    micro_scan: SwingScanReceipt | None = None
+    micro_level: Decimal | None = None
+    if confirmed_m15_history is not None:
+        if (type(confirmed_m15_history) is not tuple
+                or type(confirmed_m15_policy) is not SyntheticPivotParameters
+                or not confirmed_m15_history
+                or confirmed_m15_history[-1] != seed):
+            raise ValueError("P020_M15_HISTORY_MUST_END_WITH_EXACT_PRETRIGGER_SEED")
+        for item in confirmed_m15_history:
+            if (type(item) is not MarketBar
+                    or item.key.instrument_version != pair
+                    or item.key.calendar_version != calendar
+                    or item.observation.provider_id != provider
+                    or item.observation.stream_id != seed.observation.stream_id
+                    or item.key.aggregation_version != seed.key.aggregation_version):
+                raise ValueError("P020_M15_PIVOT_ORIGIN_STREAM_IDENTITY_MISMATCH")
+        for trigger in m15:
+            if (trigger.observation.stream_id != seed.observation.stream_id
+                    or trigger.key.aggregation_version != seed.key.aggregation_version):
+                raise ValueError("P020_M15_TRIGGER_STREAM_DRIFT")
+        micro_scan = detect_confirmed_swings(
+            confirmed_m15_history, Timeframe.M15,
+            confirmed_m15_policy, cutoff,
+        )
+        kind = PivotKind.HIGH if rule_id == "B2" else PivotKind.LOW
+        candidates = [pivot for pivot in micro_scan.pivots if pivot.kind is kind]
+        if not candidates:
+            raise ValueError("P020_NO_PRIOR_RIGHT_CONFIRMED_M15_LEVEL")
+        latest_known = candidates[-1]
+        if (latest_known.confirmed_first_known_utc > cutoff
+                or confirmed_m15_history[
+                    latest_known.confirmation_index].key.bar_end_utc > cutoff):
+            raise ValueError("P020_M15_PIVOT_NOT_KNOWN_BEFORE_TRIGGER_OPEN")
+        micro_level = latest_known.price
     tr: list[Decimal] = []
     for i in range(len(h1) - zone_policy.atr_h1_periods, len(h1)):
         x, previous = h1[i], h1[i - 1]
@@ -271,6 +310,8 @@ def derive_swing_b2_s2_research(
         anchor = max(x.high for x in zone)
         zone_low, zone_high = anchor - width, anchor
         micro = seed.low
+    if micro_level is not None:
+        micro = micro_level
     if zone_low <= 0:
         raise ValueError("P020_NONPOSITIVE_H1_ZONE")
     first_known = max(
@@ -296,4 +337,5 @@ def derive_swing_b2_s2_research(
         daily=daily, four_hour=h4, daily_trend=ctx.d1_trend,
         four_hour_trend=ctx.h4_trend, derived_context=ctx,
         signal=signal, structural_pivot_policy=swing_policy.version,
+        m15_confirmed_pivots=micro_scan,
     )
