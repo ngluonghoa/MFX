@@ -2400,14 +2400,14 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "3f2af127854612b2c94ee0cc0fc6c66fb0a46005",
-      "reason": "P0.159 attach validated private per-prefix replay to original SHA sealed six-TF read-only receipt without extra Drive calls."
+      "expected_current_sha": "99ebd09fd116f1704ff7fcd6ee70e689d83914e7",
+      "reason": "P0.162 known EUR/USD Sydney D1 numeric revision #147 makes actual SHA-sealed six-TF read-only consumer return STOP/quarantine after SHA audits and before disputed private signal research, without writes."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "8b2b798dc5d3f0d15ab1076dcfd0aeb5223b163c",
-      "reason": "MFX 1.0 30 hermetic sealed read-only three-archive tests: exact M5 root/checkpoint, native SHA, tamper/rollback/orphans, 6TF causal/stale and strict NO_SIGNAL gates. CI: default production checkpoint requires at least 31 pairs; a two-pair synthetic fixture correctly rejects earlier as rollback/unverifiable bound."
+      "expected_current_sha": "b5120d7e80c8f1cc6a0fc5872b68526438e4dd5a",
+      "reason": "P0.162 8 hermetic tests for production-mode D1 hold, no private pivot/signal evaluation, preserved source SHAs, no IO, cannot auto-unlock from missing 2026-11-11 row, fixtures unaffected."
     },
     {
       "path": "docs/MFX_V1_SEALED_READONLY_CACHE_SIX_TF_CONSUMER.md",
