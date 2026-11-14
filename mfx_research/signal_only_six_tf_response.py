@@ -19,6 +19,7 @@ from mfx_research.six_tf_readonly_context import (
 )
 from mfx_research.six_tf_sealed_archive_consumer import (
     VERSION as SEALED_VERSION, SealedArchiveSixTFReceipt,
+    D1_HOLD_PUBLIC_STATUS, D1_KNOWN_SOURCE_REVISION_INCIDENT,
 )
 
 VERSION = "MFX_V1_SIGNAL_ONLY_SIX_TF_PRESENTATION_RESEARCH_V1"
@@ -77,7 +78,24 @@ def _require_unprivileged(receipt: SealedArchiveSixTFReceipt) -> None:
     t = receipt.technical
     if type(receipt) is not SealedArchiveSixTFReceipt or type(t) is not SixTimeframeResearchReceipt:
         raise TypeError("V1_SIGNAL_ONLY_TYPED_SEALED_RECEIPT_REQUIRED")
-    if (receipt.version != SEALED_VERSION or receipt.status != SEALED_STATUS
+    source_hold = receipt.status == D1_HOLD_PUBLIC_STATUS
+    if source_hold:
+        if (not receipt.github_reviewed_m5_anchors_checked
+                or receipt.native_d1_numeric_revision_quarantine_active is not True
+                or receipt.private_signal_research_suppressed_by_d1_hold is not True
+                or receipt.native_d1_numeric_revision_quarantine_incident !=
+                    D1_KNOWN_SOURCE_REVISION_INCIDENT
+                or any(getattr(receipt, name) is not None for name in (
+                    "private_multibar", "private_pivot_sensitivity",
+                    "private_m15_microbreak", "private_m15_prefix_replay",
+                ))):
+            raise ValueError("V1_SIGNAL_ONLY_D1_SOURCE_HOLD_RECEIPT_DRIFT")
+    elif (receipt.native_d1_numeric_revision_quarantine_active
+          or receipt.native_d1_numeric_revision_quarantine_incident
+          or receipt.private_signal_research_suppressed_by_d1_hold):
+        raise ValueError("V1_SIGNAL_ONLY_UNDECLARED_D1_SOURCE_HOLD")
+    if (receipt.version != SEALED_VERSION
+            or receipt.status not in (SEALED_STATUS, D1_HOLD_PUBLIC_STATUS)
             or t.version != TECH_VERSION or t.instrument != SYMBOL
             or t.source_provider != PROVIDER
             or t.action != "NO_SIGNAL" or t.stage != "UNVERIFIED"
@@ -160,6 +178,8 @@ def build_signal_only_research_response(
     present = tuple(frame.frame for frame in technical.frames)
     missing = technical.missing_or_stale_frames
     reasons: list[str] = []
+    if receipt.status == D1_HOLD_PUBLIC_STATUS:
+        reasons.append(D1_HOLD_PUBLIC_STATUS)
     if missing:
         reasons.extend("FRAME_MISSING_OR_STALE_" + frame for frame in missing)
     if receipt.m5_sha_audit_mode == ROLLING_MODE:
@@ -179,14 +199,21 @@ def build_signal_only_research_response(
                    for e in technical.frames],
         "missing": missing, "reasons": reasons,
     }
+    if receipt.status == D1_HOLD_PUBLIC_STATUS:
+        payload["known_d1_quarantine_incident"] = (
+            D1_KNOWN_SOURCE_REVISION_INCIDENT)
     fingerprint = sha256(json.dumps(
         payload, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
     ).encode("utf-8")).hexdigest()
     return SignalOnlyResearchResponse(
         schema_version=VERSION, instrument=SYMBOL, asof_utc=technical.asof_utc,
         action="NO_SIGNAL", stage="UNVERIFIED",
-        technical_status=("SIX_TF_COMPLETE_RESEARCH_ONLY"
-                          if not missing else "SIX_TF_INCOMPLETE_RESEARCH_ONLY"),
+        technical_status=(
+            "SIX_TF_SOURCE_QUARANTINED_NO_SIGNAL"
+            if receipt.status == D1_HOLD_PUBLIC_STATUS
+            else "SIX_TF_COMPLETE_RESEARCH_ONLY"
+            if not missing else "SIX_TF_INCOMPLETE_RESEARCH_ONLY"
+        ),
         quote_side="MID", source_provider=PROVIDER,
         frames_present=present, frames_missing_or_stale=missing,
         reason_codes=tuple(reasons), source_manifest_tips=tips,

@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "73e1cd244d425ed3e39cbf1a3bd65973cd00458e",
-      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel."
+      "expected_current_sha": "cc1659c7ced429e9379ee36c6942825f5dd16cdb",
+      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2526,8 +2526,8 @@
     {
       "path": "mfx_research/signal_only_six_tf_response.py",
       "change": "added",
-      "expected_current_sha": "fa8cec9bd52945eb6303419589214d64f5bdec98",
-      "reason": "Signal-first v1 typed pure six-TF sealed cache research NO_SIGNAL output, strict source rights/numeric/economic gate rejection; no live source IO, vendor, cache write or broker."
+      "expected_current_sha": "c9dbf8ea994dafaf954dd6d011e225e3a8eebf23",
+      "reason": "Signal-first v1 typed pure six-TF sealed cache research NO_SIGNAL output, strict source rights/numeric/economic gate rejection; no live source IO, vendor, cache write or broker. P0.163 typed signal-only response requires P0.162 exact D1 HOLD and suppresses private fields while presenting NO_SIGNAL."
     },
     {
       "path": "tests/test_mfx_v1_signal_only_six_tf_response.py",
@@ -2762,6 +2762,18 @@
       "change": "added",
       "expected_current_sha": "a38f9310afb9388ba82d29be2d3418c2325295b4",
       "reason": "P0.161 specification, source lineage, external rights/D1/OOS blockers, exact QA and rollback."
+    },
+    {
+      "path": "tests/test_mfx_v1_p163_d1_quarantine_manual_report.py",
+      "change": "added",
+      "expected_current_sha": "34d15af3b2268973d70639b1dea7b5cf4e950603",
+      "reason": "P0.163 ten hermetic quarantined source presentation/CLI safety and normal-path regression tests."
+    },
+    {
+      "path": "docs/MFX_V1_P163_D1_QUARANTINE_MANUAL_REPORT.md",
+      "change": "added",
+      "expected_current_sha": "bf0a6dadd2537b7251d2b57ff75c8428c0eb0d7e",
+      "reason": "P0.163 narrow D1 source-HOLD manual report contract, QA, unresolved external gates and rollback."
     }
   ]
 }
