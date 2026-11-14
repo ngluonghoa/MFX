@@ -242,7 +242,8 @@ class OptionBV2BidAskReplayBridgeTests(TestCase):
             verify_option_b_v2_risk_replay(replace(r,steps=(damaged,)))
 
     def test_21_public_record_redacts_all_price_strategy_and_hash(self):
-        a=snapshot("B2"); b=future(snapshot("S2"))
+        a=snapshot("B2")
+        b=future(snapshot("S2"))
         r=price((a,b),(bundle(a),bundle(b)))
         public=json.dumps(r.as_safe_record(),sort_keys=True)
         for forbidden in (

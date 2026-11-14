@@ -2826,7 +2826,7 @@
     {
       "path": "tests/test_mfx_p166_option_b_v2_bidask_replay_bridge.py",
       "change": "added",
-      "expected_current_sha": "773a3f8d3fdde468e07fb69068c12143da6a3135",
+      "expected_current_sha": "b1159bfc5116206c550e15c28605c99e884a58d9",
       "reason": "P0.166 26 end-to-end SIM chronology and BID/ASK net-R negative and positive cases, no source authority."
     },
     {
