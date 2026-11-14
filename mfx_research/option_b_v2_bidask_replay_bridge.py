@@ -19,7 +19,9 @@ from mfx_research.bidask_cost_aware_sim_risk import (
     CostAwareSimRiskReceipt, SimExitLevels, SimPerUnitCosts,
     evaluate_cost_aware_sim_risk,
 )
-from mfx_research.mfx_b2s2_confirmed_policy_v2 import MfxConfirmedB2S2V2Policy
+from mfx_research.mfx_b2s2_confirmed_policy_v2 import (
+    MfxConfirmedB2S2V2Policy, read_mfx_confirmed_b2s2_v2,
+)
 from mfx_research.offline_ema_signals import CandidateAction
 from mfx_research.option_b_v2_chronological_replay import (
     OptionBReplayReceipt, OptionBReplaySnapshot,
@@ -252,10 +254,7 @@ def verify_option_b_v2_risk_replay(report: OptionBNetRReplayReceipt) -> bool:
     snapshots = tuple(step.snapshot for step in report.replay.steps)
     recreated = price_option_b_v2_replay(
         snapshots, report.bundles,
-        __import__(
-            "mfx_research.mfx_b2s2_confirmed_policy_v2",
-            fromlist=["read_mfx_confirmed_b2s2_v2"],
-        ).read_mfx_confirmed_b2s2_v2(),
+        read_mfx_confirmed_b2s2_v2(),
     )
     if report != recreated:
         raise ValueError("P166_SIM_BIDASK_REPLAY_CHAIN_OR_RIGHTS_DRIFT")

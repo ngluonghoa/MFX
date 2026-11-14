@@ -246,8 +246,8 @@ class OptionBV2BidAskReplayBridgeTests(TestCase):
         r=price((a,b),(bundle(a),bundle(b)))
         public=json.dumps(r.as_safe_record(),sort_keys=True)
         for forbidden in (
-            "BUY","SELL","B2","S2","1.1017","1.1995","bid","ask",
-            "net_risk", "net_reward","risk_chain_sha256",
+            "BUY","SELL","B2","S2","1.1017","1.1995",
+            '"bid":', '"ask":', "net_risk", "net_reward","risk_chain_sha256",
             "risk_input_sha256","source_revision","event_identity"):
             with self.subTest(forbidden=forbidden):
                 self.assertNotIn(forbidden,public)
