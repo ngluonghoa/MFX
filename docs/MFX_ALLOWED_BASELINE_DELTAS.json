@@ -2834,6 +2834,24 @@
       "change": "added",
       "expected_current_sha": "f67eff0bcd00bf975cd0e9b0e925f9965f34e66a",
       "reason": "P0.166 precise reused-code integration, review boundaries, QA and rollback; synthetic not real OOS/market signals."
+    },
+    {
+      "path": "mfx_research/option_b_v2_exit_touch_audit.py",
+      "change": "added",
+      "expected_current_sha": "29a359055b6419bf7f5a89a471041b568bc14dc7",
+      "reason": "P0.167 SIM M5 BID/ASK postentry stop/target touch and collision ambiguity evaluator, source-causal, no-fill no-PnL."
+    },
+    {
+      "path": "tests/test_mfx_p167_option_b_v2_exit_touch_audit.py",
+      "change": "added",
+      "expected_current_sha": "e3cb5fd46ab4a294b35f775374048bfad88515fe",
+      "reason": "P0.167 26 hermetic side-specific M5 exit touch/collision source-identity and report tamper tests."
+    },
+    {
+      "path": "docs/MFX_P167_BIDASK_EXIT_TOUCH_AMBIGUITY.md",
+      "change": "added",
+      "expected_current_sha": "dcd4a14e41645093be629bc81b82bd3af1779f52",
+      "reason": "P0.167 exit outcome uncertainty scope, lack of real fill/OOS proof, QA and rollback."
     }
   ]
 }
