@@ -21,4 +21,4 @@ Issue [#27](https://github.com/ngluonghoa/MFX/issues/27) account-specific Twelve
 
 ## QA and acceptance
 
-Hermetic tests check the real-path source-HOLD using injected stores, explicit typed quarantine reason, no private computation, preserved custody evidence, redacted JSON, CLI nonzero exit, and strict rejection of forged HOLD, SHA and permissions. Existing normal-path regression must still pass. Accept only after GitHub-hosted PR and independent exact-main Python 3.11/3.12 CI, crosswheel, immutable source and SHA allowlist gates. Roll back only this additive presentation/test/documentation change.
+Eleven hermetic tests check the real-path source-HOLD using injected stores, explicit typed quarantine reason, no private computation, preserved custody evidence, redacted JSON, CLI nonzero exit, and strict rejection of forged HOLD, SHA and permissions. Existing normal-path regression must still pass. Accept only after GitHub-hosted PR and independent exact-main Python 3.11/3.12 CI, crosswheel, immutable source and SHA allowlist gates. Roll back only this additive presentation/test/documentation change.

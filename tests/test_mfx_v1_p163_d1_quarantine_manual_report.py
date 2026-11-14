@@ -168,3 +168,17 @@ class P0163D1SourceHoldManualReportTests(TestCase):
         self.assertEqual(
             output["signal_only_output"]["technical_status"],
             "SIX_TF_COMPLETE_RESEARCH_ONLY")
+
+    def test_11_ohlc_classifier_and_private_geometry_reject_source_hold(self):
+        from mfx_research.ohlc_first_optional_bidask_policy import (
+            classify_ohlc_first_mode,
+        )
+        from mfx_research.six_tf_private_candle_geometry import (
+            compute_private_six_tf_candle_geometry,
+        )
+        receipt = held()
+        public = build_signal_only_research_response(receipt)
+        with self.assertRaisesRegex(ValueError, "TECHNICAL_STATUS_DRIFT"):
+            classify_ohlc_first_mode(public)
+        with self.assertRaisesRegex(ValueError, "TECHNICAL_STATUS_DRIFT"):
+            compute_private_six_tf_candle_geometry(receipt)

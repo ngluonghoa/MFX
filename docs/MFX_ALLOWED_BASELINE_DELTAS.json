@@ -2766,13 +2766,13 @@
     {
       "path": "tests/test_mfx_v1_p163_d1_quarantine_manual_report.py",
       "change": "added",
-      "expected_current_sha": "34d15af3b2268973d70639b1dea7b5cf4e950603",
+      "expected_current_sha": "7092ef7ea2540488e32328e490a28e355f682468",
       "reason": "P0.163 ten hermetic quarantined source presentation/CLI safety and normal-path regression tests."
     },
     {
       "path": "docs/MFX_V1_P163_D1_QUARANTINE_MANUAL_REPORT.md",
       "change": "added",
-      "expected_current_sha": "bf0a6dadd2537b7251d2b57ff75c8428c0eb0d7e",
+      "expected_current_sha": "b1079907652dd1758f0d14f5ced7c986abc23bc3",
       "reason": "P0.163 narrow D1 source-HOLD manual report contract, QA, unresolved external gates and rollback."
     }
   ]
