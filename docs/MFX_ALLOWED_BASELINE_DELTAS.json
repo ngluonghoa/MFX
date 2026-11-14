@@ -2816,6 +2816,24 @@
       "change": "added",
       "expected_current_sha": "d6cbe17466b719f30f2cfc243ae9d2686f79a0bc",
       "reason": "P0.165 release-critical Option B v2 replay design, QA boundaries, external blockers and rollback."
+    },
+    {
+      "path": "mfx_research/option_b_v2_bidask_replay_bridge.py",
+      "change": "added",
+      "expected_current_sha": "a2ab31ceee4db17e1888c49bc33dc4d8f5059cfa",
+      "reason": "P0.166 assemble existing P0.161/P0.165 right-confirmed closed SIM B2/S2 with P0.152 causal quote join and P0.151 cost arithmetic; dedup, NO_SIGNAL."
+    },
+    {
+      "path": "tests/test_mfx_p166_option_b_v2_bidask_replay_bridge.py",
+      "change": "added",
+      "expected_current_sha": "2cd87a48735f32a1564192c0d25e23b0406cad32",
+      "reason": "P0.166 26 end-to-end SIM chronology and BID/ASK net-R negative and positive cases, no source authority."
+    },
+    {
+      "path": "docs/MFX_P166_OPTION_B_V2_BIDASK_REPLAY_BRIDGE.md",
+      "change": "added",
+      "expected_current_sha": "f67eff0bcd00bf975cd0e9b0e925f9965f34e66a",
+      "reason": "P0.166 precise reused-code integration, review boundaries, QA and rollback; synthetic not real OOS/market signals."
     }
   ]
 }
