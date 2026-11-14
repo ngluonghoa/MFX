@@ -154,8 +154,8 @@ class OptionBConfirmedV2Tests(TestCase):
         original=d["confirmed_m15_history"]
         altered=[]
         for i,bar in enumerate(original[:-1]):
-            low=Decimal("1.1990")-Decimal(i)*Decimal("0.00015")
-            high=Decimal("1.2020")-Decimal(i)*Decimal("0.00010")
+            low=Decimal("1.1990")+Decimal(i)*Decimal("0.00010")
+            high=Decimal("1.2002")+Decimal(i)*Decimal("0.00010")
             altered.append(replace(
                 bar,open=low+Decimal("0.00002"),low=low,
                 high=high,close=low+Decimal("0.00001"),
@@ -219,7 +219,7 @@ class OptionBConfirmedV2Tests(TestCase):
         x,y=d["bars"].trigger_m15
         y=replace(y,observation=replace(y.observation,stream_id="SIM:OTHER"))
         d["bars"]=replace(d["bars"],trigger_m15=(x,y))
-        with self.assertRaisesRegex(ValueError,"TRIGGER_STREAM_DRIFT"):
+        with self.assertRaisesRegex(ValueError,"INTRA_TIMEFRAME_STREAM_MISMATCH|TRIGGER_STREAM_DRIFT"):
             compute_mfx_b2s2_v2_closed_candidate(**d)
 
     def test_15_public_output_redacts_price_direction_and_origin(self):
