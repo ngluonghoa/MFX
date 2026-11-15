@@ -1992,8 +1992,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "a89fb49bfcd47c4cfb650c2ee736b9876b60243a",
-      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. Native incremental existing scheduled writer catches known original P059 quarantine only to emit redacted in-memory overlap SHA metadata count/labels; re-raises untouched fail-closed error, no added I/O or writes. MFX P0.59 follow-up forensically compares prior full SHA-audited native index raw candles already read in original audit against already fetched provider batch, logs only category counts and rethrows original P059 quarantine; no new API calls or cache writes. Legacy native writer mocks and pre-existing P059-64 QA preserve original audit contract; only exact production PrivateNativeDriveStore receives observed in-memory SHA witness. Synthetic paths retain original P059 count log. P0.168 strictly scoped H4 independent append on exact full-SHA confirmed known D1 HOLD; D1 NO writes and job stays nonzero."
+      "expected_current_sha": "efbc151689fa597cec9d287abc347ddd4c67dd14",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. Native incremental existing scheduled writer catches known original P059 quarantine only to emit redacted in-memory overlap SHA metadata count/labels; re-raises untouched fail-closed error, no added I/O or writes. MFX P0.59 follow-up forensically compares prior full SHA-audited native index raw candles already read in original audit against already fetched provider batch, logs only category counts and rethrows original P059 quarantine; no new API calls or cache writes. Legacy native writer mocks and pre-existing P059-64 QA preserve original audit contract; only exact production PrivateNativeDriveStore receives observed in-memory SHA witness. Synthetic paths retain original P059 count log. P0.168 strictly scoped H4 independent append on exact full-SHA confirmed known D1 HOLD; D1 NO writes and job stays nonzero. P0.169 quarantined D1 raw observation isolated stage; no canonical/BUY-SELL change."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
@@ -2856,14 +2856,32 @@
     {
       "path": "tests/test_mfx_p168_independent_h4_d1_hold_cache.py",
       "change": "added",
-      "expected_current_sha": "b0fcb715567535fe2a6f63bf8120a77910de68c7",
-      "reason": "P0.168 hermetic H4-only known D1 source hold, SHA/forgery/parent/quota and non-green safety tests."
+      "expected_current_sha": "c380af3e159b3e9b754f3603663a4f97a334c665",
+      "reason": "P0.168 hermetic H4-only known D1 source hold, SHA/forgery/parent/quota and non-green safety tests. P0.169 quarantined D1 raw observation isolated stage; no canonical/BUY-SELL change."
     },
     {
       "path": "docs/MFX_P168_INDEPENDENT_H4_ON_KNOWN_D1_HOLD.md",
       "change": "added",
       "expected_current_sha": "5941ee3e3b114beb79e43abac711f40f3ce3b9f9",
       "reason": "P0.168 actual live native H4 lag, D1 hold, narrowly scoped cache recovery gates, QA and rollback."
+    },
+    {
+      "path": "mfx_cache/native_d1_quarantine_stage.py",
+      "change": "added",
+      "expected_current_sha": "b8554144803171e6edb8384d8496519cf3bf31f5",
+      "reason": "P0.169 isolated immutable raw refetched native D1 provider-candidate snapshots with P059 full SHA-linked source receipt and no canonical writes."
+    },
+    {
+      "path": "tests/test_mfx_p169_d1_quarantine_staging.py",
+      "change": "added",
+      "expected_current_sha": "92ddd7289bea4f50c30a235192ba73841e9dd77d",
+      "reason": "P0.169 21 hermetic source revision SHA, content-addressed duplicate/append and Drive namespace safety tests."
+    },
+    {
+      "path": "docs/MFX_P169_D1_QUARANTINE_APPEND_ONLY_SOURCE_STAGE.md",
+      "change": "added",
+      "expected_current_sha": "7a90f54b7c0c2675620ac662a44a5c516f46c402",
+      "reason": "P0.169 real H4 postmerge witness, isolated app-owned D1 raw candidate caching, quarantine and source rights limitations."
     }
   ]
 }
