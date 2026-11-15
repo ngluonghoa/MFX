@@ -270,8 +270,19 @@ def main() -> None:
     # Second preflight protects against provider request delays. In the
     # isolated branch, audit BOTH native histories again before touching H4:
     # even an external D1 change must stop an unrelated H4 append.
-    to_reaudit = archives if quarantined_d1 is not None else prepared
-    for interval,store,archive,_ in to_reaudit:
+    if quarantined_d1 is not None:
+        to_reaudit = [
+            (interval,store,archive)
+            for interval,store,archive,_ in archives
+        ]
+    else:
+        # P0.59's original tuples are (interval,batch,store,archive).
+        # Preserve the original normal path and its existing regression QA.
+        to_reaudit = [
+            (interval,store,archive)
+            for interval,_,store,archive in prepared
+        ]
+    for interval,store,archive in to_reaudit:
         state = audit_native_archive(
             store,symbol=SYMBOL,interval=interval)
         if state != archive:
