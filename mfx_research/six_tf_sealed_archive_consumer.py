@@ -12,7 +12,9 @@ from datetime import datetime, timedelta
 from typing import Any, Protocol
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
-from mfx_research.p174_active_d1_epoch_reader import read_active_d1_epoch
+from mfx_research.p174_active_d1_epoch_reader import (
+    compose_verified_preincident_d1_history, read_active_d1_epoch,
+)
 from mfx_cache.td_m5_codec import digest
 from mfx_cache.v2_batch_commit import _name, _validate_manifest
 from mfx_research.six_tf_readonly_context import (
@@ -113,6 +115,9 @@ class SealedArchiveSixTFReceipt:
     # Explicit cache source generation, not a source/price-truth approval.
     active_d1_source_epoch: str = "LEGACY_D1_V1"
     archived_v1_d1_manifest_tip_sha256: str = ""
+    active_d1_composed_history_sha256: str = ""
+    original_preincident_d1_rows_verified: int = 0
+    new_epoch_d1_rows_in_context: int = 0
     # Actual decoded multi-candle analysis, derived from exactly the already
     # audited buffers: private and NEVER included in CI JSON / repr.
     private_multibar: PrivateMultiBarReceipt | None = field(
@@ -323,7 +328,13 @@ def consume_sealed_archives_for_six_tf(
                 or fresh.drive_writes != 0 or fresh.broker_orders != 0
                 or fresh.may_publish_buy_sell):
             raise ValueError("P174_FRESH_D1_SOURCE_AUTHORITY_DRIFT")
-        d1 = fresh.batch
+        # P0.176: don't discard valid earlier D1 context. The old V1
+        # 11-Nov numerical candle NEVER enters the live research buffer.
+        joined = compose_verified_preincident_d1_history(
+            legacy_d1, fresh,
+            original_v1_head_sha256=legacy_d1_tip,
+        )
+        d1 = joined.batch
         d1_pairs = fresh.epoch_manifest_pairs_full_sha
         d1_tip = fresh.epoch_manifest_sha256
     else:
@@ -491,6 +502,14 @@ def consume_sealed_archives_for_six_tf(
             else "LEGACY_D1_V1"),
         archived_v1_d1_manifest_tip_sha256=(
             legacy_d1_tip if fresh is not None else ""),
+        active_d1_composed_history_sha256=(
+            joined.composition_sha256 if fresh is not None else ""),
+        original_preincident_d1_rows_verified=(
+            joined.original_v1_preincident_bars_verified
+            if fresh is not None else 0),
+        new_epoch_d1_rows_in_context=(
+            joined.new_epoch_bars_verified_in_context
+            if fresh is not None else 0),
         private_multibar=multi,
         private_pivot_sensitivity=private_pivots,
         private_m15_microbreak=private_microbreak,
