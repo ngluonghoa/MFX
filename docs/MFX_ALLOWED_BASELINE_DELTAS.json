@@ -43,8 +43,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-cache-audit.yml",
       "change": "added",
-      "expected_current_sha": "d92b0734e4c389de5e1cd249d76d43f26ba8a04d",
-      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker."
+      "expected_current_sha": "2c249964b10cf054f4a2f9fc78ed020a687e95ac",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit."
     },
     {
       "path": ".github/workflows/mfx-native-htf-drive-commit.yml",
@@ -55,8 +55,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-incremental-commit.yml",
       "change": "added",
-      "expected_current_sha": "9e8a69967ac3133d4e6457359f97fb28509e4bc4",
-      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched."
+      "expected_current_sha": "1058c718f4225a192cad50ece2375ce57a7ed5ef",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit."
     },
     {
       "path": ".github/workflows/mfx-native-htf-incremental-preview.yml",
@@ -1980,8 +1980,8 @@
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "45ae110b92ae98c8d57e09bd41ab12041d878c45",
-      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion. P0.170 independently reads the existing app-only D1 quarantine after full canonical H4/D1 SHA audit; no writes/vendor/signals."
+      "expected_current_sha": "ecb2be392a8836610c317fa41ef53123d606cc3f",
+      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion. P0.170 independently reads the existing app-only D1 quarantine after full canonical H4/D1 SHA audit; no writes/vendor/signals. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit."
     },
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",
@@ -1992,8 +1992,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "efbc151689fa597cec9d287abc347ddd4c67dd14",
-      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. Native incremental existing scheduled writer catches known original P059 quarantine only to emit redacted in-memory overlap SHA metadata count/labels; re-raises untouched fail-closed error, no added I/O or writes. MFX P0.59 follow-up forensically compares prior full SHA-audited native index raw candles already read in original audit against already fetched provider batch, logs only category counts and rethrows original P059 quarantine; no new API calls or cache writes. Legacy native writer mocks and pre-existing P059-64 QA preserve original audit contract; only exact production PrivateNativeDriveStore receives observed in-memory SHA witness. Synthetic paths retain original P059 count log. P0.168 strictly scoped H4 independent append on exact full-SHA confirmed known D1 HOLD; D1 NO writes and job stays nonzero. P0.169 quarantined D1 raw observation isolated stage; no canonical/BUY-SELL change."
+      "expected_current_sha": "756b704d31368850c8c352df72d35ff113718d5d",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. Native incremental existing scheduled writer catches known original P059 quarantine only to emit redacted in-memory overlap SHA metadata count/labels; re-raises untouched fail-closed error, no added I/O or writes. MFX P0.59 follow-up forensically compares prior full SHA-audited native index raw candles already read in original audit against already fetched provider batch, logs only category counts and rethrows original P059 quarantine; no new API calls or cache writes. Legacy native writer mocks and pre-existing P059-64 QA preserve original audit contract; only exact production PrivateNativeDriveStore receives observed in-memory SHA witness. Synthetic paths retain original P059 count log. P0.168 strictly scoped H4 independent append on exact full-SHA confirmed known D1 HOLD; D1 NO writes and job stays nonzero. P0.169 quarantined D1 raw observation isolated stage; no canonical/BUY-SELL change. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
@@ -2900,6 +2900,24 @@
       "change": "added",
       "expected_current_sha": "126a16fd97006f35acfe1f2d69af4bb40a1097d0",
       "reason": "P0.170 exact acceptance boundary, source HOLD, D1 preservation, real postmain witness and rollback."
+    },
+    {
+      "path": "mfx_cache/native_d1_fresh_epoch.py",
+      "change": "added",
+      "expected_current_sha": "bad1bb8717ebf3272a805455da72adb3772a89f2",
+      "reason": "P0.171 owner-approved 11 Nov 2026 native Sydney-local D1 refetch starts disjoint fresh epoch with independently SHA-attested old V1 parent, append-only source overlap, strict readbacks and no signals/trading."
+    },
+    {
+      "path": "tests/test_mfx_p171_d1_fresh_epoch.py",
+      "change": "added",
+      "expected_current_sha": "f3ebf2f171c21ede39a27c9dfe04b03cfe395f6f",
+      "reason": "P0.171 hermetic owner D1 refetch, changed source, immutable V1, SHA/parent, idempotency, crash and rights negative tests."
+    },
+    {
+      "path": "docs/MFX_P171_D1_OWNER_REBASE_20261111.md",
+      "change": "added",
+      "expected_current_sha": "3792365fc4f998c90a838adf3dc7b694d0071094",
+      "reason": "P0.171 owner decision to treat 11 Nov D1 as not yet fetched, actual new provider root under versioned append-only epoch, preserve original and P169 evidence; NO_SIGNAL."
     }
   ]
 }
