@@ -32,6 +32,9 @@ from mfx_research.sealed_private_m15_microbreak import (
 from mfx_research.sealed_private_m15_prefix_replay import (
     PrivateM15PrefixReplay, replay_private_m15_closed_prefixes,
 )
+from mfx_research.p177_real_source_b2s2_readiness import (
+    PrivateB2S2Readiness, compute_private_option_b2s2_requirements,
+)
 from tools.mfx_m5_full_sha_two_anchor_audit import (
     ROOT_UTC, ROOT_MANIFEST_SHA256, REVIEWED_CHECKPOINT_UTC,
     REVIEWED_CHECKPOINT_SHA256, REVIEWED_CHECKPOINT_PAIRS,
@@ -130,6 +133,9 @@ class SealedArchiveSixTFReceipt:
         default=None, repr=False,
     )
     private_m15_prefix_replay: PrivateM15PrefixReplay | None = field(
+        default=None, repr=False,
+    )
+    private_b2s2_source_readiness: PrivateB2S2Readiness | None = field(
         default=None, repr=False,
     )
 
@@ -466,6 +472,25 @@ def consume_sealed_archives_for_six_tf(
             or prefix_replay.broker_orders):
         raise ValueError("V1_CACHE_PRIVATE_M15_PREFIX_AUTHORITY_DRIFT")
 
+    # P0.177: source-derived B2/S2 readiness identifies the exact
+    # *private* deficiencies on already validated MID candles. Existing
+    # original Forex numeric thresholds and producer permissions stay false.
+    b2s2_requirements = compute_private_option_b2s2_requirements(
+        multi,technical,private_pivots,private_microbreak,
+        active_d1_source_epoch=(
+            fresh.active_source_epoch if fresh is not None
+            else "LEGACY_D1_V1"),
+    )
+    if (b2s2_requirements.public_action != "NO_SIGNAL"
+            or b2s2_requirements.stage != "UNVERIFIED"
+            or b2s2_requirements.may_publish_buy_sell
+            or b2s2_requirements.may_trade
+            or b2s2_requirements.market_price_requests
+            or b2s2_requirements.drive_gets_added
+            or b2s2_requirements.drive_writes
+            or b2s2_requirements.broker_orders):
+        raise ValueError("P177_PRIVATE_B2S2_SOURCE_AUTHORITY_DRIFT")
+
     return SealedArchiveSixTFReceipt(
         version=VERSION,
         status="SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL",
@@ -514,4 +539,5 @@ def consume_sealed_archives_for_six_tf(
         private_pivot_sensitivity=private_pivots,
         private_m15_microbreak=private_microbreak,
         private_m15_prefix_replay=prefix_replay,
+        private_b2s2_source_readiness=b2s2_requirements,
     )
