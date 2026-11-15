@@ -39,6 +39,9 @@ jobs:
           MFX_V2_BATCH_CACHE_ACCEPTED: "true"
           MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED: "true"
           MFX_NATIVE_INCREMENTAL_WRITER_ACCEPTED: "true"
+          # Owner 15 Nov 2026: treat 11 Nov D1 as not captured for the
+          # NEW D1 epoch only. Existing V1 archived SHA history untouched.
+          MFX_D1_OWNER_REBASE_20261111: "true"
           MFX_TWELVE_DATA_API_KEY: ${{ secrets.MFX_TWELVE_DATA_API_KEY }}
           MFX_TD_DAILY_CREDIT_CAP: ${{ vars.MFX_TD_DAILY_CREDIT_CAP || '400' }}
           MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
