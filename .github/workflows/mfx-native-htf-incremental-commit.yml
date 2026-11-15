@@ -4,13 +4,7 @@ name: MFX P0.64 Hourly Native H4+D1 Incremental Drive Writer (NO trading)
 # available. GitHub schedule is UTC, best effort; native TF eligibility
 # and API credits are checked independently in Python on every run.
 on:
-  # One-shot owner-requested 2026-11-11 fresh D1 provider refetch.
-  # Trigger only when the exact P171 approval note is updated on main;
-  # REMOVE this push trigger after real SHA readback, keep hourly cron.
-  push:
-    branches: [main]
-    paths:
-      - "docs/MFX_P171_D1_OWNER_REBASE_20261111.md"
+  # P0.172 one-shot owner-refetch trigger removed after real Drive SHA success.
   schedule:
     - cron: "25 * * * *"
   workflow_dispatch:
