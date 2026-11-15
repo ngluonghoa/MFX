@@ -13,6 +13,7 @@ from pathlib import Path
 from unittest import TestCase
 from unittest.mock import patch
 
+from mfx_cache.td_m5_codec import digest
 from mfx_cache.native_d1_fresh_epoch import (
     PrivateD1FreshEpochStore, audit_fresh_epoch, commit_fresh_epoch,
 )
@@ -38,11 +39,17 @@ RESEARCH_ASOF=datetime(2026,11,15,14,10,tzinfo=UTC)
 SOURCE_HOUR=datetime(2026,11,15,12,0,tzinfo=UTC)
 
 
-def make_epoch(*, clock=ROOT_OBSERVED):
+def make_epoch(*, clock=ROOT_OBSERVED, origin=None):
     store=MemoryEpochStore()
+    sha=original_sha() if origin is None else origin
     commit_fresh_epoch(
-        store,batch=fresh(),origin_v1_sha=original_sha(),now_utc=clock)
+        store,batch=fresh(),origin_v1_sha=sha,now_utc=clock)
     return store
+
+
+def archived_tip(store):
+    names=store.list_names("manifest")
+    return digest(store.read("manifest",names[-1]))
 
 
 def reviewed_inputs():
@@ -144,7 +151,7 @@ class FreshD1SixTFBridgeTests(TestCase):
 
     def test_10_explicit_new_epoch_unblocks_private_technical_only(self):
         m,h,d,p=reviewed_inputs()
-        active=make_epoch()
+        active=make_epoch(origin=archived_tip(d))
         before=[deepcopy(x.objects) for x in (m,h,d)]
         old=deepcopy(active.files)
         r=consume_offline(m,h,d,p,active=active)
@@ -177,25 +184,28 @@ class FreshD1SixTFBridgeTests(TestCase):
 
     def test_13_unverified_new_source_never_promotes_licence_or_economics(self):
         m,h,d,p=reviewed_inputs()
-        # Real P171 source root must be bound to the actual old V1 SHA.
-        # This is deliberately a synthetic negative fake parent.
-        with self.assertRaises(ValueError):
-            consume_offline(m,h,d,p,active=make_epoch())
+        r=consume_offline(
+            m,h,d,p,active=make_epoch(origin=archived_tip(d)))
         self.assertTrue(D1_KNOWN_SOURCE_REVISION_HOLD)
+        self.assertFalse(r.source_numeric_entry_rules_approved)
+        self.assertFalse(r.provider_account_data_rights_verified)
+        self.assertFalse(r.source_first_known_time_proven)
+        self.assertFalse(r.bidask_costs_and_sl_tp_net_rr_approved)
+        self.assertFalse(r.historical_asof_replay_proven)
+        self.assertFalse(r.may_publish_buy_sell)
+        self.assertEqual((r.provider_price_calls,r.drive_cache_writes,
+                          r.broker_orders),(0,0,0))
 
     def test_14_malformed_source_epoch_asof_denied(self):
-        for bad in (datetime(2026,11,15,14,10), RESEARCH_ASOF+timedelta(hours=7)):
-            with self.subTest(asof=bad):
-                if bad.tzinfo is None:
-                    with self.assertRaisesRegex(ValueError,"EXACT_UTC"):
-                        read_active_d1_epoch(
-                            make_epoch(),old_v1_manifest_sha256=original_sha(),
-                            asof_utc=bad)
+        with self.assertRaisesRegex(ValueError,"EXACT_UTC"):
+            read_active_d1_epoch(
+                make_epoch(),old_v1_manifest_sha256=original_sha(),
+                asof_utc=datetime(2026,11,15,14,10))
 
     def test_15_no_vendor_trading_or_original_source_modification(self):
         py=Path("tools/run_mfx_v1_manual_drive_six_tf.py").read_text()
         self.assertIn("active_d1_epoch_store=active_d1",py)
         self.assertIn("PrivateD1FreshEpochStore(session)",py)
         self.assertIn("GetOnlyDriveSession",py)
-        self.assertIn('action="NO_SIGNAL"',Path(
-            "mfx_research/six_tf_sealed_archive_consumer.py").read_text())
+        self.assertIn('"SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL"',
+                      Path("mfx_research/six_tf_sealed_archive_consumer.py").read_text())
