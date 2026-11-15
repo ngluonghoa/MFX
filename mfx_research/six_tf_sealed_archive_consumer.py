@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from typing import Any, Protocol
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
+from mfx_research.p174_active_d1_epoch_reader import read_active_d1_epoch
 from mfx_cache.td_m5_codec import digest
 from mfx_cache.v2_batch_commit import _name, _validate_manifest
 from mfx_research.six_tf_readonly_context import (
@@ -109,6 +110,9 @@ class SealedArchiveSixTFReceipt:
     provider_price_calls: int = 0
     drive_cache_writes: int = 0
     broker_orders: int = 0
+    # Explicit cache source generation, not a source/price-truth approval.
+    active_d1_source_epoch: str = "LEGACY_D1_V1"
+    archived_v1_d1_manifest_tip_sha256: str = ""
     # Actual decoded multi-candle analysis, derived from exactly the already
     # audited buffers: private and NEVER included in CI JSON / repr.
     private_multibar: PrivateMultiBarReceipt | None = field(
@@ -270,6 +274,7 @@ def consume_sealed_archives_for_six_tf(
     h4_store: ReadOnlyObjectStore,
     d1_store: ReadOnlyObjectStore, *, asof_utc: datetime,
     fixture_pins: SyntheticFixturePins | None = None,
+    active_d1_epoch_store: ReadOnlyObjectStore | None = None,
 ) -> SealedArchiveSixTFReceipt:
     """Read verified content-addressed archive context; NEVER authorize trades.
 
@@ -284,8 +289,13 @@ def consume_sealed_archives_for_six_tf(
     if fixture_pins is not None and type(fixture_pins) is not SyntheticFixturePins:
         raise ValueError("V1_CACHE_SYNTHETIC_PINS_TYPE")
 
+    if active_d1_epoch_store is not None and fixture_pins is not None:
+        raise ValueError("P174_REAL_D1_EPOCH_REJECTS_SYNTHETIC_M5_PINS")
+
     initial = (_snapshot(m5_store), _snapshot(h4_store),
-               _snapshot(d1_store))
+               _snapshot(d1_store),
+               (_snapshot(active_d1_epoch_store)
+                if active_d1_epoch_store is not None else None))
     m5_bars, m5_evidence = _m5_pinned_rows(
         m5_store, asof_utc=asof_utc, fixture_pins=fixture_pins)
     # The audited manifest hour MUST correspond to the latest closed
@@ -297,7 +307,27 @@ def consume_sealed_archives_for_six_tf(
                 + timedelta(minutes=55)).isoformat()):
         raise ValueError("V1_CACHE_M5_SOURCE_TIP_HOUR_DRIFT")
     h4, h4_pairs, h4_tip = _native_pinned_rows(h4_store, interval="4h")
-    d1, d1_pairs, d1_tip = _native_pinned_rows(d1_store, interval="1day")
+    # Re-audit original V1 D1 fully for provenance and rollback, but do not
+    # feed its numerically disputed 11 Nov candle into the active research.
+    legacy_d1, legacy_d1_pairs, legacy_d1_tip = _native_pinned_rows(
+        d1_store, interval="1day")
+    fresh = None
+    if active_d1_epoch_store is not None:
+        fresh = read_active_d1_epoch(
+            active_d1_epoch_store,
+            old_v1_manifest_sha256=legacy_d1_tip,
+            asof_utc=asof_utc,
+        )
+        if (fresh.legacy_v1_manifest_sha256 != legacy_d1_tip
+                or fresh.provider_price_requests != 0
+                or fresh.drive_writes != 0 or fresh.broker_orders != 0
+                or fresh.may_publish_buy_sell):
+            raise ValueError("P174_FRESH_D1_SOURCE_AUTHORITY_DRIFT")
+        d1 = fresh.batch
+        d1_pairs = fresh.epoch_manifest_pairs_full_sha
+        d1_tip = fresh.epoch_manifest_sha256
+    else:
+        d1, d1_pairs, d1_tip = legacy_d1, legacy_d1_pairs, legacy_d1_tip
 
     # The existing six-frame validator enforces latest CLOSED M5, exact
     # 3/6/12 M5 windows, source-native UTC H4 and Sydney-local D1. SHA
@@ -305,7 +335,9 @@ def consume_sealed_archives_for_six_tf(
     technical = build_six_timeframe_readonly_context(
         tuple(m5_bars[-12:]), h4, d1, asof_utc=asof_utc)
     if ((_snapshot(m5_store), _snapshot(h4_store),
-         _snapshot(d1_store)) != initial):
+         _snapshot(d1_store),
+         (_snapshot(active_d1_epoch_store)
+          if active_d1_epoch_store is not None else None)) != initial):
         raise ValueError("V1_CACHE_CROSS_ARCHIVE_CHANGED_DURING_READ")
 
     # P0.162: the real EUR/USD native Sydney D1 series is under an
@@ -313,7 +345,8 @@ def consume_sealed_archives_for_six_tf(
     # Even full original SHA and six physical bars cannot prove source
     # correctness. A test fixture pin is NOT reviewed storage authority;
     # only genuine mode is subject to this persistent unapproved-source STOP.
-    if fixture_pins is None and D1_KNOWN_SOURCE_REVISION_HOLD:
+    if (fixture_pins is None and D1_KNOWN_SOURCE_REVISION_HOLD
+            and fresh is None):
         return SealedArchiveSixTFReceipt(
             version=VERSION, status=D1_HOLD_PUBLIC_STATUS,
             technical=technical,
@@ -453,6 +486,11 @@ def consume_sealed_archives_for_six_tf(
         m5_full_historical_raw_sha_verified=(
             m5_evidence["m5_full_bounded_chain_verified"]),
         m5_recent_raw_sha_verified=True,
+        active_d1_source_epoch=(
+            fresh.active_source_epoch if fresh is not None
+            else "LEGACY_D1_V1"),
+        archived_v1_d1_manifest_tip_sha256=(
+            legacy_d1_tip if fresh is not None else ""),
         private_multibar=multi,
         private_pivot_sensitivity=private_pivots,
         private_m15_microbreak=private_microbreak,

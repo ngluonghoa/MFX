@@ -46,6 +46,9 @@ from tools.run_a04_p45_cloud_twelve_data_cache import (
 )
 from tools.run_a04_p46_cloud_batch_cache import PrivateDriveBatchStore
 from tools.mfx_native_htf_drive_seal import PrivateNativeDriveStore
+from mfx_cache.native_d1_fresh_epoch import (
+    PREFIX as ACTIVE_D1_PREFIX, PrivateD1FreshEpochStore,
+)
 
 VERSION = "MFX_V1_MANUAL_PRIVATE_DRIVE_GET_ONLY_SIX_TF_V1"
 CONFIRMATION = "READ_ONLY_NO_SIGNAL"
@@ -57,6 +60,7 @@ EXISTING_GATES = (
 ALLOWED_PREFIXES = (
     "MFX_TD_EURUSD_M5_V2_", "MFX_TD_EURUSD_H4_NATIVE_V1_",
     "MFX_TD_EURUSD_D1_NATIVE_V1_",
+    ACTIVE_D1_PREFIX,
 )
 DRIVE_API = "https://www.googleapis.com"
 ID_RE = re.compile(r"^[A-Za-z0-9_-]{8,160}$")
@@ -159,8 +163,13 @@ def private_get_only_probe(
         PrivateNativeDriveStore(session, symbol="EUR/USD", interval="4h"))
     d1: ReadOnlyObjectStore = ReadOnlyView(
         PrivateNativeDriveStore(session, symbol="EUR/USD", interval="1day"))
+    # The old V1 is still SHA-audited for evidence/rollback only. The new
+    # owner-approved P171 D1 is the sole source of private D1 candle math.
+    active_d1: ReadOnlyObjectStore = ReadOnlyView(
+        PrivateD1FreshEpochStore(session))
     evidence = consume_sealed_archives_for_six_tf(
-        m5, h4, d1, asof_utc=asof_utc)
+        m5, h4, d1, asof_utc=asof_utc,
+        active_d1_epoch_store=active_d1)
     return evidence, session.get_count
 
 
@@ -528,6 +537,9 @@ def safe_summary(
         "m5_tip_sha256": evidence.m5_manifest_tip_sha256,
         "h4_tip_sha256": evidence.h4_manifest_tip_sha256,
         "d1_tip_sha256": evidence.d1_manifest_tip_sha256,
+        "active_d1_source_epoch": evidence.active_d1_source_epoch,
+        "archived_original_d1_v1_tip_sha256":
+            evidence.archived_v1_d1_manifest_tip_sha256,
         "reviewed_m5_source_pins_matched": True,
         "source_account_license_verified": False,
         "source_first_known_verified": False,
