@@ -405,6 +405,36 @@ def main() -> None:
         # separate observations never authorize canonical D1 or signals.
         raise ValueError("P059_SOURCE_NATIVE_REVISION_QUARANTINE")
 
+    if owner_rebase_d1:
+        if fresh_d1_store is None or fresh_d1_state is None or fresh_d1_origin is None:
+            raise ValueError("P171_D1_REBASE_STATE_REQUIRED")
+        if audit_fresh_epoch(fresh_d1_store,
+                            origin_v1_sha=fresh_d1_origin)!=fresh_d1_state:
+            raise ValueError("P171_D1_EPOCH_CHANGED_DURING_FETCH")
+        receipts = [asdict(commit_native_batch(store,batch))
+                    for _,batch,store,_ in prepared]
+        d1_receipt = (commit_fresh_epoch(
+            fresh_d1_store,batch=new_epoch_d1_batch,
+            origin_v1_sha=fresh_d1_origin,now_utc=now)
+            if new_epoch_d1_batch is not None else {
+                "status":"D1_EPOCH_NOT_DUE",
+                "new_bars":0,"drive_objects_created_max":0})
+        print("MFX_P171_D1_OWNER_FRESH_EPOCH_SHA_READBACK_PASS")
+        print(json.dumps({
+            "status":"P171_D1_FRESH_EPOCH_SEPARATE_FROM_IMMUTABLE_V1",
+            "d1":d1_receipt,
+            "h4":receipts,
+            "old_d1_manifest_sha_preserved":fresh_d1_origin,
+            "old_d1_drive_writes":0,
+            "old_d1_20261111_not_selected_as_epoch_source":True,
+            "fresh_d1_provider_calls":int(new_epoch_d1_batch is not None),
+            "d1_source_time_quality":"RUNNER_OBSERVED_NOT_VENDOR_FIRST_KNOWN",
+            "m5_cache_modified":False,
+            "approved_numeric_signals":False,
+            "broker_orders":0,
+            "automatic_native_schedule_activated":scheduled,
+        },sort_keys=True))
+        return
     receipts = [asdict(commit_native_batch(store,batch))
                 for _,batch,store,_ in prepared]
     summary = summarize_incremental_receipts(receipts)
