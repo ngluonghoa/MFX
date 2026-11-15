@@ -8,7 +8,7 @@ Only SOURCE MID cache custody is authorized, NOT first-known or live signals.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Any
 from zoneinfo import ZoneInfo
 
@@ -238,7 +238,7 @@ def plan_fresh_epoch_fetch(
     if last is None:
         size = 120
     else:
-        needed=(eligible-__import__("datetime").date.fromisoformat(last)).days
+        needed=(eligible-date.fromisoformat(last)).days
         needed+=len(state.last_manifest["recent_native_bar_index"])+4
         if needed > 120:
             raise ValueError("P171_D1_EPOCH_NEEDS_BOUNDED_MANUAL_RECOVERY")
