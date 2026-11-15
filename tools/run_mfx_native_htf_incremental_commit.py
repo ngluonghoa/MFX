@@ -86,6 +86,47 @@ def summarize_incremental_receipts(
     }
 
 
+# P0.168 is an explicit cross-TF *isolation* rule, NOT a D1 revision
+# clearance. If the exact documented native D1 source discrepancy persists,
+# a separately validated H4 may append while D1 remains unwritten/NO_SIGNAL.
+# Unknown incidents, missing SHA custody, or unvalidated H4 always fail
+# before any scoped append.
+KNOWN_D1_INCIDENT_LABEL = "2026-11-11"
+
+
+def _confirmed_known_d1_hold(diagnostic: Any) -> bool:
+    """Requires already full-SHA-audited OLD D1 and exact refetched OHLC drift.
+
+    SHA equality or a matching incident label alone NEVER authorizes a write.
+    This only permits the other, independently full-validated H4 interval.
+    """
+    if type(diagnostic) is not dict:
+        return False
+    return (
+        diagnostic.get("interval") == "1day"
+        and diagnostic.get("first_changed_label") == KNOWN_D1_INCIDENT_LABEL
+        and diagnostic.get("last_changed_label") == KNOWN_D1_INCIDENT_LABEL
+        and diagnostic.get("quarantine_reason")
+            == "P059_SOURCE_NATIVE_REVISION_QUARANTINE"
+        and diagnostic.get("numeric_ohlc_changed_count") == 1
+        and diagnostic.get("overlap_sha_changed_count") == 1
+        and diagnostic.get("overlap_sha_unchanged_count") == 15
+        and diagnostic.get("overlap_labels_missing_count") == 0
+        and diagnostic.get("previous_sha_index_count") == 16
+        and diagnostic.get("full_sha_audited_old_raw_overlap_compared") is True
+        and diagnostic.get("stored_vs_refetched_numeric_ohlc_difference_observed")
+            is True
+        and diagnostic.get("source_vendor_revision_cause_independently_attributed")
+            is False
+        and diagnostic.get("source_mutation_or_quarantine_override_authorized")
+            is False
+        and diagnostic.get("drive_writes") == 0
+        and diagnostic.get("additional_vendor_calls") == 0
+        and diagnostic.get("additional_drive_gets") == 0
+        and diagnostic.get("broker_orders") == 0
+    )
+
+
 def main() -> None:
     if (os.environ.get("MFX_REAL_CACHE_ENABLED") != "true"
             or os.environ.get("MFX_V2_BATCH_CACHE_ACCEPTED") != "true"
@@ -161,6 +202,7 @@ def main() -> None:
         return
 
     prepared: list[tuple[str,Any,Any,Any]] = []
+    quarantined_d1: dict[str, Any] | None = None
     for idx, (interval,store,archive,plan) in enumerate(due):
         if idx:
             current,maximum = _usage(key)
@@ -180,6 +222,7 @@ def main() -> None:
             # Reuse the ALREADY fetched provider batch and SHA-only index
             # to explain a quarantine. No extra vendor/Drive request, no
             # price/secret logging, no trading and no override of P0.59.
+            diagnostic: dict[str, Any] | None = None
             if str(error) in QUARANTINE_CODES and archive.last_manifest is not None:
                 try:
                     if interval in sha_verified_recent:
@@ -202,18 +245,75 @@ def main() -> None:
                     if interval in sha_verified_recent:
                         print("MFX_P059_NATIVE_OVERLAP_FORENSICS_NO_DRIVE_WRITE")
                     print(json.dumps(diagnostic, sort_keys=True))
+            # P0.168: only this documented, independently old-SHA-verified
+            # D1 incident can isolate the OTHER native TF (H4). The normal
+            # all-or-nothing source quarantine is unchanged for every other
+            # failure, including forged metadata or another D1 correction.
+            # Never authorize D1 writes, D1 source promotion or signal.
+            if (interval == "1day"
+                    and str(error) == "P059_SOURCE_NATIVE_REVISION_QUARANTINE"
+                    and "1day" in sha_verified_recent
+                    and _confirmed_known_d1_hold(diagnostic)
+                    and len(prepared) == 1
+                    and prepared[0][0] == "4h"
+                    and plan_native_sealed(
+                        prepared[0][1],previous=prepared[0][3].last_manifest
+                    ) is not None):
+                quarantined_d1 = diagnostic
+                continue
             raise
         proposal = plan_native_sealed(batch,previous=archive.last_manifest)
         if proposal is not None:
             verify_native_sealed(proposal,previous=archive.last_manifest)
         prepared.append((interval,batch,store,archive))
 
-    # Second all-scope preflight protects against provider request delays.
-    for interval,_,store,archive in prepared:
+    # Second preflight protects against provider request delays. In the
+    # isolated branch, audit BOTH native histories again before touching H4:
+    # even an external D1 change must stop an unrelated H4 append.
+    if quarantined_d1 is not None:
+        to_reaudit = [
+            (interval,store,archive)
+            for interval,store,archive,_ in archives
+        ]
+    else:
+        # P0.59's original tuples are (interval,batch,store,archive).
+        # Preserve the original normal path and its existing regression QA.
+        to_reaudit = [
+            (interval,store,archive)
+            for interval,_,store,archive in prepared
+        ]
+    for interval,store,archive in to_reaudit:
         state = audit_native_archive(
             store,symbol=SYMBOL,interval=interval)
         if state != archive:
             raise ValueError("P059_NATIVE_ARCHIVE_CHANGED_DURING_FETCH")
+
+    if quarantined_d1 is not None:
+        # Explicitly commit ONLY the independently verified H4 batch, using
+        # the unchanged 2-object immutable SHA/readback native writer.
+        # D1 never reaches commit_native_batch() and never clears its HOLD.
+        h4_tf,h4_batch,h4_store,_ = prepared[0]
+        if h4_tf != "4h":
+            raise ValueError("P168_H4_ISOLATION_SCOPE_DENIED")
+        h4_receipt = asdict(commit_native_batch(h4_store,h4_batch))
+        summary = summarize_incremental_receipts([h4_receipt])
+        print("MFX_P168_H4_ISOLATED_D1_STILL_QUARANTINED_NONZERO")
+        print(json.dumps({
+            **summary,
+            "source_d1_status": "P059_SOURCE_NATIVE_REVISION_QUARANTINE",
+            "source_d1_incident": KNOWN_D1_INCIDENT_LABEL,
+            "d1_drive_writes": 0,
+            "h4_drive_objects_created_max": h4_receipt["drive_objects_created_max"],
+            "h4_newly_closed_bars": h4_receipt["newly_closed_native_bars"],
+            "source_numeric_signals_approved": False,
+            "no_broker_execution": True,
+            "h4_append_does_not_clear_d1_hold": True,
+            "automatic_native_schedule_activated": scheduled,
+            "execution_mode": "hourly_schedule" if scheduled else "manual",
+        }, sort_keys=True))
+        # KEEP THE SCHEDULED JOB RED until D1 is independently resolved;
+        # this is scoped H4 progress, never a joint-H4/D1 audit PASS.
+        raise ValueError("P059_SOURCE_NATIVE_REVISION_QUARANTINE")
 
     receipts = [asdict(commit_native_batch(store,batch))
                 for _,batch,store,_ in prepared]
