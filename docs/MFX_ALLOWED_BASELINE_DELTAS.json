@@ -1440,8 +1440,8 @@
     {
       "path": "tests/test_a04_p71_native_audit_publication_grace.py",
       "change": "added",
-      "expected_current_sha": "5c2334c08cc66b741bf6e2ade4211e5fe9fba2a9",
-      "reason": "P0.71 14 hermetic H4/D1 source publication-boundary tests at +2m14s/+2m15s, exact Sydney DST AEDT/AEST, shared writer fetch planner parity, no premature future bar, zero API/Drive/broker and honest audit summary."
+      "expected_current_sha": "a6138862ae260cdd91f842db12905c6dbab3fb5f",
+      "reason": "P0.71 14 hermetic H4/D1 source publication-boundary tests at +2m14s/+2m15s, exact Sydney DST AEDT/AEST, shared writer fetch planner parity, no premature future bar, zero API/Drive/broker and honest audit summary. P0.170 preserves the original P0.71 native publication-lag reporting test by mocking the new separate D1 sidecar reader; no real HTTP in hermetic tests."
     },
     {
       "path": "tests/test_a04_p72_native_sha_audit_push.py",
