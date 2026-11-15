@@ -7,6 +7,7 @@ never relaxes the legacy source HOLD, and never publishes BUY/SELL or OHLC.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import datetime, timedelta
 from typing import Any, Protocol
 
 from mfx_cache.native_d1_fresh_epoch import (
@@ -31,6 +32,7 @@ class FreshD1ReadOnlyContext:
     legacy_v1_manifest_sha256: str
     epoch_manifest_pairs_full_sha: int
     last_native_open_label: str
+    latest_runner_observed_utc: str
     batch: NativeFXBatch = field(repr=False, compare=False)
     active_source_epoch: str = "P171_D1_FRESH_20261111"
     provider_price_requests: int = 0
@@ -50,12 +52,16 @@ def _snapshot(store: GetOnlyStore) -> tuple[tuple[str, ...], tuple[str, ...]]:
 
 def read_active_d1_epoch(
     store: GetOnlyStore, *, old_v1_manifest_sha256: str,
+    asof_utc: datetime,
 ) -> FreshD1ReadOnlyContext:
     """Full SHA/parent audit, re-decode only fresh rows, repeat snapshot check.
 
     Caller must first independently SHA-audit the old V1 source archive and
     supply THAT verified manifest SHA, not a user-configurable fake pin.
     """
+    if (type(asof_utc) is not datetime or asof_utc.tzinfo is None
+            or asof_utc.utcoffset() != timedelta(0)):
+        raise ValueError("P174_EXACT_UTC_SOURCE_ASOF_REQUIRED")
     if (not callable(getattr(store,"list_names",None))
             or not callable(getattr(store,"read",None))):
         raise ValueError("P174_GET_ONLY_D1_SOURCE_REQUIRED")
@@ -69,12 +75,18 @@ def read_active_d1_epoch(
         raise ValueError("P174_ACTIVE_D1_EPOCH_UNSEEDED_OR_UNCOMMITTED")
 
     rows: list[NativeFXBar] = []
+    previous_observation: datetime | None = None
     for name in initial[1]:
         m = store.read("manifest",name)
         if (type(m) is not dict
                 or type(m.get("chunk_name")) is not str
                 or m["chunk_name"] not in initial[0]):
             raise ValueError("P174_ACTIVE_D1_MANIFEST_OR_CHUNK_DRIFT")
+        observed = datetime.fromisoformat(m["first_observed_runner_utc"])
+        if (observed > asof_utc or (previous_observation is not None
+                                    and observed < previous_observation)):
+            raise ValueError("P174_EPOCH_NOT_FIRST_OBSERVED_AT_DECISION")
+        previous_observation = observed
         c = store.read("chunk",m["chunk_name"])
         bars = _validate_chunk(c,m["chunk_name"],old_v1_manifest_sha256)
         if m["chunk_sha256"] != digest(c):
@@ -105,5 +117,6 @@ def read_active_d1_epoch(
         legacy_v1_manifest_sha256=old_v1_manifest_sha256,
         epoch_manifest_pairs_full_sha=state.manifests,
         last_native_open_label=labels[-1],
+        latest_runner_observed_utc=state.last_manifest["first_observed_runner_utc"],
         batch=batch,
     )
