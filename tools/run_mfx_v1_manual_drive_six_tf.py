@@ -241,6 +241,17 @@ def safe_summary(
             or (freshness["closed_source_slot_gaps"]["M15"] == 0)
             != ("M15" not in technical.missing_or_stale_frames)):
         raise ValueError("MFX_V1_READONLY_SOURCE_FRESHNESS_RECEIPT_DRIFT")
+    # P0.176: expose only counts and SHA of the source provenance seam, never
+    # source OHLC. A fake fresh-epoch receipt without a proven old prefix is
+    # not allowed to produce an apparently healthy technical report.
+    if evidence.active_d1_source_epoch == "P171_D1_FRESH_20261111":
+        sha = evidence.active_d1_composed_history_sha256
+        if (type(sha) is not str or len(sha) != 64
+                or any(c not in "0123456789abcdef" for c in sha)
+                or evidence.original_preincident_d1_rows_verified < 1
+                or evidence.new_epoch_d1_rows_in_context < 1
+                or not evidence.archived_v1_d1_manifest_tip_sha256):
+            raise ValueError("P176_SOURCE_SEAM_SHA_OR_COUNTS_MISSING")
     # P0.149 presentation is now consumed by the ACTUAL existing optional
     # GitHub OAuth GET-only adapter, without making another Drive/vendor call.
     signal_only = build_signal_only_research_response(evidence)
@@ -540,6 +551,12 @@ def safe_summary(
         "active_d1_source_epoch": evidence.active_d1_source_epoch,
         "archived_original_d1_v1_tip_sha256":
             evidence.archived_v1_d1_manifest_tip_sha256,
+        "active_d1_composed_history_sha256":
+            evidence.active_d1_composed_history_sha256,
+        "original_preincident_d1_rows_verified":
+            evidence.original_preincident_d1_rows_verified,
+        "new_epoch_d1_rows_in_context":
+            evidence.new_epoch_d1_rows_in_context,
         "reviewed_m5_source_pins_matched": True,
         "source_account_license_verified": False,
         "source_first_known_verified": False,
