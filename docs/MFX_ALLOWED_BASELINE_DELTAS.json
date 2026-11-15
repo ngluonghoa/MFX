@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "b8915a5ab0a6c3002c67a61ee54b00494b0bfc8b",
-      "reason": "P0.162 known EUR/USD Sydney D1 numeric revision #147 makes actual SHA-sealed six-TF read-only consumer return STOP/quarantine after SHA audits and before disputed private signal research, without writes. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
+      "expected_current_sha": "ff486561992c7fc6e9040ebe8556e336e777db1a",
+      "reason": "P0.162 known EUR/USD Sydney D1 numeric revision #147 makes actual SHA-sealed six-TF read-only consumer return STOP/quarantine after SHA audits and before disputed private signal research, without writes. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests. P0.177 source-causal P171 real MID B2/S2 independent Option B v2 per-side private research-readiness diagnostics, includes actual confirmed H4/M15 closed pivots and H1 TR3 sample gates, refuses D1 unqualified native session and source numeric/firstknown/quote/OOS; no published price, BUYSELL/broker, Drive read/write or source call. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "ff79552ead822bfd497483b3c98984e400a7af1f",
-      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
+      "expected_current_sha": "106289b90417f5e32f9d05656d53b7440895e45b",
+      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2948,6 +2948,24 @@
       "change": "added",
       "expected_current_sha": "8f19dc20db267ddf1ac310431a3196a9f4c1a53e",
       "reason": "P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
+    },
+    {
+      "path": "mfx_research/p177_real_source_b2s2_readiness.py",
+      "change": "added",
+      "expected_current_sha": "a90618372506dd672a4fb82582e7e91962599e19",
+      "reason": "P0.177 source-causal P171 real MID B2/S2 independent Option B v2 per-side private research-readiness diagnostics, includes actual confirmed H4/M15 closed pivots and H1 TR3 sample gates, refuses D1 unqualified native session and source numeric/firstknown/quote/OOS; no published price, BUYSELL/broker, Drive read/write or source call. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron."
+    },
+    {
+      "path": "tests/test_mfx_p177_real_mid_b2s2_private_readiness.py",
+      "change": "added",
+      "expected_current_sha": "17da4198bcf74eda0ccd993594d240de79192481",
+      "reason": "P0.177 source-causal P171 real MID B2/S2 independent Option B v2 per-side private research-readiness diagnostics, includes actual confirmed H4/M15 closed pivots and H1 TR3 sample gates, refuses D1 unqualified native session and source numeric/firstknown/quote/OOS; no published price, BUYSELL/broker, Drive read/write or source call. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron."
+    },
+    {
+      "path": "docs/MFX_P177_B2S2_PRIVATE_MID_READINESS_GATES.md",
+      "change": "added",
+      "expected_current_sha": "e3d48022d61ef356f841530f329c2143d492e927",
+      "reason": "P0.177 source-causal P171 real MID B2/S2 independent Option B v2 per-side private research-readiness diagnostics, includes actual confirmed H4/M15 closed pivots and H1 TR3 sample gates, refuses D1 unqualified native session and source numeric/firstknown/quote/OOS; no published price, BUYSELL/broker, Drive read/write or source call. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron."
     }
   ]
 }
