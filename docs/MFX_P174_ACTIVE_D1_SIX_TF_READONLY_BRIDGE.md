@@ -23,3 +23,14 @@ Original Forex B2/S2 36 numeric obligations, independent Option B v2 threshold f
 ## QA and acceptance
 
 New hermetic matrix covers immutable origin V1 parent binding, P171 SHA/filename/row verification, no source replays, no stale/retroactive as-of, duplicate/missing/tampered/empty source, explicit old-path HOLD, new technical/private computation path, no synthetic caller pin, new OAuth GET-only namespace and zero external writes. Require exact PR head Python 3.11 and 3.12 suites, frozen-source golden parity, crosswheel, then independently protected-main CI. A **real optional owner-gated manual GET-only six-TF run** on GitHub must separately establish actual runtime integration; test fixtures and CI do **not** falsely claim this step occurred. Preserve no-new-cron, no background ChatGPT tasks, no Mac/MOCHI, no broker. 
+
+## P0.175 independent GitHub-witnessed source-root trust anchors
+
+After initial P0.174 integration, the GET-only reader also **hard-pins** two SHA256 attestations from previously successful live protected-main Actions, not from the mutable Google Drive listing:
+
+- Exact old frozen native D1 V1 head: `346ef3e48bec1b33e489d86233b9a5fa200810ef48563367d059ee098978fcae`. Proven by preserved original full-SHA Drive audits [43718134019](https://github.com/ngluonghoa/MFX/actions/runs/43718134019) and [43721636644](https://github.com/ngluonghoa/MFX/actions/runs/43721636644).
+- Exact **new-epoch root manifest**, freshly obtained from the vendor and committed under existing owner authorization: `b0c1c2400c9b20a1c6a7e2b411723da15be31940ad101d40aa8423eadddf35e0`. Actual GitHub source writer [43721121364](https://github.com/ngluonghoa/MFX/actions/runs/43721121364), independently re-read by [43721636644](https://github.com/ngluonghoa/MFX/actions/runs/43721636644).
+
+A new Drive root that is fully self-consistent (all child SHA256 and parent pointers recomputed, no checksum mismatch) nevertheless **fails closed** if it differs from the independently reviewed GitHub root SHA. A separately tampered original V1 head also fails closed even if it and the new root are rewritten together. No option to feed a user-supplied root SHA into the live reader; hermetic unit tests patch expected roots exclusively inside the test process to exercise offline fixtures.
+
+**Limitation:** root anchoring is not an external, monotonic cryptographic witness for every future append/tail SHA; later tail replacement/rollback and exact vendor revision truth still need independently retained source-head evidence for an economic/production-level proof. The root pin establishes only the immutable initial identity and original archived-parent identity. Public BUY/SELL remains NO_SIGNAL, no broker, no extra API, no Drive write, no new schedule.
