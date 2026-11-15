@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "68f53e9a2737a70907823823c25f6510211f09ff",
-      "reason": "P0.162 known EUR/USD Sydney D1 numeric revision #147 makes actual SHA-sealed six-TF read-only consumer return STOP/quarantine after SHA audits and before disputed private signal research, without writes. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
+      "expected_current_sha": "b8915a5ab0a6c3002c67a61ee54b00494b0bfc8b",
+      "reason": "P0.162 known EUR/USD Sydney D1 numeric revision #147 makes actual SHA-sealed six-TF read-only consumer return STOP/quarantine after SHA audits and before disputed private signal research, without writes. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "095964c4bf96841133174f451a0655ba954ce76c",
-      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
+      "expected_current_sha": "ff79552ead822bfd497483b3c98984e400a7af1f",
+      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2922,20 +2922,32 @@
     {
       "path": "mfx_research/p174_active_d1_epoch_reader.py",
       "change": "added",
-      "expected_current_sha": "859c98326dfcb2aafa8e42211578ae1a1b86ebb4",
-      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.175 pins original V1 D1 head and new P171 first root SHA from independent real GitHub Actions 43721121364/43721636644; rejects even self-consistent Drive root rewriting with hermetic tests; no release authority."
+      "expected_current_sha": "30deafe288e08280e70143a7e15599d7494582b7",
+      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.175 pins original V1 D1 head and new P171 first root SHA from independent real GitHub Actions 43721121364/43721636644; rejects even self-consistent Drive root rewriting with hermetic tests; no release authority. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
     },
     {
       "path": "tests/test_mfx_p174_active_d1_six_tf_readonly.py",
       "change": "added",
-      "expected_current_sha": "48d94126d34864687c854fd172651a9628f51392",
-      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.175 pins original V1 D1 head and new P171 first root SHA from independent real GitHub Actions 43721121364/43721636644; rejects even self-consistent Drive root rewriting with hermetic tests; no release authority."
+      "expected_current_sha": "b2c9c9ed1e31a40438817e496b79721615ead733",
+      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.175 pins original V1 D1 head and new P171 first root SHA from independent real GitHub Actions 43721121364/43721636644; rejects even self-consistent Drive root rewriting with hermetic tests; no release authority. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
     },
     {
       "path": "docs/MFX_P174_ACTIVE_D1_SIX_TF_READONLY_BRIDGE.md",
       "change": "added",
       "expected_current_sha": "71dcef281b3ed6f0fe9b0da23d914d5e1e4fdf37",
       "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.175 pins original V1 D1 head and new P171 first root SHA from independent real GitHub Actions 43721121364/43721636644; rejects even self-consistent Drive root rewriting with hermetic tests; no release authority."
+    },
+    {
+      "path": "tests/test_mfx_p176_d1_preincident_history_seam.py",
+      "change": "added",
+      "expected_current_sha": "70aafa1797de9515232d2259e5e3c5abc5d49e2f",
+      "reason": "P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
+    },
+    {
+      "path": "docs/MFX_P176_D1_PREINCIDENT_HISTORY_SOURCE_SEAM.md",
+      "change": "added",
+      "expected_current_sha": "8f19dc20db267ddf1ac310431a3196a9f4c1a53e",
+      "reason": "P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests."
     }
   ]
 }
