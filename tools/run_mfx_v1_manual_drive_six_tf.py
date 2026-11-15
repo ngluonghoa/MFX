@@ -43,6 +43,9 @@ from mfx_research.sealed_private_m15_microbreak import (
 from mfx_research.p177_real_source_b2s2_readiness import (
     PrivateB2S2Readiness, compute_private_option_b2s2_requirements,
 )
+from mfx_research.p178_b2s2_36_owner_review_queue import (
+    compile_source_owner_36_review_queue,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -543,6 +546,22 @@ def safe_summary(
             or b2s2.drive_writes or b2s2.broker_orders):
         raise ValueError("P177_PRIVATE_B2S2_REDACTED_GATE_DRIFT")
     safe_b2s2=b2s2.as_safe_summary()
+    # P0.178: link ALL original 36 source paragraphs/phase requirements
+    # to the private B2/S2 readiness receipt. Every original numeric rule
+    # is still pending external owner approval. Public log is constant
+    # source metadata and aggregate counts, NOT price-derived conditions.
+    owner_queue=compile_source_owner_36_review_queue(
+        source_crosswalk,b2s2,
+        same_private_source_sha256=multibar.private_input_digest_sha256,
+    )
+    if (owner_queue.may_publish_buy_sell or owner_queue.may_trade
+            or owner_queue.owner_evidence_authenticated
+            or owner_queue.remaining_owner_decisions != 36
+            or owner_queue.source_numeric_approvals != 0
+            or owner_queue.provider_requests or owner_queue.drive_reads_added
+            or owner_queue.drive_writes or owner_queue.broker_orders):
+        raise ValueError("P178_ORIGINAL_OWNER_36_SOURCE_AUTHORITY_DRIFT")
+    safe_owner_review=owner_queue.as_safe_summary()
     return {
         "schema": VERSION,
         "status": "MANUAL_AUTHENTICATED_DRIVE_GET_SOURCE_RESEARCH_ONLY",
@@ -591,6 +610,7 @@ def safe_summary(
         "broker_orders": 0,
         "raw_price_logged": False,
         "b2_s2_private_source_readiness": safe_b2s2,
+        "b2_s2_original_source_owner_review": safe_owner_review,
         "b2_s2_source_computation_crosswalk": {
             "status": "36_PINNED_OWNER_DECISIONS_PENDING_RESEARCH_ONLY",
             "source_locked_doc_id": source_crosswalk.source_locked_doc_id,
