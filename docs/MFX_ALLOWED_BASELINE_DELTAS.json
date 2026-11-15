@@ -55,8 +55,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-incremental-commit.yml",
       "change": "added",
-      "expected_current_sha": "6142cc5f664187085735f6ee517c27584be2b447",
-      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.172 tightly one-shot main path-filtered push trigger solely to actually refetch owner D1 11 Nov via existing Cloud hourly writer and remove trigger after SHA acceptance; no new schedule, OAuth, quote budget or signals."
+      "expected_current_sha": "64430d2029648d0d2c26e6fee32980628c3db0c2",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.172 tightly one-shot main path-filtered push trigger solely to actually refetch owner D1 11 Nov via existing Cloud hourly writer and remove trigger after SHA acceptance; no new schedule, OAuth, quote budget or signals. P0.173 remove completed one-shot source fetch trigger, report new active D1 epoch separately from preserved legacy SHA archive, record actual GitHub writer/Drive SHA receipt and require independent reader acceptance."
     },
     {
       "path": ".github/workflows/mfx-native-htf-incremental-preview.yml",
@@ -1980,8 +1980,8 @@
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "ecb2be392a8836610c317fa41ef53123d606cc3f",
-      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion. P0.170 independently reads the existing app-only D1 quarantine after full canonical H4/D1 SHA audit; no writes/vendor/signals. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit."
+      "expected_current_sha": "adf1b7b194ba4a3f606d8889ae87951d735e3a9e",
+      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion. P0.170 independently reads the existing app-only D1 quarantine after full canonical H4/D1 SHA audit; no writes/vendor/signals. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.173 remove completed one-shot source fetch trigger, report new active D1 epoch separately from preserved legacy SHA archive, record actual GitHub writer/Drive SHA receipt and require independent reader acceptance."
     },
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",
@@ -2916,8 +2916,8 @@
     {
       "path": "docs/MFX_P171_D1_OWNER_REBASE_20261111.md",
       "change": "added",
-      "expected_current_sha": "75639bdff0e49f427a0ac7af261cbfa94658a651",
-      "reason": "P0.171 owner decision to treat 11 Nov D1 as not yet fetched, actual new provider root under versioned append-only epoch, preserve original and P169 evidence; NO_SIGNAL. P0.172 tightly one-shot main path-filtered push trigger solely to actually refetch owner D1 11 Nov via existing Cloud hourly writer and remove trigger after SHA acceptance; no new schedule, OAuth, quote budget or signals."
+      "expected_current_sha": "b22d3c0d2df238f6e1e15c2a794c1a36df04637c",
+      "reason": "P0.171 owner decision to treat 11 Nov D1 as not yet fetched, actual new provider root under versioned append-only epoch, preserve original and P169 evidence; NO_SIGNAL. P0.172 tightly one-shot main path-filtered push trigger solely to actually refetch owner D1 11 Nov via existing Cloud hourly writer and remove trigger after SHA acceptance; no new schedule, OAuth, quote budget or signals. P0.173 remove completed one-shot source fetch trigger, report new active D1 epoch separately from preserved legacy SHA archive, record actual GitHub writer/Drive SHA receipt and require independent reader acceptance."
     }
   ]
 }
