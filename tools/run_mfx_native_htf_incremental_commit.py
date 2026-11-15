@@ -8,12 +8,19 @@ intervals without newly eligible closed slots. No broker or BUY/SELL.
 from __future__ import annotations
 
 from dataclasses import asdict
+from datetime import timedelta, date
+from zoneinfo import ZoneInfo
 from datetime import datetime, timezone
 import json
 import os
 from typing import Any
 
 from mfx_cache.native_fx_htf import parse_native_forex
+from mfx_cache.td_m5_codec import digest
+from mfx_cache.native_d1_fresh_epoch import (
+    PrivateD1FreshEpochStore, audit_fresh_epoch,
+    plan_fresh_epoch_fetch, plan_fresh_epoch_seal, commit_fresh_epoch,
+)
 from mfx_cache.native_htf_archive import plan_native_sealed, verify_native_sealed
 from mfx_cache.native_htf_revision_diagnostics import (
     QUARANTINE_CODES, summarize_native_revision_quarantine,
@@ -25,7 +32,7 @@ from mfx_cache.native_htf_sha_forensics import (
     NativeAuditReadThroughWitness, classify_stored_vs_refetched_native,
 )
 from mfx_cache.native_htf_incremental import (
-    NATIVE_INTERVALS, SYMBOL, plan_native_fetch,
+    NATIVE_INTERVALS, SYMBOL, IncrementalFetchPlan, plan_native_fetch,
     validate_incremental_source,
 )
 from tools.mfx_native_htf_drive_seal import (
@@ -141,11 +148,15 @@ def main() -> None:
     # GitHub injects a protected event name; never report a manual
     # acceptance marker for an unattended hourly scheduled run.
     scheduled = os.environ.get("GITHUB_EVENT_NAME") == "schedule"
+    owner_rebase_d1 = os.environ.get("MFX_D1_OWNER_REBASE_20261111") == "true"
     key, auth, cap = _settings()
     now = datetime.now(timezone.utc)
     session = _session(auth)
     archives: list[tuple[str, Any, Any, Any]] = []
     sha_verified_recent: dict[str, Any] = {}
+    fresh_d1_store: Any = None
+    fresh_d1_state: Any = None
+    fresh_d1_origin: str | None = None
     for interval in NATIVE_INTERVALS:
         store = PrivateNativeDriveStore(session,symbol=SYMBOL,interval=interval)
         # Mirror the ALREADY scheduled full native archive SHA reads in
@@ -167,8 +178,37 @@ def main() -> None:
             # One orphan might be recoverable in the legacy writer, but
             # this *incremental* approval does not allow ambiguous resume.
             raise ValueError("P059_ORPHAN_REQUIRES_SEPARATE_RECOVERY")
-        plan = plan_native_fetch(
-            interval=interval, previous=archive.last_manifest, now_utc=now)
+        if interval == "1day" and owner_rebase_d1:
+            # Old SHA archive stays strictly read-only. Only the separate
+            # owner-requested epoch may be fed from a NEW provider request.
+            if archive.last_manifest is None:
+                raise ValueError("P171_ORIGINAL_D1_ARCHIVE_REQUIRED")
+            fresh_d1_origin = digest(archive.last_manifest)
+            fresh_d1_store = PrivateD1FreshEpochStore(session)
+            fresh_d1_state = audit_fresh_epoch(
+                fresh_d1_store, origin_v1_sha=fresh_d1_origin)
+            req = plan_fresh_epoch_fetch(state=fresh_d1_state, now_utc=now)
+            active_last = (fresh_d1_state.last_manifest["last_native_open_label"]
+                           if fresh_d1_state.last_manifest else None)
+            expected = (now-timedelta(minutes=2,seconds=15)).astimezone(
+                ZoneInfo("Australia/Sydney")).date()-timedelta(days=1)
+            plan = IncrementalFetchPlan(
+                symbol=SYMBOL,interval=interval,
+                status=("P171_D1_FRESH_EPOCH_REFETCH_REQUIRED" if req
+                        else "NO_NEW_CLOSED_SLOT_NO_VENDOR_CALL"),
+                request=req,last_native_open_label=active_last,
+                latest_expected_closed_label=expected.isoformat(),
+                calendar_slots_behind=(
+                    (expected-date.fromisoformat(active_last)).days
+                    if active_last else 0),
+                overlap_bar_count=(
+                    len(fresh_d1_state.last_manifest["recent_native_bar_index"])
+                    if fresh_d1_state.last_manifest else 0),
+                provider_requests_planned=1 if req else 0,
+            )
+        else:
+            plan = plan_native_fetch(
+                interval=interval, previous=archive.last_manifest, now_utc=now)
         archives.append((interval,store,archive,plan))
     # Audit BOTH scopes before vendor usage/price calls. Capacity is a
     # hard bounded SHA-auditor constraint, not available Drive quota.
@@ -207,6 +247,7 @@ def main() -> None:
     prepared: list[tuple[str,Any,Any,Any]] = []
     quarantined_d1: dict[str, Any] | None = None
     quarantined_d1_source: tuple[Any,Any,Any] | None = None
+    new_epoch_d1_batch: Any = None
     for idx, (interval,store,archive,plan) in enumerate(due):
         if idx:
             current,maximum = _usage(key)
@@ -219,6 +260,14 @@ def main() -> None:
         batch = parse_native_forex(
             envelope,symbol=SYMBOL,interval=interval,now_utc=now,
             requested_timezone="UTC" if interval=="4h" else None)
+        if interval=="1day" and owner_rebase_d1:
+            if fresh_d1_state is None or fresh_d1_origin is None:
+                raise ValueError("P171_MISSING_REBASE_SOURCE_AUDIT")
+            plan_fresh_epoch_seal(
+                batch,state=fresh_d1_state,
+                origin_v1_sha=fresh_d1_origin,now_utc=now)
+            new_epoch_d1_batch = batch
+            continue
         try:
             validate_incremental_source(
                 batch, previous=archive.last_manifest, plan=plan)
@@ -280,7 +329,10 @@ def main() -> None:
     # Second preflight protects against provider request delays. In the
     # isolated branch, audit BOTH native histories again before touching H4:
     # even an external D1 change must stop an unrelated H4 append.
-    if quarantined_d1 is not None:
+    if owner_rebase_d1:
+        to_reaudit = [(interval,store,archive)
+                      for interval,store,archive,_ in archives]
+    elif quarantined_d1 is not None:
         to_reaudit = [
             (interval,store,archive)
             for interval,store,archive,_ in archives
