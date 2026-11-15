@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "106289b90417f5e32f9d05656d53b7440895e45b",
-      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron."
+      "expected_current_sha": "3c693ecbd529e1180b6fdb5604abccef29a34efa",
+      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron. P0.178 source-owner B2/S2 exact 36 qualitative numeric decision-to-private-readiness queue, source-locked paragraphs/phase and positive/negative QA; public GET-only projection has no actual price/derived cross, all 36 remain unapproved; no new workflows/source calls/Drive writes/broker."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2966,6 +2966,24 @@
       "change": "added",
       "expected_current_sha": "e3d48022d61ef356f841530f329c2143d492e927",
       "reason": "P0.177 source-causal P171 real MID B2/S2 independent Option B v2 per-side private research-readiness diagnostics, includes actual confirmed H4/M15 closed pivots and H1 TR3 sample gates, refuses D1 unqualified native session and source numeric/firstknown/quote/OOS; no published price, BUYSELL/broker, Drive read/write or source call. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron."
+    },
+    {
+      "path": "mfx_research/p178_b2s2_36_owner_review_queue.py",
+      "change": "added",
+      "expected_current_sha": "c6e86389b248b85cb7188b6058087be9071ed431",
+      "reason": "P0.178 source-owner B2/S2 exact 36 qualitative numeric decision-to-private-readiness queue, source-locked paragraphs/phase and positive/negative QA; public GET-only projection has no actual price/derived cross, all 36 remain unapproved; no new workflows/source calls/Drive writes/broker."
+    },
+    {
+      "path": "tests/test_mfx_p178_b2s2_36_owner_review_queue.py",
+      "change": "added",
+      "expected_current_sha": "264b7d84b93ca548723cc09f200cec4c7d540cae",
+      "reason": "P0.178 source-owner B2/S2 exact 36 qualitative numeric decision-to-private-readiness queue, source-locked paragraphs/phase and positive/negative QA; public GET-only projection has no actual price/derived cross, all 36 remain unapproved; no new workflows/source calls/Drive writes/broker."
+    },
+    {
+      "path": "docs/MFX_P178_B2S2_ORIGINAL_36_SOURCE_DECISION_QUEUE.md",
+      "change": "added",
+      "expected_current_sha": "4cb713cfa9d81b2e21589b959f5962828f3fad87",
+      "reason": "P0.178 source-owner B2/S2 exact 36 qualitative numeric decision-to-private-readiness queue, source-locked paragraphs/phase and positive/negative QA; public GET-only projection has no actual price/derived cross, all 36 remain unapproved; no new workflows/source calls/Drive writes/broker."
     }
   ]
 }
