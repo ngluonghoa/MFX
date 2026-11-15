@@ -7,23 +7,17 @@ from __future__ import annotations
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 from unittest import TestCase
-from unittest.mock import patch
-from contextlib import redirect_stdout
-from io import StringIO
 from dataclasses import replace
 import json
-import os
 
 from mfx_cache.native_d1_quarantine_stage import (
     PREFIX, MAX_OBSERVATIONS, PrivateD1QuarantineStore,
     build_d1_quarantine_observation,
     stage_d1_quarantine_snapshot, validate_d1_quarantine_observation,
 )
-from mfx_cache.native_htf_revision_candidate import draft_d1_revision_candidate
 from tools.run_a04_p45_cloud_twelve_data_cache import CHUNK_FOLDER
 from test_mfx_p168_independent_h4_d1_hold_cache import (
-    D1_LABELS, NOW, batch, diagnostic, envelope, state,
-    P168IndependentH4OnKnownD1Hold, MODULE,
+    D1_LABELS, NOW, batch, state,
 )
 
 

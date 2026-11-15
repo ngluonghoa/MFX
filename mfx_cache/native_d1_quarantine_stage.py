@@ -12,7 +12,6 @@ from datetime import datetime, timedelta
 from typing import Any
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
-from mfx_cache.native_htf_archive import check_native_manifest
 from mfx_cache.native_htf_revision_candidate import (
     draft_d1_revision_candidate, validate_revision_candidate,
 )

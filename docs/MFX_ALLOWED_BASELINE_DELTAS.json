@@ -2868,13 +2868,13 @@
     {
       "path": "mfx_cache/native_d1_quarantine_stage.py",
       "change": "added",
-      "expected_current_sha": "674a83809764bbfdb221f755de697168252975b5",
+      "expected_current_sha": "b8554144803171e6edb8384d8496519cf3bf31f5",
       "reason": "P0.169 isolated immutable raw refetched native D1 provider-candidate snapshots with P059 full SHA-linked source receipt and no canonical writes."
     },
     {
       "path": "tests/test_mfx_p169_d1_quarantine_staging.py",
       "change": "added",
-      "expected_current_sha": "bcc115c620539dde74801c1ba124c2a7450b5130",
+      "expected_current_sha": "92ddd7289bea4f50c30a235192ba73841e9dd77d",
       "reason": "P0.169 21 hermetic source revision SHA, content-addressed duplicate/append and Drive namespace safety tests."
     },
     {
