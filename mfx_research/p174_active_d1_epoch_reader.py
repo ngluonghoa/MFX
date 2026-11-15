@@ -6,8 +6,8 @@ never relaxes the legacy source HOLD, and never publishes BUY/SELL or OHLC.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from dataclasses import asdict, dataclass, field
+from datetime import date, datetime, timedelta
 from typing import Any, Protocol
 
 from mfx_cache.native_d1_fresh_epoch import (
@@ -140,4 +140,134 @@ def read_active_d1_epoch(
         last_native_open_label=labels[-1],
         latest_runner_observed_utc=state.last_manifest["first_observed_runner_utc"],
         batch=batch,
+    )
+
+
+# P0.176: Owner asked to re-fetch *11 November*, not to throw away all
+# independently SHA-verified D1 history before that incident. Preserve the
+# original V1 pre-incident prefix, discard its 11 Nov disputed candle, then
+# use only genuinely re-fetched P171 candles from 11 Nov onwards. This is
+# an in-memory READ-ONLY research context, NOT a new canonical Drive write.
+SEAM_VERSION = "MFX_P176_PREINCIDENT_D1_PREFIX_PLUS_P171_FRESH_TAIL_V1"
+
+
+@dataclass(frozen=True, slots=True)
+class ComposedD1ReadOnlyHistory:
+    """Never log source OHLC: only SHA-addressed identities/counts."""
+
+    schema: str
+    original_v1_head_sha256: str
+    active_epoch_head_sha256: str
+    last_preincident_label: str
+    first_fresh_label: str
+    original_v1_preincident_bars_verified: int
+    new_epoch_bars_verified_in_context: int
+    context_bars_after_120_limit: int
+    composition_sha256: str
+    batch: NativeFXBatch = field(repr=False, compare=False)
+    public_action: str = "NO_SIGNAL"
+    source_numeric_rules_approved: bool = False
+    publisher_first_known_verified: bool = False
+    may_trade: bool = False
+    broker_orders: int = 0
+    provider_requests: int = 0
+    drive_writes: int = 0
+
+
+def compose_verified_preincident_d1_history(
+    original: NativeFXBatch,
+    fresh: FreshD1ReadOnlyContext,
+    *, original_v1_head_sha256: str,
+) -> ComposedD1ReadOnlyHistory:
+    """Join independently SHA-audited data without reusing V1 11 Nov OHLC.
+
+    Caller has ALREADY completed full native V1 SHA and P171 full SHA/root
+    checks, including the external real GitHub witness and runner as-of.
+    The old original archive must have ended ON the disputed 11 Nov date.
+    No guess, missing old boundary, backwards time or arbitrary provider.
+    """
+    if (type(original) is not NativeFXBatch
+            or type(fresh) is not FreshD1ReadOnlyContext
+            or original_v1_head_sha256 != PINNED_ORIGINAL_D1_V1_HEAD_SHA256
+            or fresh.legacy_v1_manifest_sha256 != original_v1_head_sha256
+            or original.symbol != "EUR/USD" or original.interval != "1day"
+            or original.exchange_timezone != "Australia/Sydney"
+            or original.time_reference != "EXCHANGE_LOCAL_SESSION_DATE"
+            or original.source != "TWELVE_DATA_COMPOSITE_MID"
+            or original.is_provider_native is not True
+            or original.vendor_calls_made_by_parser != 0
+            or original.google_drive_writes != 0
+            or original.confirmed_buy_sell_signals != 0
+            or original.broker_orders != 0
+            or type(original.closed_bars) is not tuple
+            or len(original.closed_bars) < 2
+            or fresh.active_source_epoch != "P171_D1_FRESH_20261111"
+            or fresh.provider_price_requests != 0 or fresh.drive_writes != 0
+            or fresh.broker_orders != 0 or fresh.may_publish_buy_sell):
+        raise ValueError("P176_INDEPENDENT_SOURCE_SCOPE_OR_PIN_REQUIRED")
+
+    old = original.closed_bars
+    new = fresh.batch.closed_bars
+    old_labels = tuple(bar.native_open_label for bar in old)
+    new_labels = tuple(bar.native_open_label for bar in new)
+    incident = date.fromisoformat(INCIDENT)
+    previous_session = (incident - timedelta(days=1)).isoformat()
+    if (old_labels != tuple(sorted(set(old_labels)))
+            or old_labels[-1] != INCIDENT
+            or new_labels != tuple(sorted(set(new_labels)))
+            or not new or new_labels[-1] != fresh.last_native_open_label
+            or fresh.batch.symbol != "EUR/USD"
+            or fresh.batch.interval != "1day"
+            or fresh.batch.exchange_timezone != "Australia/Sydney"
+            or fresh.batch.time_reference != "EXCHANGE_LOCAL_SESSION_DATE"):
+        raise ValueError("P176_OLD_INCIDENT_OR_FRESH_SEQUENCE_MISMATCH")
+
+    # Exactly the old 11 Nov candle is excluded, never silently retained.
+    prefix = tuple(bar for bar in old if bar.native_open_label < INCIDENT)
+    if (len(prefix) != len(old)-1
+            or not prefix or prefix[-1].native_open_label != previous_session
+            or new_labels[0] < INCIDENT):
+        raise ValueError("P176_PREINCIDENT_BOUNDARY_NOT_PROVEN")
+
+    all_rows = prefix + new
+    labels = tuple(bar.native_open_label for bar in all_rows)
+    if labels != tuple(sorted(set(labels))):
+        raise ValueError("P176_DUPLICATE_OR_NONMONOTONIC_CUTOVER")
+    for bar in all_rows:
+        if (type(bar) is not NativeFXBar
+                or bar.symbol != "EUR/USD" or bar.interval != "1day"
+                or bar.time_reference != "EXCHANGE_LOCAL_SESSION_DATE"
+                or bar.exchange_timezone != "Australia/Sydney"
+                or bar.source != "TWELVE_DATA_COMPOSITE_MID"
+                or bar.price_side != "MID"
+                or bar.is_provider_native is not True
+                or bar.source_numeric_strategy_approved
+                or bar.broker_orders != 0):
+            raise ValueError("P176_UNTRUSTED_BAR_PROVENANCE")
+
+    selected = tuple(all_rows[-MAX_RECENT_CONTEXT:])
+    composite = digest({
+        "schema":SEAM_VERSION,
+        "old_head_sha256":original_v1_head_sha256,
+        "fresh_head_sha256":fresh.epoch_manifest_sha256,
+        "old_preincident_label":prefix[-1].native_open_label,
+        "new_epoch_first_label":INCIDENT,
+        "selected_closed_bars":[asdict(bar) for bar in selected],
+    })
+    return ComposedD1ReadOnlyHistory(
+        schema=SEAM_VERSION,
+        original_v1_head_sha256=original_v1_head_sha256,
+        active_epoch_head_sha256=fresh.epoch_manifest_sha256,
+        last_preincident_label=prefix[-1].native_open_label,
+        first_fresh_label=INCIDENT,
+        original_v1_preincident_bars_verified=len(prefix),
+        new_epoch_bars_verified_in_context=len(new),
+        context_bars_after_120_limit=len(selected),
+        composition_sha256=composite,
+        batch=NativeFXBatch(
+            symbol="EUR/USD",interval="1day",
+            exchange_timezone="Australia/Sydney",
+            time_reference="EXCHANGE_LOCAL_SESSION_DATE",
+            closed_bars=selected,incomplete_excluded=0,
+        ),
     )
