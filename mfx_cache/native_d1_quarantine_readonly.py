@@ -66,7 +66,8 @@ def audit_d1_quarantine_readonly(
         latest = observed if latest is None else max(latest, observed)
         total_bars += len(record["source_batch"]["closed_bars"])
 
-    assert earliest is not None and latest is not None
+    if earliest is None or latest is None:
+        raise ValueError("P170_QUARANTINE_EMPTY_AFTER_VALIDATION")
     return {
         "status": "D1_QUARANTINE_RAW_OBSERVATIONS_SHA_READONLY_PASS",
         "source": "TWELVE_DATA_COMPOSITE_MID",
