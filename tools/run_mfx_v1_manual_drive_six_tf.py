@@ -40,6 +40,9 @@ from mfx_research.b2_s2_source_computation_crosswalk import (
 from mfx_research.sealed_private_m15_microbreak import (
     PrivateMicroBreakReceipt, compute_private_sealed_m15_microbreak,
 )
+from mfx_research.p177_real_source_b2s2_readiness import (
+    PrivateB2S2Readiness, compute_private_option_b2s2_requirements,
+)
 from tools.run_a04_p45_cloud_twelve_data_cache import (
     CHUNK_FOLDER, MANIFEST_FOLDER, _drive_auth_info,
     _require_oauth_cache_folders, _session,
@@ -523,6 +526,23 @@ def safe_summary(
             or source_mode.bidask_quote_observed_and_licensed
             or source_mode.source_data_account_rights_verified):
         raise ValueError("MFX_V1_READONLY_OHLC_MODE_AUTHORITY_DRIFT")
+
+    # P0.177: strict source re-check before showing only constant/aggregate
+    # no-signal requirement-gap metadata. NEVER publish private price-derived
+    # directional crosses, candidate pivot prices, or exact market levels.
+    b2s2=evidence.private_b2s2_source_readiness
+    if (type(b2s2) is not PrivateB2S2Readiness
+            or b2s2 != compute_private_option_b2s2_requirements(
+                multibar, technical,evidence.private_pivot_sensitivity,
+                microbreak,
+                active_d1_source_epoch=evidence.active_d1_source_epoch)
+            or b2s2.public_action!="NO_SIGNAL" or b2s2.stage!="UNVERIFIED"
+            or b2s2.numeric_policy_approved or b2s2.may_trade
+            or b2s2.may_publish_buy_sell
+            or b2s2.market_price_requests or b2s2.drive_gets_added
+            or b2s2.drive_writes or b2s2.broker_orders):
+        raise ValueError("P177_PRIVATE_B2S2_REDACTED_GATE_DRIFT")
+    safe_b2s2=b2s2.as_safe_summary()
     return {
         "schema": VERSION,
         "status": "MANUAL_AUTHENTICATED_DRIVE_GET_SOURCE_RESEARCH_ONLY",
@@ -570,6 +590,7 @@ def safe_summary(
         "drive_writes": 0,
         "broker_orders": 0,
         "raw_price_logged": False,
+        "b2_s2_private_source_readiness": safe_b2s2,
         "b2_s2_source_computation_crosswalk": {
             "status": "36_PINNED_OWNER_DECISIONS_PENDING_RESEARCH_ONLY",
             "source_locked_doc_id": source_crosswalk.source_locked_doc_id,
