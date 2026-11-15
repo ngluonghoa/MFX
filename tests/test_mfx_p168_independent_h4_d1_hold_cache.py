@@ -183,6 +183,17 @@ class P168IndependentH4OnKnownD1Hold(TestCase):
             stack.enter_context(patch(f"{MODULE}._read_payload",side_effect=emit))
             stack.enter_context(patch(f"{MODULE}.commit_native_batch",
                                       side_effect=commit))
+            stack.enter_context(patch(f"{MODULE}.PrivateD1QuarantineStore",
+                                      return_value="sim-quarantine-store"))
+            stack.enter_context(patch(f"{MODULE}.stage_d1_quarantine_snapshot",
+                                      return_value={
+                                          "status":"D1_QUARANTINE_NEW_SHA_SOURCE_SEALED",
+                                          "observations_created":1,
+                                          "closed_bars_custodied":17,
+                                          "first_runner_observation_utc":NOW.isoformat(),
+                                          "d1_canonical_writes":0,
+                                          "may_publish_buy_sell":False,
+                                      }))
             stack.enter_context(patch(f"{MODULE}.classify_stored_vs_refetched_native",
                 return_value=diagnostic() if d1_diagnostic is None
                 else d1_diagnostic))

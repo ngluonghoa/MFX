@@ -18,6 +18,9 @@ from mfx_cache.native_htf_archive import plan_native_sealed, verify_native_seale
 from mfx_cache.native_htf_revision_diagnostics import (
     QUARANTINE_CODES, summarize_native_revision_quarantine,
 )
+from mfx_cache.native_d1_quarantine_stage import (
+    PrivateD1QuarantineStore, stage_d1_quarantine_snapshot,
+)
 from mfx_cache.native_htf_sha_forensics import (
     NativeAuditReadThroughWitness, classify_stored_vs_refetched_native,
 )
@@ -203,6 +206,7 @@ def main() -> None:
 
     prepared: list[tuple[str,Any,Any,Any]] = []
     quarantined_d1: dict[str, Any] | None = None
+    quarantined_d1_source: tuple[Any,Any,Any] | None = None
     for idx, (interval,store,archive,plan) in enumerate(due):
         if idx:
             current,maximum = _usage(key)
@@ -254,12 +258,18 @@ def main() -> None:
                     and str(error) == "P059_SOURCE_NATIVE_REVISION_QUARANTINE"
                     and "1day" in sha_verified_recent
                     and _confirmed_known_d1_hold(diagnostic)
-                    and len(prepared) == 1
-                    and prepared[0][0] == "4h"
-                    and plan_native_sealed(
-                        prepared[0][1],previous=prepared[0][3].last_manifest
-                    ) is not None):
+                    and (not prepared or (
+                        len(prepared) == 1
+                        and prepared[0][0] == "4h"
+                        and plan_native_sealed(
+                            prepared[0][1],
+                            previous=prepared[0][3].last_manifest
+                        ) is not None))):
                 quarantined_d1 = diagnostic
+                quarantined_d1_source = (
+                    archive.last_manifest, sha_verified_recent["1day"],
+                    batch,
+                )
                 continue
             raise
         proposal = plan_native_sealed(batch,previous=archive.last_manifest)
@@ -289,30 +299,58 @@ def main() -> None:
             raise ValueError("P059_NATIVE_ARCHIVE_CHANGED_DURING_FETCH")
 
     if quarantined_d1 is not None:
-        # Explicitly commit ONLY the independently verified H4 batch, using
-        # the unchanged 2-object immutable SHA/readback native writer.
-        # D1 never reaches commit_native_batch() and never clears its HOLD.
-        h4_tf,h4_batch,h4_store,_ = prepared[0]
-        if h4_tf != "4h":
-            raise ValueError("P168_H4_ISOLATION_SCOPE_DENIED")
-        h4_receipt = asdict(commit_native_batch(h4_store,h4_batch))
-        summary = summarize_incremental_receipts([h4_receipt])
+        # The fresh D1 response was ALREADY fetched and independently
+        # compared against the full-SHA-attested original. Preserve its raw
+        # bytes in a disjoint, SHA-addressed quarantine-only namespace.
+        # This is a RUNNER observation, NOT a publisher first-known stamp.
+        if quarantined_d1_source is None:
+            raise ValueError("P169_NO_SHA_AUDITED_D1_SOURCE_TO_STAGE")
+        original, old_sha_rows, fresh = quarantined_d1_source
+        staging = stage_d1_quarantine_snapshot(
+            PrivateD1QuarantineStore(session), previous=original,
+            sha_verified_recent=old_sha_rows, refetched=fresh,
+            observed_at_utc=now,
+        )
+        if (staging["d1_canonical_writes"] != 0
+                or staging["may_publish_buy_sell"] is not False):
+            raise ValueError("P169_D1_QUARANTINE_AUTHORITY_DRIFT")
+        # Existing independent H4 path can still append with the ORIGINAL
+        # immutable 2-object readback writer; no H4 vendor-call increase.
+        h4_summary: dict[str, Any] = {
+            "status": "NO_NEW_CLOSED_H4_SLOT",
+            "total_newly_closed_native_bars": 0,
+            "h4_drive_objects_created_max": 0,
+            "h4_newly_closed_bars": 0,
+        }
+        if prepared:
+            h4_tf,h4_batch,h4_store,_ = prepared[0]
+            if h4_tf != "4h":
+                raise ValueError("P168_H4_ISOLATION_SCOPE_DENIED")
+            h4_receipt = asdict(commit_native_batch(h4_store,h4_batch))
+            summary = summarize_incremental_receipts([h4_receipt])
+            h4_summary = {
+                **summary,
+                "h4_drive_objects_created_max":
+                    h4_receipt["drive_objects_created_max"],
+                "h4_newly_closed_bars":
+                    h4_receipt["newly_closed_native_bars"],
+            }
+        print("MFX_P169_D1_QUARANTINE_OBSERVATION_SHA_READBACK")
         print("MFX_P168_H4_ISOLATED_D1_STILL_QUARANTINED_NONZERO")
         print(json.dumps({
-            **summary,
+            **h4_summary,
+            "d1_quarantine": staging,
             "source_d1_status": "P059_SOURCE_NATIVE_REVISION_QUARANTINE",
             "source_d1_incident": KNOWN_D1_INCIDENT_LABEL,
             "d1_drive_writes": 0,
-            "h4_drive_objects_created_max": h4_receipt["drive_objects_created_max"],
-            "h4_newly_closed_bars": h4_receipt["newly_closed_native_bars"],
             "source_numeric_signals_approved": False,
             "no_broker_execution": True,
             "h4_append_does_not_clear_d1_hold": True,
             "automatic_native_schedule_activated": scheduled,
             "execution_mode": "hourly_schedule" if scheduled else "manual",
         }, sort_keys=True))
-        # KEEP THE SCHEDULED JOB RED until D1 is independently resolved;
-        # this is scoped H4 progress, never a joint-H4/D1 audit PASS.
+        # KEEP THE SCHEDULED JOB RED until D1 is independently resolved:
+        # separate observations never authorize canonical D1 or signals.
         raise ValueError("P059_SOURCE_NATIVE_REVISION_QUARANTINE")
 
     receipts = [asdict(commit_native_batch(store,batch))
