@@ -152,11 +152,20 @@ class PublicationSafeAuditTests(unittest.TestCase):
         ),patch(
             "tools.run_mfx_native_htf_cache_audit.PrivateNativeDriveStore",
             side_effect=stores,
-        ):
+        ),patch(
+            "tools.run_mfx_native_htf_cache_audit.PrivateD1QuarantineStore",
+            return_value=object(),
+        ),patch(
+            "tools.run_mfx_native_htf_cache_audit.audit_d1_quarantine_readonly",
+            return_value={"status":"HERMETIC_ONLY_NO_DRIVE_WRITE"},
+        ) as qa:
             buf=StringIO()
             with redirect_stdout(buf):
                 main()
+        qa.assert_called_once()
         output=buf.getvalue()
+        self.assertIn("MFX_P170_D1_QUARANTINE_INDEPENDENT_READONLY_SHA_PASS",
+                      output)
         receipt=json.loads(output.splitlines()[-1])
         self.assertFalse(receipt["no_automated_native_writer"])
         self.assertFalse(receipt["this_job_writes_native_archive"])

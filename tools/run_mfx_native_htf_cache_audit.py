@@ -13,6 +13,8 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 from mfx_cache.td_m5_codec import digest
+from mfx_cache.native_d1_quarantine_stage import PrivateD1QuarantineStore
+from mfx_cache.native_d1_quarantine_readonly import audit_d1_quarantine_readonly
 from mfx_cache.native_htf_incremental import SOURCE_PUBLICATION_BUFFER
 from tools.mfx_native_htf_drive_seal import (
     MAX_NATIVE_FILES, NativeArchiveState, PrivateNativeDriveStore,
@@ -165,12 +167,19 @@ def main() -> None:
             interval=tf,now_utc=now)
         for tf in INTERVALS
     ]
+    quarantine = audit_d1_quarantine_readonly(
+        PrivateD1QuarantineStore(session),
+        canonical_d1_manifest_sha256=receipts[1]["last_manifest_sha256"],
+        now_utc=now,
+    )
+    print("MFX_P170_D1_QUARANTINE_INDEPENDENT_READONLY_SHA_PASS")
     print("MFX_A04_P58_NATIVE_H4_D1_READONLY_FULL_SHA_AUDIT_PASS")
     print(json.dumps({
         "status": ("BOTH_LATEST_SLOTS_PRESENT"
                    if all(r["lag"] == 0 for r in receipts)
                    else "ONE_OR_MORE_INTERVALS_LAGGING_REVIEW_ONLY"),
         "results": receipts,
+        "d1_quarantine_readonly": quarantine,
         "provider_price_requests": 0,
         "drive_writes": 0,
         "read_only": True,

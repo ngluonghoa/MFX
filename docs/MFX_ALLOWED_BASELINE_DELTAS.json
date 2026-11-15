@@ -1362,8 +1362,8 @@
     {
       "path": "tests/test_a04_p58_native_htf_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "9e5ce9c68d4da7b3e1fbec5c96561241d3e6b310",
-      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged."
+      "expected_current_sha": "f429d5e145254a5f6bd90f99ca1c9b7c58ed9701",
+      "reason": "A04/P0.61 explicit source-native EUR/USD H4 UTC 4-hour grid at provider parse and all archived bars, with real 119/119 H4 Drive labels independently confirmed on-grid. First PR CI exposed preexisting synthetic H4 hourly/offgrid fixtures and P061 error wrapped by old P054 exception; corrected to preserve P061 and to generate valid 4h slots or expect early source rejection. 16 new hermetic tests cover due H4/D1 write paths, quota/revision/atomic prevalidation/orphan, no native writer live activation. Cloud-only GitHub+Drive, original 102 Forex blobs unchanged. P0.170 requires the sidecar read-only hook in the existing audit and tests it cannot be bypassed or leak raw data."
     },
     {
       "path": "tests/test_a04_p59_native_incremental.py",
@@ -1440,8 +1440,8 @@
     {
       "path": "tests/test_a04_p71_native_audit_publication_grace.py",
       "change": "added",
-      "expected_current_sha": "5c2334c08cc66b741bf6e2ade4211e5fe9fba2a9",
-      "reason": "P0.71 14 hermetic H4/D1 source publication-boundary tests at +2m14s/+2m15s, exact Sydney DST AEDT/AEST, shared writer fetch planner parity, no premature future bar, zero API/Drive/broker and honest audit summary."
+      "expected_current_sha": "a6138862ae260cdd91f842db12905c6dbab3fb5f",
+      "reason": "P0.71 14 hermetic H4/D1 source publication-boundary tests at +2m14s/+2m15s, exact Sydney DST AEDT/AEST, shared writer fetch planner parity, no premature future bar, zero API/Drive/broker and honest audit summary. P0.170 preserves the original P0.71 native publication-lag reporting test by mocking the new separate D1 sidecar reader; no real HTTP in hermetic tests."
     },
     {
       "path": "tests/test_a04_p72_native_sha_audit_push.py",
@@ -1980,8 +1980,8 @@
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "9eff929dccf0b55c518ff06567eb32bfd5f7e221",
-      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion."
+      "expected_current_sha": "45ae110b92ae98c8d57e09bd41ab12041d878c45",
+      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion. P0.170 independently reads the existing app-only D1 quarantine after full canonical H4/D1 SHA audit; no writes/vendor/signals."
     },
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",
@@ -2882,6 +2882,24 @@
       "change": "added",
       "expected_current_sha": "7a90f54b7c0c2675620ac662a44a5c516f46c402",
       "reason": "P0.169 real H4 postmerge witness, isolated app-owned D1 raw candidate caching, quarantine and source rights limitations."
+    },
+    {
+      "path": "mfx_cache/native_d1_quarantine_readonly.py",
+      "change": "added",
+      "expected_current_sha": "9effe4ba69988ee6ec4d1eff79b6842e0e25ca89",
+      "reason": "P0.170 same-OAuth app-private read-only SHA/filename/parent/clock verifier for D1 quarantined source observations; no canonical change."
+    },
+    {
+      "path": "tests/test_mfx_p170_d1_quarantine_readonly.py",
+      "change": "added",
+      "expected_current_sha": "3bae8984f6b3d0621f597b86ec5dd25d74068f33",
+      "reason": "P0.170 20 hermetic independent-second-reader SHA/negative/no-write regression tests."
+    },
+    {
+      "path": "docs/MFX_P170_D1_QUARANTINE_SECOND_READER_SHA_AUDIT.md",
+      "change": "added",
+      "expected_current_sha": "126a16fd97006f35acfe1f2d69af4bb40a1097d0",
+      "reason": "P0.170 exact acceptance boundary, source HOLD, D1 preservation, real postmain witness and rollback."
     }
   ]
 }
