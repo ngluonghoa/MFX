@@ -80,13 +80,13 @@ class PrivateB2S2Readiness:
             "status": "PRIVATE_REQUIREMENT_GAPS_NOT_LIVE_SIGNAL",
             "policy_fingerprint_sha256": self.policy_fingerprint_sha256,
             "source_technical_mode": self.source_technical_mode,
+            # Precise missing conditions are internal research metadata;
+            # public logs must not disclose price-derived direction,
+            # pivot counts, cross levels, or scored setups.
             "b2_s2": [
                 {"rule_id": x.rule_id, "readiness": x.readiness,
-                 "missing_preconditions": list(x.missing_preconditions),
-                 "h4_confirmed_high_pivots": x.h4_confirmed_high_pivots,
-                 "h4_confirmed_low_pivots": x.h4_confirmed_low_pivots,
-                 "d1_observed_native_rows": x.d1_observed_native_rows,
-                 "h1_closed_bars_available": x.h1_closed_bars_available}
+                 "data_and_policy_requirements_unverified":
+                     len(x.missing_preconditions)}
                 for x in self.gates
             ],
             "action": "NO_SIGNAL", "stage": "UNVERIFIED",
