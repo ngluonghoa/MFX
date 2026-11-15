@@ -227,11 +227,21 @@ class P058NativeAuditTests(unittest.TestCase):
             "tools.run_mfx_native_htf_cache_audit._session",
             return_value="fake-session"),patch(
             "tools.run_mfx_native_htf_cache_audit.PrivateNativeDriveStore",
-            side_effect=[original_h4,original_d1]):
+            side_effect=[original_h4,original_d1]),patch(
+            "tools.run_mfx_native_htf_cache_audit.PrivateD1QuarantineStore",
+            return_value=object()),patch(
+            "tools.run_mfx_native_htf_cache_audit.audit_d1_quarantine_readonly",
+            return_value={"status":"HERMETIC_ONLY_NO_DRIVE_WRITE"}) as qa:
             output=StringIO()
             with redirect_stdout(output):
                 main()
+        qa.assert_called_once()
+        self.assertEqual(qa.call_args.kwargs["canonical_d1_manifest_sha256"],
+                         audit_native_cache(original_d1,interval="1day",
+                                            now_utc=NOW)["last_manifest_sha256"])
         receipt=output.getvalue()
+        self.assertIn("MFX_P170_D1_QUARANTINE_INDEPENDENT_READONLY_SHA_PASS",
+                      receipt)
         self.assertIn("MFX_A04_P58_NATIVE_H4_D1_READONLY_FULL_SHA_AUDIT_PASS",
                       receipt)
         self.assertIn('"provider_price_requests": 0',receipt)
