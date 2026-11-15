@@ -188,8 +188,19 @@ def main() -> None:
         if fresh.orphan_chunk is not None:
             raise ValueError("P171_FRESH_EPOCH_UNCOMMITTED_ORPHAN")
         if fresh.last_manifest is not None:
+            # Calendar-lag is an observational local-date comparison, NOT
+            # a claim about a proven provider trading-session schedule.
+            actual_day = date.fromisoformat(
+                fresh.last_manifest["last_native_open_label"])
+            eligible_day = (now-SOURCE_PUBLICATION_BUFFER).astimezone(
+                ZoneInfo("Australia/Sydney")).date()-timedelta(days=1)
+            if actual_day > eligible_day:
+                raise ValueError("P173_FUTURE_OR_UNCLOSED_FRESH_D1_EPOCH")
+            epoch_calendar_lag = (eligible_day-actual_day).days
             d1_fresh_epoch = {
                 "status":"P171_NEW_D1_EPOCH_FULL_SHA_ACCEPTED",
+                "active_d1_calendar_lag_not_market_sessions":epoch_calendar_lag,
+                "latest_expected_closed_local_label":eligible_day.isoformat(),
                 "manifest_count":fresh.manifests,
                 "chunk_count":fresh.chunks,
                 "total_closed_bars":fresh.last_manifest["total_closed_bars"],
@@ -207,9 +218,16 @@ def main() -> None:
     print("MFX_P170_D1_QUARANTINE_INDEPENDENT_READONLY_SHA_PASS")
     print("MFX_A04_P58_NATIVE_H4_D1_READONLY_FULL_SHA_AUDIT_PASS")
     print(json.dumps({
-        "status": ("BOTH_LATEST_SLOTS_PRESENT"
-                   if all(r["lag"] == 0 for r in receipts)
-                   else "ONE_OR_MORE_INTERVALS_LAGGING_REVIEW_ONLY"),
+        "status": (
+            ("ACTIVE_H4_AND_REBASED_D1_EXPECTED_SLOTS_PRESENT"
+             if (receipts[0]["lag"] == 0
+                 and d1_fresh_epoch.get(
+                     "active_d1_calendar_lag_not_market_sessions") == 0)
+             else "ACTIVE_D1_REBASED_OR_H4_LAG_REVIEW_ONLY")
+            if d1_fresh_epoch["new_source_epoch_selected"]
+            else ("BOTH_LATEST_SLOTS_PRESENT"
+                  if all(r["lag"] == 0 for r in receipts)
+                  else "ONE_OR_MORE_INTERVALS_LAGGING_REVIEW_ONLY")),
         "results": receipts,
         "d1_quarantine_readonly": quarantine,
         "d1_fresh_epoch_readonly": d1_fresh_epoch,
