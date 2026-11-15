@@ -205,7 +205,7 @@ class OwnerFreshD1EpochTests(TestCase):
         store,_=prepared()
         assert plan_fresh_epoch_fetch(
             state=audit_fresh_epoch(store,origin_v1_sha=original_sha()),
-            now_utc=NOW) is None
+            now_utc=datetime(2026,11,14,3,0,tzinfo=timezone.utc)) is None
 
     def test_19_new_day_requests_bounded_overlap(self):
         store,_=prepared()
