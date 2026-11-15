@@ -2400,8 +2400,8 @@
     {
       "path": "mfx_research/six_tf_sealed_archive_consumer.py",
       "change": "added",
-      "expected_current_sha": "99ebd09fd116f1704ff7fcd6ee70e689d83914e7",
-      "reason": "P0.162 known EUR/USD Sydney D1 numeric revision #147 makes actual SHA-sealed six-TF read-only consumer return STOP/quarantine after SHA audits and before disputed private signal research, without writes."
+      "expected_current_sha": "68f53e9a2737a70907823823c25f6510211f09ff",
+      "reason": "P0.162 known EUR/USD Sydney D1 numeric revision #147 makes actual SHA-sealed six-TF read-only consumer return STOP/quarantine after SHA audits and before disputed private signal research, without writes. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
     },
     {
       "path": "tests/test_mfx_v1_six_tf_sealed_archive_consumer.py",
@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "cc1659c7ced429e9379ee36c6942825f5dd16cdb",
-      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS."
+      "expected_current_sha": "095964c4bf96841133174f451a0655ba954ce76c",
+      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -2918,6 +2918,24 @@
       "change": "added",
       "expected_current_sha": "b22d3c0d2df238f6e1e15c2a794c1a36df04637c",
       "reason": "P0.171 owner decision to treat 11 Nov D1 as not yet fetched, actual new provider root under versioned append-only epoch, preserve original and P169 evidence; NO_SIGNAL. P0.172 tightly one-shot main path-filtered push trigger solely to actually refetch owner D1 11 Nov via existing Cloud hourly writer and remove trigger after SHA acceptance; no new schedule, OAuth, quote budget or signals. P0.173 remove completed one-shot source fetch trigger, report new active D1 epoch separately from preserved legacy SHA archive, record actual GitHub writer/Drive SHA receipt and require independent reader acceptance."
+    },
+    {
+      "path": "mfx_research/p174_active_d1_epoch_reader.py",
+      "change": "added",
+      "expected_current_sha": "88b0f8e0de1871ee4845945e8b4f4887187871c1",
+      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
+    },
+    {
+      "path": "tests/test_mfx_p174_active_d1_six_tf_readonly.py",
+      "change": "added",
+      "expected_current_sha": "545efd8fbf1f7bcf58c259ea5afa953348ba3451",
+      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
+    },
+    {
+      "path": "docs/MFX_P174_ACTIVE_D1_SIX_TF_READONLY_BRIDGE.md",
+      "change": "added",
+      "expected_current_sha": "eec8b639808810fca2a941cacd35fa8b39121708",
+      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
     }
   ]
 }
