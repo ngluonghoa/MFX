@@ -15,6 +15,9 @@ from zoneinfo import ZoneInfo
 from mfx_cache.td_m5_codec import digest
 from mfx_cache.native_d1_quarantine_stage import PrivateD1QuarantineStore
 from mfx_cache.native_d1_quarantine_readonly import audit_d1_quarantine_readonly
+from mfx_cache.native_d1_fresh_epoch import (
+    PrivateD1FreshEpochStore, audit_fresh_epoch,
+)
 from mfx_cache.native_htf_incremental import SOURCE_PUBLICATION_BUFFER
 from tools.mfx_native_htf_drive_seal import (
     MAX_NATIVE_FILES, NativeArchiveState, PrivateNativeDriveStore,
@@ -172,6 +175,35 @@ def main() -> None:
         canonical_d1_manifest_sha256=receipts[1]["last_manifest_sha256"],
         now_utc=now,
     )
+    d1_fresh_epoch: dict[str,Any] = {
+        "status":"P171_PENDING_NEW_PROVIDER_D1_REFETCH",
+        "old_d1_immutable_archive_unchanged":True,
+        "new_source_epoch_selected":False,
+        "drive_writes":0,"vendor_calls":0,"broker_orders":0,
+    }
+    if os.environ.get("MFX_D1_OWNER_REBASE_20261111") == "true":
+        fresh = audit_fresh_epoch(
+            PrivateD1FreshEpochStore(session),
+            origin_v1_sha=receipts[1]["last_manifest_sha256"])
+        if fresh.orphan_chunk is not None:
+            raise ValueError("P171_FRESH_EPOCH_UNCOMMITTED_ORPHAN")
+        if fresh.last_manifest is not None:
+            d1_fresh_epoch = {
+                "status":"P171_NEW_D1_EPOCH_FULL_SHA_ACCEPTED",
+                "manifest_count":fresh.manifests,
+                "chunk_count":fresh.chunks,
+                "total_closed_bars":fresh.last_manifest["total_closed_bars"],
+                "last_native_open_label":
+                    fresh.last_manifest["last_native_open_label"],
+                "last_manifest_sha256":digest(fresh.last_manifest),
+                "legacy_d1_v1_closed_bars_preserved":
+                    receipts[1]["total_closed_native_bars"],
+                "legacy_v1_sha_verified":True,
+                "new_source_epoch_selected":True,
+                "may_publish_buy_sell":False,
+                "drive_writes":0,"vendor_calls":0,"broker_orders":0,
+            }
+            print("MFX_P171_D1_FRESH_EPOCH_READONLY_FULL_SHA_AUDIT_PASS")
     print("MFX_P170_D1_QUARANTINE_INDEPENDENT_READONLY_SHA_PASS")
     print("MFX_A04_P58_NATIVE_H4_D1_READONLY_FULL_SHA_AUDIT_PASS")
     print(json.dumps({
@@ -180,6 +212,7 @@ def main() -> None:
                    else "ONE_OR_MORE_INTERVALS_LAGGING_REVIEW_ONLY"),
         "results": receipts,
         "d1_quarantine_readonly": quarantine,
+        "d1_fresh_epoch_readonly": d1_fresh_epoch,
         "provider_price_requests": 0,
         "drive_writes": 0,
         "read_only": True,

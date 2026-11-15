@@ -46,6 +46,8 @@ jobs:
           MFX_REAL_CACHE_ENABLED: "true"
           MFX_V2_BATCH_CACHE_ACCEPTED: "true"
           MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED: "true"
+          # Read-only: inspect new D1 epoch if the owner-approved writer seeded it.
+          MFX_D1_OWNER_REBASE_20261111: "true"
           MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
           MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
           MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
