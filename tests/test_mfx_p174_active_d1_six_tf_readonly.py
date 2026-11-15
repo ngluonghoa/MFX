@@ -7,6 +7,7 @@ consumer rejects caller fixture pins for the real fresh-D1 source path.
 from __future__ import annotations
 
 from copy import deepcopy
+from contextlib import nullcontext
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -64,7 +65,13 @@ def reviewed_inputs():
 
 
 def consume_offline(m5,h4,d1,pins,*,active=None,asof=RESEARCH_ASOF):
-    with patch.multiple(
+    fresh_pin = (patch.multiple(
+        "mfx_research.p174_active_d1_epoch_reader",
+        PINNED_ORIGINAL_D1_V1_HEAD_SHA256=archived_tip(d1),
+        PINNED_FRESH_D1_20261111_ROOT_SHA256=digest(
+            active.read("manifest",active.list_names("manifest")[0])),
+    ) if active is not None else nullcontext())
+    with fresh_pin,patch.multiple(
         "mfx_research.six_tf_sealed_archive_consumer",
         ROOT_UTC=pins.root_hour_utc,ROOT_MANIFEST_SHA256=pins.root_sha256,
         REVIEWED_CHECKPOINT_UTC=pins.checkpoint_hour_utc,
@@ -76,6 +83,20 @@ def consume_offline(m5,h4,d1,pins,*,active=None,asof=RESEARCH_ASOF):
 
 
 class FreshD1SixTFBridgeTests(TestCase):
+    def setUp(self):
+        # Hermetic in-memory fixtures never masquerade as the actual
+        # pinned real GitHub Actions source roots in production code.
+        synthetic=make_epoch()
+        root=synthetic.list_names("manifest")[0]
+        pin=patch.multiple(
+            "mfx_research.p174_active_d1_epoch_reader",
+            PINNED_ORIGINAL_D1_V1_HEAD_SHA256=original_sha(),
+            PINNED_FRESH_D1_20261111_ROOT_SHA256=digest(
+                synthetic.read("manifest",root)),
+        )
+        pin.start()
+        self.addCleanup(pin.stop)
+
     def test_01_fresh_epoch_private_batch_exact_new_label_prefix(self):
         store=make_epoch()
         r=read_active_d1_epoch(
@@ -209,3 +230,39 @@ class FreshD1SixTFBridgeTests(TestCase):
         self.assertIn("GetOnlyDriveSession",py)
         self.assertIn('"SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL"',
                       Path("mfx_research/six_tf_sealed_archive_consumer.py").read_text())
+
+    def test_16_new_epoch_root_trust_anchor_cannot_be_changed(self):
+        store=make_epoch()
+        with patch(
+            "mfx_research.p174_active_d1_epoch_reader."
+            "PINNED_FRESH_D1_20261111_ROOT_SHA256",
+            "a"*64),self.assertRaisesRegex(ValueError,
+                                           "ROOT_TRUST_ANCHOR_CHANGED"):
+            read_active_d1_epoch(
+                store,old_v1_manifest_sha256=original_sha(),
+                asof_utc=RESEARCH_ASOF)
+
+    def test_17_legacy_original_archive_head_pin_cannot_be_changed(self):
+        store=make_epoch()
+        with patch(
+            "mfx_research.p174_active_d1_epoch_reader."
+            "PINNED_ORIGINAL_D1_V1_HEAD_SHA256",
+            "b"*64),self.assertRaisesRegex(ValueError,
+                                           "ORIGINAL_TRUST_ANCHOR_CHANGED"):
+            read_active_d1_epoch(
+                store,old_v1_manifest_sha256=original_sha(),
+                asof_utc=RESEARCH_ASOF)
+
+    def test_18_sha_consistent_rewritten_new_root_still_denied(self):
+        # This is stronger than ordinary content-SHA detection: every
+        # file/parent/name SHA is internally valid, but the independent
+        # reviewed GitHub Actions root trust anchor differs.
+        alternate=make_epoch(clock=ROOT_OBSERVED+timedelta(minutes=1))
+        self.assertEqual(
+            audit_fresh_epoch(
+                alternate,origin_v1_sha=original_sha()).manifests,1)
+        with self.assertRaisesRegex(ValueError,
+                                    "ROOT_TRUST_ANCHOR_CHANGED"):
+            read_active_d1_epoch(
+                alternate,old_v1_manifest_sha256=original_sha(),
+                asof_utc=RESEARCH_ASOF)

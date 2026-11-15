@@ -2922,20 +2922,20 @@
     {
       "path": "mfx_research/p174_active_d1_epoch_reader.py",
       "change": "added",
-      "expected_current_sha": "88b0f8e0de1871ee4845945e8b4f4887187871c1",
-      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
+      "expected_current_sha": "859c98326dfcb2aafa8e42211578ae1a1b86ebb4",
+      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.175 pins original V1 D1 head and new P171 first root SHA from independent real GitHub Actions 43721121364/43721636644; rejects even self-consistent Drive root rewriting with hermetic tests; no release authority."
     },
     {
       "path": "tests/test_mfx_p174_active_d1_six_tf_readonly.py",
       "change": "added",
-      "expected_current_sha": "545efd8fbf1f7bcf58c259ea5afa953348ba3451",
-      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
+      "expected_current_sha": "48d94126d34864687c854fd172651a9628f51392",
+      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.175 pins original V1 D1 head and new P171 first root SHA from independent real GitHub Actions 43721121364/43721636644; rejects even self-consistent Drive root rewriting with hermetic tests; no release authority."
     },
     {
       "path": "docs/MFX_P174_ACTIVE_D1_SIX_TF_READONLY_BRIDGE.md",
       "change": "added",
-      "expected_current_sha": "eec8b639808810fca2a941cacd35fa8b39121708",
-      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA."
+      "expected_current_sha": "71dcef281b3ed6f0fe9b0da23d914d5e1e4fdf37",
+      "reason": "P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.175 pins original V1 D1 head and new P171 first root SHA from independent real GitHub Actions 43721121364/43721636644; rejects even self-consistent Drive root rewriting with hermetic tests; no release authority."
     }
   ]
 }
