@@ -18,6 +18,18 @@ from mfx_cache.td_m5_codec import digest
 
 MAX_RECENT_CONTEXT = 120
 
+# P0.175 independent trusted GitHub Actions witnesses, NOT fetched from Drive:
+# original V1 archive: 43721636644 and 43718134019; fresh owner epoch:
+# actual newly fetched writer 43721121364 and independent reader 43721636644.
+# The user explicitly retained original V1 history and rooted the replacement
+# EUR/USD Sydney D1 epoch at 2026-11-11. Root values MUST remain immutable.
+PINNED_ORIGINAL_D1_V1_HEAD_SHA256 = (
+    "346ef3e48bec1b33e489d86233b9a5fa200810ef48563367d059ee098978fcae"
+)
+PINNED_FRESH_D1_20261111_ROOT_SHA256 = (
+    "b0c1c2400c9b20a1c6a7e2b411723da15be31940ad101d40aa8423eadddf35e0"
+)
+
 
 class GetOnlyStore(Protocol):
     def list_names(self, bucket: str) -> tuple[str, ...]: ...
@@ -65,6 +77,8 @@ def read_active_d1_epoch(
     if (not callable(getattr(store,"list_names",None))
             or not callable(getattr(store,"read",None))):
         raise ValueError("P174_GET_ONLY_D1_SOURCE_REQUIRED")
+    if old_v1_manifest_sha256 != PINNED_ORIGINAL_D1_V1_HEAD_SHA256:
+        raise ValueError("P175_ARCHIVED_V1_D1_ORIGINAL_TRUST_ANCHOR_CHANGED")
     initial = _snapshot(store)
     state = audit_fresh_epoch(store,origin_v1_sha=old_v1_manifest_sha256)
     if (state.last_manifest is None or state.manifests < 1
@@ -73,6 +87,13 @@ def read_active_d1_epoch(
             or len(initial[0]) != state.chunks
             or len(initial[1]) != state.manifests):
         raise ValueError("P174_ACTIVE_D1_EPOCH_UNSEEDED_OR_UNCOMMITTED")
+
+    # A fully self-consistent replacement Drive history must not pass by
+    # recomputing every SHA and parent pointer. Pin the REAL first manifest
+    # that GitHub Actions already independently fetched and audited.
+    if digest(store.read("manifest",initial[1][0])) != (
+            PINNED_FRESH_D1_20261111_ROOT_SHA256):
+        raise ValueError("P175_FRESH_D1_ROOT_TRUST_ANCHOR_CHANGED")
 
     rows: list[NativeFXBar] = []
     previous_observation: datetime | None = None
