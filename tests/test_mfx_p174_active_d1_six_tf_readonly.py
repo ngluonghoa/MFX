@@ -60,7 +60,9 @@ def reviewed_inputs():
             "test_mfx_v1_six_tf_sealed_archive_consumer.ASOF",RESEARCH_ASOF):
         pins=_seed_m5(m5)
     _seed_native(h4,"4h",("2026-11-15 08:00:00",))
-    _seed_native(d1,"1day",("2026-11-11",))
+    # P0.176 synthetic original history: preserve 10 Nov in the active
+    # in-memory seam, never the superseded original 11 Nov candle.
+    _seed_native(d1,"1day",("2026-11-10","2026-11-11"))
     return m5,h4,d1,pins
 
 
