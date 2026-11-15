@@ -20,6 +20,8 @@ from mfx_research.sealed_private_m15_microbreak import (
     compute_private_sealed_m15_microbreak,
 )
 from test_mfx_v1_six_tf_sealed_archive_consumer import consume
+from test_mfx_v1_manual_signal_only_drive_output import mocked
+from tools.run_mfx_v1_manual_drive_six_tf import safe_summary
 from test_mfx_p174_active_d1_six_tf_readonly import (
     reviewed_inputs, consume_offline, make_epoch, archived_tip,
 )
@@ -233,3 +235,36 @@ class B2S2RealPrivateReadinessTests(TestCase):
         self.assertFalse(r.may_publish_buy_sell)
         self.assertEqual(x.public_action,"NO_SIGNAL")
         self.assertEqual(x.source_technical_mode,"LEGACY_D1_V1")
+
+    def test_25_manual_readonly_projection_reports_redacted_B2S2_gaps(self):
+        safe=safe_summary(mocked(),drive_gets=4)
+        result=safe["b2_s2_private_source_readiness"]
+        self.assertEqual(result["action"],"NO_SIGNAL")
+        self.assertEqual(
+            tuple(x["rule_id"] for x in result["b2_s2"]),("B2","S2"))
+        self.assertTrue(all(
+            x["data_and_policy_requirements_unverified"]>=4
+            for x in result["b2_s2"]))
+        self.assertFalse(result["approved_numeric_rules"])
+        self.assertEqual(result["provider_requests"],0)
+
+    def test_26_replacement_of_private_gate_causes_manual_fail_closed(self):
+        r=mocked()
+        bad=replace(r.private_b2s2_source_readiness,
+                    public_action="BUY")
+        with self.assertRaisesRegex(ValueError,
+                                    "REDACTED_GATE_DRIFT"):
+            safe_summary(
+                replace(r,private_b2s2_source_readiness=bad),
+                drive_gets=2)
+
+    def test_27_public_manual_report_hides_price_derived_conditions(self):
+        text=json.dumps(safe_summary(mocked(),drive_gets=1)["b2_s2_private_source_readiness"],
+                        sort_keys=True)
+        for forbidden in (
+            "experimental_cross","candidate_mid_price",
+            "h4_confirmed_high_pivots","m15_prior_right_closed_level_available",
+            "M15_CLOSED_MICROBREAK_NOT_OBSERVED",
+            "H4_TWO_CONFIRMED_HIGHS_AND_LOWS_MISSING",
+            "1.100","provider_raw_ohlc"):
+            self.assertNotIn(forbidden,text)
