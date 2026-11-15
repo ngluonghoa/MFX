@@ -31,12 +31,12 @@ class FreshD1ReadOnlyContext:
     legacy_v1_manifest_sha256: str
     epoch_manifest_pairs_full_sha: int
     last_native_open_label: str
+    batch: NativeFXBatch = field(repr=False, compare=False)
     active_source_epoch: str = "P171_D1_FRESH_20261111"
     provider_price_requests: int = 0
     drive_writes: int = 0
     broker_orders: int = 0
     may_publish_buy_sell: bool = False
-    batch: NativeFXBatch = field(repr=False, compare=False, default=None)  # type: ignore[assignment]
 
 
 def _snapshot(store: GetOnlyStore) -> tuple[tuple[str, ...], tuple[str, ...]]:
