@@ -17,6 +17,7 @@ from typing import Any
 
 from mfx_cache.native_fx_htf import parse_native_forex
 from mfx_cache.td_m5_codec import digest
+from mfx_cache.p180_d1_overlap_diagnosis import diagnose_p171_overlap_source
 from mfx_cache.native_d1_fresh_epoch import (
     PrivateD1FreshEpochStore, audit_fresh_epoch,
     plan_fresh_epoch_fetch, plan_fresh_epoch_seal, commit_fresh_epoch,
@@ -263,9 +264,23 @@ def main() -> None:
         if interval=="1day" and owner_rebase_d1:
             if fresh_d1_state is None or fresh_d1_origin is None:
                 raise ValueError("P171_MISSING_REBASE_SOURCE_AUDIT")
-            plan_fresh_epoch_seal(
-                batch,state=fresh_d1_state,
-                origin_v1_sha=fresh_d1_origin,now_utc=now)
+            try:
+                plan_fresh_epoch_seal(
+                    batch,state=fresh_d1_state,
+                    origin_v1_sha=fresh_d1_origin,now_utc=now)
+            except ValueError as error:
+                # P0.180: classify the already fetched P171 source overlap.
+                # The original quarantine stays FAIL-CLOSED and no writes.
+                if str(error) == "P171_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE":
+                    try:
+                        diagnosed = diagnose_p171_overlap_source(
+                            batch, state=fresh_d1_state)
+                    except (KeyError, TypeError, ValueError):
+                        print("MFX_P180_DIAGNOSTIC_UNAVAILABLE_FAIL_CLOSED")
+                    else:
+                        print("MFX_P180_D1_OVERLAP_SHA_DIAGNOSED_FAIL_CLOSED")
+                        print(json.dumps(diagnosed, sort_keys=True))
+                raise
             new_epoch_d1_batch = batch
             continue
         try:
