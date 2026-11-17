@@ -175,7 +175,7 @@ def compile_paired_f2_owner_proposals(data: Any) -> PairedF2OwnerReviewReceipt:
 def read_paired_f2_owner_template(
     path: Path = TEMPLATE,
 ) -> PairedF2OwnerReviewReceipt:
-    if type(path) is not Path:
+    if not isinstance(path, Path):
         raise TypeError("P184_TYPED_LOCAL_TEMPLATE_PATH_REQUIRED")
     raw=path.read_bytes()
     if not raw or len(raw)>65536:

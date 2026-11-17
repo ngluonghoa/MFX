@@ -3042,7 +3042,7 @@
     {
       "path": "mfx_research/p184_paired_f2_owner_review.py",
       "change": "added",
-      "expected_current_sha": "b01503db1bd0477932bf70d4c1c67475134cd61f",
+      "expected_current_sha": "d4a2294d47c8010f3c79f94cbb85f18dc9af20ac",
       "reason": "P0.184 owner deadline 2026-11-22 B2/S2 18 exact directional review pairs to existing pinned P035 36-row public-safe intake; unapproved source 0/36, no real feed, license, D1, broker, or original 102 Forex source changes."
     },
     {
