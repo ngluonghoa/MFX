@@ -3090,7 +3090,7 @@
     {
       "path": "tests/test_mfx_p186_p171_revision_observation_lineage.py",
       "change": "added",
-      "expected_current_sha": "9cb52264ed50eed1151477f5465e18649e148597",
+      "expected_current_sha": "b3786212a985dec0c44d00b3cf582359c22186ec",
       "reason": "P0.186 #180: no-I/O PRIVATE in-memory P171 D1 runner-observed SHA version lineage, 14 hermetic integrity/UTC-asof/privacy tests and explicit NO_SIGNAL source rights bounds; 512→515 allowed MFX-only blobs. Frozen 102 Forex original Git blobs and 11 SOURCE_LOCKED Docs untouched; no OAuth, provider, cache, cron or broker operations."
     },
     {
