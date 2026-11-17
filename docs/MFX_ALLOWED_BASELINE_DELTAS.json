@@ -1992,8 +1992,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "d9d27b81b59a23ecd742abfd48b6c3d0926a43b0",
-      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. Native incremental existing scheduled writer catches known original P059 quarantine only to emit redacted in-memory overlap SHA metadata count/labels; re-raises untouched fail-closed error, no added I/O or writes. MFX P0.59 follow-up forensically compares prior full SHA-audited native index raw candles already read in original audit against already fetched provider batch, logs only category counts and rethrows original P059 quarantine; no new API calls or cache writes. Legacy native writer mocks and pre-existing P059-64 QA preserve original audit contract; only exact production PrivateNativeDriveStore receives observed in-memory SHA witness. Synthetic paths retain original P059 count log. P0.168 strictly scoped H4 independent append on exact full-SHA confirmed known D1 HOLD; D1 NO writes and job stays nonzero. P0.169 quarantined D1 raw observation isolated stage; no canonical/BUY-SELL change. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit.\nP0.180 read-only owner-authorized fresh-D1 source overlap SHA differential: distinguish missing vs changed SHA using already-fetched typed provider response and SHA-audited state, emit redacted fail-closed log without extra provider/Drive calls, no source rebase/cache writes/H4 bypass, no signal or broker; protected CI and source 102 frozen blobs remain mandatory."
+      "expected_current_sha": "413acac7750faa046aead09c7d6a93e9648fcc78",
+      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
@@ -3020,6 +3020,24 @@
       "change": "added",
       "expected_current_sha": "50efc94ac6cc12fb3672d30a6f5e0b3a2d516807",
       "reason": "P0.182 owner-approved F2 B2/S2 exact directional mirror DESIGN only: pure synthetic one-evaluator phase/involution, 20 hermetic cases and docs, preserve original 102 immutable Forex source blobs and 11 SOURCE_LOCKED Docs, 36/36 owner numeric values pending, no real signals/cache/vendor/Drive/broker/permissions/schedule."
+    },
+    {
+      "path": "mfx_cache/p183_p171_changed_sha_h4_isolation.py",
+      "change": "added",
+      "expected_current_sha": "5c8d79a1fd45645d6870a14ebc674379e12ce59c",
+      "reason": "P0.183 bounded isolated H4 source-custody recovery, 11 hermetic tests, no D1 promotion/rebase, no new vendor or broker requests, preserve original 102 frozen Forex source files."
+    },
+    {
+      "path": "tests/test_mfx_p183_p171_h4_isolation.py",
+      "change": "added",
+      "expected_current_sha": "ef0b974f82077d36c4064e73936afd8f1cf23e7c",
+      "reason": "P0.183 bounded isolated H4 source-custody recovery, 11 hermetic tests, no D1 promotion/rebase, no new vendor or broker requests, preserve original 102 frozen Forex source files."
+    },
+    {
+      "path": "docs/MFX_P183_FRESH_D1_H4_ISOLATION.md",
+      "change": "added",
+      "expected_current_sha": "427ef6280bba8733de88cabd5d6274624ecdc016",
+      "reason": "P0.183 bounded isolated H4 source-custody recovery, 11 hermetic tests, no D1 promotion/rebase, no new vendor or broker requests, preserve original 102 frozen Forex source files."
     }
   ]
 }
