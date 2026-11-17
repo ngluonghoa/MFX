@@ -3078,7 +3078,7 @@
     {
       "path": "docs/MFX_P185_P171_D1_VERSION_REVIEW_NO_IO.md",
       "change": "added",
-      "expected_current_sha": "af3114aa5295a28ffbfc14ef74aadf093ab6bace",
+      "expected_current_sha": "c08e841885173caea8fa20010b7b2831fb0ed96b",
       "reason": "P0.185 source-blocker #180: purely in-memory private P171 one-changed-SHA D1 owner-review receipt, aggregate-only redacted output, 14 hermetic cases, no provider/Drive writes, no source promotion, no live signals, preserve 102 frozen Forex blobs/11 Docs and hourly schedules."
     }
   ]
