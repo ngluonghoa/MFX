@@ -18,6 +18,9 @@ from typing import Any
 from mfx_cache.native_fx_htf import parse_native_forex
 from mfx_cache.td_m5_codec import digest
 from mfx_cache.p180_d1_overlap_diagnosis import diagnose_p171_overlap_source
+from mfx_cache.p183_p171_changed_sha_h4_isolation import (
+    VERSION as P183_VERSION, eligible_for_h4_only,
+)
 from mfx_cache.native_d1_fresh_epoch import (
     PrivateD1FreshEpochStore, audit_fresh_epoch,
     plan_fresh_epoch_fetch, plan_fresh_epoch_seal, commit_fresh_epoch,
@@ -249,6 +252,7 @@ def main() -> None:
     quarantined_d1: dict[str, Any] | None = None
     quarantined_d1_source: tuple[Any,Any,Any] | None = None
     new_epoch_d1_batch: Any = None
+    p183_p171_hold: dict[str, Any] | None = None
     for idx, (interval,store,archive,plan) in enumerate(due):
         if idx:
             current,maximum = _usage(key)
@@ -280,6 +284,14 @@ def main() -> None:
                     else:
                         print("MFX_P180_D1_OVERLAP_SHA_DIAGNOSED_FAIL_CLOSED")
                         print(json.dumps(diagnosed, sort_keys=True))
+                        # Only H4 may append on an already SHA-audited,
+                        # single-changed-SHA P171 D1 source. No D1 admission.
+                        if (eligible_for_h4_only(diagnosed, fresh_d1_state)
+                                and len(prepared)==1
+                                and prepared[0][0]=="4h"
+                                and new_epoch_d1_batch is None):
+                            p183_p171_hold=diagnosed
+                            continue
                 raise
             new_epoch_d1_batch = batch
             continue
@@ -364,6 +376,51 @@ def main() -> None:
             store,symbol=SYMBOL,interval=interval)
         if state != archive:
             raise ValueError("P059_NATIVE_ARCHIVE_CHANGED_DURING_FETCH")
+
+    if p183_p171_hold is not None:
+        # Original H4 + original D1 full archival SHA re-audited above.
+        # The independently stored P171 fresh D1 epoch needs its own
+        # additional full SHA readback before ANY unrelated H4 write.
+        if (not owner_rebase_d1 or fresh_d1_store is None
+                or fresh_d1_state is None or fresh_d1_origin is None
+                or new_epoch_d1_batch is not None
+                or len(prepared)!=1 or prepared[0][0]!="4h"
+                or not eligible_for_h4_only(p183_p171_hold,fresh_d1_state)):
+            raise ValueError("P183_UNAUTHORIZED_SOURCE_OR_SCOPE")
+        if audit_fresh_epoch(
+                fresh_d1_store,origin_v1_sha=fresh_d1_origin
+        )!=fresh_d1_state:
+            raise ValueError("P183_FRESH_D1_PARENT_CHANGED_BEFORE_H4")
+        _,h4_batch,h4_store,h4_archive=prepared[0]
+        h4_plan=plan_native_sealed(
+            h4_batch,previous=h4_archive.last_manifest)
+        if h4_plan is None or h4_plan.newly_closed_bars<1:
+            raise ValueError("P183_H4_WITHOUT_NEW_VALIDATED_CANDLE")
+        verify_native_sealed(
+            h4_plan,previous=h4_archive.last_manifest)
+        # Only original content-addressed H4 chunk+manifest writer, with
+        # its own pre-write archive audit and independent SHA readback.
+        receipt=asdict(commit_native_batch(h4_store,h4_batch))
+        summary=summarize_incremental_receipts([receipt])
+        if receipt["interval"]!="4h" or receipt["newly_closed_native_bars"]<1:
+            raise ValueError("P183_INVALID_H4_COMMIT_RECEIPT")
+        print("MFX_P183_H4_ONLY_P171_D1_CHANGED_SHA_STILL_HELD_RED")
+        print(json.dumps({
+            **summary,"schema":P183_VERSION,
+            "h4_newly_closed_bars":receipt["newly_closed_native_bars"],
+            "h4_drive_objects_created_max":receipt["drive_objects_created_max"],
+            "d1_conflict_classification":
+                p183_p171_hold["conflict_classification"],
+            "p171_d1_old_writes":0,"p171_d1_fresh_writes":0,
+            "p171_d1_hold_persists":True,
+            "h4_does_not_approve_d1":True,
+            "source_numeric_signals_approved":False,
+            "may_publish_buy_sell":False,
+            "broker_orders":0,
+            "automatic_native_schedule_activated":scheduled,
+        },sort_keys=True))
+        # Deliberate failed workflow: corrected D1 remains held.
+        raise ValueError("P171_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE")
 
     if quarantined_d1 is not None:
         # The fresh D1 response was ALREADY fetched and independently
