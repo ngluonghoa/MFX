@@ -201,8 +201,8 @@ class P186P171PrivateObservationLineageTests(TestCase):
         self.assertEqual(len(third),3)
         self.assertEqual(third[0]["refetched_bar_sha256"],
                          third[2]["refetched_bar_sha256"])
-        self.assertNotEqual(third[1]["entry_sha256"],
-                            third[2]["previous_lineage_entry_sha256"])
+        self.assertEqual(third[1]["entry_sha256"],
+                         third[2]["previous_lineage_entry_sha256"])
 
     def test_12_capacity_is_explicit_no_silent_discard(self):
         chain = start()
