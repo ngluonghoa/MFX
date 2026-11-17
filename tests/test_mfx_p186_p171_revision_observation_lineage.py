@@ -91,7 +91,7 @@ class P186P171PrivateObservationLineageTests(TestCase):
 
     def test_05_wrong_manifest_or_label_is_never_joined(self):
         first = start()
-        with self.assertRaisesRegex(ValueError, "MANIFEST_SHA"):
+        with self.assertRaisesRegex(ValueError, "PRIVATE_CHAIN_INTEGRITY"):
             append_private_p171_observation(
                 first, candidate=second_candidate(),
                 expected_p171_manifest_sha256="f"*64,
