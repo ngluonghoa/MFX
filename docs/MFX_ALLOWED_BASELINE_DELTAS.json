@@ -3002,6 +3002,24 @@
       "change": "added",
       "expected_current_sha": "0433834ab49dd86dc775fb423f26cf011a749a5e",
       "reason": "P0.180 read-only owner-authorized fresh-D1 source overlap SHA differential: distinguish missing vs changed SHA using already-fetched typed provider response and SHA-audited state, emit redacted fail-closed log without extra provider/Drive calls, no source rebase/cache writes/H4 bypass, no signal or broker; protected CI and source 102 frozen blobs remain mandatory."
+    },
+    {
+      "path": "mfx_research/p182_f2_directional_mirror.py",
+      "change": "added",
+      "expected_current_sha": "e1ffe1660791004dc40eb563cbebdf8f1363a07b",
+      "reason": "P0.182 owner-approved F2 B2/S2 exact directional mirror DESIGN only: pure synthetic one-evaluator phase/involution, 20 hermetic cases and docs, preserve original 102 immutable Forex source blobs and 11 SOURCE_LOCKED Docs, 36/36 owner numeric values pending, no real signals/cache/vendor/Drive/broker/permissions/schedule."
+    },
+    {
+      "path": "tests/test_mfx_p182_f2_directional_mirror.py",
+      "change": "added",
+      "expected_current_sha": "0a8a0a96e558c08061e7a9e3676bd840fd4edf2a",
+      "reason": "P0.182 owner-approved F2 B2/S2 exact directional mirror DESIGN only: pure synthetic one-evaluator phase/involution, 20 hermetic cases and docs, preserve original 102 immutable Forex source blobs and 11 SOURCE_LOCKED Docs, 36/36 owner numeric values pending, no real signals/cache/vendor/Drive/broker/permissions/schedule."
+    },
+    {
+      "path": "docs/MFX_P182_F2_B2_S2_MIRROR_CONTRACT.md",
+      "change": "added",
+      "expected_current_sha": "50efc94ac6cc12fb3672d30a6f5e0b3a2d516807",
+      "reason": "P0.182 owner-approved F2 B2/S2 exact directional mirror DESIGN only: pure synthetic one-evaluator phase/involution, 20 hermetic cases and docs, preserve original 102 immutable Forex source blobs and 11 SOURCE_LOCKED Docs, 36/36 owner numeric values pending, no real signals/cache/vendor/Drive/broker/permissions/schedule."
     }
   ]
 }
