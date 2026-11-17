@@ -3116,6 +3116,24 @@
       "change": "added",
       "expected_current_sha": "f24902dfb01f6ab6b6743643586e3429978f2a22",
       "reason": "P0.187 Nov22 signal-first B2/S2: strictly read-only joined sealed six-TF + exact source P184/P035 18 paired/36 side proposal gate, public NO_SIGNAL and 17 hermetic negative/source tests. Zero source numeric owner approvals; no original Forex blob/11 Docs change; no new vendor, Drive, OAuth, cron, alerts or broker."
+    },
+    {
+      "path": "mfx_research/p188_b2s2_numeric_owner_review_candidates.py",
+      "change": "added",
+      "expected_current_sha": "cdc8dbbd19be3be8bb5425f2631e254f9e34904b",
+      "reason": "P0.188 Nov22 B2S2 source-owner sprint: 11 MFX-only versioned experimental numeric paired review proposals vs 7 real external gaps, 17 hermetic tests. No original Forex 1:1 owner approval; 36/36 original source decisions still pending, no real quote/Drive writes, signals, OAuth/cron/broker changes."
+    },
+    {
+      "path": "tests/test_mfx_p188_b2s2_numeric_owner_review_candidates.py",
+      "change": "added",
+      "expected_current_sha": "5cef7f433b6715c2b28ee03846bc967f11dbf3af",
+      "reason": "P0.188 Nov22 B2S2 source-owner sprint: 11 MFX-only versioned experimental numeric paired review proposals vs 7 real external gaps, 17 hermetic tests. No original Forex 1:1 owner approval; 36/36 original source decisions still pending, no real quote/Drive writes, signals, OAuth/cron/broker changes."
+    },
+    {
+      "path": "docs/MFX_P188_11_B2S2_CANDIDATE_OWNER_NUMERIC_REVIEW.md",
+      "change": "added",
+      "expected_current_sha": "4c59810d128c76aa07f2e3f3eb138e2ad0ac5495",
+      "reason": "P0.188 Nov22 B2S2 source-owner sprint: 11 MFX-only versioned experimental numeric paired review proposals vs 7 real external gaps, 17 hermetic tests. No original Forex 1:1 owner approval; 36/36 original source decisions still pending, no real quote/Drive writes, signals, OAuth/cron/broker changes."
     }
   ]
 }
