@@ -14,16 +14,26 @@ from mfx_cache.p185_p171_d1_revision_review import (
     VERSION, build_p171_revision_review, public_p171_revision_review,
     validate_p171_revision_review,
 )
-from test_mfx_p180_d1_overlap_diagnosis import audited, changed_refetch
+from test_mfx_p180_d1_overlap_diagnosis import audited
 from test_mfx_p171_d1_fresh_epoch import fresh
 
 OBSERVED = datetime(2026, 11, 16, 12, 30, tzinfo=timezone.utc)
 
 
+def one_one_changed_refetch():
+    # Preserve the exact owner-selected P171 Nov11 source SHA, and revise
+    # ONLY Nov12; earlier P180 fixture intentionally reverts Nov11 too.
+    source = fresh()
+    return replace(source, closed_bars=tuple(
+        replace(b, high="1.9000") if b.native_open_label == "2026-11-12"
+        else b for b in source.closed_bars
+    ))
+
+
 def candidate():
     _, state = audited()
     return build_p171_revision_review(
-        state=state, refetched=changed_refetch(),
+        state=state, refetched=one_changed_refetch(),
         runner_observed_utc=OBSERVED,
     )
 
@@ -46,7 +56,7 @@ class P185D1RevisionOwnerReviewTests(TestCase):
         before = deepcopy(store.files)
         writes = store.puts
         _ = build_p171_revision_review(
-            state=state, refetched=changed_refetch(),
+            state=state, refetched=one_changed_refetch(),
             runner_observed_utc=OBSERVED,
         )
         self.assertEqual(store.files, before)
@@ -78,8 +88,8 @@ class P185D1RevisionOwnerReviewTests(TestCase):
 
     def test_05_missing_overlap_is_not_a_sha_revision_candidate(self):
         _, state = audited()
-        wrong = replace(changed_refetch(), closed_bars=tuple(
-            b for b in changed_refetch().closed_bars
+        wrong = replace(one_changed_refetch(), closed_bars=tuple(
+            b for b in one_changed_refetch().closed_bars
             if b.native_open_label != "2026-11-11"
         ))
         with self.assertRaisesRegex(ValueError, "ONE_REVISED_AND_ZERO_MISSING"):
@@ -90,7 +100,7 @@ class P185D1RevisionOwnerReviewTests(TestCase):
 
     def test_06_multiple_changed_sha_are_not_silently_combined(self):
         _, state = audited()
-        sample = changed_refetch()
+        sample = one_changed_refetch()
         changed = replace(sample, closed_bars=tuple(
             replace(b, high="1.9000") if b.native_open_label == "2026-11-13"
             else b for b in sample.closed_bars
@@ -115,7 +125,7 @@ class P185D1RevisionOwnerReviewTests(TestCase):
             with self.subTest(state=repr(broken)[:50]):
                 with self.assertRaises(ValueError):
                     build_p171_revision_review(
-                        state=broken, refetched=changed_refetch(),
+                        state=broken, refetched=one_changed_refetch(),
                         runner_observed_utc=OBSERVED,
                     )
 
@@ -130,15 +140,15 @@ class P185D1RevisionOwnerReviewTests(TestCase):
             with self.subTest(instant=time):
                 with self.assertRaises(ValueError):
                     build_p171_revision_review(
-                        state=state, refetched=changed_refetch(),
+                        state=state, refetched=one_changed_refetch(),
                         runner_observed_utc=time,
                     )
 
     def test_09_scope_source_spoof_rejected(self):
         _, state = audited()
         for bad in (
-            replace(changed_refetch(), source="FABRICATED"),
-            replace(changed_refetch(), broker_orders=1),
+            replace(one_changed_refetch(), source="FABRICATED"),
+            replace(one_changed_refetch(), broker_orders=1),
         ):
             with self.assertRaises(ValueError):
                 build_p171_revision_review(
