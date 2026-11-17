@@ -187,3 +187,24 @@ class P185D1RevisionOwnerReviewTests(TestCase):
         ):
             self.assertIs(public[key], False)
         self.assertEqual(public["broker_orders"], 0)
+
+    def test_13_extra_private_field_in_redacted_diagnostic_rejected(self):
+        bad = deepcopy(candidate())
+        bad["redacted_diagnostic"]["raw_ohlc"] = {"close": "1.2345"}
+        # Even if an attacker recalculates a content digest, exact schema denies it.
+        from mfx_cache.td_m5_codec import digest
+        bad["proposal_content_sha256"] = digest({
+            k: v for k, v in bad.items() if k != "proposal_content_sha256"
+        })
+        with self.assertRaisesRegex(ValueError, "DIAGNOSTIC_NOT_FAIL_CLOSED"):
+            public_p171_revision_review(bad)
+
+    def test_14_invalid_session_date_cannot_be_digest_laundered(self):
+        bad = deepcopy(candidate())
+        bad["revised_source_sha_pair"]["label"] = "2026-99-99"
+        from mfx_cache.td_m5_codec import digest
+        bad["proposal_content_sha256"] = digest({
+            k: v for k, v in bad.items() if k != "proposal_content_sha256"
+        })
+        with self.assertRaisesRegex(ValueError, "PRIVATE_REVISED_SHA_PAIR"):
+            validate_p171_revision_review(bad)
