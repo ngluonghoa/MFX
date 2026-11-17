@@ -3038,6 +3038,30 @@
       "change": "added",
       "expected_current_sha": "427ef6280bba8733de88cabd5d6274624ecdc016",
       "reason": "P0.183 bounded isolated H4 source-custody recovery, 11 hermetic tests, no D1 promotion/rebase, no new vendor or broker requests, preserve original 102 frozen Forex source files."
+    },
+    {
+      "path": "mfx_research/p184_paired_f2_owner_review.py",
+      "change": "added",
+      "expected_current_sha": "b01503db1bd0477932bf70d4c1c67475134cd61f",
+      "reason": "P0.184 owner deadline 2026-11-22 B2/S2 18 exact directional review pairs to existing pinned P035 36-row public-safe intake; unapproved source 0/36, no real feed, license, D1, broker, or original 102 Forex source changes."
+    },
+    {
+      "path": "tests/test_mfx_p184_paired_f2_owner_review.py",
+      "change": "added",
+      "expected_current_sha": "313089d230b84dca5c9fddfea653fae113251de5",
+      "reason": "P0.184 owner deadline 2026-11-22 B2/S2 18 exact directional review pairs to existing pinned P035 36-row public-safe intake; unapproved source 0/36, no real feed, license, D1, broker, or original 102 Forex source changes."
+    },
+    {
+      "path": "docs/MFX_P184_18_PAIRED_F2_OWNER_PROPOSAL_TEMPLATE.json",
+      "change": "added",
+      "expected_current_sha": "f95521eb91f283ca7c52d8afc4256e10f912ae0b",
+      "reason": "P0.184 owner deadline 2026-11-22 B2/S2 18 exact directional review pairs to existing pinned P035 36-row public-safe intake; unapproved source 0/36, no real feed, license, D1, broker, or original 102 Forex source changes."
+    },
+    {
+      "path": "docs/MFX_P184_18_PAIRED_F2_OWNER_REVIEW.md",
+      "change": "added",
+      "expected_current_sha": "938516f3180a18160342f29a62c58c7bdec48f88",
+      "reason": "P0.184 owner deadline 2026-11-22 B2/S2 18 exact directional review pairs to existing pinned P035 36-row public-safe intake; unapproved source 0/36, no real feed, license, D1, broker, or original 102 Forex source changes."
     }
   ]
 }
