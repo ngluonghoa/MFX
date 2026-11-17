@@ -8,7 +8,7 @@ It NEVER revises a candle, writes Drive, calls vendor, or permits BUY/SELL.
 """
 from __future__ import annotations
 
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Any
 
 from mfx_cache.native_d1_fresh_epoch import FreshEpochState, SCHEMA as P171_SCHEMA
@@ -27,6 +27,17 @@ _FIELDS = frozenset({
     "owner_canonical_revision_approved", "historical_asof_rewrite_allowed",
     "may_write_d1", "may_publish_buy_sell", "broker_orders",
     "proposal_content_sha256",
+})
+_DIAGNOSTIC_FIELDS = frozenset({
+    "schema", "status", "conflict_classification",
+    "previous_indexed_labels", "refetched_closed_native_bars",
+    "overlap_labels_missing_count", "overlap_sha_changed_count",
+    "overlap_sha_unchanged_count", "source_vintage",
+    "source_vendor_correction_cause_proven",
+    "source_publisher_first_known_verified", "original_numeric_rules_approved",
+    "may_publish_buy_sell", "source_promotion_authorized",
+    "source_quarantine_bypassed", "provider_price_requests_added",
+    "drive_reads_added", "drive_writes", "broker_orders",
 })
 _PAIR_FIELDS = frozenset(("label", "stored_sha256", "refetched_sha256"))
 
@@ -145,29 +156,47 @@ def validate_p171_revision_review(candidate: Any) -> dict[str, Any]:
     if parsed.isoformat() != observed:
         raise ValueError("P185_EXACT_OBSERVED_CLOCK")
     pair = candidate["revised_source_sha_pair"]
-    if (type(pair) is not dict or frozenset(pair) != _PAIR_FIELDS
-            or type(pair["label"]) is not str
-            or len(pair["label"]) != 10
-            or pair["label"][:4] != "2026"   # P171 epoch is 2026-11-11+
-            or pair["label"] < "2026-11-11"
+    if type(pair) is not dict or frozenset(pair) != _PAIR_FIELDS:
+        raise ValueError("P185_PRIVATE_REVISED_SHA_PAIR_REQUIRED")
+    label = pair["label"]
+    if type(label) is not str:
+        raise ValueError("P185_PRIVATE_REVISED_SHA_PAIR_REQUIRED")
+    try:
+        parsed_day = date.fromisoformat(label)
+    except ValueError as exc:
+        raise ValueError("P185_PRIVATE_REVISED_SHA_PAIR_REQUIRED") from exc
+    if (parsed_day.isoformat() != label or label < "2026-11-11"
             or not _sha(pair["stored_sha256"])
             or not _sha(pair["refetched_sha256"])
             or pair["stored_sha256"] == pair["refetched_sha256"]):
         raise ValueError("P185_PRIVATE_REVISED_SHA_PAIR_REQUIRED")
     diag = candidate["redacted_diagnostic"]
     if (type(diag) is not dict
-            or diag.get("schema") != P180_VERSION
-            or diag.get("conflict_classification") != "CHANGED_OVERLAP_SHA"
-            or type(diag.get("overlap_sha_changed_count")) is not int
-            or diag["overlap_sha_changed_count"] != 1
-            or type(diag.get("overlap_labels_missing_count")) is not int
-            or diag["overlap_labels_missing_count"] != 0
-            or any(diag.get(k) is not False for k in (
+            or frozenset(diag) != _DIAGNOSTIC_FIELDS
+            or diag["schema"] != P180_VERSION
+            or diag["status"] != "P171_D1_OVERLAP_SOURCE_QUARANTINED_NO_COMMIT"
+            or diag["source_vintage"] != "ACTIVE_P171_OWNER_FRESH_EPOCH_ONLY"
+            or diag["conflict_classification"] != "CHANGED_OVERLAP_SHA"
+            or any(type(diag[k]) is not int or diag[k] != expected
+                   for k, expected in (
+                       ("overlap_sha_changed_count", 1),
+                       ("overlap_labels_missing_count", 0),
+                       ("provider_price_requests_added", 0),
+                       ("drive_reads_added", 0), ("drive_writes", 0),
+                       ("broker_orders", 0)))
+            or any(diag[k] is not False for k in (
                 "source_vendor_correction_cause_proven",
                 "source_publisher_first_known_verified",
+                "original_numeric_rules_approved",
                 "source_promotion_authorized",
                 "source_quarantine_bypassed",
-                "may_publish_buy_sell"))):
+                "may_publish_buy_sell"))
+            or any(type(diag[k]) is not int for k in (
+                "previous_indexed_labels", "refetched_closed_native_bars",
+                "overlap_sha_unchanged_count"))
+            or diag["previous_indexed_labels"] < 1
+            or diag["refetched_closed_native_bars"] < diag["previous_indexed_labels"]
+            or diag["overlap_sha_unchanged_count"] != diag["previous_indexed_labels"] - 1):
         raise ValueError("P185_REDACTED_DIAGNOSTIC_NOT_FAIL_CLOSED")
     if (not _sha(candidate["proposal_content_sha256"])
             or candidate["proposal_content_sha256"] != digest({
