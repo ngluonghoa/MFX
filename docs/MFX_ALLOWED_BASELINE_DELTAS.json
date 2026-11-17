@@ -3098,6 +3098,24 @@
       "change": "added",
       "expected_current_sha": "3481b1e6b81bdd1b43a241cc7372bdb17b6c2091",
       "reason": "P0.186 #180: no-I/O PRIVATE in-memory P171 D1 runner-observed SHA version lineage, 14 hermetic integrity/UTC-asof/privacy tests and explicit NO_SIGNAL source rights bounds; 512→515 allowed MFX-only blobs. Frozen 102 Forex original Git blobs and 11 SOURCE_LOCKED Docs untouched; no OAuth, provider, cache, cron or broker operations."
+    },
+    {
+      "path": "mfx_research/p187_b2s2_six_tf_signal_only_gate.py",
+      "change": "added",
+      "expected_current_sha": "a69d14d6d0c0dfb9a418b29645286b5940e6ca3e",
+      "reason": "P0.187 Nov22 signal-first B2/S2: strictly read-only joined sealed six-TF + exact source P184/P035 18 paired/36 side proposal gate, public NO_SIGNAL and 17 hermetic negative/source tests. Zero source numeric owner approvals; no original Forex blob/11 Docs change; no new vendor, Drive, OAuth, cron, alerts or broker."
+    },
+    {
+      "path": "tests/test_mfx_p187_b2s2_six_tf_signal_only_gate.py",
+      "change": "added",
+      "expected_current_sha": "31ae1eb84382db2d38e1db658b11768b3bb8ecf4",
+      "reason": "P0.187 Nov22 signal-first B2/S2: strictly read-only joined sealed six-TF + exact source P184/P035 18 paired/36 side proposal gate, public NO_SIGNAL and 17 hermetic negative/source tests. Zero source numeric owner approvals; no original Forex blob/11 Docs change; no new vendor, Drive, OAuth, cron, alerts or broker."
+    },
+    {
+      "path": "docs/MFX_P187_B2S2_READONLY_SIX_TF_SIGNAL_VERTICAL_SLICE.md",
+      "change": "added",
+      "expected_current_sha": "f24902dfb01f6ab6b6743643586e3429978f2a22",
+      "reason": "P0.187 Nov22 signal-first B2/S2: strictly read-only joined sealed six-TF + exact source P184/P035 18 paired/36 side proposal gate, public NO_SIGNAL and 17 hermetic negative/source tests. Zero source numeric owner approvals; no original Forex blob/11 Docs change; no new vendor, Drive, OAuth, cron, alerts or broker."
     }
   ]
 }
