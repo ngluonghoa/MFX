@@ -20,7 +20,7 @@ from test_mfx_p171_d1_fresh_epoch import fresh
 OBSERVED = datetime(2026, 11, 16, 12, 30, tzinfo=timezone.utc)
 
 
-def one_one_changed_refetch():
+def one_changed_refetch():
     # Preserve the exact owner-selected P171 Nov11 source SHA, and revise
     # ONLY Nov12; earlier P180 fixture intentionally reverts Nov11 too.
     source = fresh()
