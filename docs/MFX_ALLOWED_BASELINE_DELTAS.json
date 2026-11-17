@@ -3062,6 +3062,24 @@
       "change": "added",
       "expected_current_sha": "938516f3180a18160342f29a62c58c7bdec48f88",
       "reason": "P0.184 owner deadline 2026-11-22 B2/S2 18 exact directional review pairs to existing pinned P035 36-row public-safe intake; unapproved source 0/36, no real feed, license, D1, broker, or original 102 Forex source changes."
+    },
+    {
+      "path": "mfx_cache/p185_p171_d1_revision_review.py",
+      "change": "added",
+      "expected_current_sha": "db63d289de270bdf49c14f546475bf83ce97d5f9",
+      "reason": "P0.185 source-blocker #180: purely in-memory private P171 one-changed-SHA D1 owner-review receipt, aggregate-only redacted output, 14 hermetic cases, no provider/Drive writes, no source promotion, no live signals, preserve 102 frozen Forex blobs/11 Docs and hourly schedules."
+    },
+    {
+      "path": "tests/test_mfx_p185_p171_d1_revision_review.py",
+      "change": "added",
+      "expected_current_sha": "6a36488d2ada4dadb9adf4e2db544a9e5240a2ea",
+      "reason": "P0.185 source-blocker #180: purely in-memory private P171 one-changed-SHA D1 owner-review receipt, aggregate-only redacted output, 14 hermetic cases, no provider/Drive writes, no source promotion, no live signals, preserve 102 frozen Forex blobs/11 Docs and hourly schedules."
+    },
+    {
+      "path": "docs/MFX_P185_P171_D1_VERSION_REVIEW_NO_IO.md",
+      "change": "added",
+      "expected_current_sha": "af3114aa5295a28ffbfc14ef74aadf093ab6bace",
+      "reason": "P0.185 source-blocker #180: purely in-memory private P171 one-changed-SHA D1 owner-review receipt, aggregate-only redacted output, 14 hermetic cases, no provider/Drive writes, no source promotion, no live signals, preserve 102 frozen Forex blobs/11 Docs and hourly schedules."
     }
   ]
 }
