@@ -3080,6 +3080,24 @@
       "change": "added",
       "expected_current_sha": "c08e841885173caea8fa20010b7b2831fb0ed96b",
       "reason": "P0.185 source-blocker #180: purely in-memory private P171 one-changed-SHA D1 owner-review receipt, aggregate-only redacted output, 14 hermetic cases, no provider/Drive writes, no source promotion, no live signals, preserve 102 frozen Forex blobs/11 Docs and hourly schedules."
+    },
+    {
+      "path": "mfx_cache/p186_p171_revision_observation_lineage.py",
+      "change": "added",
+      "expected_current_sha": "d6662e9764d9fee37806daa3a3453e65cbabafb1",
+      "reason": "P0.186 #180: no-I/O PRIVATE in-memory P171 D1 runner-observed SHA version lineage, 14 hermetic integrity/UTC-asof/privacy tests and explicit NO_SIGNAL source rights bounds; 512→515 allowed MFX-only blobs. Frozen 102 Forex original Git blobs and 11 SOURCE_LOCKED Docs untouched; no OAuth, provider, cache, cron or broker operations."
+    },
+    {
+      "path": "tests/test_mfx_p186_p171_revision_observation_lineage.py",
+      "change": "added",
+      "expected_current_sha": "b3786212a985dec0c44d00b3cf582359c22186ec",
+      "reason": "P0.186 #180: no-I/O PRIVATE in-memory P171 D1 runner-observed SHA version lineage, 14 hermetic integrity/UTC-asof/privacy tests and explicit NO_SIGNAL source rights bounds; 512→515 allowed MFX-only blobs. Frozen 102 Forex original Git blobs and 11 SOURCE_LOCKED Docs untouched; no OAuth, provider, cache, cron or broker operations."
+    },
+    {
+      "path": "docs/MFX_P186_P171_VERSIONED_OBSERVATION_LINEAGE.md",
+      "change": "added",
+      "expected_current_sha": "3481b1e6b81bdd1b43a241cc7372bdb17b6c2091",
+      "reason": "P0.186 #180: no-I/O PRIVATE in-memory P171 D1 runner-observed SHA version lineage, 14 hermetic integrity/UTC-asof/privacy tests and explicit NO_SIGNAL source rights bounds; 512→515 allowed MFX-only blobs. Frozen 102 Forex original Git blobs and 11 SOURCE_LOCKED Docs untouched; no OAuth, provider, cache, cron or broker operations."
     }
   ]
 }
