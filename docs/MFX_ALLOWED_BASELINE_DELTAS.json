@@ -1992,8 +1992,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "413acac7750faa046aead09c7d6a93e9648fcc78",
-      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes."
+      "expected_current_sha": "3aaf6a0645525b65c6d8acbc7ab3114439468721",
+      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes. P0.190: real hourly P171 D1 SHA conflict path invokes existing P185 private owner-review candidate using same already-fetched source and full-SHA-audited state, logs only separately checked redacted public projection, fail-closed static error marker, no D1 write, no extra Drive/vendor I/O, H4 eligibility unchanged."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
@@ -3030,8 +3030,8 @@
     {
       "path": "tests/test_mfx_p183_p171_h4_isolation.py",
       "change": "added",
-      "expected_current_sha": "ef0b974f82077d36c4064e73936afd8f1cf23e7c",
-      "reason": "P0.183 bounded isolated H4 source-custody recovery, 11 hermetic tests, no D1 promotion/rebase, no new vendor or broker requests, preserve original 102 frozen Forex source files."
+      "expected_current_sha": "7f66f3bf0459cf9e98fccbbd67f39423a5c1d434",
+      "reason": "P0.183 bounded isolated H4 source-custody recovery, 11 hermetic tests, no D1 promotion/rebase, no new vendor or broker requests, preserve original 102 frozen Forex source files. P0.190: four actual cloud-writer production-path synthetic fixture tests for P185 safe redaction, no SHA/date/OHLC leak, no review on nonmatching conflict, bounded review failure and unchanged P183 H4-only append/D1 quarantine."
     },
     {
       "path": "docs/MFX_P183_FRESH_D1_H4_ISOLATION.md",
@@ -3152,6 +3152,12 @@
       "change": "added",
       "expected_current_sha": "b44a29b2ab4e2a60b4ea68797d851761bf2d601d",
       "reason": "P0.189: genuine P161 SYNTHETIC-only closed OHLC B2/S2 inverse-mirror numeric QA; 22 adversarial price/pivot/ATR/zone/causal tests; no real vendor/Drive, no original numeric approval (0/36), no source/cron/secrets/broker changes."
+    },
+    {
+      "path": "docs/MFX_P190_P185_LIVE_D1_REDACTED_REVIEW.md",
+      "change": "added",
+      "expected_current_sha": "78e0389d36e070e6fd2f5dcb7901c17c50b284b5",
+      "reason": "P0.190 real P171 D1 writer wiring of already strict private P185 revision review and public redaction. Safe aggregate owner-review status only. No original source, source numeric approval, account-specific rights, publisher first-known, OOS or broker signal permission."
     }
   ]
 }

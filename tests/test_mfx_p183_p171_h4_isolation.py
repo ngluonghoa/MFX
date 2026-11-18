@@ -201,3 +201,55 @@ class P183H4IsolatedOnP171ChangedD1(TestCase):
         for secret in ("1.1000","1.1041","fake-key",
                        "2026-11-11","2026-11-12"):
             self.assertNotIn(secret,log)
+
+    def test_12_actual_writer_emits_only_p185_redacted_review(self):
+        err,calls,log,_=self.run_fake()
+        self.assertEqual(err,"P171_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE")
+        lines=log.splitlines()
+        mark="MFX_P190_P185_REDACTED_OWNER_REVIEW_ONLY"
+        self.assertEqual(lines.count(mark),1)
+        public=json.loads(lines[lines.index(mark)+1])
+        self.assertEqual(public["source_revision_rows_under_review"],1)
+        self.assertEqual(public["overlap_sha_changed_count"],1)
+        self.assertEqual(public["overlap_labels_missing_count"],0)
+        self.assertFalse(public["publisher_first_known_verified"])
+        self.assertFalse(public["owner_canonical_revision_approved"])
+        self.assertFalse(public["source_account_rights_verified"])
+        self.assertFalse(public["may_write_d1"])
+        self.assertFalse(public["may_publish_buy_sell"])
+        self.assertEqual(public["drive_writes"],0)
+        self.assertEqual(public["provider_price_requests_added"],0)
+        self.assertEqual([x[1] for x in calls if x[0]=="commit"],["4h"])
+        for hidden in ("2026-11-12","stored_sha256","refetched_sha256",
+                       "original_epoch_manifest_tip_sha256","1.1041",
+                       "fake-key"):
+            self.assertNotIn(hidden,log)
+
+    def test_13_non_p185_classifications_never_create_review(self):
+        for opts in ({"missing":True},{"two_changes":True}):
+            with self.subTest(opts=opts):
+                err,calls,log,_=self.run_fake(**opts)
+                self.assertEqual(
+                    err,"P171_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE")
+                self.assertNotIn(
+                    "MFX_P190_P185_REDACTED_OWNER_REVIEW_ONLY",log)
+                self.assertNotIn(("commit","4h"),calls)
+
+    def test_14_failed_private_p185_review_keeps_original_h4_and_d1(self):
+        with patch(MODULE+".build_p171_revision_review",
+                   side_effect=ValueError("private-test-only")):
+            err,calls,log,_=self.run_fake()
+        self.assertEqual(err,"P171_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE")
+        self.assertIn("MFX_P190_P185_REVIEW_UNAVAILABLE_D1_HELD",log)
+        self.assertNotIn("private-test-only",log)
+        self.assertNotIn("MFX_P190_P185_REDACTED_OWNER_REVIEW_ONLY",log)
+        self.assertEqual([x[1] for x in calls if x[0]=="commit"],["4h"])
+
+    def test_15_public_projection_failure_is_fail_closed(self):
+        with patch(MODULE+".public_p171_revision_review",
+                   side_effect=ValueError("private-projection")):
+            err,calls,log,_=self.run_fake()
+        self.assertEqual(err,"P171_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE")
+        self.assertIn("MFX_P190_P185_REVIEW_UNAVAILABLE_D1_HELD",log)
+        self.assertNotIn("private-projection",log)
+        self.assertEqual([x[1] for x in calls if x[0]=="commit"],["4h"])
