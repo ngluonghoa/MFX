@@ -69,10 +69,13 @@ class P193OwnerNov18ReadOnlyTests(TestCase):
         self.assertNotIn("1.10",repr(r))
 
     def test_03_missing_root_fails_closed_no_legacy_fallback(self):
-        with self.assertRaisesRegex(ValueError,"ROOT_UNSEALED"):
-            read_p192_owner_d1_epoch(
-                MemoryEpochStore(),old_v1_manifest_sha256=original_sha(),
-                asof_utc=ASOF)
+        with patch(
+            "mfx_research.p193_owner_nov18_active_d1_reader."
+            "PINNED_ORIGINAL_D1_V1_HEAD_SHA256",original_sha()):
+            with self.assertRaisesRegex(ValueError,"ROOT_UNSEALED"):
+                read_p192_owner_d1_epoch(
+                    MemoryEpochStore(),old_v1_manifest_sha256=original_sha(),
+                    asof_utc=ASOF)
 
     def test_04_wrong_independent_p192_root_denied(self):
         with patch(
