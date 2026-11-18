@@ -18,6 +18,9 @@ from typing import Any
 from mfx_cache.native_fx_htf import parse_native_forex
 from mfx_cache.td_m5_codec import digest
 from mfx_cache.p180_d1_overlap_diagnosis import diagnose_p171_overlap_source
+from mfx_cache.p185_p171_d1_revision_review import (
+    build_p171_revision_review, public_p171_revision_review,
+)
 from mfx_cache.p183_p171_changed_sha_h4_isolation import (
     VERSION as P183_VERSION, eligible_for_h4_only,
 )
@@ -284,6 +287,28 @@ def main() -> None:
                     else:
                         print("MFX_P180_D1_OVERLAP_SHA_DIAGNOSED_FAIL_CLOSED")
                         print(json.dumps(diagnosed, sort_keys=True))
+                        # P0.190: transform the SAME already-fetched D1
+                        # version into the existing P185 private owner-review
+                        # candidate, emit ONLY its separately validated
+                        # redacted projection. The candidate's private label,
+                        # price fingerprints and archive SHA NEVER reach logs.
+                        # A P185 review failure changes neither D1's HOLD nor
+                        # the already independent P183 H4-only decision.
+                        if (diagnosed["conflict_classification"]
+                                == "CHANGED_OVERLAP_SHA"
+                                and diagnosed["overlap_sha_changed_count"] == 1
+                                and diagnosed["overlap_labels_missing_count"] == 0):
+                            try:
+                                p185_private = build_p171_revision_review(
+                                    state=fresh_d1_state, refetched=batch,
+                                    runner_observed_utc=now)
+                                p185_public = public_p171_revision_review(
+                                    p185_private)
+                            except (KeyError, TypeError, ValueError):
+                                print("MFX_P190_P185_REVIEW_UNAVAILABLE_D1_HELD")
+                            else:
+                                print("MFX_P190_P185_REDACTED_OWNER_REVIEW_ONLY")
+                                print(json.dumps(p185_public, sort_keys=True))
                         # Only H4 may append on an already SHA-audited,
                         # single-changed-SHA P171 D1 source. No D1 admission.
                         if (eligible_for_h4_only(diagnosed, fresh_d1_state)
