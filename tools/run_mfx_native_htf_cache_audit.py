@@ -18,6 +18,10 @@ from mfx_cache.native_d1_quarantine_readonly import audit_d1_quarantine_readonly
 from mfx_cache.native_d1_fresh_epoch import (
     PrivateD1FreshEpochStore, audit_fresh_epoch,
 )
+from mfx_cache.native_d1_epoch_20261118 import (
+    PrivateD1FreshEpochStore as PrivateD1Nov18Store,
+    audit_fresh_epoch as audit_nov18_epoch,
+)
 from mfx_cache.native_htf_incremental import SOURCE_PUBLICATION_BUFFER
 from tools.mfx_native_htf_drive_seal import (
     MAX_NATIVE_FILES, NativeArchiveState, PrivateNativeDriveStore,
@@ -215,6 +219,51 @@ def main() -> None:
                 "drive_writes":0,"vendor_calls":0,"broker_orders":0,
             }
             print("MFX_P171_D1_FRESH_EPOCH_READONLY_FULL_SHA_AUDIT_PASS")
+    # P0.192: the owner-selected 18-Nov D1 epoch is fully disjoint from
+    # the preserved P171 archive. Its absence before the first eligible
+    # CLOSED Sydney 18-Nov bar is an expected NOT-YET-BOOTSTRAPPED state,
+    # not a reason to claim a valid latest D1 source or use pre-cutoff rows.
+    prior_p171_archive = d1_fresh_epoch
+    if os.environ.get("MFX_D1_OWNER_CUTOFF_20261118") == "true":
+        nov18 = audit_nov18_epoch(
+            PrivateD1Nov18Store(session),
+            origin_v1_sha=receipts[1]["last_manifest_sha256"],
+        )
+        if nov18.orphan_chunk is not None:
+            raise ValueError("P192_D1_20261118_UNCOMMITTED_ORPHAN")
+        d1_fresh_epoch = {
+            "status":"P192_WAITING_FOR_FIRST_CLOSED_20261118_D1",
+            "owner_cutoff_local_date":"2026-11-18",
+            "no_pre_cutoff_rows_in_owner_epoch":True,
+            "older_p171_archive_selected_for_new_d1":False,
+            "publisher_first_known_verified":False,
+            "source_licence_verified":False,
+            "new_source_epoch_selected":False,
+            "drive_writes":0,"vendor_calls":0,"broker_orders":0,
+            "may_publish_buy_sell":False,
+        }
+        if nov18.last_manifest is not None:
+            actual_day = date.fromisoformat(
+                nov18.last_manifest["last_native_open_label"])
+            eligible_day = (now-SOURCE_PUBLICATION_BUFFER).astimezone(
+                ZoneInfo("Australia/Sydney")).date()-timedelta(days=1)
+            if actual_day > eligible_day:
+                raise ValueError("P192_FUTURE_OR_UNCLOSED_OWNER_D1_EPOCH")
+            d1_fresh_epoch = {
+                **d1_fresh_epoch,
+                "status":"P192_D1_20261118_FULL_SHA_READONLY_ACCEPTED",
+                "new_source_epoch_selected":True,
+                "active_d1_calendar_lag_not_market_sessions":
+                    (eligible_day-actual_day).days,
+                "latest_expected_closed_local_label":eligible_day.isoformat(),
+                "manifest_count":nov18.manifests,
+                "chunk_count":nov18.chunks,
+                "total_closed_bars":nov18.last_manifest["total_closed_bars"],
+                "last_native_open_label":
+                    nov18.last_manifest["last_native_open_label"],
+                "last_manifest_sha256":digest(nov18.last_manifest),
+            }
+            print("MFX_P192_D1_OWNER_20261118_READONLY_FULL_SHA_PASS")
     print("MFX_P170_D1_QUARANTINE_INDEPENDENT_READONLY_SHA_PASS")
     print("MFX_A04_P58_NATIVE_H4_D1_READONLY_FULL_SHA_AUDIT_PASS")
     print(json.dumps({
@@ -231,6 +280,10 @@ def main() -> None:
         "results": receipts,
         "d1_quarantine_readonly": quarantine,
         "d1_fresh_epoch_readonly": d1_fresh_epoch,
+        "p171_prior_d1_epoch_archived_readonly":(
+            prior_p171_archive
+            if os.environ.get("MFX_D1_OWNER_CUTOFF_20261118") == "true"
+            else None),
         "provider_price_requests": 0,
         "drive_writes": 0,
         "read_only": True,

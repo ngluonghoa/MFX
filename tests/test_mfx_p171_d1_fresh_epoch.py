@@ -225,11 +225,17 @@ class OwnerFreshD1EpochTests(TestCase):
         with self.assertRaisesRegex(ValueError,"EPOCH_BUCKET_DENIED"):
             s._bucket("quote")
 
-    def test_21_legacy_env_unset_still_disabled(self):
+    def test_21_owner_cutoff_replaces_old_schedule_without_changing_cadence(self):
         y=Path(".github/workflows/mfx-native-htf-incremental-commit.yml").read_text()
-        self.assertIn('MFX_D1_OWNER_REBASE_20261111: "true"',y)
+        # P171 old epoch is preserved only as historical SHA archive;
+        # P192 is the explicitly selected NEW writer source since 18 Nov.
+        self.assertIn('MFX_D1_OWNER_CUTOFF_20261118: "true"',y)
+        self.assertNotIn('MFX_D1_OWNER_REBASE_20261111: "true"',y)
         self.assertIn('cron: "25 * * * *"',y)
         self.assertIn("mfx-twelvedata-private-cache",y)
+        read=Path(".github/workflows/mfx-native-htf-cache-audit.yml").read_text()
+        self.assertIn('MFX_D1_OWNER_REBASE_20261111: "true"',read)
+        self.assertIn('MFX_D1_OWNER_CUTOFF_20261118: "true"',read)
 
     def test_22_public_code_prohibits_source_rewrite(self):
         y=Path("tools/run_mfx_native_htf_incremental_commit.py").read_text()

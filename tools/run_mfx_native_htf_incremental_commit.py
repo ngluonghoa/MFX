@@ -28,6 +28,13 @@ from mfx_cache.native_d1_fresh_epoch import (
     PrivateD1FreshEpochStore, audit_fresh_epoch,
     plan_fresh_epoch_fetch, plan_fresh_epoch_seal, commit_fresh_epoch,
 )
+from mfx_cache.native_d1_epoch_20261118 import (
+    PrivateD1FreshEpochStore as PrivateD1Nov18Store,
+    audit_fresh_epoch as audit_nov18_epoch,
+    plan_fresh_epoch_fetch as plan_nov18_fetch,
+    plan_fresh_epoch_seal as plan_nov18_seal,
+    commit_fresh_epoch as commit_nov18_epoch,
+)
 from mfx_cache.native_htf_archive import plan_native_sealed, verify_native_sealed
 from mfx_cache.native_htf_revision_diagnostics import (
     QUARANTINE_CODES, summarize_native_revision_quarantine,
@@ -156,6 +163,17 @@ def main() -> None:
     # acceptance marker for an unattended hourly scheduled run.
     scheduled = os.environ.get("GITHUB_EVENT_NAME") == "schedule"
     owner_rebase_d1 = os.environ.get("MFX_D1_OWNER_REBASE_20261111") == "true"
+    owner_cutoff_nov18 = os.environ.get("MFX_D1_OWNER_CUTOFF_20261118") == "true"
+    if owner_rebase_d1 and owner_cutoff_nov18:
+        raise ValueError("P192_CONFLICTING_D1_EPOCH_SELECTION")
+    owner_epoch_d1 = owner_rebase_d1 or owner_cutoff_nov18
+    # P171 is a preserved immutable prior epoch. P192 uses a distinct Drive
+    # namespace and consumes no D1 rows before 18 Nov Sydney local.
+    epoch_store_type = PrivateD1Nov18Store if owner_cutoff_nov18 else PrivateD1FreshEpochStore
+    epoch_audit = audit_nov18_epoch if owner_cutoff_nov18 else audit_fresh_epoch
+    epoch_plan_fetch = plan_nov18_fetch if owner_cutoff_nov18 else plan_fresh_epoch_fetch
+    epoch_plan_seal = plan_nov18_seal if owner_cutoff_nov18 else plan_fresh_epoch_seal
+    epoch_commit = commit_nov18_epoch if owner_cutoff_nov18 else commit_fresh_epoch
     key, auth, cap = _settings()
     now = datetime.now(timezone.utc)
     session = _session(auth)
@@ -185,23 +203,24 @@ def main() -> None:
             # One orphan might be recoverable in the legacy writer, but
             # this *incremental* approval does not allow ambiguous resume.
             raise ValueError("P059_ORPHAN_REQUIRES_SEPARATE_RECOVERY")
-        if interval == "1day" and owner_rebase_d1:
+        if interval == "1day" and owner_epoch_d1:
             # Old SHA archive stays strictly read-only. Only the separate
             # owner-requested epoch may be fed from a NEW provider request.
             if archive.last_manifest is None:
                 raise ValueError("P171_ORIGINAL_D1_ARCHIVE_REQUIRED")
             fresh_d1_origin = digest(archive.last_manifest)
-            fresh_d1_store = PrivateD1FreshEpochStore(session)
-            fresh_d1_state = audit_fresh_epoch(
+            fresh_d1_store = epoch_store_type(session)
+            fresh_d1_state = epoch_audit(
                 fresh_d1_store, origin_v1_sha=fresh_d1_origin)
-            req = plan_fresh_epoch_fetch(state=fresh_d1_state, now_utc=now)
+            req = epoch_plan_fetch(state=fresh_d1_state, now_utc=now)
             active_last = (fresh_d1_state.last_manifest["last_native_open_label"]
                            if fresh_d1_state.last_manifest else None)
             expected = (now-timedelta(minutes=2,seconds=15)).astimezone(
                 ZoneInfo("Australia/Sydney")).date()-timedelta(days=1)
             plan = IncrementalFetchPlan(
                 symbol=SYMBOL,interval=interval,
-                status=("P171_D1_FRESH_EPOCH_REFETCH_REQUIRED" if req
+                status=(("P192_D1_20261118_FETCH_REQUIRED" if owner_cutoff_nov18
+                         else "P171_D1_FRESH_EPOCH_REFETCH_REQUIRED") if req
                         else "NO_NEW_CLOSED_SLOT_NO_VENDOR_CALL"),
                 request=req,last_native_open_label=active_last,
                 latest_expected_closed_label=expected.isoformat(),
@@ -268,17 +287,18 @@ def main() -> None:
         batch = parse_native_forex(
             envelope,symbol=SYMBOL,interval=interval,now_utc=now,
             requested_timezone="UTC" if interval=="4h" else None)
-        if interval=="1day" and owner_rebase_d1:
+        if interval=="1day" and owner_epoch_d1:
             if fresh_d1_state is None or fresh_d1_origin is None:
                 raise ValueError("P171_MISSING_REBASE_SOURCE_AUDIT")
             try:
-                plan_fresh_epoch_seal(
+                epoch_plan_seal(
                     batch,state=fresh_d1_state,
                     origin_v1_sha=fresh_d1_origin,now_utc=now)
             except ValueError as error:
                 # P0.180: classify the already fetched P171 source overlap.
                 # The original quarantine stays FAIL-CLOSED and no writes.
-                if str(error) == "P171_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE":
+                if (owner_rebase_d1 and
+                        str(error) == "P171_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE"):
                     try:
                         diagnosed = diagnose_p171_overlap_source(
                             batch, state=fresh_d1_state)
@@ -381,7 +401,7 @@ def main() -> None:
     # Second preflight protects against provider request delays. In the
     # isolated branch, audit BOTH native histories again before touching H4:
     # even an external D1 change must stop an unrelated H4 append.
-    if owner_rebase_d1:
+    if owner_epoch_d1:
         to_reaudit = [(interval,store,archive)
                       for interval,store,archive,_ in archives]
     elif quarantined_d1 is not None:
@@ -502,23 +522,31 @@ def main() -> None:
         # separate observations never authorize canonical D1 or signals.
         raise ValueError("P059_SOURCE_NATIVE_REVISION_QUARANTINE")
 
-    if owner_rebase_d1:
+    if owner_epoch_d1:
         if fresh_d1_store is None or fresh_d1_state is None or fresh_d1_origin is None:
             raise ValueError("P171_D1_REBASE_STATE_REQUIRED")
-        if audit_fresh_epoch(fresh_d1_store,
+        if epoch_audit(fresh_d1_store,
                             origin_v1_sha=fresh_d1_origin)!=fresh_d1_state:
             raise ValueError("P171_D1_EPOCH_CHANGED_DURING_FETCH")
         receipts = [asdict(commit_native_batch(store,batch))
                     for _,batch,store,_ in prepared]
-        d1_receipt = (commit_fresh_epoch(
+        d1_receipt = (epoch_commit(
             fresh_d1_store,batch=new_epoch_d1_batch,
             origin_v1_sha=fresh_d1_origin,now_utc=now)
             if new_epoch_d1_batch is not None else {
                 "status":"D1_EPOCH_NOT_DUE",
                 "new_bars":0,"drive_objects_created_max":0})
-        print("MFX_P171_D1_OWNER_FRESH_EPOCH_SHA_READBACK_PASS")
+        print("MFX_P192_D1_20261118_OWNER_CUTOFF_SHA_READBACK_PASS"
+              if owner_cutoff_nov18 else
+              "MFX_P171_D1_OWNER_FRESH_EPOCH_SHA_READBACK_PASS")
         print(json.dumps({
-            "status":"P171_D1_FRESH_EPOCH_SEPARATE_FROM_IMMUTABLE_V1",
+            "status":("P192_D1_20261118_EPOCH_SEPARATE_FROM_ALL_PREVIOUS_D1"
+                      if owner_cutoff_nov18 else
+                      "P171_D1_FRESH_EPOCH_SEPARATE_FROM_IMMUTABLE_V1"),
+            "owner_d1_cutoff_local_date":(
+                "2026-11-18" if owner_cutoff_nov18 else "2026-11-11"),
+            "pre_cutoff_d1_admitted_into_new_epoch":False,
+            "p171_epoch_preserved_unmodified":True,
             "d1":d1_receipt,
             "h4":receipts,
             "old_d1_manifest_sha_preserved":fresh_d1_origin,
