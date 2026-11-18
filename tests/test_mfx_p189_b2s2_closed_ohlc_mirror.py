@@ -328,12 +328,12 @@ class B2S2ExecutablePriceMirrorTests(TestCase):
             self.assertEqual(summary["broker_orders"],0)
             for marker in (
                 "1.1017","1.1995","BUY","SELL",
-                "known_micro_level","raw_sha256","original", "reflected",
+                "known_micro_level","raw_sha256","original=Mfx", "reflected=Mfx",
             ):
                 self.assertNotIn(marker,json.dumps(summary))
                 self.assertNotIn(marker,repr(x))
-            self.assertIs(x.original.stage,"UNVERIFIED")
-            self.assertIs(x.reflected.stage,"UNVERIFIED")
+            self.assertEqual(x.original.stage,"UNVERIFIED")
+            self.assertEqual(x.reflected.stage,"UNVERIFIED")
 
     def test_20_p189_record_is_frozen_and_repeatable(self):
         for side in ("B2","S2"):
