@@ -43,8 +43,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-cache-audit.yml",
       "change": "added",
-      "expected_current_sha": "2c249964b10cf054f4a2f9fc78ed020a687e95ac",
-      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit."
+      "expected_current_sha": "a890edc5582e4b7f1ef6fafc93ccd683a3dc6509",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls."
     },
     {
       "path": ".github/workflows/mfx-native-htf-drive-commit.yml",
@@ -55,8 +55,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-incremental-commit.yml",
       "change": "added",
-      "expected_current_sha": "64430d2029648d0d2c26e6fee32980628c3db0c2",
-      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.172 tightly one-shot main path-filtered push trigger solely to actually refetch owner D1 11 Nov via existing Cloud hourly writer and remove trigger after SHA acceptance; no new schedule, OAuth, quote budget or signals. P0.173 remove completed one-shot source fetch trigger, report new active D1 epoch separately from preserved legacy SHA archive, record actual GitHub writer/Drive SHA receipt and require independent reader acceptance."
+      "expected_current_sha": "df9fc65eef927817d5f13ba128d44b360df089da",
+      "reason": "A04/P0.64 owner-approved hourly native EUR/USD H4 UTC + D1 Australia/Sydney SOURCE cache writer. Reuse previously P0.59 LIVE H4-append accepted and P0.63 capacity-hardened four-way-gated script; add exact UTC cron 25 * * * * to same GitHub Actions workflow, retain workflow_dispatch, M5 :10 and SHA audits :35/:45 shared non-cancellable concurrency; zero vendor calls unless a newly eligible closed source-native candle is due, quota and SHA parent/overlap retained, no broker/HOT V3. Distinguish true GitHub schedule vs manual event in emitted receipt and markers; add 13 hermetic scenario tests, update historic manual-only test assumptions and operator runbooks. Native first scheduled run remains separate operational acceptance pending hosted event=schedule; original frozen Forex 102 source Git blobs and M5 source untouched. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.172 tightly one-shot main path-filtered push trigger solely to actually refetch owner D1 11 Nov via existing Cloud hourly writer and remove trigger after SHA acceptance; no new schedule, OAuth, quote budget or signals. P0.173 remove completed one-shot source fetch trigger, report new active D1 epoch separately from preserved legacy SHA archive, record actual GitHub writer/Drive SHA receipt and require independent reader acceptance. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls."
     },
     {
       "path": ".github/workflows/mfx-native-htf-incremental-preview.yml",
@@ -1980,8 +1980,8 @@
     {
       "path": "tools/run_mfx_native_htf_cache_audit.py",
       "change": "added",
-      "expected_current_sha": "adf1b7b194ba4a3f606d8889ae87951d735e3a9e",
-      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion. P0.170 independently reads the existing app-only D1 quarantine after full canonical H4/D1 SHA audit; no writes/vendor/signals. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.173 remove completed one-shot source fetch trigger, report new active D1 epoch separately from preserved legacy SHA archive, record actual GitHub writer/Drive SHA receipt and require independent reader acceptance."
+      "expected_current_sha": "57be7c1da939649e82fd4470bcff60d2031faced",
+      "reason": "A04/P0.73 additive owner-safe READ-ONLY native H4/D1 archive capacity receipts: remaining immutable Chunk+Manifest append pairs and 64/16/0 observational review tiers from existing 256-per-bucket bound. Preserves full SHA/parent/UTC+Sydney freshness, no vendor/Drive writes/cron/credentials/numeric signals/broker, no automatic archive expansion. P0.170 independently reads the existing app-only D1 quarantine after full canonical H4/D1 SHA audit; no writes/vendor/signals. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.173 remove completed one-shot source fetch trigger, report new active D1 epoch separately from preserved legacy SHA archive, record actual GitHub writer/Drive SHA receipt and require independent reader acceptance. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls."
     },
     {
       "path": "tools/run_mfx_native_htf_drive_commit.py",
@@ -1992,8 +1992,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "3aaf6a0645525b65c6d8acbc7ab3114439468721",
-      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes. P0.190: real hourly P171 D1 SHA conflict path invokes existing P185 private owner-review candidate using same already-fetched source and full-SHA-audited state, logs only separately checked redacted public projection, fail-closed static error marker, no D1 write, no extra Drive/vendor I/O, H4 eligibility unchanged."
+      "expected_current_sha": "841fe6dfecd19cadf32a8619d799fb877d45d03c",
+      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes. P0.190: real hourly P171 D1 SHA conflict path invokes existing P185 private owner-review candidate using same already-fetched source and full-SHA-audited state, logs only separately checked redacted public projection, fail-closed static error marker, no D1 write, no extra Drive/vendor I/O, H4 eligibility unchanged. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
@@ -3158,6 +3158,36 @@
       "change": "added",
       "expected_current_sha": "78e0389d36e070e6fd2f5dcb7901c17c50b284b5",
       "reason": "P0.190 real P171 D1 writer wiring of already strict private P185 revision review and public redaction. Safe aggregate owner-review status only. No original source, source numeric approval, account-specific rights, publisher first-known, OOS or broker signal permission."
+    },
+    {
+      "path": "mfx_cache/native_d1_epoch_20261118.py",
+      "change": "added",
+      "expected_current_sha": "b8b12e2af7dbab0849a1998377047c8839f72fb3",
+      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker."
+    },
+    {
+      "path": "tests/test_mfx_p192_d1_nov18_cutoff.py",
+      "change": "added",
+      "expected_current_sha": "6cd72cc5cb9c115ee05acb47cc60fa597c538028",
+      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker."
+    },
+    {
+      "path": "tests/test_mfx_p192_native_writer_nov18.py",
+      "change": "added",
+      "expected_current_sha": "7c9f583d4643a25fbbd5f24e83462a0b3265908b",
+      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker."
+    },
+    {
+      "path": "tests/test_mfx_p192_native_audit_nov18.py",
+      "change": "added",
+      "expected_current_sha": "6cc2cba13879fb43e22669d41988f7d3b2b2b223",
+      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker."
+    },
+    {
+      "path": "docs/MFX_P192_D1_20261118_OWNER_CUTOFF.md",
+      "change": "added",
+      "expected_current_sha": "f05abc0593ccdf60085ca8364b7dea98a92c7a77",
+      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker."
     }
   ]
 }
