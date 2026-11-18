@@ -3204,8 +3204,8 @@
     {
       "path": "tests/test_mfx_p193_six_tf_owner_nov18_no_splice.py",
       "change": "added",
-      "expected_current_sha": "8bc7d01d175310e833fa775d562fc201ac07147c",
-      "reason": "P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading."
+      "expected_current_sha": "33567c7679c5f6684f1b7a90f43e4241cdd0dd09",
+      "reason": "P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading. Test public redacted summary specifically, not private in-memory typed receipt repr."
     },
     {
       "path": "docs/MFX_P193_P192_D1_SIX_TF_SOURCE_ONLY.md",
