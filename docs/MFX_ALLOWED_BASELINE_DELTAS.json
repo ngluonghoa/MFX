@@ -3102,8 +3102,8 @@
     {
       "path": "mfx_research/p187_b2s2_six_tf_signal_only_gate.py",
       "change": "added",
-      "expected_current_sha": "a69d14d6d0c0dfb9a418b29645286b5940e6ca3e",
-      "reason": "P0.187 Nov22 signal-first B2/S2: strictly read-only joined sealed six-TF + exact source P184/P035 18 paired/36 side proposal gate, public NO_SIGNAL and 17 hermetic negative/source tests. Zero source numeric owner approvals; no original Forex blob/11 Docs change; no new vendor, Drive, OAuth, cron, alerts or broker."
+      "expected_current_sha": "1172b5da0437fc2d86e8b2a41344b7447b527dd0",
+      "reason": "P0.187 Nov22 signal-first B2/S2: strictly read-only joined sealed six-TF + exact source P184/P035 18 paired/36 side proposal gate, public NO_SIGNAL and 17 hermetic negative/source tests. Zero source numeric owner approvals; no original Forex blob/11 Docs change; no new vendor, Drive, OAuth, cron, alerts or broker. P0.195 source-only B2/S2 P187 real-epoch cutoff: require independently SHA-root-pinned owner P192 D1 from Sydney 18-Nov in the six-TF technical seam; no archived V1/P171 D1 price fallback/splice. Explicit redacted epoch audit, adversarial synthetic QA; real six-TF OAuth workflow remains manual only, 0/36 numeric approvals, licensing/OOS and no trade unchanged."
     },
     {
       "path": "tests/test_mfx_p187_b2s2_six_tf_signal_only_gate.py",
@@ -3218,6 +3218,18 @@
       "change": "added",
       "expected_current_sha": "75ea5f23c1055b8add6e5424899f15ba41b0c018",
       "reason": "P0.194 real GET-only Drive P193 source-root SHA/asof attestation inside already hourly native audit: compare P192 full SHA head and exact P193 reader output; no old D1 prices, no new cron/vendor/secret, no Drive mutations; no claim full six-TF run, B2/S2 owner rules or licensing."
+    },
+    {
+      "path": "tests/test_mfx_p195_b2s2_owner_nov18_source_cutover.py",
+      "change": "added",
+      "expected_current_sha": "64fd851ebb4fe9674dcbe072beb64de46f67ad9e",
+      "reason": "P0.195 source-only B2/S2 P187 real-epoch cutoff: require independently SHA-root-pinned owner P192 D1 from Sydney 18-Nov in the six-TF technical seam; no archived V1/P171 D1 price fallback/splice. Explicit redacted epoch audit, adversarial synthetic QA; real six-TF OAuth workflow remains manual only, 0/36 numeric approvals, licensing/OOS and no trade unchanged."
+    },
+    {
+      "path": "docs/MFX_P195_B2S2_REAL_P192_OWNER_D1_CUTOVER.md",
+      "change": "added",
+      "expected_current_sha": "9b50530fe9043dfb9625a0d1b38813f70d702484",
+      "reason": "P0.195 source-only B2/S2 P187 real-epoch cutoff: require independently SHA-root-pinned owner P192 D1 from Sydney 18-Nov in the six-TF technical seam; no archived V1/P171 D1 price fallback/splice. Explicit redacted epoch audit, adversarial synthetic QA; real six-TF OAuth workflow remains manual only, 0/36 numeric approvals, licensing/OOS and no trade unchanged."
     }
   ]
 }
