@@ -3204,8 +3204,8 @@
     {
       "path": "tests/test_mfx_p193_six_tf_owner_nov18_no_splice.py",
       "change": "added",
-      "expected_current_sha": "36ef58ca12f8030f25ad9d26765cdf25f5c0c413",
-      "reason": "P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading. Test public redacted summary specifically, not private in-memory typed receipt repr. Repair synthetic SHA pin and settled M5 as-of fixture only, no market source change."
+      "expected_current_sha": "6e619d9f335056dac48551cf76de461fbc192c96",
+      "reason": "P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading. Test public redacted summary specifically, not private in-memory typed receipt repr. Repair synthetic SHA pin and settled M5 as-of fixture only, no market source change. Six-frame synthetic P192 epoch bound to same fake immutable original V1 SHA anchor, never real source change."
     },
     {
       "path": "docs/MFX_P193_P192_D1_SIX_TF_SOURCE_ONLY.md",
