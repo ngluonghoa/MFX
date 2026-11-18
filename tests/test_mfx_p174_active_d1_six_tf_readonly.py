@@ -227,8 +227,11 @@ class FreshD1SixTFBridgeTests(TestCase):
 
     def test_15_no_vendor_trading_or_original_source_modification(self):
         py=Path("tools/run_mfx_v1_manual_drive_six_tf.py").read_text()
-        self.assertIn("active_d1_epoch_store=active_d1",py)
-        self.assertIn("PrivateD1FreshEpochStore(session)",py)
+        # P171 stays independently tested here as historical compatibility.
+        # The REAL manually invoked consumer now selects only P192 D1.
+        self.assertIn("owner_nov18_d1_epoch_store=active_d1",py)
+        self.assertIn("PrivateD1Nov18Store(session)",py)
+        self.assertNotIn("active_d1_epoch_store=active_d1",py)
         self.assertIn("GetOnlyDriveSession",py)
         self.assertIn('"SEALED_READONLY_CACHE_TECHNICAL_RESEARCH_ONLY_NO_SIGNAL"',
                       Path("mfx_research/six_tf_sealed_archive_consumer.py").read_text())
