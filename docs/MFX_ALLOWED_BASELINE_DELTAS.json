@@ -3198,14 +3198,14 @@
     {
       "path": "tests/test_mfx_p193_owner_nov18_source_readonly.py",
       "change": "added",
-      "expected_current_sha": "1c9ef938b432b121805c00a74b0e4bb80970363a",
-      "reason": "P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading."
+      "expected_current_sha": "1ff6267175d692033f872de23dad4334970965bd",
+      "reason": "P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading. Repair synthetic SHA pin and settled M5 as-of fixture only, no market source change."
     },
     {
       "path": "tests/test_mfx_p193_six_tf_owner_nov18_no_splice.py",
       "change": "added",
-      "expected_current_sha": "33567c7679c5f6684f1b7a90f43e4241cdd0dd09",
-      "reason": "P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading. Test public redacted summary specifically, not private in-memory typed receipt repr."
+      "expected_current_sha": "36ef58ca12f8030f25ad9d26765cdf25f5c0c413",
+      "reason": "P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading. Test public redacted summary specifically, not private in-memory typed receipt repr. Repair synthetic SHA pin and settled M5 as-of fixture only, no market source change."
     },
     {
       "path": "docs/MFX_P193_P192_D1_SIX_TF_SOURCE_ONLY.md",
