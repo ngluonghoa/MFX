@@ -162,3 +162,26 @@ class P192OwnerD1Nov18EpochTests(TestCase):
                 store,batch=source(include18=False,include19=True),
                 origin_v1_sha=original_sha(),now_utc=NEXT)
         self.assertEqual(store.puts,2)
+
+    def test_11_direct_storage_rejects_open_nov18_even_without_scheduler(self):
+        store,state=new_store()
+        for clock in (
+            BEFORE,
+            datetime(2026,11,18,13,2,14,tzinfo=timezone.utc),
+        ):
+            with self.subTest(clock=clock):
+                with self.assertRaisesRegex(
+                    ValueError,"P192_D1_UNCLOSED_OR_UNPUBLISHED_SOURCE"):
+                    plan_fresh_epoch_seal(
+                        source(),state=state,
+                        origin_v1_sha=original_sha(),now_utc=clock)
+        self.assertEqual(store.puts,0)
+
+    def test_12_direct_storage_rejects_future_nov19_even_after_18_closed(self):
+        store,state=new_store()
+        with self.assertRaisesRegex(
+            ValueError,"P192_D1_UNCLOSED_OR_UNPUBLISHED_SOURCE"):
+            commit_fresh_epoch(
+                store,batch=source(include19=True),
+                origin_v1_sha=original_sha(),now_utc=AFTER)
+        self.assertEqual(store.puts,0)
