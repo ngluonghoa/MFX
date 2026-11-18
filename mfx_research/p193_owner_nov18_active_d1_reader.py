@@ -10,6 +10,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Any, Protocol
+from zoneinfo import ZoneInfo
 
 from mfx_cache.native_d1_epoch_20261118 import (
     INCIDENT, _validate_chunk, audit_fresh_epoch,
@@ -108,7 +109,10 @@ def read_p192_owner_d1_epoch(
             chunk,manifest["chunk_name"],old_v1_manifest_sha256)
         rows.extend(bars)
     labels=tuple(bar.native_open_label for bar in rows)
+    eligible=(asof_utc-timedelta(minutes=2,seconds=15)).astimezone(
+        ZoneInfo("Australia/Sydney")).date()-timedelta(days=1)
     if (not rows or labels[0]!=INCIDENT
+            or any(label>eligible.isoformat() for label in labels)
             or labels != tuple(sorted(set(labels)))
             or any(label<INCIDENT for label in labels)
             or labels[-1]!=state.last_manifest["last_native_open_label"]
