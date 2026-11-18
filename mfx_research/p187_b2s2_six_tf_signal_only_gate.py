@@ -41,6 +41,7 @@ class B2S2SignalOnlyGate:
     version: str
     asof_utc: str
     source_technical_status: str
+    active_d1_source_epoch: str
     frames_present: tuple[str, ...]
     frames_missing_or_stale: tuple[str, ...]
     source_evidence_fingerprint_sha256: str
@@ -71,6 +72,7 @@ class B2S2SignalOnlyGate:
             "action": self.action,
             "stage": self.stage,
             "source_technical_status": self.source_technical_status,
+            "active_d1_source_epoch": self.active_d1_source_epoch,
             "source_frames_present": list(self.frames_present),
             "source_frames_missing_or_stale": list(self.frames_missing_or_stale),
             "source_evidence_fingerprint_sha256":
@@ -105,6 +107,17 @@ def compose_b2s2_signal_only_gate(
     if (type(sealed) is not SealedArchiveSixTFReceipt
             or type(owner_proposal) is not PairedF2OwnerReviewReceipt):
         raise TypeError("P187_EXACT_TYPED_SOURCE_AND_OWNER_PROPOSAL_REQUIRED")
+    # P0.195: this public F2 seam must not silently reassemble the retired
+    # 11-Nov source context when the owner chose 18-Nov D1 only. The original
+    # V1 manifest is custody evidence, NEVER signal D1 price history.
+    if sealed.active_d1_source_epoch == "P192_D1_FRESH_20261118":
+        if (sealed.original_preincident_d1_rows_verified != 0
+                or sealed.active_d1_composed_history_sha256 != ""
+                or sealed.new_epoch_d1_rows_in_context < 1
+                or not sealed.archived_v1_d1_manifest_tip_sha256
+                or sealed.d1_manifest_tip_sha256 ==
+                    sealed.archived_v1_d1_manifest_tip_sha256):
+            raise ValueError("P195_B2S2_OWNER_NOV18_D1_NO_SPLICE_REQUIRED")
     source: SignalOnlyResearchResponse = build_signal_only_research_response(sealed)
     if (source.action != "NO_SIGNAL" or source.stage != "UNVERIFIED"
             or source.may_publish_buy_sell or source.may_trade
@@ -148,6 +161,7 @@ def compose_b2s2_signal_only_gate(
     return B2S2SignalOnlyGate(
         version=VERSION,asof_utc=source.asof_utc,
         source_technical_status=source.technical_status,
+        active_d1_source_epoch=sealed.active_d1_source_epoch,
         frames_present=source.frames_present,
         frames_missing_or_stale=source.frames_missing_or_stale,
         source_evidence_fingerprint_sha256=source.evidence_fingerprint_sha256,
@@ -171,6 +185,7 @@ def from_sealed_stores_b2s2_signal_only(
     d1_store: ReadOnlyObjectStore,
     *, asof_utc: datetime, owner_proposal_packet: dict[str, Any],
     active_d1_epoch_store: ReadOnlyObjectStore | None = None,
+    owner_nov18_d1_epoch_store: ReadOnlyObjectStore | None = None,
     fixture_pins: SyntheticFixturePins | None = None,
 ) -> B2S2SignalOnlyGate:
     """End-to-end READ ONLY cache -> six TF -> B2/S2 owner-gated response.
@@ -184,9 +199,15 @@ def from_sealed_stores_b2s2_signal_only(
     # Validate the full P184 exact 18-pair source proposal schema FIRST:
     # malformed/forged owner packets fail before any storage reads.
     owner = compile_paired_f2_owner_proposals(owner_proposal_packet)
+    # The owner's 18-Nov cutoff is now required for non-fixture B2/S2
+    # research. A missing P192 store is a hard stop, never a fallback to
+    # archived P171 or original V1 D1 prices. Synthetic QA remains separate.
+    if fixture_pins is None and owner_nov18_d1_epoch_store is None:
+        raise ValueError("P195_B2S2_REAL_SOURCE_REQUIRES_P192_OWNER_D1")
     sealed = consume_sealed_archives_for_six_tf(
         m5_store,h4_store,d1_store,asof_utc=asof_utc,
         active_d1_epoch_store=active_d1_epoch_store,
+        owner_nov18_d1_epoch_store=owner_nov18_d1_epoch_store,
         fixture_pins=fixture_pins,
     )
     return compose_b2s2_signal_only_gate(sealed,owner_proposal=owner)
