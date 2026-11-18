@@ -3162,14 +3162,14 @@
     {
       "path": "mfx_cache/native_d1_epoch_20261118.py",
       "change": "added",
-      "expected_current_sha": "b8b12e2af7dbab0849a1998377047c8839f72fb3",
-      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker."
+      "expected_current_sha": "0133e7775070cc693d680e48245fb25508b3678a",
+      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker. Enforce source Sydney-local close plus 2m15s grace at both request planning and immutable storage boundary, rejecting forged open/future D1 NativeFXBatch; dedicated negative hermetic QA."
     },
     {
       "path": "tests/test_mfx_p192_d1_nov18_cutoff.py",
       "change": "added",
-      "expected_current_sha": "6cd72cc5cb9c115ee05acb47cc60fa597c538028",
-      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker."
+      "expected_current_sha": "0d877bdfa3ec0ada01614ca5922589abe3ec08b6",
+      "reason": "P0.192 approved prospective Sydney-local 18-Nov D1 sealed source-only epoch and negative hermetic QA, distinct private Drive prefix, read-only SHA auditor and owner scope evidence. Historical V1 and P171 archives immutable; source numerical B2/S2 0/36, licensed provider rights, true publisher first-known and OOS not granted; no broker. Enforce source Sydney-local close plus 2m15s grace at both request planning and immutable storage boundary, rejecting forged open/future D1 NativeFXBatch; dedicated negative hermetic QA."
     },
     {
       "path": "tests/test_mfx_p192_native_writer_nov18.py",
