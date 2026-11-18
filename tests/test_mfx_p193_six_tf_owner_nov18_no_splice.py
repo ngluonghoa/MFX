@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -19,13 +19,14 @@ from tools.run_mfx_v1_manual_drive_six_tf import (
     ALLOWED_PREFIXES, safe_summary,
 )
 from test_mfx_p193_owner_nov18_source_readonly import (
-    ASOF, seeded, root_sha,
+    ASOF as D1_ROOT_ASOF, seeded, root_sha,
 )
 from test_mfx_v1_six_tf_sealed_archive_consumer import (
     ReadOnlyStore, _seed_m5, _seed_native,
 )
 from mfx_cache.td_m5_codec import digest
 
+ASOF=D1_ROOT_ASOF+timedelta(minutes=3)
 SOURCE_HOUR=datetime(2026,11,18,12,0,tzinfo=timezone.utc)
 
 
