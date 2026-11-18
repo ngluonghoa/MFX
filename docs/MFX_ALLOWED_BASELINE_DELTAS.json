@@ -2910,8 +2910,8 @@
     {
       "path": "tests/test_mfx_p171_d1_fresh_epoch.py",
       "change": "added",
-      "expected_current_sha": "f3ebf2f171c21ede39a27c9dfe04b03cfe395f6f",
-      "reason": "P0.171 hermetic owner D1 refetch, changed source, immutable V1, SHA/parent, idempotency, crash and rights negative tests."
+      "expected_current_sha": "5931ddbbcc8d739dd185c33a184d06abb56e8196",
+      "reason": "P0.171 hermetic owner D1 refetch, changed source, immutable V1, SHA/parent, idempotency, crash and rights negative tests. P0.192 adapts old P171 scheduled-writer assertion to owner-selected 18-Nov P192 flag while requiring the old P171 archive remains audited read-only and the cadence/lock unchanged."
     },
     {
       "path": "docs/MFX_P171_D1_OWNER_REBASE_20261111.md",
