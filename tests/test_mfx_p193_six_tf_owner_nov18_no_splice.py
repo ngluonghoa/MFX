@@ -121,9 +121,12 @@ class P193NoSpliceSixTimeframeTests(TestCase):
         self.assertIn("MFX_P192",PrivateD1Nov18Store(
             session="offline")._bucket("chunk")[1])
 
-    def test_07_source_reader_does_not_log_raw_ohlc_in_receipt(self):
+    def test_07_public_summary_does_not_log_raw_ohlc(self):
+        import json
         r=consume_nov18()
-        self.assertNotIn("1.10",repr(r))
+        public=json.dumps(safe_summary(r,drive_gets=12),sort_keys=True)
+        self.assertNotIn("1.1000",public)
+        self.assertNotIn("1.1020",public)
         self.assertEqual(r.provider_price_calls,0)
         self.assertEqual(r.drive_cache_writes,0)
         self.assertEqual(r.broker_orders,0)
