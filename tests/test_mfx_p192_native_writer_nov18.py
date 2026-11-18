@@ -34,8 +34,9 @@ class P192RealWriterCutoffTests(TestCase):
             commit_fresh_epoch(
                 store,batch=source(),origin_v1_sha=original_sha(),
                 now_utc=AFTER)
-        last_h4=("2026-11-18 08:00:00"
-                 if clock==AFTER else "2026-11-18 00:00:00")
+        # Keep H4 exactly current in every UTC fixture (no H4 vendor call).
+        last_h4=(clock.strftime("%Y-%m-%d")+" 08:00:00"
+                 if clock.hour==14 else "2026-11-18 00:00:00")
         archives={
             "4h":state("4h",(last_h4,)),
             "1day":state("1day",D1_LABELS),
