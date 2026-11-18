@@ -3134,6 +3134,24 @@
       "change": "added",
       "expected_current_sha": "4c59810d128c76aa07f2e3f3eb138e2ad0ac5495",
       "reason": "P0.188 Nov22 B2S2 source-owner sprint: 11 MFX-only versioned experimental numeric paired review proposals vs 7 real external gaps, 17 hermetic tests. No original Forex 1:1 owner approval; 36/36 original source decisions still pending, no real quote/Drive writes, signals, OAuth/cron/broker changes."
+    },
+    {
+      "path": "mfx_research/p189_b2s2_executable_ohlc_mirror.py",
+      "change": "added",
+      "expected_current_sha": "f650a03bccc960dbba9600a360b31be71f00459e",
+      "reason": "P0.189: genuine P161 SYNTHETIC-only closed OHLC B2/S2 inverse-mirror numeric QA; 22 adversarial price/pivot/ATR/zone/causal tests; no real vendor/Drive, no original numeric approval (0/36), no source/cron/secrets/broker changes."
+    },
+    {
+      "path": "tests/test_mfx_p189_b2s2_closed_ohlc_mirror.py",
+      "change": "added",
+      "expected_current_sha": "774dc2d13d59e268f599fa56aa061b3f50696142",
+      "reason": "P0.189: genuine P161 SYNTHETIC-only closed OHLC B2/S2 inverse-mirror numeric QA; 22 adversarial price/pivot/ATR/zone/causal tests; no real vendor/Drive, no original numeric approval (0/36), no source/cron/secrets/broker changes."
+    },
+    {
+      "path": "docs/MFX_P189_B2S2_EXECUTABLE_OHLC_MIRROR_QA.md",
+      "change": "added",
+      "expected_current_sha": "b44a29b2ab4e2a60b4ea68797d851761bf2d601d",
+      "reason": "P0.189: genuine P161 SYNTHETIC-only closed OHLC B2/S2 inverse-mirror numeric QA; 22 adversarial price/pivot/ATR/zone/causal tests; no real vendor/Drive, no original numeric approval (0/36), no source/cron/secrets/broker changes."
     }
   ]
 }
