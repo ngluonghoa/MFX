@@ -15,6 +15,9 @@ from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
 from mfx_research.p174_active_d1_epoch_reader import (
     compose_verified_preincident_d1_history, read_active_d1_epoch,
 )
+from mfx_research.p193_owner_nov18_active_d1_reader import (
+    read_p192_owner_d1_epoch,
+)
 from mfx_cache.td_m5_codec import digest
 from mfx_cache.v2_batch_commit import _name, _validate_manifest
 from mfx_research.six_tf_readonly_context import (
@@ -286,6 +289,7 @@ def consume_sealed_archives_for_six_tf(
     d1_store: ReadOnlyObjectStore, *, asof_utc: datetime,
     fixture_pins: SyntheticFixturePins | None = None,
     active_d1_epoch_store: ReadOnlyObjectStore | None = None,
+    owner_nov18_d1_epoch_store: ReadOnlyObjectStore | None = None,
 ) -> SealedArchiveSixTFReceipt:
     """Read verified content-addressed archive context; NEVER authorize trades.
 
@@ -302,11 +306,16 @@ def consume_sealed_archives_for_six_tf(
 
     if active_d1_epoch_store is not None and fixture_pins is not None:
         raise ValueError("P174_REAL_D1_EPOCH_REJECTS_SYNTHETIC_M5_PINS")
+    if owner_nov18_d1_epoch_store is not None and (
+            fixture_pins is not None or active_d1_epoch_store is not None):
+        raise ValueError("P193_OWNER_P192_REJECTS_HISTORICAL_OR_FIXTURE_SOURCE")
 
     initial = (_snapshot(m5_store), _snapshot(h4_store),
                _snapshot(d1_store),
                (_snapshot(active_d1_epoch_store)
-                if active_d1_epoch_store is not None else None))
+                if active_d1_epoch_store is not None else None),
+               (_snapshot(owner_nov18_d1_epoch_store)
+                if owner_nov18_d1_epoch_store is not None else None))
     m5_bars, m5_evidence = _m5_pinned_rows(
         m5_store, asof_utc=asof_utc, fixture_pins=fixture_pins)
     # The audited manifest hour MUST correspond to the latest closed
@@ -323,7 +332,27 @@ def consume_sealed_archives_for_six_tf(
     legacy_d1, legacy_d1_pairs, legacy_d1_tip = _native_pinned_rows(
         d1_store, interval="1day")
     fresh = None
-    if active_d1_epoch_store is not None:
+    joined = None
+    if owner_nov18_d1_epoch_store is not None:
+        # Owner's 18-Nov source choice supersedes the earlier 11-Nov
+        # in-memory seam. Old V1 D1 is fully SHA audited for historical
+        # custody but supplies ZERO private D1 candle values.
+        fresh = read_p192_owner_d1_epoch(
+            owner_nov18_d1_epoch_store,
+            old_v1_manifest_sha256=legacy_d1_tip,
+            asof_utc=asof_utc,
+        )
+        if (fresh.legacy_v1_manifest_sha256 != legacy_d1_tip
+                or fresh.verified_new_d1_candles < 1
+                or fresh.original_pre_cutoff_d1_rows_in_source != 0
+                or fresh.provider_price_requests != 0
+                or fresh.drive_writes != 0 or fresh.broker_orders != 0
+                or fresh.may_publish_buy_sell):
+            raise ValueError("P193_OWNER_P192_SOURCE_AUTHORITY_DRIFT")
+        d1 = fresh.batch
+        d1_pairs = fresh.epoch_manifest_pairs_full_sha
+        d1_tip = fresh.epoch_manifest_sha256
+    elif active_d1_epoch_store is not None:
         fresh = read_active_d1_epoch(
             active_d1_epoch_store,
             old_v1_manifest_sha256=legacy_d1_tip,
@@ -354,7 +383,9 @@ def consume_sealed_archives_for_six_tf(
     if ((_snapshot(m5_store), _snapshot(h4_store),
          _snapshot(d1_store),
          (_snapshot(active_d1_epoch_store)
-          if active_d1_epoch_store is not None else None)) != initial):
+          if active_d1_epoch_store is not None else None),
+         (_snapshot(owner_nov18_d1_epoch_store)
+          if owner_nov18_d1_epoch_store is not None else None)) != initial):
         raise ValueError("V1_CACHE_CROSS_ARCHIVE_CHANGED_DURING_READ")
 
     # P0.162: the real EUR/USD native Sydney D1 series is under an
@@ -528,13 +559,14 @@ def consume_sealed_archives_for_six_tf(
         archived_v1_d1_manifest_tip_sha256=(
             legacy_d1_tip if fresh is not None else ""),
         active_d1_composed_history_sha256=(
-            joined.composition_sha256 if fresh is not None else ""),
+            joined.composition_sha256 if joined is not None else ""),
         original_preincident_d1_rows_verified=(
             joined.original_v1_preincident_bars_verified
-            if fresh is not None else 0),
+            if joined is not None else 0),
         new_epoch_d1_rows_in_context=(
             joined.new_epoch_bars_verified_in_context
-            if fresh is not None else 0),
+            if joined is not None else
+            fresh.verified_new_d1_candles if fresh is not None else 0),
         private_multibar=multi,
         private_pivot_sensitivity=private_pivots,
         private_m15_microbreak=private_microbreak,
