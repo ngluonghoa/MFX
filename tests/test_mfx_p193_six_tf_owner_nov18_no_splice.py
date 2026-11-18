@@ -43,10 +43,12 @@ def make_inputs():
 
 def consume_nov18(*,old_active=None,p192=None,clock=ASOF):
     m5,h4,legacy,pins=make_inputs()
-    nov18=p192 or seeded()
-    root=nov18.list_names("manifest")[0]
     v1_tip=digest(legacy.read(
         "manifest",legacy.list_names("manifest")[-1]))
+    # The synthetic P192 chunk MUST reference the exact independently
+    # SHA-audited synthetic V1 parent from this same six-TF fixture.
+    nov18=p192 or seeded(old_sha=v1_tip)
+    root=nov18.list_names("manifest")[0]
     with patch.multiple(
         "mfx_research.six_tf_sealed_archive_consumer",
         ROOT_UTC=pins.root_hour_utc,
