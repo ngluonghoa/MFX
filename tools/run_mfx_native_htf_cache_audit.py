@@ -23,6 +23,10 @@ from mfx_cache.native_d1_epoch_20261118 import (
     audit_fresh_epoch as audit_nov18_epoch,
 )
 from mfx_cache.native_htf_incremental import SOURCE_PUBLICATION_BUFFER
+from mfx_research.p193_owner_nov18_active_d1_reader import (
+    SOURCE_VERSION as P193_SOURCE_VERSION,
+    read_p192_owner_d1_epoch,
+)
 from tools.mfx_native_htf_drive_seal import (
     MAX_NATIVE_FILES, NativeArchiveState, PrivateNativeDriveStore,
     audit_native_archive, native_append_slots_remaining,
@@ -224,6 +228,11 @@ def main() -> None:
     # CLOSED Sydney 18-Nov bar is an expected NOT-YET-BOOTSTRAPPED state,
     # not a reason to claim a valid latest D1 source or use pre-cutoff rows.
     prior_p171_archive = d1_fresh_epoch
+    p193_source_reader: dict[str, Any] = {
+        "status": "P194_NOT_ENABLED_NO_PRODUCTION_SOURCE_CLAIM",
+        "may_publish_buy_sell": False, "provider_price_requests": 0,
+        "drive_writes": 0, "broker_orders": 0,
+    }
     if os.environ.get("MFX_D1_OWNER_CUTOFF_20261118") == "true":
         nov18 = audit_nov18_epoch(
             PrivateD1Nov18Store(session),
@@ -231,6 +240,11 @@ def main() -> None:
         )
         if nov18.orphan_chunk is not None:
             raise ValueError("P192_D1_20261118_UNCOMMITTED_ORPHAN")
+        p193_source_reader = {
+            "status": "P194_WAITING_FOR_FIRST_P192_CLOSED_D1",
+            "may_publish_buy_sell": False, "provider_price_requests": 0,
+            "drive_writes": 0, "broker_orders": 0,
+        }
         d1_fresh_epoch = {
             "status":"P192_WAITING_FOR_FIRST_CLOSED_20261118_D1",
             "owner_cutoff_local_date":"2026-11-18",
@@ -264,6 +278,54 @@ def main() -> None:
                 "last_manifest_sha256":digest(nov18.last_manifest),
             }
             print("MFX_P192_D1_OWNER_20261118_READONLY_FULL_SHA_PASS")
+            # P0.194 independently EXECUTES the actual P193 consumer's
+            # exact real-root SHA pin against the live GET-only Drive.
+            # Independent of the P192 auditor above: SHA-complete source
+            # chain and observed-at-decision plus Sydney close must agree.
+            # No M5/P171 private prices used, no vendor request, no write.
+            source = read_p192_owner_d1_epoch(
+                PrivateD1Nov18Store(session),
+                old_v1_manifest_sha256=receipts[1]["last_manifest_sha256"],
+                asof_utc=now,
+            )
+            if (source.active_source_epoch != P193_SOURCE_VERSION
+                    or source.legacy_v1_manifest_sha256 !=
+                        receipts[1]["last_manifest_sha256"]
+                    or source.epoch_manifest_sha256 !=
+                        d1_fresh_epoch["last_manifest_sha256"]
+                    or source.epoch_manifest_pairs_full_sha !=
+                        d1_fresh_epoch["manifest_count"]
+                    or source.verified_new_d1_candles !=
+                        d1_fresh_epoch["total_closed_bars"]
+                    or source.last_native_open_label !=
+                        d1_fresh_epoch["last_native_open_label"]
+                    or source.original_pre_cutoff_d1_rows_in_source != 0
+                    or source.provider_price_requests != 0
+                    or source.drive_writes != 0
+                    or source.broker_orders != 0
+                    or source.may_publish_buy_sell
+                    or source.publisher_first_known_verified
+                    or source.provider_account_rights_verified):
+                raise ValueError("P194_ACTUAL_P193_SOURCE_ROOT_OR_AUTHORITY_DRIFT")
+            p193_source_reader = {
+                "status": "P194_REAL_P193_GET_ONLY_SOURCE_ROOT_ASOF_ACCEPTED",
+                "active_source_epoch": P193_SOURCE_VERSION,
+                "source_manifest_sha256": source.epoch_manifest_sha256,
+                "source_manifest_pairs_sha_verified":
+                    source.epoch_manifest_pairs_full_sha,
+                "source_closed_d1_bars": source.verified_new_d1_candles,
+                "first_permitted_source_day": "2026-11-18",
+                "last_native_open_label": source.last_native_open_label,
+                "pre_cutoff_prices_in_active_source": False,
+                "publisher_first_known_verified": False,
+                "provider_account_rights_verified": False,
+                "may_publish_buy_sell": False,
+                "provider_price_requests": 0,
+                "drive_writes": 0, "broker_orders": 0,
+                "read_only": True,
+                "entire_six_tf_manual_workflow_executed_here": False,
+            }
+            print("MFX_P194_LIVE_P193_D1_READER_ROOT_ASOF_SHA_PASS")
     print("MFX_P170_D1_QUARANTINE_INDEPENDENT_READONLY_SHA_PASS")
     print("MFX_A04_P58_NATIVE_H4_D1_READONLY_FULL_SHA_AUDIT_PASS")
     print(json.dumps({
@@ -284,6 +346,7 @@ def main() -> None:
             prior_p171_archive
             if os.environ.get("MFX_D1_OWNER_CUTOFF_20261118") == "true"
             else None),
+        "p193_real_active_d1_source_reader": p193_source_reader,
         "provider_price_requests": 0,
         "drive_writes": 0,
         "read_only": True,
