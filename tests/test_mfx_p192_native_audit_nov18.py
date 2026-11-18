@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 from mfx_cache.native_d1_fresh_epoch import FreshEpochState as P171State
 from mfx_cache.native_d1_epoch_20261118 import commit_fresh_epoch
+from mfx_cache.td_m5_codec import digest
 from test_mfx_p171_d1_fresh_epoch import original_sha
 from test_mfx_p192_d1_nov18_cutoff import AFTER, new_store, source
 from tools.run_mfx_native_htf_cache_audit import main
@@ -19,12 +20,16 @@ MODULE="tools.run_mfx_native_htf_cache_audit"
 
 
 class P192ReadOnlyIndependentAuditTests(TestCase):
-    def run_audit(self,*,with_nov18):
+    def run_audit(self,*,with_nov18,wrong_real_root=False):
         store,_=new_store()
         if with_nov18:
             commit_fresh_epoch(
                 store,batch=source(),origin_v1_sha=original_sha(),
                 now_utc=AFTER)
+        source_root = (
+            digest(store.read("manifest",store.list_names("manifest")[0]))
+            if with_nov18 else "0"*64
+        )
         def audit_tf(_store,*,interval,now_utc):
             return {
                 "lag":0 if interval=="4h" else 7,
@@ -55,6 +60,12 @@ class P192ReadOnlyIndependentAuditTests(TestCase):
                                       return_value=P171State(None,0,0,None)))
             stack.enter_context(patch(MODULE+".PrivateD1Nov18Store",
                                       return_value=store))
+            stack.enter_context(patch.multiple(
+                "mfx_research.p193_owner_nov18_active_d1_reader",
+                PINNED_ORIGINAL_D1_V1_HEAD_SHA256=original_sha(),
+                PINNED_P192_20261118_ROOT_SHA256=(
+                    "f"*64 if wrong_real_root else source_root),
+            ))
             clock=stack.enter_context(patch(MODULE+".datetime"))
             clock.now.return_value=AFTER
             out=StringIO()
@@ -72,6 +83,8 @@ class P192ReadOnlyIndependentAuditTests(TestCase):
         self.assertFalse(nov18["older_p171_archive_selected_for_new_d1"])
         self.assertIsNotNone(r["p171_prior_d1_epoch_archived_readonly"])
         self.assertEqual(store.puts,0)
+        self.assertEqual(r["p193_real_active_d1_source_reader"]["status"],
+                         "P194_WAITING_FOR_FIRST_P192_CLOSED_D1")
         self.assertEqual(r["provider_price_requests"],0)
         self.assertEqual(r["drive_writes"],0)
 
@@ -87,7 +100,36 @@ class P192ReadOnlyIndependentAuditTests(TestCase):
         self.assertFalse(nov18["publisher_first_known_verified"])
         self.assertFalse(nov18["may_publish_buy_sell"])
         self.assertFalse(nov18["older_p171_archive_selected_for_new_d1"])
+        self.assertIn("MFX_P194_LIVE_P193_D1_READER_ROOT_ASOF_SHA_PASS",log)
+        independent=r["p193_real_active_d1_source_reader"]
+        self.assertEqual(independent["status"],
+                         "P194_REAL_P193_GET_ONLY_SOURCE_ROOT_ASOF_ACCEPTED")
+        self.assertEqual(independent["source_manifest_sha256"],
+                         nov18["last_manifest_sha256"])
+        self.assertEqual(independent["source_closed_d1_bars"],1)
+        self.assertEqual(independent["first_permitted_source_day"],
+                         "2026-11-18")
+        self.assertFalse(independent["pre_cutoff_prices_in_active_source"])
+        self.assertFalse(independent["entire_six_tf_manual_workflow_executed_here"])
+        self.assertFalse(independent["may_publish_buy_sell"])
         self.assertEqual(r["approved_numeric_buy_sell_signals"],False)
         self.assertEqual(r["broker_orders"],0)
         self.assertEqual(r["drive_writes"],0)
         self.assertEqual(store.puts,2)  # seeded only by the test fixture
+
+    def test_03_wrong_live_p193_root_causes_red_and_no_extra_drive_writes(self):
+        with self.assertRaisesRegex(
+                ValueError,"P193_REAL_GITHUB_AUDITED_P192_ROOT_SHA_MISMATCH"):
+            self.run_audit(with_nov18=True,wrong_real_root=True)
+
+    def test_04_reader_is_honest_about_manual_six_tf_not_executed(self):
+        output,store=self.run_audit(with_nov18=True)
+        r=json.loads(output.splitlines()[-1])
+        self.assertTrue(r["p193_real_active_d1_source_reader"]["read_only"])
+        self.assertFalse(
+            r["p193_real_active_d1_source_reader"]
+             ["entire_six_tf_manual_workflow_executed_here"])
+        self.assertEqual(r["provider_price_requests"],0)
+        self.assertEqual(r["drive_writes"],0)
+        self.assertEqual(r["broker_orders"],0)
+        self.assertEqual(store.puts,2)
