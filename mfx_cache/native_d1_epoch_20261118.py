@@ -262,6 +262,15 @@ def plan_fresh_epoch_seal(
     if not _sha(origin_v1_sha):
         raise ValueError("P192_ORIGINAL_V1_SHA_REQUIRED")
     _source_batch(batch)
+    # Recheck CLOSED Sydney-local session eligibility at the immutable
+    # storage boundary, not merely in the earlier scheduler/parser.
+    # A forged caller-provided NativeFXBatch cannot seal an open 18-Nov
+    # candle before the 2m15s source publication window has elapsed.
+    eligible = (now_utc-PUBLICATION_BUFFER).astimezone(
+        ZoneInfo("Australia/Sydney")).date()-timedelta(days=1)
+    if any(bar.native_open_label > eligible.isoformat()
+           for bar in batch.closed_bars):
+        raise ValueError("P192_D1_UNCLOSED_OR_UNPUBLISHED_SOURCE")
     previous = state.last_manifest
     previous_index = {
         x["label"]:x["sha256"]
