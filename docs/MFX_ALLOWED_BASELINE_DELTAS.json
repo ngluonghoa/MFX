@@ -2454,8 +2454,8 @@
     {
       "path": "mfx_research/hourly_source_freshness.py",
       "change": "added",
-      "expected_current_sha": "f7e307dfa99462a8c883f812b6f3628da164e52b",
-      "reason": "Pure source-tip-verified UTC CLOSED interval deficit report M5/M15/M30/H1, no price/call, never infer live signals. P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval."
+      "expected_current_sha": "97ee6fe1c9692172d7eb1b15ac22dbff6a8ed780",
+      "reason": "Pure source-tip-verified UTC CLOSED interval deficit report M5/M15/M30/H1, no price/call, never infer live signals. P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval. P196 follow-up: CI #44506916295 identified 52 historical fixture failures from wrongly treating writer grace as source validity. Corrected new grace diagnostics to mark early but SHA-valid synthetic source writer-cadence UNATTESTED, never override prior SHA/asof source gates or expected negative test authority. Same versioned unit source change only."
     },
     {
       "path": "mfx_cache/native_htf_revision_diagnostics.py",
@@ -3234,14 +3234,14 @@
     {
       "path": "tests/test_mfx_p196_hourly_m5_cadence_evidence.py",
       "change": "added",
-      "expected_current_sha": "2dd64a44a43213affc01a935975b05a7afacfb1a",
-      "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval."
+      "expected_current_sha": "3984518261cb139eaafb6d0e5c340cbf022a7f15",
+      "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval. P196 follow-up: CI #44506916295 identified 52 historical fixture failures from wrongly treating writer grace as source validity. Corrected new grace diagnostics to mark early but SHA-valid synthetic source writer-cadence UNATTESTED, never override prior SHA/asof source gates or expected negative test authority. Same versioned unit source change only."
     },
     {
       "path": "docs/MFX_P196_HOURLY_M5_SEALED_CADENCE_EVIDENCE.md",
       "change": "added",
-      "expected_current_sha": "bbc72c80f47ab18d23b72d499b99b068fc9eb36b",
-      "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval."
+      "expected_current_sha": "2ff9bc074fb8117140f2eb9623a28bab6cb653de",
+      "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval. P196 follow-up: CI #44506916295 identified 52 historical fixture failures from wrongly treating writer grace as source validity. Corrected new grace diagnostics to mark early but SHA-valid synthetic source writer-cadence UNATTESTED, never override prior SHA/asof source gates or expected negative test authority. Same versioned unit source change only."
     }
   ]
 }
