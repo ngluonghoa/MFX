@@ -21,6 +21,9 @@ from mfx_cache.p180_d1_overlap_diagnosis import diagnose_p171_overlap_source
 from mfx_cache.p200_p192_d1_sha_diff_forensics import (
     diagnose_p192_owner_overlap,
 )
+from mfx_cache.p202_p192_h4_only_isolation import (
+    VERSION as P202_VERSION, eligible_p192_h4_only,
+)
 from mfx_cache.p185_p171_d1_revision_review import (
     build_p171_revision_review, public_p171_revision_review,
 )
@@ -278,6 +281,7 @@ def main() -> None:
     quarantined_d1_source: tuple[Any,Any,Any] | None = None
     new_epoch_d1_batch: Any = None
     p183_p171_hold: dict[str, Any] | None = None
+    p202_p192_hold: dict[str, Any] | None = None
     for idx, (interval,store,archive,plan) in enumerate(due):
         if idx:
             current,maximum = _usage(key)
@@ -324,6 +328,18 @@ def main() -> None:
                     else:
                         print("MFX_P200_P192_D1_SHA_DIFF_REDACTED_NO_COMMIT")
                         print(json.dumps(p200_public, sort_keys=True))
+                        # P0.202: only an independently prepared, validated
+                        # H4 interval can survive this EXACT known P192
+                        # 18-Nov owner D1 numeric SHA quarantine. The full
+                        # P192+D1/H4 original archives will be reaudited
+                        # again before the unrelated H4 append. D1 stays RED.
+                        if (eligible_p192_h4_only(
+                                p200_public, fresh_d1_state)
+                                and len(prepared) == 1
+                                and prepared[0][0] == "4h"
+                                and new_epoch_d1_batch is None):
+                            p202_p192_hold = p200_public
+                            continue
                 # P0.180: classify the already fetched P171 source overlap.
                 # The original quarantine stays FAIL-CLOSED and no writes.
                 if (owner_rebase_d1 and
@@ -450,6 +466,54 @@ def main() -> None:
             store,symbol=SYMBOL,interval=interval)
         if state != archive:
             raise ValueError("P059_NATIVE_ARCHIVE_CHANGED_DURING_FETCH")
+
+    if p202_p192_hold is not None:
+        # FULL H4 and frozen original D1 SHA were rechecked above. The
+        # owner P192 epoch is independently and fully re-read immediately
+        # before any unrelated H4 append. No D1 source is ever admitted.
+        if (not owner_cutoff_nov18 or owner_rebase_d1
+                or fresh_d1_store is None or fresh_d1_state is None
+                or fresh_d1_origin is None
+                or new_epoch_d1_batch is not None
+                or len(prepared) != 1 or prepared[0][0] != "4h"
+                or not eligible_p192_h4_only(
+                    p202_p192_hold, fresh_d1_state)):
+            raise ValueError("P202_UNAUTHORIZED_P192_H4_ISOLATION")
+        if audit_nov18_epoch(
+                fresh_d1_store, origin_v1_sha=fresh_d1_origin
+        ) != fresh_d1_state:
+            raise ValueError("P202_P192_EPOCH_CHANGED_BEFORE_H4")
+        _, h4_batch, h4_store, h4_archive = prepared[0]
+        h4_plan = plan_native_sealed(
+            h4_batch, previous=h4_archive.last_manifest)
+        if h4_plan is None or h4_plan.newly_closed_bars < 1:
+            raise ValueError("P202_H4_WITHOUT_NEW_CLOSED_VALIDATED_CANDLE")
+        verify_native_sealed(h4_plan, previous=h4_archive.last_manifest)
+        # Original SHA-addressed H4 append/readback only; no new H4 API call.
+        receipt = asdict(commit_native_batch(h4_store, h4_batch))
+        summary = summarize_incremental_receipts([receipt])
+        if (receipt["interval"] != "4h"
+                or receipt["newly_closed_native_bars"] < 1):
+            raise ValueError("P202_INVALID_H4_SHA_COMMIT_RECEIPT")
+        print("MFX_P202_H4_ONLY_P192_D1_NUMERIC_REVISED_STILL_HELD_RED")
+        print(json.dumps({
+            **summary, "schema": P202_VERSION,
+            "h4_newly_closed_bars": receipt["newly_closed_native_bars"],
+            "h4_drive_objects_created_max":
+                receipt["drive_objects_created_max"],
+            "d1_numeric_ohlc_revision_observed_only": True,
+            "d1_overlap_changed_sha_count": 1,
+            "owner_p192_d1_canonical_writes": 0,
+            "p171_legacy_d1_canonical_writes": 0,
+            "h4_does_not_approve_d1": True,
+            "d1_hold_persists": True,
+            "source_numeric_signals_approved": False,
+            "may_publish_buy_sell": False,
+            "broker_orders": 0,
+            "automatic_native_schedule_activated": scheduled,
+        }, sort_keys=True))
+        # Do not hide the unresolved D1 incident behind a green workflow.
+        raise ValueError("P192_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE")
 
     if p183_p171_hold is not None:
         # Original H4 + original D1 full archival SHA re-audited above.
