@@ -57,6 +57,45 @@ def diagnose_hourly_m5_freshness(
         if difference % timedelta(minutes=width):
             raise ValueError("MFX_V1_FRESHNESS_SOURCE_NOT_ON_FRAME_GRID")
         gaps[frame] = difference // timedelta(minutes=width)
+
+    # P0.196: distinguish a CLOSED hourly batch actually overdue from
+    # ordinary unsealed intrahour M5 slots. A 12-bar, one-hour archive
+    # cannot by itself keep five-minute frames current at arbitrary as-of.
+    # Follow the existing +5-minute eligibility fence, not close+15s
+    # presentation grace: a just-closed full hour is not writer-eligible.
+    eligible_hour = asof_utc.replace(
+        minute=0, second=0, microsecond=0,
+    ) - HOUR * (2 if asof_utc.minute < 5 else 1)
+    if source_hour > eligible_hour:
+        raise ValueError("P196_M5_SOURCE_HOUR_BEFORE_ELIGIBLE_5MIN_GRACE")
+    missing_eligible_hours = (eligible_hour - source_hour) // HOUR
+    on_time_hourly_end = eligible_hour + HOUR
+    intrahour_unsealed = (
+        expected["M5"] - on_time_hourly_end
+    ) // timedelta(minutes=5)
+    if (not 0 <= intrahour_unsealed <= 11
+            or gaps["M5"] != 12 * missing_eligible_hours
+                + intrahour_unsealed):
+        raise ValueError("P196_M5_HOURLY_CADENCE_SLOT_ACCOUNTING_DRIFT")
+    cadence = {
+        "mode": "IMMUTABLE_FULL_UTC_HOUR_M5_BATCHES_ONLY",
+        "latest_eligible_full_hour_utc": eligible_hour.isoformat(),
+        "eligible_complete_hour_batches_missing_from_archive":
+            missing_eligible_hours,
+        "m5_slots_unsealed_even_with_on_time_hourly_archive":
+            intrahour_unsealed,
+        "observed_closed_m5_slots_missing": gaps["M5"],
+        "m5_slot_accounting_verified": True,
+        "full_hour_archival_status": (
+            "ELIGIBLE_FULL_HOUR_BACKLOG" if missing_eligible_hours
+            else "ALL_ELIGIBLE_FULL_HOURS_ARCHIVED"
+        ),
+        "intrahour_missing_is_expected_from_hourly_design":
+            intrahour_unsealed > 0,
+        "github_writer_run_result_independently_observed": False,
+        "provider_publisher_first_known_verified": False,
+        "permission_to_publish_live_buy_sell": False,
+    }
     age = (asof_utc - last_end).total_seconds()
     return {
         "status": ("M5_M15_CLOSED_TIP_MATCHES_ASOF"
@@ -70,6 +109,7 @@ def diagnose_hourly_m5_freshness(
             name: dt.isoformat() for name, dt in expected.items()
         },
         "closed_source_slot_gaps": gaps,
+        "sealed_hourly_m5_cadence_evidence": cadence,
         "intraday_m5_m15_source_tip_meets_freshness": (
             gaps["M5"] == 0 and gaps["M15"] == 0
         ),
