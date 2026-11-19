@@ -43,8 +43,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-cache-audit.yml",
       "change": "added",
-      "expected_current_sha": "a890edc5582e4b7f1ef6fafc93ccd683a3dc6509",
-      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls."
+      "expected_current_sha": "08194823fc08e206a5832421689c5538489431c2",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls. P0.197 isolated GitHub Actions-read-only historical M5 writer run observer: one scoped API metadata GET on the already scheduled P58 native SHA auditor, no new cron, no Drive market-data read/write, no quote-vendor API, no broker/orders, bounded job IDs and clock caveat, 14 hermetic tests, original 102 frozen blobs intact."
     },
     {
       "path": ".github/workflows/mfx-native-htf-drive-commit.yml",
@@ -3242,6 +3242,24 @@
       "change": "added",
       "expected_current_sha": "2ff9bc074fb8117140f2eb9623a28bab6cb653de",
       "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval. P196 follow-up: CI #44506916295 identified 52 historical fixture failures from wrongly treating writer grace as source validity. Corrected new grace diagnostics to mark early but SHA-valid synthetic source writer-cadence UNATTESTED, never override prior SHA/asof source gates or expected negative test authority. Same versioned unit source change only."
+    },
+    {
+      "path": "tools/audit_mfx_m5_writer_runs.py",
+      "change": "added",
+      "expected_current_sha": "799ca40a72b2de756ac8cce9a9c2053c985ff2c1",
+      "reason": "P0.197 isolated GitHub Actions-read-only historical M5 writer run observer: one scoped API metadata GET on the already scheduled P58 native SHA auditor, no new cron, no Drive market-data read/write, no quote-vendor API, no broker/orders, bounded job IDs and clock caveat, 14 hermetic tests, original 102 frozen blobs intact."
+    },
+    {
+      "path": "tests/test_mfx_p197_github_hourly_m5_writer_runs.py",
+      "change": "added",
+      "expected_current_sha": "631d9d1fc8da1577094b508eff84627c71eea18a",
+      "reason": "P0.197 isolated GitHub Actions-read-only historical M5 writer run observer: one scoped API metadata GET on the already scheduled P58 native SHA auditor, no new cron, no Drive market-data read/write, no quote-vendor API, no broker/orders, bounded job IDs and clock caveat, 14 hermetic tests, original 102 frozen blobs intact."
+    },
+    {
+      "path": "docs/MFX_P197_GITHUB_HOURLY_M5_WRITER_RUN_HISTORY.md",
+      "change": "added",
+      "expected_current_sha": "c90a4b095a5a8453df93bbdc0cb36b0351cc1d6c",
+      "reason": "P0.197 isolated GitHub Actions-read-only historical M5 writer run observer: one scoped API metadata GET on the already scheduled P58 native SHA auditor, no new cron, no Drive market-data read/write, no quote-vendor API, no broker/orders, bounded job IDs and clock caveat, 14 hermetic tests, original 102 frozen blobs intact."
     }
   ]
 }
