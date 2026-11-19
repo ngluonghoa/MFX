@@ -94,12 +94,17 @@ class P196HourlyM5CadenceEvidenceTests(TestCase):
         self.assertFalse(c["permission_to_publish_live_buy_sell"])
         self.assertTrue(c["missing_slots_explained_by_hourly_grace_or_intrahour_design"])
 
-    def test_08_future_or_premature_hour_denied(self):
+    def test_08_future_source_denied_but_early_close_not_reinterpreted(self):
         with self.assertRaises(ValueError):
             calculate("2026-11-19T00:00:00+00:00")
-        with self.assertRaises(ValueError):
-            calculate("2026-11-18T23:00:00+00:00",
-                      datetime(2026, 11, 19, 0, 2, tzinfo=UTC))
+        early = calculate("2026-11-18T23:00:00+00:00",
+                          datetime(2026, 11, 19, 0, 2, tzinfo=UTC))
+        c = early["sealed_hourly_m5_cadence_evidence"]
+        self.assertTrue(c["source_ahead_of_standard_writer_plus5_grace"])
+        self.assertFalse(c["m5_slot_accounting_verified"])
+        self.assertEqual(c["full_hour_archival_status"],
+                         "SOURCE_AHEAD_OF_STANDARD_WRITER_GRACE_NOT_ATTESTED")
+        self.assertEqual(early["closed_source_slot_gaps"]["M5"], 0)
 
     def test_09_non_utc_and_malformed_source_denied(self):
         for a in (ASOF.replace(tzinfo=None),
