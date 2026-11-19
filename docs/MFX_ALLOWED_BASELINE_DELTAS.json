@@ -3318,8 +3318,8 @@
     {
       "path": "docs/MFX_P201_POST_P200_REAL_D1_OWNER_SOURCE_WITNESS.md",
       "change": "added",
-      "expected_current_sha": "aa681a6066e730b6f92701d064f8987ad9542cf2",
-      "reason": "P0.201 documentation-only P192 D1 actual post-P200 scheduled writer source witness protocol and release STOP; no code, vendor, Drive mutation, or clock changes; invokes already-existing PR-only GitHub Actions history on the PR to expose current writer run IDs."
+      "expected_current_sha": "341c878bd2f40fa6176d482a4949a0a30d4f1090",
+      "reason": "P0.201 documentation-only P192 D1 actual post-P200 scheduled writer source witness protocol and release STOP; no code, vendor, Drive mutation, or clock changes; invokes already-existing PR-only GitHub Actions history on the PR to expose current writer run IDs. Real P0.200 scheduled production runtime witness: #44598491050 and #44616713529 both redacted NUMERIC_OHLC_VALUE_CHANGED for SHA-sealed 18Nov D1, 1 changed numeric OHLC overlap, 0 metadata, 0 missing, 0 format difference; D1 quarantined, no write, no owner authorization."
     }
   ]
 }
