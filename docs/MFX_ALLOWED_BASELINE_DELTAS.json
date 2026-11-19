@@ -1992,8 +1992,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "841fe6dfecd19cadf32a8619d799fb877d45d03c",
-      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes. P0.190: real hourly P171 D1 SHA conflict path invokes existing P185 private owner-review candidate using same already-fetched source and full-SHA-audited state, logs only separately checked redacted public projection, fail-closed static error marker, no D1 write, no extra Drive/vendor I/O, H4 eligibility unchanged. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls."
+      "expected_current_sha": "af8dd0d92c9ace7b019a345ff75003908cda0cfb",
+      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes. P0.190: real hourly P171 D1 SHA conflict path invokes existing P185 private owner-review candidate using same already-fetched source and full-SHA-audited state, logs only separately checked redacted public projection, fail-closed static error marker, no D1 write, no extra Drive/vendor I/O, H4 eligibility unchanged. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls. P0.200 only upon real P192 18-Nov fresh D1 overlap SHA quarantine, re-read exactly one independently full-SHA-attested private chunk and compare with SAME provider response in memory, emit ONLY redacted count/classification of OHLC numeric vs metadata vs formatting vs missing source, preserve original exception and no canonical Drive price writes. 10 synthetic tests, same provider calls and no new workflow/cron, no vendor/broker/signals, source remains NO_SIGNAL."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
@@ -3296,6 +3296,24 @@
       "change": "added",
       "expected_current_sha": "2f6de33fdfc3cfca01d02ad75bf1dc9c5d008ba1",
       "reason": "P0.199 extend existing GH Actions-only bounded schedule metadata parser to exactly two vetted existing writers (M5 :10, native H4/D1 :25), add native D1 writer PR-only GH job readback via P037 actions:read, five hermetic no-OHLC QA tests, owner P192 18-Nov active D1 still one day behind as independent SHA audit showed. No new cron, Drive/provider calls, quote writes, broker or numeric source approval."
+    },
+    {
+      "path": "mfx_cache/p200_p192_d1_sha_diff_forensics.py",
+      "change": "added",
+      "expected_current_sha": "8e4969439766f1f140dd8f036b8c13632698056c",
+      "reason": "P0.200 only upon real P192 18-Nov fresh D1 overlap SHA quarantine, re-read exactly one independently full-SHA-attested private chunk and compare with SAME provider response in memory, emit ONLY redacted count/classification of OHLC numeric vs metadata vs formatting vs missing source, preserve original exception and no canonical Drive price writes. 10 synthetic tests, same provider calls and no new workflow/cron, no vendor/broker/signals, source remains NO_SIGNAL."
+    },
+    {
+      "path": "tests/test_mfx_p200_p192_d1_redacted_sha_forensics.py",
+      "change": "added",
+      "expected_current_sha": "d08883c88bb547dfe978db83ed29092674131c3d",
+      "reason": "P0.200 only upon real P192 18-Nov fresh D1 overlap SHA quarantine, re-read exactly one independently full-SHA-attested private chunk and compare with SAME provider response in memory, emit ONLY redacted count/classification of OHLC numeric vs metadata vs formatting vs missing source, preserve original exception and no canonical Drive price writes. 10 synthetic tests, same provider calls and no new workflow/cron, no vendor/broker/signals, source remains NO_SIGNAL."
+    },
+    {
+      "path": "docs/MFX_P200_P192_D1_REDACTED_SHA_DIFF_FORENSICS.md",
+      "change": "added",
+      "expected_current_sha": "157cfe402dcb06176b64c26b849d4f7f70bcdfd7",
+      "reason": "P0.200 only upon real P192 18-Nov fresh D1 overlap SHA quarantine, re-read exactly one independently full-SHA-attested private chunk and compare with SAME provider response in memory, emit ONLY redacted count/classification of OHLC numeric vs metadata vs formatting vs missing source, preserve original exception and no canonical Drive price writes. 10 synthetic tests, same provider calls and no new workflow/cron, no vendor/broker/signals, source remains NO_SIGNAL."
     }
   ]
 }
