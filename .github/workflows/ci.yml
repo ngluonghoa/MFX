@@ -374,3 +374,10 @@ jobs:
         env:
           P037_READ_TOKEN: ${{ github.token }}
         run: python -m tools.read_mfx_m5_writer_runs_from_pr
+      - name: P0.199 enumerate actual native H4/D1 writer schedule run IDs (GH-only)
+        # Independent of cached D1 price SHA: diagnosis only, NEVER a
+        # numeric source approval or request to the Twelve Data provider.
+        continue-on-error: true
+        env:
+          P037_READ_TOKEN: ${{ github.token }}
+        run: python -m tools.read_mfx_native_writer_runs_from_pr
