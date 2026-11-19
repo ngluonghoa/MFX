@@ -66,15 +66,26 @@ def diagnose_hourly_m5_freshness(
     eligible_hour = asof_utc.replace(
         minute=0, second=0, microsecond=0,
     ) - HOUR * (2 if asof_utc.minute < 5 else 1)
-    if source_hour > eligible_hour:
-        raise ValueError("P196_M5_SOURCE_HOUR_BEFORE_ELIGIBLE_5MIN_GRACE")
-    missing_eligible_hours = (eligible_hour - source_hour) // HOUR
+    # A complete and SHA-audited close may be read inside the writer's
+    # conventional +5m grace, especially in hermetic historical fixtures.
+    # Do NOT convert informational writer eligibility into a new source
+    # validity gate. Preserve previous independent SHA/as-of validation and
+    # explicitly mark these observations as not writer-cadence attested.
+    early_for_writer = source_hour > eligible_hour
+    missing_eligible_hours = (
+        0 if early_for_writer
+        else (eligible_hour - source_hour) // HOUR
+    )
     on_time_hourly_end = eligible_hour + HOUR
     intrahour_unsealed = (
-        expected["M5"] - on_time_hourly_end
-    ) // timedelta(minutes=5)
+        gaps["M5"] if early_for_writer
+        else (
+            expected["M5"] - on_time_hourly_end
+        ) // timedelta(minutes=5)
+    )
     if (not 0 <= intrahour_unsealed <= 12
-            or gaps["M5"] != 12 * missing_eligible_hours
+            or not early_for_writer
+            and gaps["M5"] != 12 * missing_eligible_hours
                 + intrahour_unsealed):
         raise ValueError("P196_M5_HOURLY_CADENCE_SLOT_ACCOUNTING_DRIFT")
     cadence = {
@@ -85,8 +96,12 @@ def diagnose_hourly_m5_freshness(
         "m5_closed_slots_outside_writer_eligible_hours":
             intrahour_unsealed,
         "observed_closed_m5_slots_missing": gaps["M5"],
-        "m5_slot_accounting_verified": True,
+        "m5_slot_accounting_verified": not early_for_writer,
+        "source_ahead_of_standard_writer_plus5_grace":
+            early_for_writer,
         "full_hour_archival_status": (
+            "SOURCE_AHEAD_OF_STANDARD_WRITER_GRACE_NOT_ATTESTED"
+            if early_for_writer else
             "ELIGIBLE_FULL_HOUR_BACKLOG" if missing_eligible_hours
             else "ALL_ELIGIBLE_FULL_HOURS_ARCHIVED"
         ),
