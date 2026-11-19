@@ -56,3 +56,27 @@ jobs:
           MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
           MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
         run: python -m tools.run_mfx_native_htf_cache_audit
+
+  github-m5-writer-history-readonly:
+    # P0.197 uses the EXISTING :45/hour and push-on-audit-file workflow.
+    # Separate evidence lane: no Drive OAuth, quote vendor, cache writes or
+    # action dispatch. Does NOT alter the native H4/D1 SHA job or cron.
+    if: ${{ github.repository == 'ngluonghoa/MFX' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - name: Checkout exact protected MFX main without persistent token
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+      - name: Observe existing M5 writer GitHub schedule runs only (NO prices)
+        # GitHub API outages do not invalidate the independent real H4/D1
+        # SHA audit. PASS marker appears only on genuinely completed read.
+        continue-on-error: true
+        env:
+          PYTHONPATH: src:.
+          MFX_P197_ACTIONS_READ_TOKEN: ${{ github.token }}
+        run: python -m tools.audit_mfx_m5_writer_runs
