@@ -3338,6 +3338,12 @@
       "change": "added",
       "expected_current_sha": "7523618ffffc8a1e7b5bc2de98d55d3eeabf9da6",
       "reason": "P0.202 strict source-different P192 owner D1 one numeric OHLC overlap revision is still red; only independently full-SHA validated H4 may append via unchanged native batch writer when due after re-auditing V1 H4, V1 D1, P192 D1. No P192 canonical writes, no provider calls added, job still raises P192 exception, 11 hermetic negative tests, frozen Forex source intact."
+    },
+    {
+      "path": "docs/MFX_P203_P202_ACTUAL_H4_WRITER_RUNTIME_WITNESS.md",
+      "change": "added",
+      "expected_current_sha": "04fd6fdedc6428522e9604adf12423ba53360b91",
+      "reason": "P0.203 documentation-only SHA-evidence of actual post-P202 H4 native Drive chunk and manifest, unchanged SHA-sealed P192 owner 18Nov D1 and read-only post-P202 GH Actions scheduled writer log witness protocol; no code/runtime/provider/Drive write permission or trade. Actual native GH scheduled job #135921279838 of run #44626402900 emits real P202 H4-only receipt with 2 new H4 closed bars, 2 Drive objects, 0 D1 canonical writes, original P192 D1 hard-stop RED, no trades; immutable source chunk+manifest observed independently on Drive."
     }
   ]
 }
