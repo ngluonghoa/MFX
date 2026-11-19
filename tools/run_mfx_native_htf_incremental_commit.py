@@ -18,6 +18,9 @@ from typing import Any
 from mfx_cache.native_fx_htf import parse_native_forex
 from mfx_cache.td_m5_codec import digest
 from mfx_cache.p180_d1_overlap_diagnosis import diagnose_p171_overlap_source
+from mfx_cache.p200_p192_d1_sha_diff_forensics import (
+    diagnose_p192_owner_overlap,
+)
 from mfx_cache.p185_p171_d1_revision_review import (
     build_p171_revision_review, public_p171_revision_review,
 )
@@ -295,6 +298,32 @@ def main() -> None:
                     batch,state=fresh_d1_state,
                     origin_v1_sha=fresh_d1_origin,now_utc=now)
             except ValueError as error:
+                # P0.200: original owner P192 remains hard-stop with its
+                # IMMUTABLE 18-Nov SHA on any overlap mismatch. Independently
+                # re-GET only the already-full-SHA-audited sealed chunk and
+                # compare in memory with the SAME fetched D1 provider batch.
+                # NEVER print raw bars, SHA/label fingerprints or secrets.
+                if (owner_cutoff_nov18 and str(error) ==
+                        "P192_NEW_EPOCH_OVERLAP_REVISION_QUARANTINE"):
+                    try:
+                        if (fresh_d1_state.last_manifest is None
+                                or fresh_d1_store is None):
+                            raise ValueError("P200_SOURCE_NOT_AUDITED")
+                        manifest = fresh_d1_state.last_manifest
+                        sealed_chunk = fresh_d1_store.read(
+                            "chunk", manifest["chunk_name"],
+                        )
+                        p200_public = diagnose_p192_owner_overlap(
+                            state=fresh_d1_state,
+                            sealed_chunk=sealed_chunk,
+                            refetched=batch,
+                            origin_v1_sha=fresh_d1_origin,
+                        )
+                    except (KeyError, TypeError, ValueError):
+                        print("MFX_P200_P192_D1_FORENSICS_UNAVAILABLE_STILL_HELD")
+                    else:
+                        print("MFX_P200_P192_D1_SHA_DIFF_REDACTED_NO_COMMIT")
+                        print(json.dumps(p200_public, sort_keys=True))
                 # P0.180: classify the already fetched P171 source overlap.
                 # The original quarantine stays FAIL-CLOSED and no writes.
                 if (owner_rebase_d1 and
