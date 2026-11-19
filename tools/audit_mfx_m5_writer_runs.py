@@ -17,7 +17,9 @@ from tools.read_main_push_ci_diagnostic import _get_json
 
 REPO = "ngluonghoa/MFX"
 WORKFLOW = "twelve-data-cache.yml"
+NATIVE_WRITER_WORKFLOW = "mfx-native-htf-incremental-commit.yml"
 EXPECTED_CRON_MINUTE = 10
+NATIVE_EXPECTED_CRON_MINUTE = 25
 MAX_RUNS = 60
 MAX_PUBLIC_ROWS = 24
 WINDOW = timedelta(hours=36)
@@ -62,13 +64,24 @@ def _time(value: object, *, nullable: bool = False) -> datetime | None:
     return parsed.replace(tzinfo=timezone.utc)
 
 
-def inspect_writer_runs(document: object, *, asof_utc: datetime) -> dict[str, Any]:
+def inspect_writer_runs(
+    document: object, *, asof_utc: datetime,
+    workflow: str = WORKFLOW,
+    expected_cron_minute: int = EXPECTED_CRON_MINUTE,
+) -> dict[str, Any]:
     """Summarize provider-independent GitHub run metadata, never stdout.
 
     No expectation that every nominal cron slot is always delivered. Runs
     delayed over a UTC-hour boundary cannot be reliably assigned to slots
     without external scheduler event identity.
     """
+    # P0.199 only permits the two ALREADY approved hourly MFX writers.
+    # The timestamp parser is shared, never a claim of source availability.
+    if (workflow, expected_cron_minute) not in (
+        (WORKFLOW, EXPECTED_CRON_MINUTE),
+        (NATIVE_WRITER_WORKFLOW, NATIVE_EXPECTED_CRON_MINUTE),
+    ):
+        raise ValueError("P199_UNREVIEWED_GITHUB_WORKFLOW_SCOPE")
     if (type(asof_utc) is not datetime or asof_utc.tzinfo is None
             or asof_utc.utcoffset() != timedelta(0)):
         raise ValueError("P197_EXACT_UTC_ASOF_REQUIRED")
@@ -126,13 +139,15 @@ def inspect_writer_runs(document: object, *, asof_utc: datetime) -> dict[str, An
                    for x in completed)
     latest = window_rows[0] if window_rows else None
     return {
-        "schema": "MFX_P197_GITHUB_SCHEDULED_M5_WRITER_READONLY_V1",
+        "schema": ("MFX_P197_GITHUB_SCHEDULED_M5_WRITER_READONLY_V1"
+                   if workflow == WORKFLOW else
+                   "MFX_P199_GITHUB_SCHEDULED_NATIVE_WRITER_READONLY_V1"),
         "result": ("OBSERVED_GITHUB_SCHEDULE_RUN_METADATA"
                    if window_rows else "NO_RECENT_RUNS_OBSERVED_REASON_UNKNOWN"),
         "repository": REPO,
-        "workflow": WORKFLOW,
+        "workflow": workflow,
         "asof_utc": asof_utc.isoformat(),
-        "nominal_cron_utc_minute": EXPECTED_CRON_MINUTE,
+        "nominal_cron_utc_minute": expected_cron_minute,
         "window_hours": int(WINDOW.total_seconds() // 3600),
         "first_api_page_limit": MAX_RUNS,
         "first_page_only": True,
