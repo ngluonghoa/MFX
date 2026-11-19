@@ -367,3 +367,10 @@ jobs:
         env:
           P037_READ_TOKEN: ${{ github.token }}
         run: python -m tools.read_main_push_ci_diagnostic
+      - name: P0.198 enumerate actual hourly M5 writer schedule run IDs (GH-only)
+        # Do not treat GitHub metadata availability as a CI or market release
+        # gate; report any GH API denial in this isolated diagnostic step.
+        continue-on-error: true
+        env:
+          P037_READ_TOKEN: ${{ github.token }}
+        run: python -m tools.read_mfx_m5_writer_runs_from_pr
