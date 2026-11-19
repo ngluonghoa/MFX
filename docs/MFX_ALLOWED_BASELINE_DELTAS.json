@@ -3314,6 +3314,12 @@
       "change": "added",
       "expected_current_sha": "157cfe402dcb06176b64c26b849d4f7f70bcdfd7",
       "reason": "P0.200 only upon real P192 18-Nov fresh D1 overlap SHA quarantine, re-read exactly one independently full-SHA-attested private chunk and compare with SAME provider response in memory, emit ONLY redacted count/classification of OHLC numeric vs metadata vs formatting vs missing source, preserve original exception and no canonical Drive price writes. 10 synthetic tests, same provider calls and no new workflow/cron, no vendor/broker/signals, source remains NO_SIGNAL."
+    },
+    {
+      "path": "docs/MFX_P201_POST_P200_REAL_D1_OWNER_SOURCE_WITNESS.md",
+      "change": "added",
+      "expected_current_sha": "341c878bd2f40fa6176d482a4949a0a30d4f1090",
+      "reason": "P0.201 documentation-only P192 D1 actual post-P200 scheduled writer source witness protocol and release STOP; no code, vendor, Drive mutation, or clock changes; invokes already-existing PR-only GitHub Actions history on the PR to expose current writer run IDs. Real P0.200 scheduled production runtime witness: #44598491050 and #44616713529 both redacted NUMERIC_OHLC_VALUE_CHANGED for SHA-sealed 18Nov D1, 1 changed numeric OHLC overlap, 0 metadata, 0 missing, 0 format difference; D1 quarantined, no write, no owner authorization."
     }
   ]
 }
