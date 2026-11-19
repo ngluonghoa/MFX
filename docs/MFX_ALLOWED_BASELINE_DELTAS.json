@@ -2454,8 +2454,8 @@
     {
       "path": "mfx_research/hourly_source_freshness.py",
       "change": "added",
-      "expected_current_sha": "7bbe145f33f6e81845f271469322a27af96b0139",
-      "reason": "Pure source-tip-verified UTC CLOSED interval deficit report M5/M15/M30/H1, no price/call, never infer live signals."
+      "expected_current_sha": "f7e307dfa99462a8c883f812b6f3628da164e52b",
+      "reason": "Pure source-tip-verified UTC CLOSED interval deficit report M5/M15/M30/H1, no price/call, never infer live signals. P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval."
     },
     {
       "path": "mfx_cache/native_htf_revision_diagnostics.py",
@@ -3230,6 +3230,18 @@
       "change": "added",
       "expected_current_sha": "9b50530fe9043dfb9625a0d1b38813f70d702484",
       "reason": "P0.195 source-only B2/S2 P187 real-epoch cutoff: require independently SHA-root-pinned owner P192 D1 from Sydney 18-Nov in the six-TF technical seam; no archived V1/P171 D1 price fallback/splice. Explicit redacted epoch audit, adversarial synthetic QA; real six-TF OAuth workflow remains manual only, 0/36 numeric approvals, licensing/OOS and no trade unchanged."
+    },
+    {
+      "path": "tests/test_mfx_p196_hourly_m5_cadence_evidence.py",
+      "change": "added",
+      "expected_current_sha": "2dd64a44a43213affc01a935975b05a7afacfb1a",
+      "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval."
+    },
+    {
+      "path": "docs/MFX_P196_HOURLY_M5_SEALED_CADENCE_EVIDENCE.md",
+      "change": "added",
+      "expected_current_sha": "bbc72c80f47ab18d23b72d499b99b068fc9eb36b",
+      "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval."
     }
   ]
 }
