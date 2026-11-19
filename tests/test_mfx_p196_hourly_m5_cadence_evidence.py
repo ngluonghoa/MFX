@@ -121,7 +121,11 @@ class P196HourlyM5CadenceEvidenceTests(TestCase):
         out = safe_summary(evidence, drive_gets=12)
         freshness = out["sha_verified_source_freshness_timing"]
         cadence = freshness["sealed_hourly_m5_cadence_evidence"]
-        self.assertTrue(cadence["m5_slot_accounting_verified"])
+        # Hermetic P193 fixture closes a valid full source hour ahead of
+        # the conventional writer +5m guard. Its source SHA is still valid,
+        # but no real writer-cadence completion is attested by that fixture.
+        self.assertFalse(cadence["m5_slot_accounting_verified"])
+        self.assertTrue(cadence["source_ahead_of_standard_writer_plus5_grace"])
         self.assertEqual(out["action"], "NO_SIGNAL")
         self.assertEqual(out["stage"], "UNVERIFIED")
         self.assertFalse(out["may_publish_buy_sell"])
