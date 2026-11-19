@@ -73,7 +73,7 @@ def diagnose_hourly_m5_freshness(
     intrahour_unsealed = (
         expected["M5"] - on_time_hourly_end
     ) // timedelta(minutes=5)
-    if (not 0 <= intrahour_unsealed <= 11
+    if (not 0 <= intrahour_unsealed <= 12
             or gaps["M5"] != 12 * missing_eligible_hours
                 + intrahour_unsealed):
         raise ValueError("P196_M5_HOURLY_CADENCE_SLOT_ACCOUNTING_DRIFT")
@@ -82,7 +82,7 @@ def diagnose_hourly_m5_freshness(
         "latest_eligible_full_hour_utc": eligible_hour.isoformat(),
         "eligible_complete_hour_batches_missing_from_archive":
             missing_eligible_hours,
-        "m5_slots_unsealed_even_with_on_time_hourly_archive":
+        "m5_closed_slots_outside_writer_eligible_hours":
             intrahour_unsealed,
         "observed_closed_m5_slots_missing": gaps["M5"],
         "m5_slot_accounting_verified": True,
@@ -90,7 +90,7 @@ def diagnose_hourly_m5_freshness(
             "ELIGIBLE_FULL_HOUR_BACKLOG" if missing_eligible_hours
             else "ALL_ELIGIBLE_FULL_HOURS_ARCHIVED"
         ),
-        "intrahour_missing_is_expected_from_hourly_design":
+        "missing_slots_explained_by_hourly_grace_or_intrahour_design":
             intrahour_unsealed > 0,
         "github_writer_run_result_independently_observed": False,
         "provider_publisher_first_known_verified": False,
