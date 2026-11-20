@@ -41,7 +41,7 @@ class P204P192D1PrivateNumericReviewTests(TestCase):
             r["private_revised_source_sha_pair"]["refetched_sha256"],
         )
         self.assertEqual(r["proposal_content_sha256"], digest({
-            k: v for k,v in r.items() if k != "proposal_content_sha256",
+            k: v for k,v in r.items() if k != "proposal_content_sha256"
         }))
         self.assertFalse(r["owner_canonical_revision_approved"])
         self.assertFalse(r["may_write_d1"])
@@ -101,7 +101,7 @@ class P204P192D1PrivateNumericReviewTests(TestCase):
             r = deepcopy(original)
             r[key] = val
             r["proposal_content_sha256"] = digest({
-                k:v for k,v in r.items() if k != "proposal_content_sha256",
+                k:v for k,v in r.items() if k != "proposal_content_sha256"
             })
             with self.subTest(key=key), self.assertRaises(ValueError):
                 validate_p192_revision_review(r)
