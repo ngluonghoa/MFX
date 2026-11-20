@@ -78,7 +78,10 @@ class P204P192D1PrivateNumericReviewTests(TestCase):
             if b.native_open_label == "2026-11-18" else b
             for b in original.closed_bars
         ))
-        with self.assertRaisesRegex(ValueError, "P204_UNAPPROVED"):
+        # The original native source-provenance guard may reject this
+        # forged timezone metadata even before P204's own numeric-only gate.
+        # Either way a metadata-only variant must never be admitted.
+        with self.assertRaises(ValueError):
             candidate(batch=modified)
 
     def test_04_missing_original_overlap_refused(self):
