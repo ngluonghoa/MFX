@@ -21,6 +21,9 @@ from mfx_cache.p180_d1_overlap_diagnosis import diagnose_p171_overlap_source
 from mfx_cache.p200_p192_d1_sha_diff_forensics import (
     diagnose_p192_owner_overlap,
 )
+from mfx_cache.p204_p192_d1_revision_review import (
+    build_p192_revision_review, public_p192_revision_review,
+)
 from mfx_cache.p202_p192_h4_only_isolation import (
     VERSION as P202_VERSION, eligible_p192_h4_only,
 )
@@ -326,6 +329,31 @@ def main() -> None:
                     except (KeyError, TypeError, ValueError):
                         print("MFX_P200_P192_D1_FORENSICS_UNAVAILABLE_STILL_HELD")
                     else:
+                        # P0.204: model a PRIVATE owner-review SHA pair using
+                        # exactly the SAME independently SHA-audited chunk
+                        # and SAME refused provider batch. Never serialize
+                        # the private proposal, raw prices or source hashes.
+                        # This does not accept/rebase D1, write cache, or
+                        # alter the original fail-closed P192 exception.
+                        if (p200_public["conflict_classification"]
+                                == "NUMERIC_OHLC_VALUE_CHANGED"
+                                and p200_public["overlap_sha_changed_count"] == 1
+                                and p200_public["overlap_missing_count"] == 0):
+                            try:
+                                p204_private = build_p192_revision_review(
+                                    state=fresh_d1_state,
+                                    sealed_chunk=sealed_chunk,
+                                    refetched=batch,
+                                    origin_v1_sha=fresh_d1_origin,
+                                    runner_observed_utc=now,
+                                )
+                                p204_public = public_p192_revision_review(
+                                    p204_private)
+                            except (KeyError, TypeError, ValueError):
+                                print("MFX_P204_P192_REVIEW_UNAVAILABLE_D1_HELD")
+                            else:
+                                print("MFX_P204_P192_REDACTED_OWNER_REVIEW_ONLY")
+                                print(json.dumps(p204_public, sort_keys=True))
                         print("MFX_P200_P192_D1_SHA_DIFF_REDACTED_NO_COMMIT")
                         print(json.dumps(p200_public, sort_keys=True))
                         # P0.202: only an independently prepared, validated
