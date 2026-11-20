@@ -3354,8 +3354,8 @@
     {
       "path": "tests/test_mfx_p204_p192_d1_numeric_revision_review.py",
       "change": "added",
-      "expected_current_sha": "347ff0424e7abc92e9fdb317b8c74b56397478a1",
-      "reason": "P0.204 private SHA-bound P192 owner 18-Nov numeric D1 revised-source review model and PUBLIC redacted NO_SOURCE_ADMISSION projection only: same already validated original chunk/provider response, 0 extra vendor/Drive calls or writes, no source promotion, no new cron or broker, exact ten hermetic negative tests and owner-review decision matrix. Original P192 quarantine and P202 H4-only RED preservation unchanged."
+      "expected_current_sha": "2b72d450157f73574befee20152a43e278c376af",
+      "reason": "P0.204 private SHA-bound P192 owner 18-Nov numeric D1 revised-source review model and PUBLIC redacted NO_SOURCE_ADMISSION projection only: same already validated original chunk/provider response, 0 extra vendor/Drive calls or writes, no source promotion, no new cron or broker, exact ten hermetic negative tests and owner-review decision matrix. Original P192 quarantine and P202 H4-only RED preservation unchanged. QA remediation: original P204 CI #44766571158 failed only in compileall because new test dict comprehensions had a trailing comma; corrected grammar, no runtime/source scope changes. Must rerun exact PR head CI."
     },
     {
       "path": "docs/MFX_P204_OWNER_P192_D1_NUMERIC_REVISION_PRIVATE_REVIEW.md",
