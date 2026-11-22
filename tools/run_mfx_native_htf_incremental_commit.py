@@ -24,6 +24,9 @@ from mfx_cache.p200_p192_d1_sha_diff_forensics import (
 from mfx_cache.p204_p192_d1_revision_review import (
     build_p192_revision_review, public_p192_revision_review,
 )
+from mfx_cache.p207_p192_d1_disjoint_research_fork import (
+    build_p192_disjoint_research_fork,
+)
 from mfx_cache.p202_p192_h4_only_isolation import (
     VERSION as P202_VERSION, eligible_p192_h4_only,
 )
@@ -354,6 +357,24 @@ def main() -> None:
                             else:
                                 print("MFX_P204_P192_REDACTED_OWNER_REVIEW_ONLY")
                                 print(json.dumps(p204_public, sort_keys=True))
+                                # P0.207: use the SAME already fetched CLOSED
+                                # D1 batch and verified PRIVATE P204 review.
+                                # Research fork exists ONLY in process memory;
+                                # never write/replace P192, print raw prices,
+                                # SHA or session labels, or approve signals.
+                                try:
+                                    p207_private = build_p192_disjoint_research_fork(
+                                        state=fresh_d1_state,
+                                        refetched=batch,
+                                        validated_review=p204_private,
+                                        now_utc=now,
+                                    )
+                                    p207_safe = p207_private.public_summary()
+                                except (KeyError, TypeError, ValueError):
+                                    print("MFX_P207_REVISED_D1_FORK_UNAVAILABLE_STILL_HELD")
+                                else:
+                                    print("MFX_P207_P192_REVISED_D1_FORK_INMEMORY_ONLY")
+                                    print(json.dumps(p207_safe, sort_keys=True))
                         print("MFX_P200_P192_D1_SHA_DIFF_REDACTED_NO_COMMIT")
                         print(json.dumps(p200_public, sort_keys=True))
                         # P0.202: only an independently prepared, validated
