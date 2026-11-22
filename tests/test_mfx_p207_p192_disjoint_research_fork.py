@@ -163,7 +163,9 @@ class P207PrivateD1ForkTests(TestCase):
                 validated_review=review,now_utc=NEXT)
 
     def test_10_future_sydney_d1_not_eligible(self):
-        _,state,batch,review=prepared()
+        # Review observation clock matches this earlier post-18Nov seal;
+        # 19Nov is not a CLOSED Sydney D1 until the next source session.
+        _,state,batch,review=prepared(clock=AFTER)
         with self.assertRaisesRegex(ValueError,"UNCLOSED_OR_UNPUBLISHED"):
             build_p192_disjoint_research_fork(
                 state=state,refetched=batch,
