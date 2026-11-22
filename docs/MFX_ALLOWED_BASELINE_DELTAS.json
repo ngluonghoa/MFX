@@ -3362,6 +3362,24 @@
       "change": "added",
       "expected_current_sha": "d1ac7ffb7bda3a5a46b19028cdb9654a9d225491",
       "reason": "P0.204 private SHA-bound P192 owner 18-Nov numeric D1 revised-source review model and PUBLIC redacted NO_SOURCE_ADMISSION projection only: same already validated original chunk/provider response, 0 extra vendor/Drive calls or writes, no source promotion, no new cron or broker, exact ten hermetic negative tests and owner-review decision matrix. Original P192 quarantine and P202 H4-only RED preservation unchanged. P0.205 evidence-only addendum: 22Nov actual P204 diagnostic, independent SHA H4 plus bounded M5 audits, owner NO-GO; no source authority/producer changes."
+    },
+    {
+      "path": "mfx_research/p206_b2s2_external_decision_contract.py",
+      "change": "added",
+      "expected_current_sha": "a289a0eefe74013b5432305a387ad35c53cdda38",
+      "reason": "P0.206 source-anchored external seven paired B2 LONG/S2 SHORT owner-decision contracts: conditional non-numeric design only, no approvals; 18 requirement review coverage and 0/36 original signed numeric, no quote/feed/Drive/broker I/O, 16 hermetic fail-closed tests; frozen Forex 102+11 unchanged."
+    },
+    {
+      "path": "tests/test_mfx_p206_b2s2_external_decision_contract.py",
+      "change": "added",
+      "expected_current_sha": "107929966cbd0e5614b308d88cb2a21a69236db9",
+      "reason": "P0.206 source-anchored external seven paired B2 LONG/S2 SHORT owner-decision contracts: conditional non-numeric design only, no approvals; 18 requirement review coverage and 0/36 original signed numeric, no quote/feed/Drive/broker I/O, 16 hermetic fail-closed tests; frozen Forex 102+11 unchanged."
+    },
+    {
+      "path": "docs/MFX_P206_REMAINING_SEVEN_B2S2_SOURCE_DECISIONS.md",
+      "change": "added",
+      "expected_current_sha": "4642e629ab4a4aafbfc091ed25e507365e86234b",
+      "reason": "P0.206 source-anchored external seven paired B2 LONG/S2 SHORT owner-decision contracts: conditional non-numeric design only, no approvals; 18 requirement review coverage and 0/36 original signed numeric, no quote/feed/Drive/broker I/O, 16 hermetic fail-closed tests; frozen Forex 102+11 unchanged."
     }
   ]
 }
