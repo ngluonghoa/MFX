@@ -2376,8 +2376,8 @@
     {
       "path": "docs/MFX_V1_SIGNAL_FIRST_RELEASE_CRITICAL_PATH.md",
       "change": "added",
-      "expected_current_sha": "9ea55b90492f22ad0c322a501c1bb4cadc4b2f04",
-      "reason": "Owner-approved Nov12 2026 signal-first v1 critical path, exact source-anchored gaps, Nov12-Dec10 conditional milestones, paused H4 substitution R&D, unchanged source/workflows."
+      "expected_current_sha": "f55b785136332898f1b06a60f2f57176e9d4a6cd",
+      "reason": "Owner-approved Nov12 2026 signal-first v1 critical path, exact source-anchored gaps, Nov12-Dec10 conditional milestones, paused H4 substitution R&D, unchanged source/workflows. P0.205 evidence-only addendum: 22Nov actual P204 diagnostic, independent SHA H4 plus bounded M5 audits, owner NO-GO; no source authority/producer changes."
     },
     {
       "path": "mfx_research/six_tf_readonly_context.py",
@@ -3360,8 +3360,8 @@
     {
       "path": "docs/MFX_P204_OWNER_P192_D1_NUMERIC_REVISION_PRIVATE_REVIEW.md",
       "change": "added",
-      "expected_current_sha": "2707a42377652fe18ec006444d933088cc748d59",
-      "reason": "P0.204 private SHA-bound P192 owner 18-Nov numeric D1 revised-source review model and PUBLIC redacted NO_SOURCE_ADMISSION projection only: same already validated original chunk/provider response, 0 extra vendor/Drive calls or writes, no source promotion, no new cron or broker, exact ten hermetic negative tests and owner-review decision matrix. Original P192 quarantine and P202 H4-only RED preservation unchanged."
+      "expected_current_sha": "d1ac7ffb7bda3a5a46b19028cdb9654a9d225491",
+      "reason": "P0.204 private SHA-bound P192 owner 18-Nov numeric D1 revised-source review model and PUBLIC redacted NO_SOURCE_ADMISSION projection only: same already validated original chunk/provider response, 0 extra vendor/Drive calls or writes, no source promotion, no new cron or broker, exact ten hermetic negative tests and owner-review decision matrix. Original P192 quarantine and P202 H4-only RED preservation unchanged. P0.205 evidence-only addendum: 22Nov actual P204 diagnostic, independent SHA H4 plus bounded M5 audits, owner NO-GO; no source authority/producer changes."
     }
   ]
 }
