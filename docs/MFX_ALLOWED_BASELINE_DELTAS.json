@@ -1992,8 +1992,8 @@
     {
       "path": "tools/run_mfx_native_htf_incremental_commit.py",
       "change": "added",
-      "expected_current_sha": "f3cd78e630239974b12b4d355ce910145018f13f",
-      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes. P0.190: real hourly P171 D1 SHA conflict path invokes existing P185 private owner-review candidate using same already-fetched source and full-SHA-audited state, logs only separately checked redacted public projection, fail-closed static error marker, no D1 write, no extra Drive/vendor I/O, H4 eligibility unchanged. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls. P0.200 only upon real P192 18-Nov fresh D1 overlap SHA quarantine, re-read exactly one independently full-SHA-attested private chunk and compare with SAME provider response in memory, emit ONLY redacted count/classification of OHLC numeric vs metadata vs formatting vs missing source, preserve original exception and no canonical Drive price writes. 10 synthetic tests, same provider calls and no new workflow/cron, no vendor/broker/signals, source remains NO_SIGNAL. P0.202 strict source-different P192 owner D1 one numeric OHLC overlap revision is still red; only independently full-SHA validated H4 may append via unchanged native batch writer when due after re-auditing V1 H4, V1 D1, P192 D1. No P192 canonical writes, no provider calls added, job still raises P192 exception, 11 hermetic negative tests, frozen Forex source intact. P0.204 private SHA-bound P192 owner 18-Nov numeric D1 revised-source review model and PUBLIC redacted NO_SOURCE_ADMISSION projection only: same already validated original chunk/provider response, 0 extra vendor/Drive calls or writes, no source promotion, no new cron or broker, exact ten hermetic negative tests and owner-review decision matrix. Original P192 quarantine and P202 H4-only RED preservation unchanged."
+      "expected_current_sha": "aa3fce744908296028349d90b0c6813a628a8fe8",
+      "reason": "P0.183 SHA-only one changed/no missing D1 P171 source hold permits isolated H4 immutable append after dual original SHA custody re-audit + full P171 fresh-epoch second SHA audit + strict H4 sealed replay; job stays RED, no D1 writes/signals, no schedule/secret/vendor changes. P0.190: real hourly P171 D1 SHA conflict path invokes existing P185 private owner-review candidate using same already-fetched source and full-SHA-audited state, logs only separately checked redacted public projection, fail-closed static error marker, no D1 write, no extra Drive/vendor I/O, H4 eligibility unchanged. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls. P0.200 only upon real P192 18-Nov fresh D1 overlap SHA quarantine, re-read exactly one independently full-SHA-attested private chunk and compare with SAME provider response in memory, emit ONLY redacted count/classification of OHLC numeric vs metadata vs formatting vs missing source, preserve original exception and no canonical Drive price writes. 10 synthetic tests, same provider calls and no new workflow/cron, no vendor/broker/signals, source remains NO_SIGNAL. P0.202 strict source-different P192 owner D1 one numeric OHLC overlap revision is still red; only independently full-SHA validated H4 may append via unchanged native batch writer when due after re-auditing V1 H4, V1 D1, P192 D1. No P192 canonical writes, no provider calls added, job still raises P192 exception, 11 hermetic negative tests, frozen Forex source intact. P0.204 private SHA-bound P192 owner 18-Nov numeric D1 revised-source review model and PUBLIC redacted NO_SOURCE_ADMISSION projection only: same already validated original chunk/provider response, 0 extra vendor/Drive calls or writes, no source promotion, no new cron or broker, exact ten hermetic negative tests and owner-review decision matrix. Original P192 quarantine and P202 H4-only RED preservation unchanged. P207 narrow redacted in-memory-only fork witness on existing P204/P200 P192 quarantine, zero additional vendor/Drive writes, D1 still RED."
     },
     {
       "path": "tools/run_mfx_native_htf_incremental_preview.py",
@@ -3380,6 +3380,24 @@
       "change": "added",
       "expected_current_sha": "4642e629ab4a4aafbfc091ed25e507365e86234b",
       "reason": "P0.206 source-anchored external seven paired B2 LONG/S2 SHORT owner-decision contracts: conditional non-numeric design only, no approvals; 18 requirement review coverage and 0/36 original signed numeric, no quote/feed/Drive/broker I/O, 16 hermetic fail-closed tests; frozen Forex 102+11 unchanged."
+    },
+    {
+      "path": "mfx_cache/p207_p192_d1_disjoint_research_fork.py",
+      "change": "added",
+      "expected_current_sha": "b75b46f9a759bedd7f1129849fb44964cfddf157",
+      "reason": "P207 private disjoint changed D1 18Nov plus later CLOSED rows in RAM and redacted marker only, no source admission, no added vendor/Drive I/O, 16 hermetic negative/source tests; original P192/V1/P171 archives untouched."
+    },
+    {
+      "path": "tests/test_mfx_p207_p192_disjoint_research_fork.py",
+      "change": "added",
+      "expected_current_sha": "bb7846c37045b46a9f9e2d4023fdb0bf07e8f7b6",
+      "reason": "P207 private disjoint changed D1 18Nov plus later CLOSED rows in RAM and redacted marker only, no source admission, no added vendor/Drive I/O, 16 hermetic negative/source tests; original P192/V1/P171 archives untouched."
+    },
+    {
+      "path": "docs/MFX_P207_P192_DISJOINT_INMEMORY_RESEARCH_FORK.md",
+      "change": "added",
+      "expected_current_sha": "63ef3ca413c5356cef7816fef3fdab887971083a",
+      "reason": "P207 private disjoint changed D1 18Nov plus later CLOSED rows in RAM and redacted marker only, no source admission, no added vendor/Drive I/O, 16 hermetic negative/source tests; original P192/V1/P171 archives untouched."
     }
   ]
 }
