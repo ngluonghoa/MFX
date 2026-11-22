@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from dataclasses import replace
 import unittest
-from unittest.mock import patch
 
 from mfx_research.p188_b2s2_numeric_owner_review_candidates import (
     EXTERNAL_UNRESOLVED, compile_p188_review_draft,
