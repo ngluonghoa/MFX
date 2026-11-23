@@ -9,7 +9,6 @@ or permission to store/approve revised Forex source data. The P192 original
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from hashlib import sha256
 from typing import Any
 
 from mfx_cache.native_d1_epoch_20261118 import PREFIX as P192_PREFIX
@@ -30,7 +29,6 @@ CHUNK_SCHEMA = "MFX_P208_REVISED_D1_VINTAGE_CHUNK_OUTLINE_V1"
 MANIFEST_SCHEMA = "MFX_P208_REVISED_D1_VINTAGE_MANIFEST_OUTLINE_V1"
 NO_SIGNAL = "NO_SIGNAL"
 REQUIRED_LABEL = "2026-11-18"
-APPROVED_WRITERS = 0
 
 
 def _sha(s: Any) -> bool:
