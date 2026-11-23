@@ -27,6 +27,9 @@ from mfx_cache.p204_p192_d1_revision_review import (
 from mfx_cache.p207_p192_d1_disjoint_research_fork import (
     build_p192_disjoint_research_fork,
 )
+from mfx_cache.p208_p192_revision_vintage_dryrun import (
+    prepare_disjoint_p192_revision_vintage,
+)
 from mfx_cache.p202_p192_h4_only_isolation import (
     VERSION as P202_VERSION, eligible_p192_h4_only,
 )
@@ -375,6 +378,25 @@ def main() -> None:
                                 else:
                                     print("MFX_P207_P192_REVISED_D1_FORK_INMEMORY_ONLY")
                                     print(json.dumps(p207_safe, sort_keys=True))
+                                    # P0.208: owner approved PREPARATION ONLY.
+                                    # Draft a distinct SHA/versioned namespace
+                                    # outline in RAM from SAME refetched D1.
+                                    # Never allocate a Drive folder or write
+                                    # price data, source version or a manifest.
+                                    try:
+                                        p208_private = prepare_disjoint_p192_revision_vintage(
+                                            fork=p207_private,
+                                            state=fresh_d1_state,
+                                            refetched=batch,
+                                            validated_review=p204_private,
+                                            now_utc=now,
+                                        )
+                                        p208_safe = p208_private.public_summary()
+                                    except (KeyError, TypeError, ValueError):
+                                        print("MFX_P208_D1_VINTAGE_DRYRUN_UNAVAILABLE_STILL_HELD")
+                                    else:
+                                        print("MFX_P208_D1_REVISED_VINTAGE_DRYRUN_NO_STORAGE")
+                                        print(json.dumps(p208_safe, sort_keys=True))
                         print("MFX_P200_P192_D1_SHA_DIFF_REDACTED_NO_COMMIT")
                         print(json.dumps(p200_public, sort_keys=True))
                         # P0.202: only an independently prepared, validated
