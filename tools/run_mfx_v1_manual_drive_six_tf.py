@@ -59,6 +59,10 @@ from mfx_cache.native_d1_epoch_20261118 import (
     PREFIX as ACTIVE_D1_PREFIX, PrivateD1FreshEpochStore as PrivateD1Nov18Store,
 )
 
+from mfx_cache.p209_d1_revision_snapshot_cache import (
+    PREFIX as REVISED_D1_PREFIX, PrivateP209D1Store,
+)
+
 VERSION = "MFX_V1_MANUAL_PRIVATE_DRIVE_GET_ONLY_SIX_TF_V1"
 CONFIRMATION = "READ_ONLY_NO_SIGNAL"
 READ_APPROVAL = "MFX_V1_SIX_TF_MANUAL_READONLY_APPROVED"
@@ -69,7 +73,7 @@ EXISTING_GATES = (
 ALLOWED_PREFIXES = (
     "MFX_TD_EURUSD_M5_V2_", "MFX_TD_EURUSD_H4_NATIVE_V1_",
     "MFX_TD_EURUSD_D1_NATIVE_V1_",
-    ARCHIVED_P171_D1_PREFIX, ACTIVE_D1_PREFIX,
+    ARCHIVED_P171_D1_PREFIX, ACTIVE_D1_PREFIX, REVISED_D1_PREFIX,
 )
 DRIVE_API = "https://www.googleapis.com"
 ID_RE = re.compile(r"^[A-Za-z0-9_-]{8,160}$")
@@ -180,7 +184,8 @@ def private_get_only_probe(
         PrivateD1Nov18Store(session))
     evidence = consume_sealed_archives_for_six_tf(
         m5, h4, d1, asof_utc=asof_utc,
-        owner_nov18_d1_epoch_store=active_d1)
+        owner_nov18_d1_epoch_store=active_d1,
+        revised_d1_research_store=ReadOnlyView(PrivateP209D1Store(session)))
     return evidence, session.get_count
 
 
@@ -824,6 +829,9 @@ def main() -> None:
         # Never print PASS before all source/authority validation and JSON
         # encoding have succeeded. A failure must emit ONLY the FAIL marker.
         payload = safe_summary(receipt, drive_gets=gets)
+        if receipt.private_revised_d1_six_tf is not None:
+            payload["p211_private_revised_d1_research"] = (
+                receipt.private_revised_d1_six_tf.public_summary())
         encoded = json.dumps(payload, sort_keys=True)
         if payload["status"] == D1_HOLD_PUBLIC_STATUS:
             print("MFX_V1_MANUAL_DRIVE_GET_ONLY_D1_QUARANTINED_NO_SIGNAL")

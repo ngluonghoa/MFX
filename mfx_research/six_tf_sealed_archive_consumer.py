@@ -19,6 +19,10 @@ from mfx_research.p193_owner_nov18_active_d1_reader import (
     read_p192_owner_d1_epoch,
 )
 from mfx_cache.td_m5_codec import digest
+from mfx_cache.native_d1_epoch_20261118 import audit_fresh_epoch as audit_p192_epoch
+from mfx_research.p211_private_revised_six_tf import (
+    PrivateRevisedSixTF, compose_private_revised_six_tf,
+)
 from mfx_cache.v2_batch_commit import _name, _validate_manifest
 from mfx_research.six_tf_readonly_context import (
     SixTimeframeResearchReceipt, build_six_timeframe_readonly_context,
@@ -139,6 +143,9 @@ class SealedArchiveSixTFReceipt:
         default=None, repr=False,
     )
     private_b2s2_source_readiness: PrivateB2S2Readiness | None = field(
+        default=None, repr=False,
+    )
+    private_revised_d1_six_tf: PrivateRevisedSixTF | None = field(
         default=None, repr=False,
     )
 
@@ -290,6 +297,7 @@ def consume_sealed_archives_for_six_tf(
     fixture_pins: SyntheticFixturePins | None = None,
     active_d1_epoch_store: ReadOnlyObjectStore | None = None,
     owner_nov18_d1_epoch_store: ReadOnlyObjectStore | None = None,
+    revised_d1_research_store: ReadOnlyObjectStore | None = None,
 ) -> SealedArchiveSixTFReceipt:
     """Read verified content-addressed archive context; NEVER authorize trades.
 
@@ -309,6 +317,9 @@ def consume_sealed_archives_for_six_tf(
     if owner_nov18_d1_epoch_store is not None and (
             fixture_pins is not None or active_d1_epoch_store is not None):
         raise ValueError("P193_OWNER_P192_REJECTS_HISTORICAL_OR_FIXTURE_SOURCE")
+
+    if revised_d1_research_store is not None and owner_nov18_d1_epoch_store is None:
+        raise ValueError("P211_REVISED_RESEARCH_REQUIRES_P192_SOURCE")
 
     initial = (_snapshot(m5_store), _snapshot(h4_store),
                _snapshot(d1_store),
@@ -380,6 +391,14 @@ def consume_sealed_archives_for_six_tf(
     # custody must never flip its separate unverified market permissions.
     technical = build_six_timeframe_readonly_context(
         tuple(m5_bars[-12:]), h4, d1, asof_utc=asof_utc)
+    revised_research = None
+    if revised_d1_research_store is not None:
+        original = audit_p192_epoch(owner_nov18_d1_epoch_store, origin_v1_sha=legacy_d1_tip)
+        revised_research = compose_private_revised_six_tf(
+            revised_d1_research_store, original=original,
+            expected_original_sha=d1_tip, m5=m5_bars, h4=h4,
+            canonical=technical, asof_utc=asof_utc,
+        )
     if ((_snapshot(m5_store), _snapshot(h4_store),
          _snapshot(d1_store),
          (_snapshot(active_d1_epoch_store)
@@ -572,4 +591,5 @@ def consume_sealed_archives_for_six_tf(
         private_m15_microbreak=private_microbreak,
         private_m15_prefix_replay=prefix_replay,
         private_b2s2_source_readiness=b2s2_requirements,
+        private_revised_d1_six_tf=revised_research,
     )
