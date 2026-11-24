@@ -8,6 +8,8 @@ on:
     branches: [main]
     paths:
       - "tools/run_mfx_native_htf_cache_audit.py"
+      - "tools/audit_mfx_p209_d1_private_cache.py"
+      - "mfx_cache/p209_d1_revision_snapshot_cache.py"
       - "tools/mfx_native_htf_drive_seal.py"
       - "mfx_cache/native_fx_htf.py"
       - "mfx_cache/native_htf_archive.py"
@@ -56,6 +58,21 @@ jobs:
           MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
           MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
         run: python -m tools.run_mfx_native_htf_cache_audit
+
+      - name: Independently read and verify private P209 D1 snapshots
+        env:
+          PYTHONPATH: src:.
+          MFX_REAL_CACHE_ENABLED: "true"
+          MFX_V2_BATCH_CACHE_ACCEPTED: "true"
+          MFX_NATIVE_HTF_DRIVE_WRITE_ACCEPTED: "true"
+          MFX_D1_OWNER_CUTOFF_20261118: "true"
+          MFX_GDRIVE_OAUTH_CLIENT_ID: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_ID }}
+          MFX_GDRIVE_OAUTH_CLIENT_SECRET: ${{ secrets.MFX_GDRIVE_OAUTH_CLIENT_SECRET }}
+          MFX_GDRIVE_OAUTH_REFRESH_TOKEN: ${{ secrets.MFX_GDRIVE_OAUTH_REFRESH_TOKEN }}
+          MFX_CACHE_CHUNK_FOLDER_ID: ${{ vars.MFX_CACHE_CHUNK_FOLDER_ID }}
+          MFX_CACHE_MANIFEST_FOLDER_ID: ${{ vars.MFX_CACHE_MANIFEST_FOLDER_ID }}
+        run: python -m tools.audit_mfx_p209_d1_private_cache
+
 
   github-m5-writer-history-readonly:
     # P0.197 uses the EXISTING :45/hour and push-on-audit-file workflow.
