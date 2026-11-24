@@ -75,3 +75,31 @@ class P211PrivateSixTFTests(TestCase):
         self.assertNotIn("2026-11-19", public)
         self.assertNotIn("1.1000", public)
         self.assertNotIn('"frames"', public)
+
+    def test_07_private_readiness_both_sides_never_promoted(self):
+        r = self.compose()
+        self.assertIsNotNone(r.private_multibar)
+        readiness = r.private_b2s2
+        self.assertEqual(readiness.source_technical_mode,
+                         "P209_PRIVATE_REVISED_D1_RESEARCH_ONLY")
+        self.assertEqual(tuple(g.rule_id for g in readiness.gates), ("B2", "S2"))
+        self.assertTrue(all(g.d1_observed_native_rows == 2 for g in readiness.gates))
+        self.assertFalse(readiness.d1_calendar_qualified)
+        self.assertFalse(readiness.may_publish_buy_sell)
+        self.assertTrue(r.public_summary()["private_b2s2_requirements_computed"])
+        self.assertEqual(r.public_summary()["private_b2s2_rule_count"], 2)
+
+    def test_08_private_readiness_absent_when_no_snapshot(self):
+        self.sidecar = MemoryEpochStore()
+        r = self.compose()
+        self.assertIsNone(r.private_b2s2)
+        self.assertIsNone(r.private_multibar)
+        self.assertEqual(r.public_summary()["private_b2s2_rule_count"], 0)
+
+    def test_09_no_private_direction_or_requirements_in_summary(self):
+        import json
+        r = self.compose()
+        public = json.dumps(r.public_summary())
+        for secret in ("experimental_cross", "missing_preconditions",
+                       "private_input_digest_sha256", "h4_confirmed_high_pivots"):
+            self.assertNotIn(secret, public)
