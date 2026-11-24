@@ -110,7 +110,7 @@ def compute_private_option_b2s2_requirements(
         raise TypeError("P177_SEALED_TYPED_SOURCE_REQUIRED")
     if active_d1_source_epoch not in (
         "P171_D1_FRESH_20261111", "P192_D1_FRESH_20261118",
-        "LEGACY_D1_V1",
+        "LEGACY_D1_V1", "P209_PRIVATE_REVISED_D1_RESEARCH_ONLY",
     ):
         raise ValueError("P177_EXACT_SOURCE_EPOCH_REQUIRED")
     if (pivots != scan_private_sealed_pivot_sensitivity(multi,technical)
