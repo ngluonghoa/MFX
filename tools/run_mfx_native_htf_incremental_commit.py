@@ -30,6 +30,9 @@ from mfx_cache.p207_p192_d1_disjoint_research_fork import (
 from mfx_cache.p208_p192_revision_vintage_dryrun import (
     prepare_disjoint_p192_revision_vintage,
 )
+from mfx_cache.p209_d1_revision_snapshot_cache import (
+    PrivateP209D1Store, cache_revised_d1_snapshot,
+)
 from mfx_cache.p202_p192_h4_only_isolation import (
     VERSION as P202_VERSION, eligible_p192_h4_only,
 )
@@ -397,6 +400,26 @@ def main() -> None:
                                     else:
                                         print("MFX_P208_D1_REVISED_VINTAGE_DRYRUN_NO_STORAGE")
                                         print(json.dumps(p208_safe, sort_keys=True))
+                                        # P209: owner standing cache approval.
+                                        # Preserve the original D1 hold and H4
+                                        # isolation even if sidecar I/O fails.
+                                        try:
+                                            p209_safe = cache_revised_d1_snapshot(
+                                                PrivateP209D1Store(session),
+                                                proposal=p208_private,
+                                                fork=p207_private,
+                                                state=fresh_d1_state,
+                                                refetched=batch,
+                                                validated_review=p204_private,
+                                                now_utc=now,
+                                            )
+                                        except Exception:
+                                            # Never expose raw vendor/Drive errors
+                                            # from this private sidecar path.
+                                            print("MFX_P209_PRIVATE_SNAPSHOT_FAILED_D1_HELD")
+                                        else:
+                                            print("MFX_P209_PRIVATE_D1_SNAPSHOT_SHA_READBACK")
+                                            print(json.dumps(p209_safe, sort_keys=True))
                         print("MFX_P200_P192_D1_SHA_DIFF_REDACTED_NO_COMMIT")
                         print(json.dumps(p200_public, sort_keys=True))
                         # P0.202: only an independently prepared, validated

@@ -1,0 +1,15 @@
+# P0.209 — Standing owner cache authorization: private D1 revision snapshots
+
+24 November 2026 ICT. The owner explicitly repeated that MFX must collect and cache data without asking again. The updated 00_MASTER_HANDOFF records the standing authorization, including separately versioned D1 corrections. This supersedes P208's owner preparation-only restriction for cache custody; it does not constitute vendor terms evidence, publisher first-known, canonical source adjudication, B2/S2 approval or release GO. No new provider request or cron, OAuth or broker change.
+
+## Implementation
+
+The existing P192 numeric overlap failure path already revalidates the original sealed 18-Nov root (P200/P204), constructs the closed Sydney D1 research fork (P207) and replays the private outline (P208). P209 independently verifies this same input before placing the raw revised 18-Nov and later closed rows in the existing private CHUNK folder under a disjoint `MFX_P209_EURUSD_D1_20261118_QUARANTINE_V1_chunk_` prefix. A single self-describing immutable JSON snapshot holds row SHA identifiers, original root and original/revised bar SHA, immutable content identity, first runner observation and record SHA. No separate manifest is needed; no orphan pair. Content identity excludes the clock; identical rows reuse the first observed snapshot, changed content gets another immutable object. Bound by the existing native archive object cap; duplicates, tamper and clock rollback fail closed. No deletion or overwrite. The first runner observation is not publisher first-known; no claim of unlimited retention or legal entitlement is made.
+
+P209 reports only redacted counts and zero canonical D1 writes, provider calls added, and broker orders. On a sidecar error it prints a static failure marker and preserves the original P192 error and independent P202 H4-only path. P208 remains a nonwriting outline, with its historical marker scoped to that step only. The original V1/P171/P192 archives and Forex frozen source files remain unchanged. D1 remains quarantined from canonical analysis; no BUY/SELL publication.
+
+## Verification and rollback
+
+New synthetic tests cover private namespace, closed rows, exact-content replay and first observation, tamper, forged authority, clock rollback, foreign listing, real mocked scheduled writer and failed sidecar isolation. Require exact-head Python 3.11/3.12 tests, source/golden/static/security, cross-Python wheel and protected squash-only merge; independent main-push CI, then actual scheduled marker `MFX_P209_PRIVATE_D1_SNAPSHOT_SHA_READBACK` plus private readback before claiming production persistence. A failure marker is not success. No changes to frozen Forex 102 files/11 source Docs. Rollback only the P209 change set; preserve already observed private snapshots and original immutable source history.
+
+Remaining #180 source selection/first-known, #45 0/36 original B2/S2 numeric, #27 actual vendor rights and executable quote evidence, #138 economic OOS and GO are independent of the owner's cache authorization. Do not ask the owner again about permission to collect or cache.
