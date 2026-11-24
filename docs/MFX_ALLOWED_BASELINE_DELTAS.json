@@ -43,8 +43,8 @@
     {
       "path": ".github/workflows/mfx-native-htf-cache-audit.yml",
       "change": "added",
-      "expected_current_sha": "08194823fc08e206a5832421689c5538489431c2",
-      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls. P0.197 isolated GitHub Actions-read-only historical M5 writer run observer: one scoped API metadata GET on the already scheduled P58 native SHA auditor, no new cron, no Drive market-data read/write, no quote-vendor API, no broker/orders, bounded job IDs and clock caveat, 14 hermetic tests, original 102 frozen blobs intact."
+      "expected_current_sha": "00d40b510d62086ce8078460a2fe05933170b856",
+      "reason": "A04/P0.58 after verified real H4+D1 manual EUR/USD root Drive acceptance #42964328456: strictly read-only hourly UTC :45 private Drive full bounded native H4/D1 content/parent SHA audit, D1 exchange-local DST and H4 closed-slot observational calendar-lag, zero provider price calls, zero Drive writes, source labels unchanged, no numeric BUY/SELL or broker, original frozen Forex 102-blobs intact. Added 24 offline tests; native writer remains manual-only. Real hourly audit proof still pending hosted main run. P0.72 add protected-main path-limited push trigger to owner-gated read-only native H4+D1 full source SHA workflow for independent immediate postmerge live attestation, retaining hourly :45 cron/manual, same lock/permissions, no source price API key, writer or broker. P0.171 scoped fresh D1 owner rebaseline, preserving frozen legacy SHA and existing cache rate limits, independent native audit. P0.192 18-Nov owner-selected D1, preserve prior P171/legacy archives and same hourly/quota/Drive authority; new independent sealed cutoff source only, SHA still fails closed on future revisions, no source/strategy/rights/OOS promotion, no extra scheduled provider polls. P0.197 isolated GitHub Actions-read-only historical M5 writer run observer: one scoped API metadata GET on the already scheduled P58 native SHA auditor, no new cron, no Drive market-data read/write, no quote-vendor API, no broker/orders, bounded job IDs and clock caveat, 14 hermetic tests, original 102 frozen blobs intact. P210 independent GET-only P209 snapshot SHA and original P192 parent audit, observed-asof private research reader, seven synthetic tests, existing audit cron/shared lock, no price API, writes, broker, canonical selection or signal."
     },
     {
       "path": ".github/workflows/mfx-native-htf-drive-commit.yml",
@@ -3434,6 +3434,24 @@
       "change": "added",
       "expected_current_sha": "c679dcf47d1751787f4311126ac35ee126922bd3",
       "reason": "P209 standing owner cache authorization: independently replay P208/P207 and store isolated immutable private D1 snapshot, dedupe by content, readback SHA; no canonical admission, new provider poll, broker or signal. Original Forex102 and P192 source unchanged."
+    },
+    {
+      "path": "tools/audit_mfx_p209_d1_private_cache.py",
+      "change": "added",
+      "expected_current_sha": "6bab814f21760646f50bba4bec1fac996a80b9f4",
+      "reason": "P210 independent GET-only P209 snapshot SHA and original P192 parent audit, observed-asof private research reader, seven synthetic tests, existing audit cron/shared lock, no price API, writes, broker, canonical selection or signal."
+    },
+    {
+      "path": "tests/test_mfx_p210_private_d1_readonly.py",
+      "change": "added",
+      "expected_current_sha": "810c55c080da1eef624a9f5a78ed4186a13bdd74",
+      "reason": "P210 independent GET-only P209 snapshot SHA and original P192 parent audit, observed-asof private research reader, seven synthetic tests, existing audit cron/shared lock, no price API, writes, broker, canonical selection or signal."
+    },
+    {
+      "path": "docs/MFX_P210_PRIVATE_D1_INDEPENDENT_READONLY.md",
+      "change": "added",
+      "expected_current_sha": "54ac18b7469578505edd1c0b01a79c5bfca2e05c",
+      "reason": "P210 independent GET-only P209 snapshot SHA and original P192 parent audit, observed-asof private research reader, seven synthetic tests, existing audit cron/shared lock, no price API, writes, broker, canonical selection or signal."
     }
   ]
 }
