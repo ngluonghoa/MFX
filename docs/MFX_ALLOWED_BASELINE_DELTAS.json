@@ -3606,14 +3606,14 @@
     {
       "path": "mfx_research/p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "cdb51e4add287e4654e8043c703a997f05401bcd",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority. P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change."
+      "expected_current_sha": "f5088b7fd78f67c33f2e47c751edf88b18acee5f",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority. P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change. P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions."
     },
     {
       "path": "tests/test_mfx_p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "147616a00b63084294a568cf0f46cde498ad9b60",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority."
+      "expected_current_sha": "523388dcdfdd113935d9e6233239907e4ee3eb0d",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority. P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions."
     },
     {
       "path": "docs/MFX_P220_PRIVATE_OBSERVED_SIX_TF_REPLAY.md",
@@ -3668,6 +3668,24 @@
       "change": "added",
       "expected_current_sha": "887626fe3d59908af51a13bbd5466babec23d3e6",
       "reason": "P226 actual P225-main receipt exposed mixed 24 overdue plus 5 intrahour slots: correct all-gap explanation, explicit overdue slots and unattested null, hermetic regressions; no schedule, writer, source-validity or signal authority change."
+    },
+    {
+      "path": "mfx_research/p227_pretrigger_h1.py",
+      "change": "added",
+      "expected_current_sha": "9f8e1d76da4472591987dae9e541fd8a1ffd9b4f",
+      "reason": "P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions."
+    },
+    {
+      "path": "tests/test_mfx_p227_pretrigger_h1.py",
+      "change": "added",
+      "expected_current_sha": "15e7daa8bb68d22d9ec8d4268e9721d3e508ab90",
+      "reason": "P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions."
+    },
+    {
+      "path": "docs/MFX_P227_PRETRIGGER_H1_ARCHIVE_CONTEXT.md",
+      "change": "added",
+      "expected_current_sha": "dac26f2c559e8aca6832250a59a065ea2b7c2449",
+      "reason": "P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions."
     }
   ]
 }
