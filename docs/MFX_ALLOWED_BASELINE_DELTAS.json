@@ -3494,6 +3494,24 @@
       "change": "added",
       "expected_current_sha": "df066e8775a469d54ebdaca7f0ede4f89fe487a7",
       "reason": "P213 purged chronological SIM fold on verified P167 audit with explicit horizon, embargo, full feature separation and eight synthetic tests, no real OOS or signal claim."
+    },
+    {
+      "path": "mfx_research/p214_sim_htf_invalidation.py",
+      "change": "added",
+      "expected_current_sha": "e805195fdd17a2467e15d44d50095476ae16dd2f",
+      "reason": "P214 source-aligned symmetric closed H1/H4 setup invalidation SIM experiment, explicit buffer and selected frames, causal same-source future bars, eight tests, no source approvals or provider/Drive/broker operations."
+    },
+    {
+      "path": "tests/test_mfx_p214_sim_htf_invalidation.py",
+      "change": "added",
+      "expected_current_sha": "7f91d79c21069eef9e18b73e17bc093ef1db5904",
+      "reason": "P214 source-aligned symmetric closed H1/H4 setup invalidation SIM experiment, explicit buffer and selected frames, causal same-source future bars, eight tests, no source approvals or provider/Drive/broker operations."
+    },
+    {
+      "path": "docs/MFX_P214_SIM_SETUP_HTF_INVALIDATION.md",
+      "change": "added",
+      "expected_current_sha": "255aacd8f1ddb066c1cad277dcf7c17f2d17bedf",
+      "reason": "P214 source-aligned symmetric closed H1/H4 setup invalidation SIM experiment, explicit buffer and selected frames, causal same-source future bars, eight tests, no source approvals or provider/Drive/broker operations."
     }
   ]
 }
