@@ -5,6 +5,7 @@ from decimal import Decimal
 from unittest import TestCase
 
 from mfx_research.p227_pretrigger_h1 import calculate_pretrigger_h1
+from mfx_research.p231_private_trigger_identity import identify_private_trigger_pair
 from mfx_research.p232_delayed_middle_pairs import (
     middle_pair_clock_census, replay_delayed_middle_pairs,
 )
@@ -122,3 +123,73 @@ class P233MiddleClockCensusTests(TestCase):
         self.assertNotIn("private_eligible_indices",s)
         self.assertNotIn("2026-11-26",s)
         self.assertIn("NO_SIGNAL",s)
+
+
+class P234DelayedBoundaryIdentityTests(TestCase):
+    def test_boundary_and_trigger_identity_join_at_actual_archive_time(self):
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        last=r.samples[-1]
+        self.assertEqual(last.boundary.cutoff_utc,last.h1.cutoff_utc)
+        self.assertEqual(last.boundary.sides[0].h1.observed_closed_bars,1)
+        self.assertTrue(last.boundary.sides[0].h1.closed_grid_complete)
+        self.assertFalse(last.boundary.buffer_selected)
+        summary=r.public_summary()
+        self.assertEqual(summary["boundary_h1_paths_inspected"],1)
+        self.assertFalse(summary["post_entry_monitoring_verified"])
+        self.assertEqual(summary["delayed_trigger_slot_accounting"]["distinct_paired_trigger_slots"],5)
+        self.assertEqual(summary["delayed_trigger_slot_accounting"]["repeated_paired_slot_observations"],1)
+
+    def test_last_quarter_close_updates_boundary_not_middle_trigger(self):
+        raw,clocks=shaped()
+        a=run(raw,clocks).samples[-1]
+        changed=raw[:-1]+(replace(raw[-1],low="0.99",close="1.00"),)
+        b=run(changed,clocks).samples[-1]
+        self.assertEqual(a.m15,b.m15)
+        self.assertEqual(a.trigger_identity,b.trigger_identity)
+        self.assertNotEqual(a.boundary,b.boundary)
+        self.assertTrue(b.boundary.sides[0].h1.unbuffered_boundary_breach)
+        self.assertFalse(b.boundary.invalidation_rule_approved)
+
+    def test_long_delay_cannot_assert_complete_boundary_grid(self):
+        raw,clocks=shaped()
+        late=clocks[:-1]+((clocks[-1][0]+timedelta(hours=2),clocks[-1][1]),)
+        row=run(raw,late).samples[-1]
+        self.assertEqual(row.boundary.sides[0].h1.observed_closed_bars,1)
+        self.assertFalse(row.boundary.sides[0].h1.closed_grid_complete)
+        self.assertEqual(row.trigger_identity,run(raw,clocks).samples[-1].trigger_identity)
+
+    def test_shared_manifest_clock_uses_all_visible_closed_hours_for_boundary_only(self):
+        raw,clocks=shaped()
+        known=clocks[-1][0]+timedelta(hours=1)
+        extra=tuple(replace(x,start_utc=(
+            START+timedelta(hours=5,minutes=5*j)).isoformat())
+            for j,x in enumerate(raw[-12:]))
+        extended=clocks[:-1]+((known,clocks[-1][1]),
+                                 (known,clocks[-1][1]+timedelta(hours=1)))
+        a=run(raw,clocks).samples[-1]
+        b=run(raw+extra,extended).samples[-2]
+        self.assertEqual(a.m15,b.m15)
+        self.assertEqual(a.trigger_identity,b.trigger_identity)
+        self.assertEqual(b.boundary.sides[0].h1.observed_closed_bars,2)
+        self.assertTrue(b.boundary.sides[0].h1.closed_grid_complete)
+
+    def test_latest_identity_entrypoint_stays_strict(self):
+        raw,clocks=shaped()
+        with self.assertRaisesRegex(ValueError,"EXACT_LATEST_TRIGGER_REQUIRED"):
+            identify_private_trigger_pair(raw,
+                latest_m15_open=START+timedelta(hours=4,minutes=30),
+                decision=clocks[-1][0])
+
+    def test_summary_masks_identity_and_breach_and_rejects_authority_drift(self):
+        import json
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        row=r.samples[-1]
+        encoded=json.dumps(r.public_summary())
+        self.assertNotIn(row.trigger_identity.private_slots[0].slot_sha256,encoded)
+        self.assertNotIn("unbuffered_boundary_breach",encoded)
+        self.assertNotIn("minimum_signed_distance",encoded)
+        bad=replace(row,boundary=replace(row.boundary,buffer_selected=True))
+        with self.assertRaisesRegex(ValueError,"DELAYED_BOUNDARY_AUTHORITY_DRIFT"):
+            replace(r,samples=r.samples[:-1]+(bad,)).public_summary()

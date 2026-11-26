@@ -3744,8 +3744,8 @@
     {
       "path": "mfx_research/p231_private_trigger_identity.py",
       "change": "added",
-      "expected_current_sha": "2a487e786ba568d19790eeef0a69e722f6e10d05",
-      "reason": "P231 private paired trigger-slot identity and payload conflict/dedup across bounded in-memory archive replay only; no persistence, expiry policy, complete setup identity, price publication or signal approval; six tests and integration."
+      "expected_current_sha": "ea5e6d0e407c6e3ada92bac008ce67afaa80be11",
+      "reason": "P231 private paired trigger-slot identity and payload conflict/dedup across bounded in-memory archive replay only; no persistence, expiry policy, complete setup identity, price publication or signal approval; six tests and integration. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval."
     },
     {
       "path": "tests/test_mfx_p231_private_trigger_identity.py",
@@ -3762,14 +3762,14 @@
     {
       "path": "mfx_research/p232_delayed_middle_pairs.py",
       "change": "added",
-      "expected_current_sha": "74cfbc33da076e11fe6452b8e1e6b08741788446",
-      "reason": "P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes."
+      "expected_current_sha": "3bf73029d14ae55d8dd49a04029db9c6ead5451a",
+      "reason": "P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval."
     },
     {
       "path": "tests/test_mfx_p232_delayed_middle_pairs.py",
       "change": "added",
-      "expected_current_sha": "e285d4d0f7855b3eae10e592591fd043c0c853bc",
-      "reason": "P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes."
+      "expected_current_sha": "b562e1adda6a461c36558ee1632551d0e288a48a",
+      "reason": "P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval."
     },
     {
       "path": "docs/MFX_P232_DELAYED_MIDDLE_M15_RESEARCH.md",
@@ -3782,6 +3782,12 @@
       "change": "added",
       "expected_current_sha": "89e704befe2c0db60d6aa636cc5f24758466baca",
       "reason": "P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes."
+    },
+    {
+      "path": "docs/MFX_P234_DELAYED_BOUNDARY_AND_IDENTITY.md",
+      "change": "added",
+      "expected_current_sha": "eb64b4a88d7625c87428231784584e3f75320541",
+      "reason": "P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval."
     }
   ]
 }

@@ -48,7 +48,18 @@ def identify_private_trigger_pair(
     if (latest_m15_open+M15 != _expected_last_closed(decision,15)
             or type(raw) is not tuple or len(raw) < 6):
         raise ValueError("P231_EXACT_LATEST_TRIGGER_REQUIRED")
-    pair = derive_intraday(raw[-6:], "M15", asof_utc=decision).candles
+    return _identify_closed_trigger_pair(raw[-6:], latest_m15_open=latest_m15_open,
+                                         decision=decision)
+
+
+def _identify_closed_trigger_pair(
+    trigger_raw: tuple[ClosedM5Bar, ...], *, latest_m15_open: datetime,
+    decision: datetime,
+) -> PrivateTriggerIdentity:
+    """Internal exact-pair identity; only archive-bound callers may use a delayed pair."""
+    if type(trigger_raw) is not tuple or len(trigger_raw) != 6:
+        raise ValueError("P234_EXACT_SIX_TRIGGER_ROWS_REQUIRED")
+    pair = derive_intraday(trigger_raw, "M15", asof_utc=decision).candles
     if (len(pair) != 2 or pair[0].end_utc != pair[1].start_utc
             or datetime.fromisoformat(pair[1].start_utc) != latest_m15_open):
         raise ValueError("P231_EXACT_CONTIGUOUS_TRIGGER_PAIR_REQUIRED")

@@ -22,6 +22,12 @@ from mfx_research.p228_pretrigger_native import (
 from mfx_research.p229_pretrigger_m15 import (
     PrivatePretriggerM15, _calculate_archive_geometry,
 )
+from mfx_research.p230_private_boundary_path import (
+    PrivateBoundaryReceipt, inspect_private_setup_boundaries,
+)
+from mfx_research.p231_private_trigger_identity import (
+    PrivateTriggerIdentity, _identify_closed_trigger_pair, summarize_private_trigger_slots,
+)
 from tools.audit_mfx_p209_d1_private_cache import PrivateSnapshot
 
 MAX_SAMPLE = 32
@@ -38,6 +44,8 @@ class PrivateDelayedMiddlePair:
     h1: PrivatePretriggerH1 = field(repr=False)
     native: PrivatePretriggerNative = field(repr=False)
     m15: PrivatePretriggerM15 = field(repr=False)
+    boundary: PrivateBoundaryReceipt = field(repr=False)
+    trigger_identity: PrivateTriggerIdentity = field(repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -109,6 +117,7 @@ class PrivateDelayedMiddleReplay:
     @staticmethod
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
         h1 = h4 = d1 = complete = geometry = joint = 0
+        h1_paths = h4_paths = both_grids = 0
         for row in samples:
             if (row.archive_decision_utc-row.trigger_end_utc < M15+GRACE
                     or row.h1.cutoff_utc != row.trigger_end_utc-2*M15
@@ -121,6 +130,19 @@ class PrivateDelayedMiddleReplay:
                            for x in (row.h1, row.native, row.m15))
                     or row.native.d1_calendar_qualified or row.m15.d1_trend_qualified):
                 raise ValueError("P232_RESEARCH_AUTHORITY_OR_CLOCK_DRIFT")
+            boundary = row.boundary
+            if (type(boundary) is not PrivateBoundaryReceipt
+                    or boundary.cutoff_utc != row.h1.cutoff_utc
+                    or boundary.action != "NO_SIGNAL" or boundary.buffer_selected
+                    or boundary.invalidation_rule_approved or boundary.publisher_first_known_verified
+                    or boundary.may_publish_buy_sell or boundary.may_trade
+                    or tuple(s.rule_id for s in boundary.sides) != ("B2", "S2")):
+                raise ValueError("P234_DELAYED_BOUNDARY_AUTHORITY_DRIFT")
+            h1_paths += int(all(s.h1 is not None for s in boundary.sides))
+            h4_paths += int(all(s.h4 is not None for s in boundary.sides))
+            both_grids += int(all(s.h1 is not None and s.h4 is not None
+                                  and s.h1.closed_grid_complete and s.h4.closed_grid_complete
+                                  for s in boundary.sides))
             h1_ok = row.h1.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
             h4_ok = row.native.h4_status == "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
             d1_ok = row.native.d1_status == "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
@@ -140,6 +162,9 @@ class PrivateDelayedMiddleReplay:
             "pretrigger_m15_settled_grid_complete": complete,
             "private_m15_draft_geometry_computed": geometry,
             "joint_inputs_present_d1_unqualified": joint,
+            "boundary_h1_paths_inspected": h1_paths,
+            "boundary_h4_paths_inspected": h4_paths,
+            "boundary_both_closed_grids_complete": both_grids,
         }
 
     def public_summary(self) -> dict[str, object]:
@@ -174,6 +199,10 @@ class PrivateDelayedMiddleReplay:
             }
         elif self.clock_eligible_samples:
             raise ValueError("P233_MISSING_CLOCK_CENSUS")
+        summary["delayed_trigger_slot_accounting"] = summarize_private_trigger_slots(
+            tuple(row.trigger_identity for row in self.samples+self.clock_eligible_samples))
+        summary["boundary_invalidation_buffer_selected"] = False
+        summary["post_entry_monitoring_verified"] = False
         return summary
 
 
@@ -223,7 +252,18 @@ def replay_delayed_middle_pairs(
         m15 = _calculate_archive_geometry(
             prefix, commits[:i+1], h1, trigger_raw=pair_raw,
             latest_m15_open=latest_open, decision=known)
-        samples[i] = PrivateDelayedMiddlePair(known,trigger_end,h1,native,m15)
+        # A catch-up batch may commit multiple source hours at the same
+        # observed clock. Include every visible hour in boundary diagnostics,
+        # but never in the frozen trigger pair or prior-context selection.
+        visible_count = sum(clock <= known for clock, _ in commits)
+        visible_raw = raw[:12*visible_count]
+        visible_h4 = tuple(bar for clock,bars in h4 if clock<=known for bar in bars)
+        boundary = inspect_private_setup_boundaries(
+            visible_raw, visible_h4, h1, native, decision=known)
+        identity = _identify_closed_trigger_pair(
+            pair_raw, latest_m15_open=latest_open, decision=known)
+        samples[i] = PrivateDelayedMiddlePair(
+            known,trigger_end,h1,native,m15,boundary,identity)
     receipt = PrivateDelayedMiddleReplay(
         len(commits),tuple(samples[i] for i in recent),census,
         tuple(samples[i] for i in eligible))
