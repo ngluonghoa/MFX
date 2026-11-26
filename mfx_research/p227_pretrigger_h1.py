@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from decimal import Decimal
 
-from mfx_cache.td_m5_codec import ClosedM5Bar
+from mfx_cache.td_m5_codec import ClosedM5Bar, digest
 from mfx_cache.v2_engine import derive_intraday, validate_m5
 from mfx_research.mfx_b2s2_confirmed_policy_v2 import _p160_still_pinned
 from mfx_research.mfx_b2s2_independent_policy_draft import (
@@ -36,6 +36,7 @@ class PrivatePretriggerH1:
     numeric_policy_approved: bool = False
     may_publish_buy_sell: bool = False
     may_trade: bool = False
+    source_context_sha256: str | None = field(default=None, repr=False)
 
 
 def _utc(value: datetime) -> None:
@@ -139,7 +140,12 @@ def _calculate_archive_h1_at_cutoff(
     width = mean * policy.h1_width_multiple
     if high - width <= 0:
         return PrivatePretriggerH1("PRETRIGGER_H1_NONPOSITIVE_ZONE", len(suffix), cutoff)
+    source_context = digest({"schema": "P237_H1_DRAFT_INPUT_V1",
+                             "cutoff": cutoff.isoformat(),
+                             "policy": policy.canonical_sha256,
+                             "source": [b.source_sha256 for b in suffix]})
     return PrivatePretriggerH1(
         "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED", len(suffix), cutoff, mean,
         (low, low+width), (high-width, high),
+        source_context_sha256=source_context,
     )

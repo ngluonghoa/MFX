@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from decimal import Decimal
 
-from mfx_cache.td_m5_codec import ClosedM5Bar
+from mfx_cache.td_m5_codec import ClosedM5Bar, digest
 from mfx_cache.v2_engine import derive_intraday
 from mfx_research.mfx_b2s2_confirmed_policy_v2 import (
     _p160_still_pinned, read_mfx_confirmed_b2s2_v2,
@@ -55,6 +55,7 @@ class PrivatePretriggerM15:
     may_trade: bool = False
     early_sides: tuple[PrivateEarlyObservation, ...] = field(default=(), repr=False)
     early_event_approved: bool = False
+    history_context_sha256: str | None = field(default=None, repr=False)
 
 
 def calculate_pretrigger_m15(
@@ -103,8 +104,8 @@ def _calculate_archive_geometry(
     policy = read_mfx_confirmed_b2s2_v2()
     if (policy.micro_left, policy.micro_right) != (1, 1):
         raise ValueError("P229_PINNED_DRAFT_PIVOT_WIDTH_DRIFT")
-    study = _scan_one("M15", _latest_contiguous(rows, "M15"),
-                      policy.micro_left, policy.micro_right)
+    contiguous = _latest_contiguous(rows, "M15")
+    study = _scan_one("M15", contiguous, policy.micro_left, policy.micro_right)
     highs = [p.candidate_mid_price for p in study.pivots if p.kind == "HIGH"]
     lows = [p.candidate_mid_price for p in study.pivots if p.kind == "LOW"]
     if (h1.status != "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
@@ -150,8 +151,13 @@ def _calculate_archive_geometry(
     if not highs and not lows:
         return PrivatePretriggerM15(cutoff, "NO_PRETRIGGER_M15_LEVEL", complete,
                                     early_sides=tuple(early))
+    history_context = digest({"schema": "P237_M15_DRAFT_HISTORY_V1",
+                              "cutoff": cutoff.isoformat(),
+                              "policy": policy.fingerprint_sha256,
+                              "source": [b.sha_claim for b in contiguous]})
     return PrivatePretriggerM15(cutoff, "PRIVATE_M15_DRAFT_GEOMETRY_COMPUTED",
-                                complete, tuple(sides), early_sides=tuple(early))
+                                complete, tuple(sides), early_sides=tuple(early),
+                                history_context_sha256=history_context)
 
 
 def early_observation_coverage(m15: PrivatePretriggerM15, h1: PrivatePretriggerH1) -> bool:
