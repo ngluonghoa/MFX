@@ -419,6 +419,21 @@ class P046B3HotTests(unittest.TestCase):
         self.assertIn("mfx-twelvedata-private-cache",b1)
         self.assertNotIn('cron: "*/5 * * * *"',hot)
 
+    def test_46_disabled_hot_uses_separate_queue_exact_existing_gates(self)->None:
+        from pathlib import Path
+        hot=Path(".github/workflows/mfx-hot-cache.yml").read_text()
+        gate=("vars.MFX_REAL_CACHE_ENABLED == 'true' && "
+              "vars.MFX_V3_HOT_CACHE_ACCEPTED == 'true' && "
+              "vars.MFX_TD_ACCOUNT_CACHE_RIGHTS_CONFIRMED == 'true'")
+        self.assertIn("    if: ${{ "+gate+" }}",hot)
+        self.assertIn("  group: ${{ ("+gate+") && "
+                      "'mfx-twelvedata-private-cache' || "
+                      "format('mfx-hot-disabled-{0}', github.run_id) }}",hot)
+        self.assertIn("  cancel-in-progress: false",hot)
+        self.assertNotIn("  group: mfx-twelvedata-private-cache\n",hot)
+        self.assertEqual(hot.count('cron: "15 * * * *"'),1)
+        self.assertIn("workflow_dispatch:",hot)
+
 
 if __name__=="__main__":
     unittest.main()
