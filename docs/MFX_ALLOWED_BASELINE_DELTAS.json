@@ -3548,6 +3548,24 @@
       "change": "added",
       "expected_current_sha": "c1be3edd6320112b2178909092103c7682075e6b",
       "reason": "P216 structural SIM plan to chronological pricing/exit touch/purged fold, rejects blocked and changed duplicate inputs, nine tests, no source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "mfx_research/p217_conditional_sim_outcomes.py",
+      "change": "added",
+      "expected_current_sha": "ca69921381955d3165bd7cb07def65c65080583a",
+      "reason": "P217 conditional SIM stop/target scenarios on purged structural fold, incomplete or gap-open paths unresolved, nine tests, no actual fill, unconditional return, source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "tests/test_mfx_p217_conditional_sim_outcomes.py",
+      "change": "added",
+      "expected_current_sha": "2e3f9cf34fffcc21e543dbab7479dcbf4cdbf7e3",
+      "reason": "P217 conditional SIM stop/target scenarios on purged structural fold, incomplete or gap-open paths unresolved, nine tests, no actual fill, unconditional return, source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "docs/MFX_P217_CONDITIONAL_SIM_OUTCOME_BOUNDS.md",
+      "change": "added",
+      "expected_current_sha": "e7206439f117c9998b64ea3c43550d3d69a7c315",
+      "reason": "P217 conditional SIM stop/target scenarios on purged structural fold, incomplete or gap-open paths unresolved, nine tests, no actual fill, unconditional return, source approval or provider/Drive/broker operations."
     }
   ]
 }
