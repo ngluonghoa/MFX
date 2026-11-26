@@ -3810,7 +3810,7 @@
     {
       "path": "tests/test_mfx_p237_private_setup_context_identity.py",
       "change": "added",
-      "expected_current_sha": "9c7129e3afc74bb4b110cecf2f6000573c0e51d0",
+      "expected_current_sha": "e236433479bd2271ebc4d3e4730b2e4fc9383f8b",
       "reason": "P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P240 technical intersections on unique receipts and zero-range H1 clock denominator correction, six tests, no extra IO/authority. P241 native H4/D1 gap partition and decision recheck without fresh five-row D1, six tests, no extra IO or authority. P242 causal D1 archive visibility full-tail clock opportunity partition and selected receipt crosscheck, six tests, no extra IO or authority. P243 mutually exclusive precursor/decision blocker matrix per actual D1 archive era, missing slot observations, fail-closed conservation, six tests, no additional IO or authority."
     },
     {

@@ -261,7 +261,8 @@ class P243JointClockBlockerTests(TestCase):
         b=s["without_visible_d1_archive"]
         self.assertEqual(b["precursor_by_decision_clock"]["complete"]["both_gaps"],1)
         self.assertEqual(b["total_interior_missing_m15_slot_observations"],4)
-        self.assertEqual(b["total_trailing_missing_m15_slot_observations"],4)
+        # :30 decision minus 15s grace settles only through :15.
+        self.assertEqual(b["total_trailing_missing_m15_slot_observations"],2)
 
     def test_forged_precursor_state_fails_closed(self):
         r=run()
