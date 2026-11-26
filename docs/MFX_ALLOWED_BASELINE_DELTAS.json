@@ -3476,6 +3476,24 @@
       "change": "added",
       "expected_current_sha": "95189c01c76e95580d85e9cecc6fbaa463ee6e2d",
       "reason": "P212 compute private multibar, pivot, microbreak and two-sided B2/S2 readiness on independently verified revised D1, noncanonical research source tag, three new tests, no source rights or numeric approval, no public signal or provider/Drive/broker operations."
+    },
+    {
+      "path": "mfx_research/p213_purged_sim_fold.py",
+      "change": "added",
+      "expected_current_sha": "a7d2928e6bdb39a626b64e6943178899ae0ee05b",
+      "reason": "P213 purged chronological SIM fold on verified P167 audit with explicit horizon, embargo, full feature separation and eight synthetic tests, no real OOS or signal claim."
+    },
+    {
+      "path": "tests/test_mfx_p213_purged_sim_fold.py",
+      "change": "added",
+      "expected_current_sha": "f2f80bbd6aaee53dd0415ea040c86d4550d77144",
+      "reason": "P213 purged chronological SIM fold on verified P167 audit with explicit horizon, embargo, full feature separation and eight synthetic tests, no real OOS or signal claim."
+    },
+    {
+      "path": "docs/MFX_P213_PURGED_CHRONOLOGICAL_SIM_FOLD.md",
+      "change": "added",
+      "expected_current_sha": "df066e8775a469d54ebdaca7f0ede4f89fe487a7",
+      "reason": "P213 purged chronological SIM fold on verified P167 audit with explicit horizon, embargo, full feature separation and eight synthetic tests, no real OOS or signal claim."
     }
   ]
 }
