@@ -27,6 +27,7 @@ from tools.audit_mfx_p209_d1_private_cache import PrivateSnapshot
 MAX_SAMPLE = 32
 MAX_HOURS = 256
 M15 = timedelta(minutes=15)
+HOUR = timedelta(hours=1)
 GRACE = timedelta(seconds=15)
 
 
@@ -40,13 +41,75 @@ class PrivateDelayedMiddlePair:
 
 
 @dataclass(frozen=True, slots=True, repr=False)
+class MiddlePairClockCensus:
+    verified_hours: int
+    prior_hour_missing: int
+    prior_hour_late: int
+    earlier_history_gap_or_late: int
+    private_eligible_indices: tuple[int, ...] = field(repr=False)
+
+    def public_summary(self) -> dict[str, int | bool]:
+        eligible = len(self.private_eligible_indices)
+        if (self.prior_hour_missing+self.prior_hour_late+self.earlier_history_gap_or_late
+                +eligible != self.verified_hours):
+            raise ValueError("P233_CLOCK_CENSUS_ACCOUNTING_DRIFT")
+        return {"verified_hours": self.verified_hours,
+                "prior_hour_missing_in_verified_tail": self.prior_hour_missing,
+                "prior_hour_archived_after_setup": self.prior_hour_late,
+                "earlier_required_history_gap_or_late": self.earlier_history_gap_or_late,
+                "four_contiguous_h1_hours_available_before_setup": eligible,
+                "clock_eligible_not_replayed_due_to_limit": max(0, eligible-MAX_SAMPLE),
+                "selection_uses_prices_or_outcomes": False}
+
+
+def middle_pair_clock_census(
+    commits: tuple[tuple[datetime, datetime], ...],
+) -> MiddlePairClockCensus:
+    """Fixed four-hour precursor from pinned P160; clock-only selection."""
+    if type(commits) is not tuple or len(commits)>MAX_HOURS:
+        raise ValueError("P233_BOUNDED_COMMIT_HISTORY_REQUIRED")
+    by_end: dict[datetime, datetime] = {}
+    prev_known: datetime | None = None
+    prev_end: datetime | None = None
+    for known,end in commits:
+        for clock in (known,end):
+            if (type(clock) is not datetime or clock.tzinfo is None
+                    or clock.utcoffset()!=timedelta(0)):
+                raise ValueError("P233_EXACT_UTC_CLOCK_REQUIRED")
+        if (end.minute or end.second or end.microsecond or known<end+GRACE
+                or (prev_end is not None and end<=prev_end)
+                or (prev_known is not None and known<prev_known)):
+            raise ValueError("P233_ARCHIVE_CLOCK_DRIFT")
+        by_end[end]=known
+        prev_known,prev_end=known,end
+    missing=late=gap=0
+    eligible=[]
+    for i,(_,end) in enumerate(commits):
+        cutoff=end-3*M15
+        prior=end-HOUR
+        if prior not in by_end:
+            missing+=1
+        elif by_end[prior]>cutoff:
+            late+=1
+        elif any(prior-j*HOUR not in by_end
+                 or by_end[prior-j*HOUR]>cutoff for j in range(4)):
+            gap+=1
+        else:
+            eligible.append(i)
+    return MiddlePairClockCensus(len(commits),missing,late,gap,tuple(eligible))
+
+
+@dataclass(frozen=True, slots=True, repr=False)
 class PrivateDelayedMiddleReplay:
     verified_hours: int
     samples: tuple[PrivateDelayedMiddlePair, ...] = field(repr=False)
+    clock_census: MiddlePairClockCensus | None = field(default=None, repr=False)
+    clock_eligible_samples: tuple[PrivateDelayedMiddlePair, ...] = field(default=(), repr=False)
 
-    def public_summary(self) -> dict[str, object]:
+    @staticmethod
+    def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
         h1 = h4 = d1 = complete = geometry = joint = 0
-        for row in self.samples:
+        for row in samples:
             if (row.archive_decision_utc-row.trigger_end_utc < M15+GRACE
                     or row.h1.cutoff_utc != row.trigger_end_utc-2*M15
                     or row.native.cutoff_utc != row.h1.cutoff_utc
@@ -69,18 +132,23 @@ class PrivateDelayedMiddleReplay:
             complete += int(complete_ok)
             geometry += int(geometry_ok)
             joint += int(h1_ok and h4_ok and d1_ok and complete_ok and geometry_ok)
-        if len(self.samples) != min(MAX_SAMPLE,self.verified_hours):
-            raise ValueError("P232_BOUNDED_SAMPLE_ACCOUNTING_DRIFT")
         return {
-            "sample_basis": "LATEST_UP_TO_32_SHA_VERIFIED_HOURS_MIDDLE_M15_PAIR",
-            "verified_hours": self.verified_hours,
-            "middle_pairs_replayed": len(self.samples),
+            "middle_pairs_replayed": len(samples),
             "pretrigger_h1_draft_contexts_computed": h1,
             "pretrigger_h4_draft_structures_computed": h4,
             "pretrigger_d1_fresh_vintages_with_five_rows": d1,
             "pretrigger_m15_settled_grid_complete": complete,
             "private_m15_draft_geometry_computed": geometry,
             "joint_inputs_present_d1_unqualified": joint,
+        }
+
+    def public_summary(self) -> dict[str, object]:
+        if len(self.samples) != min(MAX_SAMPLE,self.verified_hours):
+            raise ValueError("P232_BOUNDED_SAMPLE_ACCOUNTING_DRIFT")
+        summary: dict[str, object] = {
+            "sample_basis": "LATEST_UP_TO_32_SHA_VERIFIED_HOURS_MIDDLE_M15_PAIR",
+            "verified_hours": self.verified_hours,
+            **self._summary(self.samples),
             "minimum_structural_delay_minutes": 15,
             "retrospective_delayed_research_only": True,
             "publisher_first_known_verified": False,
@@ -90,6 +158,23 @@ class PrivateDelayedMiddleReplay:
             "action": "NO_SIGNAL", "may_publish_buy_sell": False,
             "may_trade": False,
         }
+        if self.clock_census is not None:
+            if (self.clock_census.verified_hours!=self.verified_hours
+                    or len(self.clock_eligible_samples)!=min(
+                        MAX_SAMPLE,len(self.clock_census.private_eligible_indices))
+                    or any(not row.m15.history_to_setup_complete
+                           for row in self.clock_eligible_samples)):
+                raise ValueError("P233_CLOCK_SELECTED_REPLAY_DRIFT")
+            summary["clock_census"] = self.clock_census.public_summary()
+            summary["clock_selected_replay"] = {
+                "selection": "LATEST_UP_TO_32_CLOCK_ELIGIBLE_MIDDLE_PAIRS",
+                **self._summary(self.clock_eligible_samples),
+                "not_a_representative_market_sample": True,
+                "historical_oos_qualified": False,
+            }
+        elif self.clock_eligible_samples:
+            raise ValueError("P233_MISSING_CLOCK_CENSUS")
+        return summary
 
 
 def replay_delayed_middle_pairs(
@@ -107,8 +192,13 @@ def replay_delayed_middle_pairs(
     if (type(raw) is not tuple or type(commits) is not tuple
             or not 0 <= len(commits) <= MAX_HOURS or len(raw) != 12*len(commits)):
         raise ValueError("P232_EXACT_BOUNDED_PREFIX_REQUIRED")
-    samples = []
-    for i in range(max(0,len(commits)-MAX_SAMPLE),len(commits)):
+    census = middle_pair_clock_census(commits)
+    recent = tuple(range(max(0,len(commits)-MAX_SAMPLE),len(commits)))
+    eligible = census.private_eligible_indices[-MAX_SAMPLE:]
+    # Keep the original recent sample, and a separate clock-only coverage
+    # cohort. Reuse overlaps and keep all missing-hour denominators.
+    samples: dict[int, PrivateDelayedMiddlePair] = {}
+    for i in sorted(set(recent+eligible)):
         known, end = commits[i]
         cutoff = end-3*M15
         latest_open = end-2*M15
@@ -133,7 +223,9 @@ def replay_delayed_middle_pairs(
         m15 = _calculate_archive_geometry(
             prefix, commits[:i+1], h1, trigger_raw=pair_raw,
             latest_m15_open=latest_open, decision=known)
-        samples.append(PrivateDelayedMiddlePair(known,trigger_end,h1,native,m15))
-    receipt = PrivateDelayedMiddleReplay(len(commits),tuple(samples))
+        samples[i] = PrivateDelayedMiddlePair(known,trigger_end,h1,native,m15)
+    receipt = PrivateDelayedMiddleReplay(
+        len(commits),tuple(samples[i] for i in recent),census,
+        tuple(samples[i] for i in eligible))
     receipt.public_summary()
     return receipt
