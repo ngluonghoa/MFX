@@ -26,6 +26,9 @@ from mfx_research.p229_pretrigger_m15 import (
 from mfx_research.p230_private_boundary_path import (
     PrivateBoundaryReceipt, inspect_private_setup_boundaries,
 )
+from mfx_research.p231_private_trigger_identity import (
+    PrivateTriggerIdentity, identify_private_trigger_pair, summarize_private_trigger_slots,
+)
 from mfx_research import p193_owner_nov18_active_d1_reader as p193
 from mfx_research.p219_m5_archive_time_prefixes import (
     ObservedObjectTime, _metadata_index, replay_m5_current_metadata_prefixes,
@@ -147,6 +150,7 @@ class PrivateObservedContext:
     pretrigger_native: PrivatePretriggerNative | None = field(default=None, repr=False)
     pretrigger_m15: PrivatePretriggerM15 | None = field(default=None, repr=False)
     boundary: PrivateBoundaryReceipt | None = field(default=None, repr=False)
+    trigger_identity: PrivateTriggerIdentity | None = field(default=None, repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -189,6 +193,14 @@ class PrivateObservedReplay:
             summary["archive_freshness_census"] = self.archive_freshness_census.public_summary()
             summary["core_structural_replay"] = _core_summary(
                 self.archive_freshness_census, self.private_core_contexts)
+        receipts: list[PrivateTriggerIdentity] = []
+        for row in self.private_contexts + self.private_core_contexts:
+            has_m15 = row.context is not None and any(f.frame == "M15" for f in row.context.frames)
+            if has_m15 != (row.trigger_identity is not None):
+                raise ValueError("P231_TRIGGER_IDENTITY_COVERAGE_DRIFT")
+            if row.trigger_identity is not None:
+                receipts.append(row.trigger_identity)
+        summary["private_trigger_slot_accounting"] = summarize_private_trigger_slots(tuple(receipts))
         if self.replay_io_counts is not None:
             first, replay, reused = self.replay_io_counts
             if any(type(n) is not int or n < 0 for n in (first, replay, reused)):
@@ -408,7 +420,7 @@ def replay_private_observed_six_tf(
         visible = [s for created, s in d1 if created <= decision and s.observed <= decision]
         selected = max(visible, key=lambda s: s.observed) if visible else None
         daily = selected.rows if selected else ()
-        context = readiness = pretrigger = native = trigger = boundary = None
+        context = readiness = pretrigger = native = trigger = boundary = identity = None
         if raw:
             h4_batch, d1_batch = _batch("4h", h4_rows), _batch("1day", daily)
             context = build_six_timeframe_readonly_context(
@@ -436,9 +448,12 @@ def replay_private_observed_six_tf(
                     decision=decision)
                 boundary = inspect_private_setup_boundaries(
                     raw, h4_rows, pretrigger, native, decision=decision)
+                identity = identify_private_trigger_pair(
+                    raw, latest_m15_open=datetime.fromisoformat(m15.source_label),
+                    decision=decision)
         return PrivateObservedContext(
             decision, hours, len(h4_rows), len(daily), context, readiness,
-            pretrigger, native, trigger, boundary)
+            pretrigger, native, trigger, boundary, identity)
 
     contexts = tuple(context_at(p.decision_utc, p.private_m5, p.verified_raw_hours)
                      for p in m5.private_prefixes)
