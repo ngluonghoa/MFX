@@ -126,3 +126,50 @@ class P240CombinedCoverageTests(TestCase):
         self.assertEqual(s["middle_pairs_replayed"],1)
         self.assertEqual(s["pretrigger_h1_draft_contexts_computed"],0)
         self.assertEqual(s["bound_context_decision_and_both_boundary_grids_coverage"],0)
+
+class P241NativeGapAccountingTests(TestCase):
+    def test_d1_and_h4_partition_every_cohort(self):
+        s=run().public_summary()
+        for c in (s,s["clock_selected_replay"],s["joint_clock_selected_replay"],
+                  s["unique_receipt_technical_coverage"]):
+            self.assertEqual(c["middle_pairs_replayed"],
+                sum(c[k] for k in ("pretrigger_d1_no_visible_vintage",
+                    "pretrigger_d1_stale_vintage","pretrigger_d1_short_history",
+                    "pretrigger_d1_fresh_vintages_with_five_rows")))
+            self.assertEqual(c["middle_pairs_replayed"],
+                sum(c[k] for k in ("pretrigger_h4_no_visible_archive",
+                    "pretrigger_h4_stale_archive","pretrigger_h4_insufficient_pivots",
+                    "pretrigger_h4_draft_structures_computed")))
+
+    def test_no_visible_d1_and_h4_are_not_fresh(self):
+        s=run(h4=(),snapshots=()).public_summary()
+        j=s["joint_clock_selected_replay"]
+        self.assertEqual(j["pretrigger_d1_no_visible_vintage"],1)
+        self.assertEqual(j["pretrigger_h4_no_visible_archive"],1)
+        self.assertEqual(j["decision_recheck_without_fresh_five_row_d1"],1)
+        self.assertEqual(j["pretrigger_d1_fresh_vintages_with_five_rows"],0)
+
+    def test_short_d1_history_is_distinct(self):
+        old=vintage(CUTOFF-timedelta(hours=1))
+        short=replace(old,rows=old.rows[-1:])
+        s=run(snapshots=((short.observed,short),)).public_summary()
+        self.assertEqual(s["joint_clock_selected_replay"]["pretrigger_d1_short_history"],1)
+
+    def test_after_cutoff_vintage_does_not_fill_gap(self):
+        late=vintage(CUTOFF+timedelta(minutes=1))
+        s=run(snapshots=((late.observed,late),)).public_summary()
+        self.assertEqual(s["joint_clock_selected_replay"]["pretrigger_d1_no_visible_vintage"],1)
+
+    def test_unknown_native_status_fails_closed(self):
+        r=run()
+        row=r.samples[0]
+        bad=replace(row,native=replace(row.native,d1_status="UNKNOWN"))
+        with self.assertRaisesRegex(ValueError,"P241_NATIVE_GAP_STATUS_DRIFT"):
+            replace(r,samples=(bad,)+r.samples[1:]).public_summary()
+
+    def test_recheck_gap_and_bound_context_are_disjoint(self):
+        s=run(h4=(),snapshots=()).public_summary()["unique_receipt_technical_coverage"]
+        self.assertEqual(s["decision_recheck_without_fresh_five_row_d1"],1)
+        self.assertEqual(s["bound_context_with_decision_recheck_coverage"],0)
+        self.assertFalse(s["market_signal_eligibility_assessed"])
+        self.assertEqual(s["action"],"NO_SIGNAL")
