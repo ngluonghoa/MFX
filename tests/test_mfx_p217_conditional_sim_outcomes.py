@@ -5,7 +5,7 @@ from decimal import Decimal as D
 from unittest import TestCase
 
 from mfx_research.p217_conditional_sim_outcomes import evaluate_conditional_sim_outcomes
-from test_mfx_p216_structural_sim_fold import P216StructuralReplayTests
+import test_mfx_p216_structural_sim_fold as fixture216
 from test_mfx_p167_option_b_v2_exit_touch_audit import make_bar
 from test_mfx_p215_sim_structural_tp1 import run
 
@@ -30,7 +30,7 @@ def scenario_bar(s, kind, *, offset=0):
 
 class P217OutcomeTests(TestCase):
     def setUp(self):
-        self.fixture = P216StructuralReplayTests()
+        self.fixture = fixture216.P216StructuralReplayTests()
         self.fixture.setUp()
         self.a, self.b = self.fixture.a, self.fixture.b
 
