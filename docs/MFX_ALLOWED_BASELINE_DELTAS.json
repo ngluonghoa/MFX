@@ -3584,6 +3584,24 @@
       "change": "added",
       "expected_current_sha": "512079d19c869de304c9d2e969e273fba5dd6a7f",
       "reason": "P218 causal shared SIM monitoring expiry and P214 HTF invalidation versus P217 first touch, fold/knowledge checks and ten tests; no official approval, market fills, provider/Drive/broker operations."
+    },
+    {
+      "path": "mfx_research/p219_m5_archive_time_prefixes.py",
+      "change": "added",
+      "expected_current_sha": "8cb078be34aa1de292f252f8f260a38a72d1c656",
+      "reason": "P219 current archive-time metadata prefixes use existing root-pinned raw SHA audit and causal observed cutoff; nine tests, real metadata evidence, no source-first-known/OOS or provider/Drive/broker writes."
+    },
+    {
+      "path": "tests/test_mfx_p219_m5_archive_time_prefixes.py",
+      "change": "added",
+      "expected_current_sha": "b9e9352b7d3cd8be4280ae651d08225f9d3fbcbd",
+      "reason": "P219 current archive-time metadata prefixes use existing root-pinned raw SHA audit and causal observed cutoff; nine tests, real metadata evidence, no source-first-known/OOS or provider/Drive/broker writes."
+    },
+    {
+      "path": "docs/MFX_P219_M5_ARCHIVE_TIME_PREFIXES.md",
+      "change": "added",
+      "expected_current_sha": "692039473e706543a18e68a0f9ac7c1610cd171b",
+      "reason": "P219 current archive-time metadata prefixes use existing root-pinned raw SHA audit and causal observed cutoff; nine tests, real metadata evidence, no source-first-known/OOS or provider/Drive/broker writes."
     }
   ]
 }
