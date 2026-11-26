@@ -23,6 +23,9 @@ from mfx_research.p228_pretrigger_native import (
 from mfx_research.p229_pretrigger_m15 import (
     PrivatePretriggerM15, calculate_pretrigger_m15,
 )
+from mfx_research.p230_private_boundary_path import (
+    PrivateBoundaryReceipt, inspect_private_setup_boundaries,
+)
 from mfx_research import p193_owner_nov18_active_d1_reader as p193
 from mfx_research.p219_m5_archive_time_prefixes import (
     ObservedObjectTime, _metadata_index, replay_m5_current_metadata_prefixes,
@@ -143,6 +146,7 @@ class PrivateObservedContext:
     pretrigger_h1: PrivatePretriggerH1 | None = field(default=None, repr=False)
     pretrigger_native: PrivatePretriggerNative | None = field(default=None, repr=False)
     pretrigger_m15: PrivatePretriggerM15 | None = field(default=None, repr=False)
+    boundary: PrivateBoundaryReceipt | None = field(default=None, repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -219,6 +223,7 @@ def _core_summary(census: ArchiveFreshnessCensus,
     pretrigger_ready = 0
     pretrigger_h4 = pretrigger_d1 = pretrigger_joint = 0
     pretrigger_m15 = pretrigger_m15_complete = 0
+    boundary_h1_paths = boundary_h4_paths = boundary_complete = 0
     for r in rows:
         if r.context is None or r.readiness is None:
             raise ValueError("P223_MISSING_REPLAY_RECEIPT")
@@ -253,6 +258,19 @@ def _core_summary(census: ArchiveFreshnessCensus,
             raise ValueError("P229_PRETRIGGER_M15_AUTHORITY_DRIFT")
         pretrigger_m15 += int(m15.status == "PRIVATE_M15_DRAFT_GEOMETRY_COMPUTED")
         pretrigger_m15_complete += int(m15.history_to_setup_complete)
+        boundary = r.boundary
+        if (boundary is None or boundary.cutoff_utc != pretrigger.cutoff_utc
+                or boundary.action != "NO_SIGNAL" or boundary.buffer_selected
+                or boundary.invalidation_rule_approved or boundary.publisher_first_known_verified
+                or boundary.may_publish_buy_sell or boundary.may_trade
+                or tuple(s.rule_id for s in boundary.sides) != ("B2", "S2")):
+            raise ValueError("P230_BOUNDARY_AUTHORITY_DRIFT")
+        # Report coverage only, never signed distances, breach counts or direction.
+        boundary_h1_paths += int(all(s.h1 is not None for s in boundary.sides))
+        boundary_h4_paths += int(all(s.h4 is not None for s in boundary.sides))
+        boundary_complete += int(all(s.h1 is not None and s.h4 is not None
+                                     and s.h1.closed_grid_complete and s.h4.closed_grid_complete
+                                     for s in boundary.sides))
         present = {f.frame for f in r.context.frames}
         core_technical += int(set(B2S2_STRUCTURAL_FRAMES) <= present)
         # Counts only availability of structural ingredients, not direction,
@@ -272,6 +290,10 @@ def _core_summary(census: ArchiveFreshnessCensus,
         "pretrigger_h1_h4_and_unqualified_d1_inputs_present": pretrigger_joint,
         "pretrigger_m15_draft_geometry_computed": pretrigger_m15,
         "pretrigger_m15_history_to_settled_setup_boundary": pretrigger_m15_complete,
+        "boundary_h1_paths_inspected": boundary_h1_paths,
+        "boundary_h4_paths_inspected": boundary_h4_paths,
+        "boundary_both_closed_grids_complete": boundary_complete,
+        "boundary_invalidation_buffer_selected": False,
         "pretrigger_h1_basis": "ARCHIVE_METADATA_PROXY_BEFORE_FIRST_OF_TWO_M15_BARS",
         "cutoffs_with_basic_structural_ingredients_one_or_both_sides": data_complete,
         "d1_trend_calendar_qualified": False,
@@ -386,7 +408,7 @@ def replay_private_observed_six_tf(
         visible = [s for created, s in d1 if created <= decision and s.observed <= decision]
         selected = max(visible, key=lambda s: s.observed) if visible else None
         daily = selected.rows if selected else ()
-        context = readiness = pretrigger = native = trigger = None
+        context = readiness = pretrigger = native = trigger = boundary = None
         if raw:
             h4_batch, d1_batch = _batch("4h", h4_rows), _batch("1day", daily)
             context = build_six_timeframe_readonly_context(
@@ -412,9 +434,11 @@ def replay_private_observed_six_tf(
                     raw, m5.private_raw_hour_commits[:hours], pretrigger,
                     latest_m15_open=datetime.fromisoformat(m15.source_label),
                     decision=decision)
+                boundary = inspect_private_setup_boundaries(
+                    raw, h4_rows, pretrigger, native, decision=decision)
         return PrivateObservedContext(
             decision, hours, len(h4_rows), len(daily), context, readiness,
-            pretrigger, native, trigger)
+            pretrigger, native, trigger, boundary)
 
     contexts = tuple(context_at(p.decision_utc, p.private_m5, p.verified_raw_hours)
                      for p in m5.private_prefixes)
