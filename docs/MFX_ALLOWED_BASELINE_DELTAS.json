@@ -3530,6 +3530,24 @@
       "change": "added",
       "expected_current_sha": "300997cb0adaf2c1210b4731063c73bc56c7b702",
       "reason": "P215 structural first-obstacle SIM SL/TP1 and net R, explicit shared parameters and quote-side offset, eight tests, no source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "mfx_research/p216_structural_sim_fold.py",
+      "change": "added",
+      "expected_current_sha": "f91122409693e905c2abaea62c7ea626f85c6dd2",
+      "reason": "P216 structural SIM plan to chronological pricing/exit touch/purged fold, rejects blocked and changed duplicate inputs, nine tests, no source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "tests/test_mfx_p216_structural_sim_fold.py",
+      "change": "added",
+      "expected_current_sha": "0181999cd455019cd3af2e9b8f2eaced64b5803f",
+      "reason": "P216 structural SIM plan to chronological pricing/exit touch/purged fold, rejects blocked and changed duplicate inputs, nine tests, no source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "docs/MFX_P216_STRUCTURAL_SIM_REPLAY_FOLD.md",
+      "change": "added",
+      "expected_current_sha": "c1be3edd6320112b2178909092103c7682075e6b",
+      "reason": "P216 structural SIM plan to chronological pricing/exit touch/purged fold, rejects blocked and changed duplicate inputs, nine tests, no source approval or provider/Drive/broker operations."
     }
   ]
 }
