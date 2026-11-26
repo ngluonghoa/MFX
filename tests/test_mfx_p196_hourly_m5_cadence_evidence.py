@@ -92,7 +92,36 @@ class P196HourlyM5CadenceEvidenceTests(TestCase):
         self.assertFalse(c["github_writer_run_result_independently_observed"])
         self.assertFalse(c["provider_publisher_first_known_verified"])
         self.assertFalse(c["permission_to_publish_live_buy_sell"])
+        self.assertFalse(c["missing_slots_explained_by_hourly_grace_or_intrahour_design"])
+        self.assertEqual(c["m5_closed_slots_in_overdue_eligible_hours"], 12)
+
+    def test_p226_actual_26nov_mixed_gap_is_not_all_cadence(self):
+        r = calculate("2026-11-26T12:00:00+00:00",
+                      datetime(2026, 11, 26, 15, 29, 18, tzinfo=UTC))
+        c = r["sealed_hourly_m5_cadence_evidence"]
+        self.assertEqual(c["m5_closed_slots_in_overdue_eligible_hours"], 24)
+        self.assertEqual(c["m5_closed_slots_outside_writer_eligible_hours"], 5)
+        self.assertEqual(c["observed_closed_m5_slots_missing"], 29)
+        self.assertFalse(c["missing_slots_explained_by_hourly_grace_or_intrahour_design"])
+        self.assertFalse(c["github_writer_run_result_independently_observed"])
+
+    def test_p226_attested_grace_only_and_no_gap(self):
+        c = calculate("2026-11-18T23:00:00+00:00")[
+            "sealed_hourly_m5_cadence_evidence"]
+        self.assertEqual(c["m5_closed_slots_in_overdue_eligible_hours"], 0)
         self.assertTrue(c["missing_slots_explained_by_hourly_grace_or_intrahour_design"])
+        c = calculate("2026-11-18T23:00:00+00:00",
+                      datetime(2026, 11, 19, 0, 5, tzinfo=UTC))[
+            "sealed_hourly_m5_cadence_evidence"]
+        self.assertEqual(c["m5_closed_slots_in_overdue_eligible_hours"], 0)
+        self.assertFalse(c["missing_slots_explained_by_hourly_grace_or_intrahour_design"])
+
+    def test_p226_early_source_has_no_cadence_attestation(self):
+        c = calculate("2026-11-18T23:00:00+00:00",
+                      datetime(2026, 11, 19, 0, 2, tzinfo=UTC))[
+            "sealed_hourly_m5_cadence_evidence"]
+        self.assertIsNone(c["m5_closed_slots_in_overdue_eligible_hours"])
+        self.assertFalse(c["missing_slots_explained_by_hourly_grace_or_intrahour_design"])
 
     def test_08_future_source_denied_but_early_close_not_reinterpreted(self):
         with self.assertRaises(ValueError):

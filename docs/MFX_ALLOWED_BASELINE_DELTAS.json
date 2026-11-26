@@ -2454,8 +2454,8 @@
     {
       "path": "mfx_research/hourly_source_freshness.py",
       "change": "added",
-      "expected_current_sha": "97ee6fe1c9692172d7eb1b15ac22dbff6a8ed780",
-      "reason": "Pure source-tip-verified UTC CLOSED interval deficit report M5/M15/M30/H1, no price/call, never infer live signals. P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval. P196 follow-up: CI #44506916295 identified 52 historical fixture failures from wrongly treating writer grace as source validity. Corrected new grace diagnostics to mark early but SHA-valid synthetic source writer-cadence UNATTESTED, never override prior SHA/asof source gates or expected negative test authority. Same versioned unit source change only."
+      "expected_current_sha": "a6696d655da13424e7bff4924f26628003c037b9",
+      "reason": "Pure source-tip-verified UTC CLOSED interval deficit report M5/M15/M30/H1, no price/call, never infer live signals. P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval. P196 follow-up: CI #44506916295 identified 52 historical fixture failures from wrongly treating writer grace as source validity. Corrected new grace diagnostics to mark early but SHA-valid synthetic source writer-cadence UNATTESTED, never override prior SHA/asof source gates or expected negative test authority. Same versioned unit source change only. P226 actual P225-main receipt exposed mixed 24 overdue plus 5 intrahour slots: correct all-gap explanation, explicit overdue slots and unattested null, hermetic regressions; no schedule, writer, source-validity or signal authority change."
     },
     {
       "path": "mfx_cache/native_htf_revision_diagnostics.py",
@@ -3234,8 +3234,8 @@
     {
       "path": "tests/test_mfx_p196_hourly_m5_cadence_evidence.py",
       "change": "added",
-      "expected_current_sha": "5699d2b203e620c2fdb70835b3d16e9274fe1c5d",
-      "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval. P196 follow-up: CI #44506916295 identified 52 historical fixture failures from wrongly treating writer grace as source validity. Corrected new grace diagnostics to mark early but SHA-valid synthetic source writer-cadence UNATTESTED, never override prior SHA/asof source gates or expected negative test authority. Same versioned unit source change only. P196 QA follow-up #44507309703: all prior 52 source gating regressions fixed; remaining 1 new test expected real writer-attestation for an intentionally early-closed synthetic fixture. Correct expectation marks writer cadence unverified without affecting original SHA validity."
+      "expected_current_sha": "e7f1e2f45bdf7445ffe075abf05e504050a69fa6",
+      "reason": "P0.196 strict UTC read-only hourly M5 source-cadence diagnosis in the already manual GET-only six-TF freshness receipt. Separate eligible completed-hour backlog from expected intrahour unsealed M5 slots, based on the existing writer plus-5-minute guard; 10 hermetic tests and 19-Nov actual Drive and Actions evidence. No extra workflow, vendor call, Drive write, OHLC publication, D1 splice or owner numeric approval. P196 follow-up: CI #44506916295 identified 52 historical fixture failures from wrongly treating writer grace as source validity. Corrected new grace diagnostics to mark early but SHA-valid synthetic source writer-cadence UNATTESTED, never override prior SHA/asof source gates or expected negative test authority. Same versioned unit source change only. P196 QA follow-up #44507309703: all prior 52 source gating regressions fixed; remaining 1 new test expected real writer-attestation for an intentionally early-closed synthetic fixture. Correct expectation marks writer cadence unverified without affecting original SHA validity. P226 actual P225-main receipt exposed mixed 24 overdue plus 5 intrahour slots: correct all-gap explanation, explicit overdue slots and unattested null, hermetic regressions; no schedule, writer, source-validity or signal authority change."
     },
     {
       "path": "docs/MFX_P196_HOURLY_M5_SEALED_CADENCE_EVIDENCE.md",
@@ -3662,6 +3662,12 @@
       "change": "added",
       "expected_current_sha": "4394115d65d878d22ee68cac9e5bbc4662e77d30",
       "reason": "P225 conditional HOT concurrency isolation using exact existing gates, active shared lock and schedule unchanged, no enabled HOT or new provider authority; actual cancellation witness, regression test."
+    },
+    {
+      "path": "docs/MFX_P226_HOURLY_BACKLOG_RECEIPT.md",
+      "change": "added",
+      "expected_current_sha": "887626fe3d59908af51a13bbd5466babec23d3e6",
+      "reason": "P226 actual P225-main receipt exposed mixed 24 overdue plus 5 intrahour slots: correct all-gap explanation, explicit overdue slots and unattested null, hermetic regressions; no schedule, writer, source-validity or signal authority change."
     }
   ]
 }

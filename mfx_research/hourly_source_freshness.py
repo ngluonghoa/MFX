@@ -105,8 +105,14 @@ def diagnose_hourly_m5_freshness(
             "ELIGIBLE_FULL_HOUR_BACKLOG" if missing_eligible_hours
             else "ALL_ELIGIBLE_FULL_HOURS_ARCHIVED"
         ),
+        # Only an attested cadence with zero overdue full-hour batches
+        # can explain ALL missing slots by design. A mixed gap is backlog,
+        # not a harmless hourly cadence limitation.
+        "m5_closed_slots_in_overdue_eligible_hours":
+            None if early_for_writer else 12 * missing_eligible_hours,
         "missing_slots_explained_by_hourly_grace_or_intrahour_design":
-            intrahour_unsealed > 0,
+            not early_for_writer and missing_eligible_hours == 0
+            and intrahour_unsealed > 0,
         "github_writer_run_result_independently_observed": False,
         "provider_publisher_first_known_verified": False,
         "permission_to_publish_live_buy_sell": False,
