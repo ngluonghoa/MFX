@@ -170,6 +170,10 @@ class P220ObservedSixTFTests(TestCase):
         self.assertEqual(d["core_technical_receipts_complete"], 1)
         self.assertEqual(d["pretrigger_h1_draft_contexts_computed"], 0)
         self.assertIsNotNone(row.pretrigger_h1)
+        self.assertIsNotNone(row.pretrigger_native)
+        self.assertEqual(d['pretrigger_h4_draft_structures_computed'], 0)
+        self.assertEqual(d['pretrigger_d1_fresh_vintages_with_five_rows'], 0)
+        self.assertEqual(d['pretrigger_h1_h4_and_unqualified_d1_inputs_present'], 0)
         self.assertEqual(d["cutoffs_with_basic_structural_ingredients_one_or_both_sides"],0)
         self.assertFalse(d["market_signal_eligibility_assessed"])
 

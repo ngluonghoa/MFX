@@ -17,6 +17,9 @@ from mfx_cache.td_m5_codec import ClosedM5Bar, digest
 from mfx_research.p227_pretrigger_h1 import (
     PrivatePretriggerH1, calculate_pretrigger_h1,
 )
+from mfx_research.p228_pretrigger_native import (
+    PrivatePretriggerNative, calculate_pretrigger_native,
+)
 from mfx_research import p193_owner_nov18_active_d1_reader as p193
 from mfx_research.p219_m5_archive_time_prefixes import (
     ObservedObjectTime, _metadata_index, replay_m5_current_metadata_prefixes,
@@ -135,6 +138,7 @@ class PrivateObservedContext:
     context: SixTimeframeResearchReceipt | None = field(repr=False)
     readiness: PrivateB2S2Readiness | None = field(repr=False)
     pretrigger_h1: PrivatePretriggerH1 | None = field(default=None, repr=False)
+    pretrigger_native: PrivatePretriggerNative | None = field(default=None, repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -209,6 +213,7 @@ def _core_summary(census: ArchiveFreshnessCensus,
     data_complete = 0
     core_technical = 0
     pretrigger_ready = 0
+    pretrigger_h4 = pretrigger_d1 = pretrigger_joint = 0
     for r in rows:
         if r.context is None or r.readiness is None:
             raise ValueError("P223_MISSING_REPLAY_RECEIPT")
@@ -222,7 +227,19 @@ def _core_summary(census: ArchiveFreshnessCensus,
                 or pretrigger.numeric_policy_approved or pretrigger.may_trade
                 or pretrigger.may_publish_buy_sell or pretrigger.publisher_first_known_verified):
             raise ValueError("P227_PRETRIGGER_RESEARCH_AUTHORITY_DRIFT")
-        pretrigger_ready += int(pretrigger.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED")
+        h1_ok = pretrigger.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
+        pretrigger_ready += int(h1_ok)
+        native = r.pretrigger_native
+        if (native is None or native.cutoff_utc != pretrigger.cutoff_utc
+                or native.action != "NO_SIGNAL" or native.d1_calendar_qualified
+                or native.publisher_first_known_verified or native.numeric_policy_approved
+                or native.may_publish_buy_sell or native.may_trade):
+            raise ValueError("P228_PRETRIGGER_NATIVE_AUTHORITY_DRIFT")
+        h4_ok = native.h4_status == "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
+        d1_ok = native.d1_status == "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
+        pretrigger_h4 += int(h4_ok)
+        pretrigger_d1 += int(d1_ok)
+        pretrigger_joint += int(h1_ok and h4_ok and d1_ok)
         present = {f.frame for f in r.context.frames}
         core_technical += int(set(B2S2_STRUCTURAL_FRAMES) <= present)
         # Counts only availability of structural ingredients, not direction,
@@ -237,6 +254,9 @@ def _core_summary(census: ArchiveFreshnessCensus,
             census.four_structural_frames_fresh-len(rows),
         "core_technical_receipts_complete": core_technical,
         "pretrigger_h1_draft_contexts_computed": pretrigger_ready,
+        "pretrigger_h4_draft_structures_computed": pretrigger_h4,
+        "pretrigger_d1_fresh_vintages_with_five_rows": pretrigger_d1,
+        "pretrigger_h1_h4_and_unqualified_d1_inputs_present": pretrigger_joint,
         "pretrigger_h1_basis": "ARCHIVE_METADATA_PROXY_BEFORE_FIRST_OF_TWO_M15_BARS",
         "cutoffs_with_basic_structural_ingredients_one_or_both_sides": data_complete,
         "d1_trend_calendar_qualified": False,
@@ -351,7 +371,7 @@ def replay_private_observed_six_tf(
         visible = [s for created, s in d1 if created <= decision and s.observed <= decision]
         selected = max(visible, key=lambda s: s.observed) if visible else None
         daily = selected.rows if selected else ()
-        context = readiness = pretrigger = None
+        context = readiness = pretrigger = native = None
         if raw:
             h4_batch, d1_batch = _batch("4h", h4_rows), _batch("1day", daily)
             context = build_six_timeframe_readonly_context(
@@ -369,8 +389,12 @@ def replay_private_observed_six_tf(
                     raw, m5.private_raw_hour_commits[:hours],
                     latest_m15_open=datetime.fromisoformat(m15.source_label),
                     decision_utc=decision)
+                native = calculate_pretrigger_native(
+                    tuple((known, rows) for known, rows in h4 if known <= decision),
+                    tuple((created, snap) for created, snap in d1 if created <= decision),
+                    cutoff=pretrigger.cutoff_utc, decision=decision)
         return PrivateObservedContext(
-            decision, hours, len(h4_rows), len(daily), context, readiness, pretrigger)
+            decision, hours, len(h4_rows), len(daily), context, readiness, pretrigger, native)
 
     contexts = tuple(context_at(p.decision_utc, p.private_m5, p.verified_raw_hours)
                      for p in m5.private_prefixes)
