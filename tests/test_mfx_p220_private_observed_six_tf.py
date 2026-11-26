@@ -8,7 +8,9 @@ from mfx_cache.td_m5_codec import digest
 from mfx_cache.native_d1_epoch_20261118 import audit_fresh_epoch
 from mfx_research import p193_owner_nov18_active_d1_reader as p193
 from mfx_research.p219_m5_archive_time_prefixes import ObservedObjectTime
-from mfx_research.p220_private_observed_six_tf import replay_private_observed_six_tf
+from mfx_research.p220_private_observed_six_tf import (
+    replay_private_observed_six_tf, _archive_freshness_census,
+)
 import test_mfx_v1_six_tf_sealed_archive_consumer as fixture
 from test_mfx_p219_m5_archive_time_prefixes import metadata
 from test_mfx_p171_d1_fresh_epoch import MemoryEpochStore, original_sha
@@ -116,3 +118,39 @@ class P220ObservedSixTFTests(TestCase):
         self.assertNotIn("experimental_cross",json.dumps(d))
         self.assertNotIn("1.1000",json.dumps(d))
         self.assertEqual(self.revised.puts,1)
+
+    def test_p222_core_four_distinct_from_all_six(self):
+        r = self.replay()
+        d = r.public_summary()["archive_freshness_census"]
+        self.assertEqual(d["sampled_commit_instants"], 2)
+        self.assertEqual(d["fresh_by_frame"],
+                         {"M5":0,"M15":2,"M30":2,"H1":2,"H4":2,"D1":1})
+        self.assertEqual(d["four_structural_frames_fresh"],1)
+        self.assertEqual(d["all_six_frames_fresh"],0)
+        self.assertEqual(d["four_structural_fresh_m5_stale"],1)
+        self.assertFalse(d["signal_eligibility_assessed"])
+        self.assertFalse(d["d1_calendar_qualified"])
+        self.assertFalse(r.public_summary()["may_publish_buy_sell"])
+
+    def test_p222_no_future_commit_in_census(self):
+        r = self.replay((NEXT+timedelta(minutes=4),))
+        d = r.archive_freshness_census
+        self.assertEqual(d.sampled_commit_instants,1)
+        self.assertEqual(d.four_structural_frames_fresh,0)
+
+    def test_p222_same_commit_clock_counted_once_newest_hour(self):
+        t = NEXT+timedelta(minutes=7)
+        d = _archive_freshness_census(
+            ((t,NEXT-timedelta(hours=1)),(t,NEXT),
+             (t+timedelta(hours=1),NEXT+timedelta(hours=1))), (), (), cutoff=t)
+        self.assertEqual(d.sampled_commit_instants,1)
+        self.assertEqual(dict(d.fresh_by_frame),
+                         {"M5":0,"M15":1,"M30":1,"H1":1,"H4":0,"D1":0})
+        self.assertEqual(d.four_structural_frames_fresh,0)
+
+    def test_p222_no_visible_d1_no_structural_freshness(self):
+        self.revised = MemoryEpochStore()
+        d = self.replay(revised_d1_times=()).archive_freshness_census
+        self.assertEqual(d.sampled_commit_instants,2)
+        self.assertEqual(d.four_structural_frames_fresh,0)
+        self.assertEqual(dict(d.fresh_by_frame)["D1"],0)
