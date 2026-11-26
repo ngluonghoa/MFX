@@ -142,6 +142,7 @@ class PrivateObservedReplay:
     fixture_anchors_used: bool
     archive_freshness_census: ArchiveFreshnessCensus | None = None
     private_core_contexts: tuple[PrivateObservedContext, ...] = field(default=(), repr=False)
+    replay_io_counts: tuple[int, int, int] | None = None
 
     def public_summary(self) -> dict[str, object]:
         summary: dict[str, object] = {
@@ -172,6 +173,16 @@ class PrivateObservedReplay:
             summary["archive_freshness_census"] = self.archive_freshness_census.public_summary()
             summary["core_structural_replay"] = _core_summary(
                 self.archive_freshness_census, self.private_core_contexts)
+        if self.replay_io_counts is not None:
+            first, replay, reused = self.replay_io_counts
+            if any(type(n) is not int or n < 0 for n in (first, replay, reused)):
+                raise ValueError("P224_REPLAY_IO_COUNT_DRIFT")
+            summary["replay_io"] = {
+                "first_audit_gets_including_metadata": first,
+                "replay_live_gets": replay,
+                "replay_recorded_payload_reads": reused,
+                "second_independent_raw_download": False,
+            }
         return summary
 
 
