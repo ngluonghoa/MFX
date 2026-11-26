@@ -3602,6 +3602,24 @@
       "change": "added",
       "expected_current_sha": "692039473e706543a18e68a0f9ac7c1610cd171b",
       "reason": "P219 current archive-time metadata prefixes use existing root-pinned raw SHA audit and causal observed cutoff; nine tests, real metadata evidence, no source-first-known/OOS or provider/Drive/broker writes."
+    },
+    {
+      "path": "mfx_research/p220_private_observed_six_tf.py",
+      "change": "added",
+      "expected_current_sha": "377c8eb746a127fd4052efaad1faa1c2feaacafc",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes."
+    },
+    {
+      "path": "tests/test_mfx_p220_private_observed_six_tf.py",
+      "change": "added",
+      "expected_current_sha": "043e1a040d75f18b8d17051ee75f91d1ceb66346",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes."
+    },
+    {
+      "path": "docs/MFX_P220_PRIVATE_OBSERVED_SIX_TF_REPLAY.md",
+      "change": "added",
+      "expected_current_sha": "3e0723e93278425b09568dad06599bcbf6cf0ed7",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes."
     }
   ]
 }
