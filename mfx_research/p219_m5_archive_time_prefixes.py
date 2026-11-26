@@ -60,6 +60,9 @@ class ArchiveTimeReplay:
     current_raw_sha_hours: int
     private_tip_sha256: str = field(repr=False)
     fixture_anchors_used: bool = False
+    # (archive availability proxy, closed hour end), SHA-verified raw tail only.
+    private_raw_hour_commits: tuple[tuple[datetime, datetime], ...] = field(
+        default=(), repr=False)
 
     def public_summary(self) -> dict[str, str | bool | int]:
         return {
@@ -172,4 +175,6 @@ def replay_m5_current_metadata_prefixes(
     return ArchiveTimeReplay(
         audited_at_utc, tuple(prefixes), len(names), raw_count,
         evidence["m5_latest_manifest_sha256"], fixture_pins is not None,
+        tuple((known, datetime.fromisoformat(hour)+HOUR)
+              for hour, known in available[raw_start:]),
     )
