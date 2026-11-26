@@ -2418,8 +2418,8 @@
     {
       "path": "tools/run_mfx_v1_manual_drive_six_tf.py",
       "change": "added",
-      "expected_current_sha": "c34ab86852758e565f58115bac72c48370ebd8de",
-      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron. P0.178 source-owner B2/S2 exact 36 qualitative numeric decision-to-private-readiness queue, source-locked paragraphs/phase and positive/negative QA; public GET-only projection has no actual price/derived cross, all 36 remain unapproved; no new workflows/source calls/Drive writes/broker. P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading. P211 isolated revised D1 comparison with identical audited intraday six-TF buffers and original P192 SHA, existing manual GET-only gate, six synthetic tests; no canonical selection or strategy approval, no new provider requests, writes, broker or signals. P221 bounded existing manual GET-only observed replay integration, fixed metadata scopes, no cron, provider requests, writes, market signals or broker; runtime witness remains required."
+      "expected_current_sha": "47ba325f420a99df6b77ae8b55e2d659dc44dbfd",
+      "reason": "P0.158a output redacts whether an actual price-derived private pivot exists; only closed-history eligibility across profiles, no side-channel. P0.163 manual Drive GET-only adapter surfaces D1 source quarantine as nonzero redacted report without private math or fake PASS. P0.174 explicit, SHA-audited owner-selected P171 D1 11 Nov fresh epoch into the existing GET-only six-TF research consumer; original V1 SHA/history intact and source HOLD preserved on legacy path; no new cache writes/vendor requests/BUYSELL/broker; exact as-of runner first-observed guard and negative QA. P0.176 owner 11Nov fresh-D1 source selection: preserve only fully SHA-attested original V1 D1 dates before 11Nov in private in-memory 120-bar research context, exclude old 11Nov, join independently SHA-verified new P171 11Nov+ tail, exact Nov10/11 boundary, no price rewrite, NO_SIGNAL. Hermetic counterfactual source overlap/identity/provenance tests. P0.177 Option B v2 real-source B2/S2 no-signal research gap diagnosis and redacted manual GET-only summary; 27 source/policy/authority tests, preserved 102 frozen Forex source blobs and 11 Docs; no provider calls, Drive writes, broker or cron. P0.178 source-owner B2/S2 exact 36 qualitative numeric decision-to-private-readiness queue, source-locked paragraphs/phase and positive/negative QA; public GET-only projection has no actual price/derived cross, all 36 remain unapproved; no new workflows/source calls/Drive writes/broker. P0.193 strict real P192 18-Nov Sydney-local GET-only D1 source with GitHub-independent witnessed SHA root, no pre-cutoff price splice, asof/close and old SHA checks, legacy P171 archival-only, one-candle NOT original D1 trend/owner numeric approval; no new provider or Drive writes, no trading. P211 isolated revised D1 comparison with identical audited intraday six-TF buffers and original P192 SHA, existing manual GET-only gate, six synthetic tests; no canonical selection or strategy approval, no new provider requests, writes, broker or signals. P221 bounded existing manual GET-only observed replay integration, fixed metadata scopes, no cron, provider requests, writes, market signals or broker; runtime witness remains required. P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change."
     },
     {
       "path": ".github/workflows/mfx-v1-manual-drive-six-tf-readonly.yml",
@@ -3606,8 +3606,8 @@
     {
       "path": "mfx_research/p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "cde949dde786db5ad44a85a11a390bbe76a0e1a9",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority."
+      "expected_current_sha": "cdb51e4add287e4654e8043c703a997f05401bcd",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority. P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change."
     },
     {
       "path": "tests/test_mfx_p220_private_observed_six_tf.py",
@@ -3624,14 +3624,14 @@
     {
       "path": "tools/mfx_private_observed_replay_drive.py",
       "change": "added",
-      "expected_current_sha": "f4abe91fe9c58f967e17510f834d91abcd576ff8",
-      "reason": "P221 bounded existing manual GET-only observed replay integration, fixed metadata scopes, no cron, provider requests, writes, market signals or broker; runtime witness remains required."
+      "expected_current_sha": "ef7d98d1df1ddb1f56e1d9680f3cdbeb7a728a37",
+      "reason": "P221 bounded existing manual GET-only observed replay integration, fixed metadata scopes, no cron, provider requests, writes, market signals or broker; runtime witness remains required. P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change."
     },
     {
       "path": "tests/test_mfx_p221_observed_replay_drive.py",
       "change": "added",
-      "expected_current_sha": "47afa1e1c5ce4eca6bc3d3a4d8cead38abc9d147",
-      "reason": "P221 bounded existing manual GET-only observed replay integration, fixed metadata scopes, no cron, provider requests, writes, market signals or broker; runtime witness remains required."
+      "expected_current_sha": "88e4578bd7b97381cba8763d5f178ab48ba09f05",
+      "reason": "P221 bounded existing manual GET-only observed replay integration, fixed metadata scopes, no cron, provider requests, writes, market signals or broker; runtime witness remains required. P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change."
     },
     {
       "path": "docs/MFX_P221_OBSERVED_REPLAY_MANUAL_READONLY.md",
@@ -3650,6 +3650,12 @@
       "change": "added",
       "expected_current_sha": "49d073ece8a307188df4b0330863054016298496",
       "reason": "P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority."
+    },
+    {
+      "path": "docs/MFX_P224_REUSE_AUDITED_DRIVE_PAYLOADS.md",
+      "change": "added",
+      "expected_current_sha": "8496ad58f577a0be9f55da0b33e1bac2527dc2d0",
+      "reason": "P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change."
     }
   ]
 }
