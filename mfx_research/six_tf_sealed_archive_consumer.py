@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import Any, Protocol
+from typing import Any, Protocol, TYPE_CHECKING
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
 from mfx_research.p174_active_d1_epoch_reader import (
@@ -53,6 +53,9 @@ from tools.run_mfx_m5_h4_live_parity_audit import _m5_archive
 from tools.mfx_m5_rolling_manifest_audit import (
     MAX_ROOTED_MANIFESTS, ROLLING_HOURS, audit_rooted_rolling_m5,
 )
+
+if TYPE_CHECKING:
+    from mfx_research.p220_private_observed_six_tf import PrivateObservedReplay
 
 VERSION = "MFX_V1_SEALED_READONLY_SIX_TF_RESEARCH_V1"
 SYMBOL = "EUR/USD"
@@ -146,6 +149,9 @@ class SealedArchiveSixTFReceipt:
         default=None, repr=False,
     )
     private_revised_d1_six_tf: PrivateRevisedSixTF | None = field(
+        default=None, repr=False,
+    )
+    private_observed_replay: PrivateObservedReplay | None = field(
         default=None, repr=False,
     )
 
