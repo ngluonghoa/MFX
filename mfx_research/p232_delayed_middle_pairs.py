@@ -192,11 +192,77 @@ def middle_pair_clock_census(
 
 
 @dataclass(frozen=True, slots=True, repr=False)
+class DecisionClockCoverage:
+    expected_slots: int
+    observed_slots: int
+    interior_missing_slots: int
+    trailing_missing_slots: int
+
+    @property
+    def complete(self) -> bool:
+        return self.interior_missing_slots == self.trailing_missing_slots == 0
+
+
+def decision_clock_coverage(
+    commits: tuple[tuple[datetime, datetime], ...],
+) -> tuple[DecisionClockCoverage, ...]:
+    """P238 independent clock-only denominator on verified full-hour archives.
+
+    Same-clock catch-up is visible; a later commit is never backfilled.
+    No session inference, market values, hypothetical clock or expiry rule.
+    """
+    middle_pair_clock_census(commits)
+    result = []
+    for i, (known, end) in enumerate(commits):
+        expected = _expected_last_closed(known, 15)
+        visible = tuple(e for k, e in commits[i:] if k <= known)
+        tip = visible[-1]
+        trigger_end = end-M15
+        if tip > expected:
+            raise ValueError("P238_DECISION_CLOCK_GRID_DRIFT")
+        observed = 1+4*(len(visible)-1)
+        expected_slots = (expected-trigger_end)//M15
+        interior = (tip-trigger_end)//M15-observed
+        trailing = (expected-tip)//M15
+        if (min(interior, trailing) < 0
+                or expected_slots != observed+interior+trailing):
+            raise ValueError("P238_DECISION_CLOCK_ACCOUNTING_DRIFT")
+        result.append(DecisionClockCoverage(expected_slots, observed, interior, trailing))
+    return tuple(result)
+
+
+def summarize_decision_clocks(
+    rows: tuple[DecisionClockCoverage, ...], census: MiddlePairClockCensus,
+) -> dict[str, int | bool]:
+    if len(rows) != census.verified_hours:
+        raise ValueError("P238_CLOCK_DENOMINATOR_DRIFT")
+    complete = interior = trailing = both = 0
+    for row in rows:
+        if (type(row) is not DecisionClockCoverage or row.observed_slots < 1
+                or min(row.interior_missing_slots,row.trailing_missing_slots) < 0
+                or row.expected_slots != row.observed_slots+row.interior_missing_slots
+                   +row.trailing_missing_slots):
+            raise ValueError("P238_DECISION_CLOCK_ACCOUNTING_DRIFT")
+        complete += int(row.complete)
+        interior += int(row.interior_missing_slots > 0 and row.trailing_missing_slots == 0)
+        trailing += int(row.trailing_missing_slots > 0 and row.interior_missing_slots == 0)
+        both += int(row.interior_missing_slots > 0 and row.trailing_missing_slots > 0)
+    joint = sum(rows[i].complete for i in census.private_eligible_indices)
+    return {"verified_hours": len(rows), "decision_grid_complete": complete,
+            "interior_gap_only": interior, "trailing_gap_only": trailing,
+            "interior_and_trailing_gap": both,
+            "pretrigger_and_decision_clock_complete": joint,
+            "selection_uses_prices_or_outcomes": False,
+            "expiry_policy_selected": False}
+
+
+@dataclass(frozen=True, slots=True, repr=False)
 class PrivateDelayedMiddleReplay:
     verified_hours: int
     samples: tuple[PrivateDelayedMiddlePair, ...] = field(repr=False)
     clock_census: MiddlePairClockCensus | None = field(default=None, repr=False)
     clock_eligible_samples: tuple[PrivateDelayedMiddlePair, ...] = field(default=(), repr=False)
+    decision_clocks: tuple[DecisionClockCoverage, ...] = field(default=(), repr=False)
 
     @staticmethod
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
@@ -296,13 +362,27 @@ class PrivateDelayedMiddleReplay:
                            for row in self.clock_eligible_samples)):
                 raise ValueError("P233_CLOCK_SELECTED_REPLAY_DRIFT")
             summary["clock_census"] = self.clock_census.public_summary()
+            summary["decision_clock_census"] = summarize_decision_clocks(
+                self.decision_clocks, self.clock_census)
+            recent_indices = tuple(range(max(0,self.verified_hours-MAX_SAMPLE),
+                                         self.verified_hours))
+            for indices, cohort in (
+                (recent_indices, self.samples),
+                (self.clock_census.private_eligible_indices[-MAX_SAMPLE:],
+                 self.clock_eligible_samples),
+            ):
+                for i,row in zip(indices,cohort):
+                    clock = self.decision_clocks[i]
+                    if (row.delayed_decision.closed_grid_complete != clock.complete
+                            or row.delayed_decision.observed_closed_m15_bars != clock.observed_slots):
+                        raise ValueError("P238_RAW_CLOCK_REPLAY_DRIFT")
             summary["clock_selected_replay"] = {
                 "selection": "LATEST_UP_TO_32_CLOCK_ELIGIBLE_MIDDLE_PAIRS",
                 **self._summary(self.clock_eligible_samples),
                 "not_a_representative_market_sample": True,
                 "historical_oos_qualified": False,
             }
-        elif self.clock_eligible_samples:
+        elif self.clock_eligible_samples or self.decision_clocks:
             raise ValueError("P233_MISSING_CLOCK_CENSUS")
         summary["delayed_trigger_slot_accounting"] = summarize_private_trigger_slots(
             tuple(row.trigger_identity for row in self.samples+self.clock_eligible_samples))
@@ -331,6 +411,7 @@ def replay_delayed_middle_pairs(
             or not 0 <= len(commits) <= MAX_HOURS or len(raw) != 12*len(commits)):
         raise ValueError("P232_EXACT_BOUNDED_PREFIX_REQUIRED")
     census = middle_pair_clock_census(commits)
+    decision_clocks = decision_clock_coverage(commits)
     recent = tuple(range(max(0,len(commits)-MAX_SAMPLE),len(commits)))
     eligible = census.private_eligible_indices[-MAX_SAMPLE:]
     # Keep the original recent sample, and a separate clock-only coverage
@@ -378,6 +459,6 @@ def replay_delayed_middle_pairs(
             known,trigger_end,h1,native,m15,boundary,identity,delayed,setup_identity)
     receipt = PrivateDelayedMiddleReplay(
         len(commits),tuple(samples[i] for i in recent),census,
-        tuple(samples[i] for i in eligible))
+        tuple(samples[i] for i in eligible),decision_clocks)
     receipt.public_summary()
     return receipt

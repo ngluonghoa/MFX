@@ -275,3 +275,66 @@ class P236EarlyCoverageIntegrationTests(TestCase):
         bad=replace(row,m15=replace(row.m15,early_event_approved=True))
         with self.assertRaisesRegex(ValueError,"EARLY_OBSERVATION_AUTHORITY_DRIFT"):
             replace(r,samples=r.samples[:-1]+(bad,)).public_summary()
+
+class P238DecisionClockTests(TestCase):
+    def test_clock_census_and_raw_agree(self):
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        c=r.public_summary()["decision_clock_census"]
+        self.assertEqual(c["decision_grid_complete"],5)
+        self.assertEqual(c["pretrigger_and_decision_clock_complete"],1)
+        self.assertEqual(c["trailing_gap_only"],0)
+
+    def test_settlement_edge(self):
+        from mfx_research.p232_delayed_middle_pairs import decision_clock_coverage
+        _,clocks=shaped()
+        end=clocks[-1][1]
+        for delta,complete in ((timedelta(minutes=15,seconds=14),True),
+                               (timedelta(minutes=15,seconds=15),False)):
+            c=decision_clock_coverage(clocks[:-1]+((end+delta,end),))[-1]
+            self.assertEqual(c.complete,complete)
+
+    def test_same_clock_and_interior_missing(self):
+        from mfx_research.p232_delayed_middle_pairs import decision_clock_coverage
+        _,clocks=shaped()
+        end=clocks[-1][1]
+        known=end+timedelta(hours=2,minutes=7)
+        c=decision_clock_coverage(clocks[:-1]+((known,end),
+                    (known,end+timedelta(hours=2))))[-2]
+        self.assertEqual((c.observed_slots,c.interior_missing_slots,c.trailing_missing_slots),
+                         (5,4,0))
+        self.assertFalse(c.complete)
+
+    def test_later_commit_cannot_fill_decision_gap(self):
+        from mfx_research.p232_delayed_middle_pairs import decision_clock_coverage
+        _,clocks=shaped()
+        end=clocks[-1][1]
+        known=end+timedelta(hours=1,minutes=7)
+        c=decision_clock_coverage(clocks[:-1]+((known,end),
+                    (known+timedelta(seconds=1),end+timedelta(hours=1))))[-2]
+        self.assertEqual((c.observed_slots,c.trailing_missing_slots),(1,4))
+
+    def test_both_gap_types_and_conservation(self):
+        from mfx_research.p232_delayed_middle_pairs import (
+            decision_clock_coverage, summarize_decision_clocks,
+        )
+        _,clocks=shaped()
+        end=clocks[-1][1]
+        known=end+timedelta(hours=2,minutes=30)
+        clocks=clocks[:-1]+((known,end),(known,end+timedelta(hours=2)))
+        rows=decision_clock_coverage(clocks)
+        c=summarize_decision_clocks(rows,middle_pair_clock_census(clocks))
+        self.assertEqual(c["interior_and_trailing_gap"],1)
+        self.assertEqual(c["trailing_gap_only"],1)
+        self.assertEqual(c["decision_grid_complete"],4)
+        self.assertEqual(sum(c[k] for k in ("decision_grid_complete","interior_gap_only",
+                          "trailing_gap_only","interior_and_trailing_gap")),len(clocks))
+
+    def test_forged_raw_coverage_fails_closed(self):
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        row=r.samples[-1]
+        bad=replace(row,delayed_decision=replace(row.delayed_decision,
+                    observed_closed_m15_bars=2))
+        with self.assertRaisesRegex(ValueError,"RAW_CLOCK_REPLAY_DRIFT"):
+            replace(r,samples=r.samples[:-1]+(bad,)).public_summary()
