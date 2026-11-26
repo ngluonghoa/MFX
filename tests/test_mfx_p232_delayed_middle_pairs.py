@@ -338,3 +338,62 @@ class P238DecisionClockTests(TestCase):
                     observed_closed_m15_bars=2))
         with self.assertRaisesRegex(ValueError,"RAW_CLOCK_REPLAY_DRIFT"):
             replace(r,samples=r.samples[:-1]+(bad,)).public_summary()
+
+class P239JointClockCohortTests(TestCase):
+    def test_joint_reuses_exact_receipt(self):
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        self.assertIs(r.joint_clock_samples[0],r.samples[-1])
+        s=r.public_summary()["joint_clock_selected_replay"]
+        self.assertEqual(s["joint_clock_eligible_total"],1)
+        self.assertEqual(s["middle_pairs_replayed"],1)
+        self.assertEqual(s["reused_existing_cohort_receipts"],1)
+        self.assertEqual(s["additional_unique_receipts"],0)
+
+    def test_joint_requires_both_clock_windows(self):
+        raw,clocks=shaped()
+        late=clocks[:-1]+((clocks[-1][0]+timedelta(minutes=15),clocks[-1][1]),)
+        r=run(raw,late)
+        self.assertEqual(len(r.clock_eligible_samples),1)
+        self.assertEqual(r.joint_clock_samples,())
+        self.assertEqual(r.public_summary()["joint_clock_selected_replay"]["joint_clock_eligible_total"],0)
+
+    def test_selection_independent_of_prices(self):
+        raw,clocks=shaped()
+        a=run(raw,clocks)
+        b=run(tuple(replace(x,high="1.95") for x in raw),clocks)
+        self.assertEqual(tuple(x.trigger_end_utc for x in a.joint_clock_samples),
+                         tuple(x.trigger_end_utc for x in b.joint_clock_samples))
+        self.assertFalse(b.public_summary()["joint_clock_selected_replay"]["selection_uses_prices_or_outcomes"])
+
+    def test_older_joint_receipt_not_lost_to_latest_precursor_cap(self):
+        raw0,_=shaped()
+        # Alternating :07/:16 leaves recent precursor-only rows,
+        # while the earliest joint rows fall outside the latest 32.
+        n=80
+        raw=tuple(replace(raw0[j%len(raw0)],start_utc=(
+            START+timedelta(minutes=5*j)).isoformat()) for j in range(12*n))
+        clocks=tuple((START+timedelta(hours=i+1,minutes=(16 if i>=7 and i%2 else 7)),
+                      START+timedelta(hours=i+1)) for i in range(n))
+        r=run(raw,clocks)
+        s=r.public_summary()["joint_clock_selected_replay"]
+        self.assertGreater(s["additional_unique_receipts"],0)
+        self.assertLessEqual(s["middle_pairs_replayed"],32)
+        self.assertLessEqual(s["distinct_source_hour_receipts_all_cohorts"],96)
+
+    def test_missing_joint_receipt_rejected(self):
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        with self.assertRaisesRegex(ValueError,"JOINT_CLOCK_SAMPLE_COUNT_DRIFT"):
+            replace(r,joint_clock_samples=()).public_summary()
+
+    def test_overlap_must_reuse_same_receipt_and_no_private_digest(self):
+        import json
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        row=r.joint_clock_samples[0]
+        with self.assertRaisesRegex(ValueError,"OVERLAPPING_RECEIPT_NOT_REUSED"):
+            replace(r,joint_clock_samples=(replace(row),)).public_summary()
+        s=json.dumps(r.public_summary()["joint_clock_selected_replay"])
+        self.assertNotIn(row.trigger_identity.private_slots[0].slot_sha256,s)
+        self.assertIn("NO_SIGNAL",s)
