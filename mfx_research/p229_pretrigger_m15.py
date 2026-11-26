@@ -34,6 +34,14 @@ class PrivateM15Geometry:
 
 
 @dataclass(frozen=True, slots=True, repr=False)
+class PrivateEarlyObservation:
+    rule_id: str
+    first_zone_contact: bool = field(repr=False)
+    strict_relative_extremum: bool = field(repr=False)
+    strict_zone_edge_reclaim: bool = field(repr=False)
+
+
+@dataclass(frozen=True, slots=True, repr=False)
 class PrivatePretriggerM15:
     cutoff_utc: datetime = field(repr=False)
     status: str
@@ -45,6 +53,8 @@ class PrivatePretriggerM15:
     action: str = "NO_SIGNAL"
     may_publish_buy_sell: bool = False
     may_trade: bool = False
+    early_sides: tuple[PrivateEarlyObservation, ...] = field(default=(), repr=False)
+    early_event_approved: bool = False
 
 
 def calculate_pretrigger_m15(
@@ -97,11 +107,11 @@ def _calculate_archive_geometry(
                       policy.micro_left, policy.micro_right)
     highs = [p.candidate_mid_price for p in study.pivots if p.kind == "HIGH"]
     lows = [p.candidate_mid_price for p in study.pivots if p.kind == "LOW"]
-    if not highs and not lows:
-        return PrivatePretriggerM15(cutoff, "NO_PRETRIGGER_M15_LEVEL", complete)
     if (h1.status != "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
             or h1.mean_tr is None or h1.support_zone is None or h1.resistance_zone is None):
-        return PrivatePretriggerM15(cutoff, "PRETRIGGER_H1_CONTEXT_UNAVAILABLE", complete)
+        status = ("NO_PRETRIGGER_M15_LEVEL" if not highs and not lows
+                  else "PRETRIGGER_H1_CONTEXT_UNAVAILABLE")
+        return PrivatePretriggerM15(cutoff, status, complete)
     # The trigger candles are evaluated at decision, never fed into the
     # pretrigger pivot or H1 zone. Exact two contiguous closed M15 bars.
     triggers = derive_intraday(trigger_raw, "M15", asof_utc=decision).candles
@@ -114,11 +124,19 @@ def _calculate_archive_geometry(
     tolerance, chase = h1.mean_tr*p.h1_near_multiple, h1.mean_tr*p.max_chase_multiple
     first_low, first_high, first_close, last_close = map(
         Decimal, (first.low, first.high, first.close, last.close))
+    last_low, last_high = Decimal(last.low), Decimal(last.high)
     sides = []
+    early = []
     for rule, levels, zone in (("B2", highs, h1.support_zone),
                                ("S2", lows, h1.resistance_zone)):
         level = levels[-1] if levels else None
         near = first_low <= zone[1]+tolerance and first_high >= zone[0]-tolerance
+        # P236 independent observations, not a confirmed swing or early event.
+        # They require the frozen H1 zone, but not a confirmed micro level.
+        relative = last_low > first_low if rule == "B2" else last_high < first_high
+        reclaim = (first_close <= zone[1] < last_close if rule == "B2"
+                   else first_close >= zone[0] > last_close)
+        early.append(PrivateEarlyObservation(rule, near, relative, reclaim))
         crossed = False
         anti = False
         if level is not None:
@@ -129,5 +147,29 @@ def _calculate_archive_geometry(
                 crossed = first_close >= level > last_close
                 anti = crossed and level-last_close <= chase
         sides.append(PrivateM15Geometry(rule, level, near, crossed, anti))
+    if not highs and not lows:
+        return PrivatePretriggerM15(cutoff, "NO_PRETRIGGER_M15_LEVEL", complete,
+                                    early_sides=tuple(early))
     return PrivatePretriggerM15(cutoff, "PRIVATE_M15_DRAFT_GEOMETRY_COMPUTED",
-                                complete, tuple(sides))
+                                complete, tuple(sides), early_sides=tuple(early))
+
+
+def early_observation_coverage(m15: PrivatePretriggerM15, h1: PrivatePretriggerH1) -> bool:
+    """Redacted availability only: no observations, combinations or events exported."""
+    if (type(m15) is not PrivatePretriggerM15 or type(h1) is not PrivatePretriggerH1
+            or m15.cutoff_utc != h1.cutoff_utc or m15.early_event_approved
+            or m15.action != "NO_SIGNAL" or m15.numeric_policy_approved
+            or m15.publisher_first_known_verified or m15.d1_trend_qualified
+            or m15.may_publish_buy_sell or m15.may_trade
+            or type(m15.early_sides) is not tuple):
+        raise ValueError("P236_EARLY_OBSERVATION_AUTHORITY_DRIFT")
+    if not m15.early_sides:
+        return False
+    if (h1.status != "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
+            or any(type(s) is not PrivateEarlyObservation for s in m15.early_sides)
+            or tuple(s.rule_id for s in m15.early_sides) != ("B2", "S2")
+            or any(type(v) is not bool for s in m15.early_sides
+                   for v in (s.first_zone_contact, s.strict_relative_extremum,
+                             s.strict_zone_edge_reclaim))):
+        raise ValueError("P236_EARLY_OBSERVATION_PAIR_DRIFT")
+    return True

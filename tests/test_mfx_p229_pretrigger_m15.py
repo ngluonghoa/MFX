@@ -72,3 +72,46 @@ class P229PretriggerM15Tests(TestCase):
         with self.assertRaisesRegex(ValueError,"H1_SOURCE_CONTEXT_DRIFT"):
             calculate_pretrigger_m15(raw,clocks,replace(h1,mean_tr=Decimal("1")),
                                      latest_m15_open=OPEN,decision=DECISION)
+
+class P236EarlyObservationTests(TestCase):
+    def test_exact_two_closed_bar_observations(self):
+        raw,clocks=shaped()
+        row=run(raw,clocks)
+        self.assertEqual(tuple(s.rule_id for s in row.early_sides),("B2","S2"))
+        self.assertTrue(row.early_sides[0].strict_relative_extremum)
+        self.assertFalse(row.early_sides[1].strict_relative_extremum)
+        self.assertEqual(tuple(s.first_zone_contact for s in row.early_sides),
+                         tuple(s.near for s in row.sides))
+        self.assertFalse(row.early_event_approved)
+
+    def test_reflected_early_observations(self):
+        raw,clocks=shaped()
+        def reflect(x):
+            return str(Decimal("2.5")-Decimal(x))
+        mirror=tuple(replace(b,open=reflect(b.open),high=reflect(b.low),
+                             low=reflect(b.high),close=reflect(b.close)) for b in raw)
+        a,b=run(raw,clocks).early_sides[0],run(mirror,clocks).early_sides[1]
+        self.assertEqual((a.first_zone_contact,a.strict_relative_extremum,a.strict_zone_edge_reclaim),
+                         (b.first_zone_contact,b.strict_relative_extremum,b.strict_zone_edge_reclaim))
+
+    def test_no_confirmed_level_does_not_erase_early_observations(self):
+        raw,clocks=shaped()
+        flat=tuple(replace(b,open="1.10",close="1.10",high="1.11",low="1.09")
+                   for b in raw[:48])+raw[48:]
+        row=run(flat,clocks)
+        self.assertEqual(row.status,"NO_PRETRIGGER_M15_LEVEL")
+        self.assertEqual(row.sides,())
+        self.assertEqual(len(row.early_sides),2)
+
+    def test_equal_extrema_are_not_strict(self):
+        raw,clocks=shaped()
+        changed=raw[:-3]+tuple(replace(b,open="1.14",close="1.14",high="1.15",low="1.13")
+                               for b in raw[-3:])
+        row=run(changed,clocks)
+        self.assertFalse(any(s.strict_relative_extremum for s in row.early_sides))
+        self.assertFalse(any(s.strict_zone_edge_reclaim for s in row.early_sides))
+
+    def test_missing_pretrigger_history_has_no_early_observations(self):
+        raw,clocks=shaped()
+        late=clocks[:3]+((START+timedelta(hours=4,minutes=31),clocks[3][1]),)+clocks[4:]
+        self.assertEqual(run(raw,late).early_sides,())
