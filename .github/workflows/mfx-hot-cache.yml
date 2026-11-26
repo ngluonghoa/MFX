@@ -8,8 +8,10 @@ on:
 permissions:
   contents: read
 
+# A staged/disabled HOT run must not replace a pending real Cache writer.
+# When all existing gates are true it still uses the SAME shared lock.
 concurrency:
-  group: mfx-twelvedata-private-cache
+  group: ${{ (vars.MFX_REAL_CACHE_ENABLED == 'true' && vars.MFX_V3_HOT_CACHE_ACCEPTED == 'true' && vars.MFX_TD_ACCOUNT_CACHE_RIGHTS_CONFIRMED == 'true') && 'mfx-twelvedata-private-cache' || format('mfx-hot-disabled-{0}', github.run_id) }}
   cancel-in-progress: false
 
 jobs:
