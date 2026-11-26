@@ -154,3 +154,44 @@ class P220ObservedSixTFTests(TestCase):
         self.assertEqual(d.sampled_commit_instants,2)
         self.assertEqual(d.four_structural_frames_fresh,0)
         self.assertEqual(dict(d.fresh_by_frame)["D1"],0)
+
+    def test_p223_replays_core_cutoff_not_in_requested_sample(self):
+        r = self.replay((self.now,))
+        self.assertEqual(len(r.private_contexts), 1)
+        self.assertEqual(len(r.private_core_contexts), 1)
+        row = r.private_core_contexts[0]
+        self.assertEqual(row.decision_utc, NEXT+timedelta(minutes=7))
+        self.assertEqual(row.m5_verified_hours, 2)
+        self.assertEqual(row.d1_visible_rows, 2)
+        self.assertNotIn("M5", {f.frame for f in row.context.frames})
+        self.assertEqual(row.readiness.public_action, "NO_SIGNAL")
+        d = r.public_summary()["core_structural_replay"]
+        self.assertEqual(d["core_cutoffs_replayed"], 1)
+        self.assertEqual(d["core_technical_receipts_complete"], 1)
+        self.assertEqual(d["cutoffs_with_basic_structural_ingredients_one_or_both_sides"],0)
+        self.assertFalse(d["market_signal_eligibility_assessed"])
+
+    def test_p223_duplicate_sample_reuses_receipt(self):
+        r = self.replay()
+        self.assertIs(r.private_core_contexts[0],r.private_contexts[-1])
+        self.assertEqual(r.public_summary()["core_structural_replay"][
+            "core_cutoffs_not_replayed_due_to_limit"],0)
+
+    def test_p223_future_and_missing_d1_never_backfilled(self):
+        r = self.replay((NEXT+timedelta(minutes=4),))
+        self.assertEqual(r.private_core_contexts,())
+        self.assertEqual(r.public_summary()["core_structural_replay"][
+            "core_cutoffs_replayed"],0)
+        self.revised = MemoryEpochStore()
+        r = self.replay(revised_d1_times=())
+        self.assertEqual(r.private_core_contexts,())
+
+    def test_p223_core_clock_not_published(self):
+        import json
+        r = self.replay((self.now,))
+        public = json.dumps(r.public_summary())
+        self.assertNotIn("private_core_cutoffs", public)
+        self.assertNotIn("private_core_contexts", public)
+        self.assertNotIn(r.private_core_contexts[0].decision_utc.isoformat(),public)
+        self.assertNotIn("experimental_cross",public)
+        self.assertEqual(r.public_summary()["action"],"NO_SIGNAL")
