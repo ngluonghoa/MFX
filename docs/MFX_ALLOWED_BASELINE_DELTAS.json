@@ -3606,14 +3606,14 @@
     {
       "path": "mfx_research/p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "d8a633b4080e5ac00a783ee75a0b47e832c909e6",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority. P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change. P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions. P228 causal native H4 and revised D1 pretrigger archive selection, private mirrored structural trend, D1 vintage availability only and no calendar/source promotion; aggregate counts, six hermetic tests and existing replay integration, no extra I/O. P229 prior archive-visible M15 draft pivots plus symmetric two-closed-bar near/cross/anti-chase arithmetic using rechecked P227 H1, separate setup history coverage, no directional output or authority change; five tests and integration, no new I/O."
+      "expected_current_sha": "a6a0304fc4f6078e31dc437bbb8597be602414d7",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority. P224 preserve first live SHA audit and independent anchor readbacks, reuse bounded immutable captured bytes during private replay with live metadata before/after, seven tests and measured GET counts; no workflow or signal authority change. P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions. P228 causal native H4 and revised D1 pretrigger archive selection, private mirrored structural trend, D1 vintage availability only and no calendar/source promotion; aggregate counts, six hermetic tests and existing replay integration, no extra I/O. P229 prior archive-visible M15 draft pivots plus symmetric two-closed-bar near/cross/anti-chase arithmetic using rechecked P227 H1, separate setup history coverage, no directional output or authority change; five tests and integration, no new I/O. P230 frozen H1/H4 raw anchor signed distance and observed closed grid diagnostics, no buffer selection or rule authority, private only, redacted coverage and seven tests, no I/O or schedule changes."
     },
     {
       "path": "tests/test_mfx_p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "a1bc9728f99f274648e4399e1795feaf61a69d32",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority. P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions. P228 causal native H4 and revised D1 pretrigger archive selection, private mirrored structural trend, D1 vintage availability only and no calendar/source promotion; aggregate counts, six hermetic tests and existing replay integration, no extra I/O. P229 prior archive-visible M15 draft pivots plus symmetric two-closed-bar near/cross/anti-chase arithmetic using rechecked P227 H1, separate setup history coverage, no directional output or authority change; five tests and integration, no new I/O."
+      "expected_current_sha": "d311450f153d752d48bba49fc96b85100eea1428",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority. P227 actual P223 core replay adds separately computed private H1 TR/zone using only SHA-audited hour prefixes archive-visible before first of two M15 trigger opens; no additional I/O, no numerical approval, publisher first-known or OOS; redacted count and regressions. P228 causal native H4 and revised D1 pretrigger archive selection, private mirrored structural trend, D1 vintage availability only and no calendar/source promotion; aggregate counts, six hermetic tests and existing replay integration, no extra I/O. P229 prior archive-visible M15 draft pivots plus symmetric two-closed-bar near/cross/anti-chase arithmetic using rechecked P227 H1, separate setup history coverage, no directional output or authority change; five tests and integration, no new I/O. P230 frozen H1/H4 raw anchor signed distance and observed closed grid diagnostics, no buffer selection or rule authority, private only, redacted coverage and seven tests, no I/O or schedule changes."
     },
     {
       "path": "docs/MFX_P220_PRIVATE_OBSERVED_SIX_TF_REPLAY.md",
@@ -3690,8 +3690,8 @@
     {
       "path": "mfx_research/p228_pretrigger_native.py",
       "change": "added",
-      "expected_current_sha": "e10fcbecbfeae4883f01b8aaccb376938faa3116",
-      "reason": "P228 causal native H4 and revised D1 pretrigger archive selection, private mirrored structural trend, D1 vintage availability only and no calendar/source promotion; aggregate counts, six hermetic tests and existing replay integration, no extra I/O."
+      "expected_current_sha": "5efe99420e32aacaf156333bcdc098cf6dcd9199",
+      "reason": "P228 causal native H4 and revised D1 pretrigger archive selection, private mirrored structural trend, D1 vintage availability only and no calendar/source promotion; aggregate counts, six hermetic tests and existing replay integration, no extra I/O. P230 frozen H1/H4 raw anchor signed distance and observed closed grid diagnostics, no buffer selection or rule authority, private only, redacted coverage and seven tests, no I/O or schedule changes."
     },
     {
       "path": "tests/test_mfx_p228_pretrigger_native.py",
@@ -3722,6 +3722,24 @@
       "change": "added",
       "expected_current_sha": "cc9b27f1829d7ada737b4d3e2971575412912fc2",
       "reason": "P229 prior archive-visible M15 draft pivots plus symmetric two-closed-bar near/cross/anti-chase arithmetic using rechecked P227 H1, separate setup history coverage, no directional output or authority change; five tests and integration, no new I/O."
+    },
+    {
+      "path": "docs/MFX_P230_PRIVATE_SETUP_BOUNDARIES.md",
+      "change": "added",
+      "expected_current_sha": "5e8cd1226b0d5c7444812c7290fb8cbd6bfe25cb",
+      "reason": "P230 frozen H1/H4 raw anchor signed distance and observed closed grid diagnostics, no buffer selection or rule authority, private only, redacted coverage and seven tests, no I/O or schedule changes."
+    },
+    {
+      "path": "mfx_research/p230_private_boundary_path.py",
+      "change": "added",
+      "expected_current_sha": "1c551751286c9b1d516e5ce0e613b9364f1adf54",
+      "reason": "P230 frozen H1/H4 raw anchor signed distance and observed closed grid diagnostics, no buffer selection or rule authority, private only, redacted coverage and seven tests, no I/O or schedule changes."
+    },
+    {
+      "path": "tests/test_mfx_p230_private_boundary_path.py",
+      "change": "added",
+      "expected_current_sha": "d28c310d9831315c3ec1556cbc198928f5c30172",
+      "reason": "P230 frozen H1/H4 raw anchor signed distance and observed closed grid diagnostics, no buffer selection or rule authority, private only, redacted coverage and seven tests, no I/O or schedule changes."
     }
   ]
 }

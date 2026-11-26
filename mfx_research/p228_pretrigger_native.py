@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
+from decimal import Decimal
 from zoneinfo import ZoneInfo
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
@@ -31,6 +32,9 @@ class PrivatePretriggerNative:
     cutoff_utc: datetime = field(repr=False)
     h4_trend: str = field(default="UNKNOWN", repr=False)
     d1_rows: tuple[NativeFXBar, ...] = field(default=(), repr=False)
+    h4_prior_end: datetime | None = field(default=None, repr=False)
+    h4_low_anchor: Decimal | None = field(default=None, repr=False)
+    h4_high_anchor: Decimal | None = field(default=None, repr=False)
     d1_calendar_qualified: bool = False
     publisher_first_known_verified: bool = False
     numeric_policy_approved: bool = False
@@ -110,6 +114,7 @@ def calculate_pretrigger_native(
             d1_status = "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
 
     h4_status, trend = "NO_PRETRIGGER_H4_ARCHIVE", "UNKNOWN"
+    anchor_end = low_anchor = high_anchor = None
     if visible_h4:
         end = _native_utc_start(visible_h4[-1].native_open_label) + H4
         if cutoff-end > MAX_H4_AGE:
@@ -129,8 +134,10 @@ def calculate_pretrigger_native(
                 h4_status = "PRETRIGGER_H4_PIVOTS_INSUFFICIENT"
             else:
                 h4_status = "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
+                anchor_end, low_anchor, high_anchor = end, lows[-1], highs[-1]
                 if highs[-1] > highs[-2] and lows[-1] > lows[-2]:
                     trend = "UP"
                 elif highs[-1] < highs[-2] and lows[-1] < lows[-2]:
                     trend = "DOWN"
-    return PrivatePretriggerNative(h4_status, d1_status, cutoff, trend, daily)
+    return PrivatePretriggerNative(h4_status, d1_status, cutoff, trend, daily,
+                                   anchor_end, low_anchor, high_anchor)
