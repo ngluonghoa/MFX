@@ -224,3 +224,66 @@ class P242D1ClockVisibilityTests(TestCase):
         self.assertNotIn("2026-11",json.dumps(a))
         self.assertFalse(a["d1_calendar_qualified"])
         self.assertFalse(a["selection_uses_prices_or_outcomes"])
+
+
+class P243JointClockBlockerTests(TestCase):
+    def test_matrix_conserves_every_era_and_margin(self):
+        s=run().public_summary()
+        for key, era in s["d1_archive_clock_visibility_census"].items():
+            if not isinstance(era,dict):
+                continue
+            b=s["joint_clock_blocker_matrix"][key]
+            m=b["precursor_by_decision_clock"]
+            self.assertEqual(sum(sum(row.values()) for row in m.values()),era["verified_hours"])
+            self.assertEqual(sum(m["complete"].values()),era["precursor_clock_complete"])
+            self.assertEqual(sum(row["complete"] for row in m.values()),era["decision_clock_complete"])
+            self.assertEqual(m["complete"]["complete"],era["joint_clock_complete"])
+
+    def test_prior_late_and_decision_trailing_are_separate_and_joint(self):
+        raw, clocks=shaped()
+        late=clocks[:3]+((START+timedelta(hours=4,minutes=16),clocks[3][1]),
+                         (START+timedelta(hours=5,minutes=16),clocks[4][1]))
+        s=run(raw,late,snapshots=()).public_summary()["joint_clock_blocker_matrix"]
+        m=s["without_visible_d1_archive"]["precursor_by_decision_clock"]
+        self.assertEqual(m["prior_late"]["trailing_only"],1)
+        self.assertEqual(m["earlier_gap_or_late"]["trailing_only"],1)
+        self.assertEqual(s["without_visible_d1_archive"]["total_trailing_missing_m15_slot_observations"],2)
+
+    def test_interior_and_trailing_slots_are_not_deduplicated_across_decisions(self):
+        from mfx_research.p232_delayed_middle_pairs import (
+            middle_pair_clock_census, decision_clock_coverage, summarize_joint_clock_blockers)
+        _, clocks=shaped()
+        end=clocks[-1][1]
+        known=end+timedelta(hours=2,minutes=30)
+        clocks=clocks[:-1]+((known,end),(known,end+timedelta(hours=2)))
+        s=summarize_joint_clock_blockers(middle_pair_clock_census(clocks),
+            decision_clock_coverage(clocks),(False,)*len(clocks))
+        b=s["without_visible_d1_archive"]
+        self.assertEqual(b["precursor_by_decision_clock"]["complete"]["both_gaps"],1)
+        self.assertEqual(b["total_interior_missing_m15_slot_observations"],4)
+        # :30 decision minus 15s grace settles only through :15.
+        self.assertEqual(b["total_trailing_missing_m15_slot_observations"],2)
+
+    def test_forged_precursor_state_fails_closed(self):
+        r=run()
+        c=replace(r.clock_census,private_precursor_states=("complete",)*r.verified_hours)
+        with self.assertRaisesRegex(ValueError,"P243_PRECURSOR_STATE_ACCOUNTING_DRIFT"):
+            replace(r,clock_census=c).public_summary()
+
+    def test_empty_and_exact_d1_cutoff(self):
+        from mfx_research.p232_delayed_middle_pairs import replay_delayed_middle_pairs
+        s=replay_delayed_middle_pairs((),(),(),()).public_summary()["joint_clock_blocker_matrix"]
+        self.assertEqual(s["without_visible_d1_archive"]["verified_hours"],0)
+        v=vintage(CUTOFF)
+        s=run(snapshots=((v.observed,v),)).public_summary()["joint_clock_blocker_matrix"]
+        self.assertEqual(s["with_visible_d1_archive"]["precursor_by_decision_clock"]["complete"]["complete"],1)
+
+    def test_price_independent_redacted_no_authority(self):
+        raw,clocks=shaped()
+        a=run(raw,clocks).public_summary()["joint_clock_blocker_matrix"]
+        b=run(tuple(replace(x,high="1.95") for x in raw),clocks).public_summary()["joint_clock_blocker_matrix"]
+        self.assertEqual(a,b)
+        self.assertNotIn("2026-11",json.dumps(a))
+        self.assertFalse(a["schedule_change_selected"])
+        self.assertFalse(a["expiry_policy_selected"])
+        self.assertEqual(a["action"],"NO_SIGNAL")
