@@ -3606,14 +3606,14 @@
     {
       "path": "mfx_research/p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "9aeb8cb7cf6c3a5268f2315664306b9514631db8",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority."
+      "expected_current_sha": "cde949dde786db5ad44a85a11a390bbe76a0e1a9",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority."
     },
     {
       "path": "tests/test_mfx_p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "2604ba5fcfb2c56db10c72eab77e762c18591383",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority."
+      "expected_current_sha": "147616a00b63084294a568cf0f46cde498ad9b60",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority. P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority."
     },
     {
       "path": "docs/MFX_P220_PRIVATE_OBSERVED_SIX_TF_REPLAY.md",
@@ -3644,6 +3644,12 @@
       "change": "added",
       "expected_current_sha": "2d2b9d8e7e90f05a79aa3d20fef0c13c65458e22",
       "reason": "P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority."
+    },
+    {
+      "path": "docs/MFX_P223_CORE_FRESH_STRUCTURAL_REPLAY.md",
+      "change": "added",
+      "expected_current_sha": "49d073ece8a307188df4b0330863054016298496",
+      "reason": "P223 bounded actual private structural readiness replay at core-fresh archive commit instants, reusing verified as-of prefix, four tests and redacted aggregate, no extra I/O or signal authority."
     }
   ]
 }
