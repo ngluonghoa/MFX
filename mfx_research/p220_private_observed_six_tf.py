@@ -56,6 +56,7 @@ class ArchiveFreshnessCensus:
     four_structural_frames_fresh: int
     all_six_frames_fresh: int
     four_structural_fresh_m5_stale: int
+    private_core_cutoffs: tuple[datetime, ...] = field(default=(), repr=False)
 
     def public_summary(self) -> dict[str, object]:
         return {
@@ -91,6 +92,7 @@ def _archive_freshness_census(
             by_time[known] = max(end, by_time.get(known, end))
     counts = dict.fromkeys(("M5", "M15", "M30", "H1", "H4", "D1"), 0)
     required = six = optional_m5_stale = 0
+    core_cutoffs: list[datetime] = []
     for known, end in sorted(by_time.items()):
         fresh = {f for f, width in _INTRADAY_WIDTHS
                  if end == _expected_last_closed(known, width)}
@@ -112,10 +114,12 @@ def _archive_freshness_census(
             counts[frame] += 1
         core = set(B2S2_STRUCTURAL_FRAMES) <= fresh
         required += int(core)
+        if core:
+            core_cutoffs.append(known)
         six += int(len(fresh) == 6)
         optional_m5_stale += int(core and "M5" not in fresh)
     return ArchiveFreshnessCensus(len(by_time), tuple(counts.items()),
-                                  required, six, optional_m5_stale)
+                                  required, six, optional_m5_stale, tuple(core_cutoffs))
 
 
 
@@ -137,6 +141,7 @@ class PrivateObservedReplay:
     m5_pairs_metadata_checked: int
     fixture_anchors_used: bool
     archive_freshness_census: ArchiveFreshnessCensus | None = None
+    private_core_contexts: tuple[PrivateObservedContext, ...] = field(default=(), repr=False)
 
     def public_summary(self) -> dict[str, object]:
         summary: dict[str, object] = {
@@ -165,7 +170,56 @@ class PrivateObservedReplay:
         }
         if self.archive_freshness_census is not None:
             summary["archive_freshness_census"] = self.archive_freshness_census.public_summary()
+            summary["core_structural_replay"] = _core_summary(
+                self.archive_freshness_census, self.private_core_contexts)
         return summary
+
+
+MAX_CORE_REPLAY = 32
+# No directional counts or price-derived levels are exported.
+_CORE_DATA_REQUIREMENTS = (
+    "D1_NOT_ENOUGH_OBSERVED_CLOSED_ROWS",
+    "H4_TWO_CONFIRMED_HIGHS_AND_LOWS_MISSING",
+    "H1_DRAFT_TR_PERIOD_NOT_CLOSED",
+    "M15_PRETRIGGER_CONFIRMED_LEVEL_MISSING",
+)
+
+
+def _core_summary(census: ArchiveFreshnessCensus,
+                  rows: tuple[PrivateObservedContext, ...]) -> dict[str, object]:
+    if (len(rows) > MAX_CORE_REPLAY
+            or tuple(r.decision_utc for r in rows) !=
+                census.private_core_cutoffs[-MAX_CORE_REPLAY:]):
+        raise ValueError("P223_CORE_SAMPLE_ACCOUNTING_DRIFT")
+    data_complete = 0
+    core_technical = 0
+    for r in rows:
+        if r.context is None or r.readiness is None:
+            raise ValueError("P223_MISSING_REPLAY_RECEIPT")
+        if (r.readiness.public_action != "NO_SIGNAL" or r.readiness.may_trade
+                or r.readiness.may_publish_buy_sell or r.readiness.d1_calendar_qualified
+                or r.readiness.publisher_first_known_verified
+                or tuple(g.rule_id for g in r.readiness.gates) != ("B2", "S2")):
+            raise ValueError("P223_PRIVATE_RESEARCH_AUTHORITY_DRIFT")
+        present = {f.frame for f in r.context.frames}
+        core_technical += int(set(B2S2_STRUCTURAL_FRAMES) <= present)
+        # Counts only availability of structural ingredients, not direction,
+        # event triggers, approved D1 trend or an actionable signal.
+        data_complete += int(any(not set(_CORE_DATA_REQUIREMENTS).intersection(
+            g.missing_preconditions) for g in r.readiness.gates))
+    return {
+        "selection": "LATEST_UP_TO_32_DISTINCT_CORE_FRESH_COMMIT_INSTANTS",
+        "core_fresh_cutoffs_total": census.four_structural_frames_fresh,
+        "core_cutoffs_replayed": len(rows),
+        "core_cutoffs_not_replayed_due_to_limit":
+            census.four_structural_frames_fresh-len(rows),
+        "core_technical_receipts_complete": core_technical,
+        "cutoffs_with_basic_structural_ingredients_one_or_both_sides": data_complete,
+        "d1_trend_calendar_qualified": False,
+        "numeric_strategy_approved": False,
+        "market_signal_eligibility_assessed": False,
+        "historical_oos_qualified": False,
+    }
 
 
 def _native_h4_history(
@@ -268,30 +322,44 @@ def replay_private_observed_six_tf(
     h4 = _native_h4_history(h4_store, h4_manifests, h4_chunks, audited_at_utc)
     d1 = _private_d1_history(original_d1_store, revised_d1_store,
                              revised_d1_times, audited_at_utc)
-    contexts = []
-    for p in m5.private_prefixes:
-        decision = p.decision_utc
+    def context_at(decision: datetime, raw: tuple, hours: int) -> PrivateObservedContext:
         h4_rows = tuple(bar for known, bars in h4 if known <= decision for bar in bars)
         visible = [s for created, s in d1 if created <= decision and s.observed <= decision]
         selected = max(visible, key=lambda s: s.observed) if visible else None
         daily = selected.rows if selected else ()
         context = readiness = None
-        if p.private_m5:
+        if raw:
             h4_batch, d1_batch = _batch("4h", h4_rows), _batch("1day", daily)
             context = build_six_timeframe_readonly_context(
-                p.private_m5[-12:], h4_batch, d1_batch, asof_utc=decision)
+                raw[-12:], h4_batch, d1_batch, asof_utc=decision)
             multi = calculate_private_multibar_from_sealed_rows(
-                p.private_m5, h4_batch, d1_batch, context, asof_utc=decision)
+                raw, h4_batch, d1_batch, context, asof_utc=decision)
             pivots = scan_private_sealed_pivot_sensitivity(multi, context)
             micro = compute_private_sealed_m15_microbreak(multi, context, pivots)
             readiness = compute_private_option_b2s2_requirements(
                 multi, context, pivots, micro,
                 active_d1_source_epoch="P209_PRIVATE_REVISED_D1_RESEARCH_ONLY")
-        contexts.append(PrivateObservedContext(
-            decision, p.verified_raw_hours, len(h4_rows), len(daily),
-            context, readiness))
+        return PrivateObservedContext(
+            decision, hours, len(h4_rows), len(daily), context, readiness)
+
+    contexts = tuple(context_at(p.decision_utc, p.private_m5, p.verified_raw_hours)
+                     for p in m5.private_prefixes)
     census = _archive_freshness_census(
         m5.private_raw_hour_commits, h4, d1, cutoff=decisions_utc[-1])
+    # Reuse already SHA-audited raw history at the final cutoff; do not
+    # reread Drive or fetch prices. Restrict each replay to its known prefix.
+    final_raw = m5.private_prefixes[-1].private_m5
+    prior_contexts = {r.decision_utc: r for r in contexts}
+    core = []
+    for decision in census.private_core_cutoffs[-MAX_CORE_REPLAY:]:
+        hours = sum(known <= decision for known, _ in m5.private_raw_hour_commits)
+        if not 0 < hours*12 <= len(final_raw):
+            raise ValueError("P223_CORE_RAW_PREFIX_ACCOUNTING_DRIFT")
+        row = prior_contexts.get(decision)
+        if row is None:
+            row = context_at(decision, final_raw[:hours*12], hours)
+        core.append(row)
+    _core_summary(census, tuple(core))
     return PrivateObservedReplay(
-        tuple(contexts), len(h4), len(d1), m5.metadata_pairs,
-        m5.fixture_anchors_used, census)
+        contexts, len(h4), len(d1), m5.metadata_pairs,
+        m5.fixture_anchors_used, census, tuple(core))
