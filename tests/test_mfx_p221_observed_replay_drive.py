@@ -94,12 +94,14 @@ class P221Tests(TestCase):
     def test_integration_uses_same_get_only_probe_and_stores(self):
         evidence = mocked()
         replay = PrivateObservedReplay((),1,2,3,False)
-        with patch.object(manual,"consume_sealed_archives_for_six_tf",
+        with patch.object(manual,"capture_replay_metadata",return_value={}) as capture, patch.object(manual,"consume_sealed_archives_for_six_tf",
                           return_value=evidence) as consume, patch.object(
                               manual,"observed_replay_in_existing_probe",
                               return_value=replay) as observed:
             result,count = manual.private_get_only_probe(Session([]),asof_utc=ASOF)
-        self.assertIs(result.private_observed_replay,replay)
+        self.assertEqual(result.private_observed_replay,replace(replay,replay_io_counts=(0,0,0)))
+        capture.assert_called_once()
+        self.assertEqual(observed.call_args.kwargs["metadata_before_audit"],{})
         self.assertEqual(count,0)
         args = observed.call_args.args
         self.assertIsInstance(args[0],manual.GetOnlyDriveSession)
@@ -130,3 +132,93 @@ class P221Tests(TestCase):
         with self.assertRaisesRegex(ValueError,"OWNER_SELECTED"):
             adapter.observed_replay_in_existing_probe(
                 Session([]),mocked(),None,None,None,None,asof_utc=ASOF)
+
+
+class CountingStore:
+    def __init__(self):
+        self.value = {"nested": [{"value": "1"}]}
+        self.reads = 0
+        self.lists = 0
+
+    def list_names(self, bucket):
+        self.lists += 1
+        return ("known",)
+
+    def read(self, bucket, name):
+        self.reads += 1
+        return json.loads(json.dumps(self.value))
+
+
+class P224CaptureTests(TestCase):
+    def test_first_audit_keeps_independent_live_reads(self):
+        store = CountingStore()
+        view = manual.ReadOnlyView(store, capture=True)
+        view.read("manifest","known")
+        view.read("manifest","known")
+        self.assertEqual(store.reads,2)
+        view.freeze_for_replay()
+        self.assertEqual(view.read("manifest","known"),store.value)
+        self.assertEqual(store.reads,2)
+        self.assertEqual(view.replay_reads,1)
+
+    def test_frozen_replay_copies_and_live_namespace(self):
+        store = CountingStore()
+        view = manual.ReadOnlyView(store,capture=True)
+        original = view.read("manifest","known")
+        original["nested"][0]["value"]="mutated"
+        view.freeze_for_replay()
+        copied = view.read("manifest","known")
+        self.assertEqual(copied["nested"][0]["value"],"1")
+        copied["nested"][0]["value"]="changed"
+        self.assertEqual(view.read("manifest","known"),store.value)
+        self.assertEqual(store.reads,1)
+        view.list_names("manifest")
+        view.list_names("manifest")
+        self.assertEqual(store.lists,2)
+
+    def test_first_audit_changed_payload_fails(self):
+        store = CountingStore()
+        view = manual.ReadOnlyView(store,capture=True)
+        view.read("manifest","known")
+        store.value["nested"][0]["value"]="2"
+        with self.assertRaisesRegex(ValueError,"REPEATED_LIVE_READ_DRIFT"):
+            view.read("manifest","known")
+
+    def test_unseen_object_never_falls_back_to_network(self):
+        store = CountingStore()
+        view = manual.ReadOnlyView(store,capture=True)
+        view.read("manifest","known")
+        view.freeze_for_replay()
+        for bucket,name in (("manifest","new"),("chunk","known")):
+            with self.assertRaisesRegex(ValueError,"UNAUDITED_REPLAY_OBJECT"):
+                view.read(bucket,name)
+        self.assertEqual(store.reads,1)
+
+    def test_normal_store_unchanged_and_phase_one_way(self):
+        store = CountingStore()
+        view = manual.ReadOnlyView(store)
+        view.read("manifest","known")
+        store.value["nested"][0]["value"]="2"
+        self.assertEqual(view.read("manifest","known"),store.value)
+        with self.assertRaisesRegex(ValueError,"INVALID_CAPTURE_PHASE"):
+            view.freeze_for_replay()
+        capturing = manual.ReadOnlyView(store,capture=True)
+        capturing.freeze_for_replay()
+        with self.assertRaisesRegex(ValueError,"INVALID_CAPTURE_PHASE"):
+            capturing.freeze_for_replay()
+
+    def test_public_io_counts_are_not_second_independent_download(self):
+        replay = PrivateObservedReplay((),1,2,3,False,replay_io_counts=(1250,10,900))
+        d = replay.public_summary()["replay_io"]
+        self.assertEqual(d["first_audit_gets_including_metadata"],1250)
+        self.assertEqual(d["replay_live_gets"],10)
+        self.assertEqual(d["replay_recorded_payload_reads"],900)
+        self.assertFalse(d["second_independent_raw_download"])
+        with self.assertRaisesRegex(ValueError,"IO_COUNT_DRIFT"):
+            replace(replay,replay_io_counts=(-1,0,1)).public_summary()
+
+    def test_metadata_capture_before_audit_uses_fixed_scopes(self):
+        with patch.object(adapter,"_metadata",return_value=()) as m:
+            result = adapter.capture_replay_metadata(object())
+        self.assertEqual(set(result),set(adapter._SCOPES))
+        self.assertEqual(m.call_count,len(adapter._SCOPES))
