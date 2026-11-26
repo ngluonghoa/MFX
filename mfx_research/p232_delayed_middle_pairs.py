@@ -270,6 +270,7 @@ class PrivateDelayedMiddleReplay:
         h1 = h4 = d1 = complete = geometry = joint = 0
         h1_paths = h4_paths = both_grids = 0
         decision_grids = decision_rechecks = early_coverage = setup_identity_coverage = 0
+        bound_and_decision = bound_and_boundary = combined_coverage = 0
         for row in samples:
             if (row.archive_decision_utc-row.trigger_end_utc < M15+GRACE
                     or row.h1.cutoff_utc != row.trigger_end_utc-2*M15
@@ -311,6 +312,14 @@ class PrivateDelayedMiddleReplay:
             if row.setup_context_identity != expected_identity:
                 raise ValueError("P237_SETUP_CONTEXT_BINDING_DRIFT")
             setup_identity_coverage += int(expected_identity is not None)
+            bound = expected_identity is not None
+            recheck = bool(delayed.sides)
+            boundary_complete = all(s.h1 is not None and s.h4 is not None
+                                    and s.h1.closed_grid_complete and s.h4.closed_grid_complete
+                                    for s in boundary.sides)
+            bound_and_decision += int(bound and recheck)
+            bound_and_boundary += int(bound and boundary_complete)
+            combined_coverage += int(bound and recheck and boundary_complete)
             h1_ok = row.h1.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
             h4_ok = row.native.h4_status == "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
             d1_ok = row.native.d1_status == "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
@@ -337,6 +346,9 @@ class PrivateDelayedMiddleReplay:
             "delayed_decision_frozen_level_rechecks_computed": decision_rechecks,
             "pretrigger_m15_early_observation_coverage": early_coverage,
             "bounded_setup_context_identity_coverage": setup_identity_coverage,
+            "bound_context_with_decision_recheck_coverage": bound_and_decision,
+            "bound_context_with_both_boundary_grids_coverage": bound_and_boundary,
+            "bound_context_decision_and_both_boundary_grids_coverage": combined_coverage,
         }
 
     def public_summary(self) -> dict[str, object]:
@@ -394,12 +406,23 @@ class PrivateDelayedMiddleReplay:
                 "historical_oos_qualified": False,
             }
             if any(not row.m15.history_to_setup_complete or not row.delayed_decision.closed_grid_complete
-                   or row.h1.status != "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
                    for row in self.joint_clock_samples):
                 raise ValueError("P239_JOINT_CLOCK_RAW_COVERAGE_DRIFT")
             joint_summary = self._summary(self.joint_clock_samples)
             prior_indices = set(recent_indices+eligible_indices)
             overlap = len(prior_indices.intersection(joint_indices))
+            # Count distinct receipts once, not summed cohort margins.
+            unique_summary = self._summary(tuple(seen[i] for i in sorted(seen)))
+            summary["unique_receipt_technical_coverage"] = {
+                **unique_summary,
+                "cohort_observations": len(self.samples)+len(self.clock_eligible_samples)
+                                       +len(self.joint_clock_samples),
+                "repeated_cohort_observations": len(self.samples)+len(self.clock_eligible_samples)
+                                                +len(self.joint_clock_samples)-len(seen),
+                "market_signal_eligibility_assessed": False,
+                "historical_oos_qualified": False,
+                "action": "NO_SIGNAL",
+            }
             summary["joint_clock_selected_replay"] = {
                 "selection": "LATEST_UP_TO_32_PRETRIGGER_AND_DECISION_CLOCK_COMPLETE_PAIRS",
                 "joint_clock_eligible_total": len(joint_all),

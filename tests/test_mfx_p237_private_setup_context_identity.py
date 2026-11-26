@@ -71,3 +71,58 @@ class P237SetupContextTests(TestCase):
                                                        persistent_idempotence_verified=True))
         with self.assertRaisesRegex(ValueError,"SETUP_CONTEXT_BINDING_DRIFT"):
             replace(r,samples=r.samples[:-1]+(bad,)).public_summary()
+
+class P240CombinedCoverageTests(TestCase):
+    def test_bound_and_decision_intersection_not_marginal_count(self):
+        r=run()
+        s=r.public_summary()
+        self.assertEqual(s["bound_context_with_decision_recheck_coverage"],1)
+        self.assertEqual(s["joint_clock_selected_replay"]["bound_context_with_decision_recheck_coverage"],1)
+        u=s["unique_receipt_technical_coverage"]
+        self.assertEqual(u["middle_pairs_replayed"],5)
+        self.assertEqual(u["cohort_observations"],7)
+        self.assertEqual(u["repeated_cohort_observations"],2)
+        self.assertEqual(u["bound_context_with_decision_recheck_coverage"],1)
+
+    def test_missing_native_not_combined_even_if_recheck(self):
+        s=run(h4=(),snapshots=()).public_summary()
+        self.assertEqual(s["delayed_decision_frozen_level_rechecks_computed"],1)
+        self.assertEqual(s["bound_context_with_decision_recheck_coverage"],0)
+        self.assertEqual(s["bound_context_decision_and_both_boundary_grids_coverage"],0)
+
+    def test_missing_decision_grid_not_combined_even_with_binding(self):
+        raw,clocks=shaped()
+        late=clocks[:-1]+((clocks[-1][0]+timedelta(minutes=15),clocks[-1][1]),)
+        s=run(raw,late).public_summary()
+        self.assertEqual(s["bounded_setup_context_identity_coverage"],1)
+        self.assertEqual(s["bound_context_with_decision_recheck_coverage"],0)
+
+    def test_combined_is_intersection_of_actual_receipts(self):
+        r=run()
+        expected=sum(row.setup_context_identity is not None
+                     and bool(row.delayed_decision.sides)
+                     and all(x.h1 is not None and x.h4 is not None
+                             and x.h1.closed_grid_complete and x.h4.closed_grid_complete
+                             for x in row.boundary.sides)
+                     for row in r.samples)
+        s=r.public_summary()
+        self.assertEqual(s["bound_context_decision_and_both_boundary_grids_coverage"],expected)
+        self.assertFalse(s["unique_receipt_technical_coverage"]["market_signal_eligibility_assessed"])
+
+    def test_unique_coverage_does_not_leak_source_or_outcome(self):
+        r=run()
+        s=json.dumps(r.public_summary()["unique_receipt_technical_coverage"])
+        self.assertNotIn(r.samples[-1].setup_context_identity.bounded_context_sha256,s)
+        for value in ("unbuffered_boundary_breach","within_draft_chase_window","B2","S2"):
+            self.assertNotIn(value,s)
+        self.assertIn("NO_SIGNAL",s)
+
+    def test_flat_h1_keeps_clock_selected_denominator(self):
+        raw,clocks=shaped()
+        flat=tuple(replace(b,open="1.10",high="1.10",low="1.10",close="1.10") for b in raw)
+        r=run(flat,clocks)
+        self.assertEqual(r.joint_clock_samples[0].h1.status,"PRETRIGGER_H1_ZERO_RANGE")
+        s=r.public_summary()["joint_clock_selected_replay"]
+        self.assertEqual(s["middle_pairs_replayed"],1)
+        self.assertEqual(s["pretrigger_h1_draft_contexts_computed"],0)
+        self.assertEqual(s["bound_context_decision_and_both_boundary_grids_coverage"],0)
