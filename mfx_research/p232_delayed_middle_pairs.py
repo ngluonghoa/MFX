@@ -263,6 +263,7 @@ class PrivateDelayedMiddleReplay:
     clock_census: MiddlePairClockCensus | None = field(default=None, repr=False)
     clock_eligible_samples: tuple[PrivateDelayedMiddlePair, ...] = field(default=(), repr=False)
     decision_clocks: tuple[DecisionClockCoverage, ...] = field(default=(), repr=False)
+    joint_clock_samples: tuple[PrivateDelayedMiddlePair, ...] = field(default=(), repr=False)
 
     @staticmethod
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
@@ -366,23 +367,54 @@ class PrivateDelayedMiddleReplay:
                 self.decision_clocks, self.clock_census)
             recent_indices = tuple(range(max(0,self.verified_hours-MAX_SAMPLE),
                                          self.verified_hours))
+            eligible_indices = self.clock_census.private_eligible_indices[-MAX_SAMPLE:]
+            joint_all = tuple(i for i in self.clock_census.private_eligible_indices
+                              if self.decision_clocks[i].complete)
+            joint_indices = joint_all[-MAX_SAMPLE:]
+            if len(self.joint_clock_samples) != len(joint_indices):
+                raise ValueError("P239_JOINT_CLOCK_SAMPLE_COUNT_DRIFT")
+            seen: dict[int, PrivateDelayedMiddlePair] = {}
             for indices, cohort in (
                 (recent_indices, self.samples),
-                (self.clock_census.private_eligible_indices[-MAX_SAMPLE:],
-                 self.clock_eligible_samples),
+                (eligible_indices, self.clock_eligible_samples),
+                (joint_indices, self.joint_clock_samples),
             ):
                 for i,row in zip(indices,cohort):
                     clock = self.decision_clocks[i]
                     if (row.delayed_decision.closed_grid_complete != clock.complete
                             or row.delayed_decision.observed_closed_m15_bars != clock.observed_slots):
                         raise ValueError("P238_RAW_CLOCK_REPLAY_DRIFT")
+                    if i in seen and seen[i] is not row:
+                        raise ValueError("P239_OVERLAPPING_RECEIPT_NOT_REUSED")
+                    seen[i] = row
             summary["clock_selected_replay"] = {
                 "selection": "LATEST_UP_TO_32_CLOCK_ELIGIBLE_MIDDLE_PAIRS",
                 **self._summary(self.clock_eligible_samples),
                 "not_a_representative_market_sample": True,
                 "historical_oos_qualified": False,
             }
-        elif self.clock_eligible_samples or self.decision_clocks:
+            if any(not row.m15.history_to_setup_complete or not row.delayed_decision.closed_grid_complete
+                   or row.h1.status != "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
+                   for row in self.joint_clock_samples):
+                raise ValueError("P239_JOINT_CLOCK_RAW_COVERAGE_DRIFT")
+            joint_summary = self._summary(self.joint_clock_samples)
+            prior_indices = set(recent_indices+eligible_indices)
+            overlap = len(prior_indices.intersection(joint_indices))
+            summary["joint_clock_selected_replay"] = {
+                "selection": "LATEST_UP_TO_32_PRETRIGGER_AND_DECISION_CLOCK_COMPLETE_PAIRS",
+                "joint_clock_eligible_total": len(joint_all),
+                "joint_clock_eligible_not_replayed_due_to_limit": len(joint_all)-len(joint_indices),
+                **joint_summary,
+                "reused_existing_cohort_receipts": overlap,
+                "additional_unique_receipts": len(joint_indices)-overlap,
+                "distinct_source_hour_receipts_all_cohorts": len(seen),
+                "selection_uses_prices_or_outcomes": False,
+                "not_a_representative_market_sample": True,
+                "historical_oos_qualified": False,
+                "joint_trigger_slot_accounting": summarize_private_trigger_slots(
+                    tuple(row.trigger_identity for row in self.joint_clock_samples)),
+            }
+        elif self.clock_eligible_samples or self.decision_clocks or self.joint_clock_samples:
             raise ValueError("P233_MISSING_CLOCK_CENSUS")
         summary["delayed_trigger_slot_accounting"] = summarize_private_trigger_slots(
             tuple(row.trigger_identity for row in self.samples+self.clock_eligible_samples))
@@ -414,10 +446,12 @@ def replay_delayed_middle_pairs(
     decision_clocks = decision_clock_coverage(commits)
     recent = tuple(range(max(0,len(commits)-MAX_SAMPLE),len(commits)))
     eligible = census.private_eligible_indices[-MAX_SAMPLE:]
-    # Keep the original recent sample, and a separate clock-only coverage
-    # cohort. Reuse overlaps and keep all missing-hour denominators.
+    joint = tuple(i for i in census.private_eligible_indices
+                  if decision_clocks[i].complete)[-MAX_SAMPLE:]
+    # Preserve both existing cohorts; reuse exact receipts for overlaps.
+    # Each of three cohorts is capped at 32, no outcome-based selection.
     samples: dict[int, PrivateDelayedMiddlePair] = {}
-    for i in sorted(set(recent+eligible)):
+    for i in sorted(set(recent+eligible+joint)):
         known, end = commits[i]
         cutoff = end-3*M15
         latest_open = end-2*M15
@@ -459,6 +493,7 @@ def replay_delayed_middle_pairs(
             known,trigger_end,h1,native,m15,boundary,identity,delayed,setup_identity)
     receipt = PrivateDelayedMiddleReplay(
         len(commits),tuple(samples[i] for i in recent),census,
-        tuple(samples[i] for i in eligible),decision_clocks)
+        tuple(samples[i] for i in eligible),decision_clocks,
+        tuple(samples[i] for i in joint))
     receipt.public_summary()
     return receipt
