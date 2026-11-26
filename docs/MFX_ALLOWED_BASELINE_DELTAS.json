@@ -3566,6 +3566,24 @@
       "change": "added",
       "expected_current_sha": "e7206439f117c9998b64ea3c43550d3d69a7c315",
       "reason": "P217 conditional SIM stop/target scenarios on purged structural fold, incomplete or gap-open paths unresolved, nine tests, no actual fill, unconditional return, source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "mfx_research/p218_sim_monitoring_lifecycle.py",
+      "change": "added",
+      "expected_current_sha": "7e48fb724d6db53632acf2187fd936cf45df80be",
+      "reason": "P218 causal shared SIM monitoring expiry and P214 HTF invalidation versus P217 first touch, fold/knowledge checks and ten tests; no official approval, market fills, provider/Drive/broker operations."
+    },
+    {
+      "path": "tests/test_mfx_p218_sim_monitoring_lifecycle.py",
+      "change": "added",
+      "expected_current_sha": "fee619aa4ef9445ba2f4bc441ae63bf10e1a18d7",
+      "reason": "P218 causal shared SIM monitoring expiry and P214 HTF invalidation versus P217 first touch, fold/knowledge checks and ten tests; no official approval, market fills, provider/Drive/broker operations."
+    },
+    {
+      "path": "docs/MFX_P218_SIM_MONITORING_LIFECYCLE.md",
+      "change": "added",
+      "expected_current_sha": "512079d19c869de304c9d2e969e273fba5dd6a7f",
+      "reason": "P218 causal shared SIM monitoring expiry and P214 HTF invalidation versus P217 first touch, fold/knowledge checks and ten tests; no official approval, market fills, provider/Drive/broker operations."
     }
   ]
 }
