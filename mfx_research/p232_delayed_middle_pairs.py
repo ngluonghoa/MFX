@@ -271,6 +271,17 @@ class PrivateDelayedMiddleReplay:
         h1_paths = h4_paths = both_grids = 0
         decision_grids = decision_rechecks = early_coverage = setup_identity_coverage = 0
         bound_and_decision = bound_and_boundary = combined_coverage = 0
+        # P241: distinguish missing, stale and short D1 vintages, and H4 gaps.
+        # Counts are structural availability only; no price or direction leaves memory.
+        d1_states = dict.fromkeys(("NO_PRETRIGGER_D1_VINTAGE",
+                                  "PRETRIGGER_D1_STALE",
+                                  "PRETRIGGER_D1_HISTORY_INSUFFICIENT",
+                                  "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"), 0)
+        h4_states = dict.fromkeys(("NO_PRETRIGGER_H4_ARCHIVE",
+                                  "PRETRIGGER_H4_STALE",
+                                  "PRETRIGGER_H4_PIVOTS_INSUFFICIENT",
+                                  "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"), 0)
+        decision_d1_gaps = 0
         for row in samples:
             if (row.archive_decision_utc-row.trigger_end_utc < M15+GRACE
                     or row.h1.cutoff_utc != row.trigger_end_utc-2*M15
@@ -323,6 +334,11 @@ class PrivateDelayedMiddleReplay:
             h1_ok = row.h1.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
             h4_ok = row.native.h4_status == "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
             d1_ok = row.native.d1_status == "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
+            if row.native.d1_status not in d1_states or row.native.h4_status not in h4_states:
+                raise ValueError("P241_NATIVE_GAP_STATUS_DRIFT")
+            d1_states[row.native.d1_status] += 1
+            h4_states[row.native.h4_status] += 1
+            decision_d1_gaps += int(recheck and not d1_ok)
             complete_ok = row.m15.history_to_setup_complete
             geometry_ok = row.m15.status == "PRIVATE_M15_DRAFT_GEOMETRY_COMPUTED"
             h1 += int(h1_ok)
@@ -349,6 +365,13 @@ class PrivateDelayedMiddleReplay:
             "bound_context_with_decision_recheck_coverage": bound_and_decision,
             "bound_context_with_both_boundary_grids_coverage": bound_and_boundary,
             "bound_context_decision_and_both_boundary_grids_coverage": combined_coverage,
+            "pretrigger_d1_no_visible_vintage": d1_states["NO_PRETRIGGER_D1_VINTAGE"],
+            "pretrigger_d1_stale_vintage": d1_states["PRETRIGGER_D1_STALE"],
+            "pretrigger_d1_short_history": d1_states["PRETRIGGER_D1_HISTORY_INSUFFICIENT"],
+            "pretrigger_h4_no_visible_archive": h4_states["NO_PRETRIGGER_H4_ARCHIVE"],
+            "pretrigger_h4_stale_archive": h4_states["PRETRIGGER_H4_STALE"],
+            "pretrigger_h4_insufficient_pivots": h4_states["PRETRIGGER_H4_PIVOTS_INSUFFICIENT"],
+            "decision_recheck_without_fresh_five_row_d1": decision_d1_gaps,
         }
 
     def public_summary(self) -> dict[str, object]:

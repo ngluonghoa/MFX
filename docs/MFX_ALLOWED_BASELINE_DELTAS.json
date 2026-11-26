@@ -3762,8 +3762,8 @@
     {
       "path": "mfx_research/p232_delayed_middle_pairs.py",
       "change": "added",
-      "expected_current_sha": "37e1a433a6c038109c412cd6e8d49ce638dcc851",
-      "reason": "P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval. P235 actual delayed decision settled M15 path completeness and private mirrored frozen-level/chase recheck, stale/gap fail-closed, coverage only, no expiry, signal, I/O or schedule change; six tests. P236 private symmetric two-closed-M15 early relative-extremum/contact/reclaim observations independent of confirmation pivot availability, aggregate coverage only, six tests, no event rule/authority or extra I/O. P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P238 price-independent full decision-clock census, interior/trailing missing slots and joint precursor coverage, raw replay crosscheck, six tests, no new IO or authority. P239 third bounded joint clock-only research cohort, exact overlap reuse and raw coverage validation, six tests, no extra IO or authority. P240 technical intersections on unique receipts and zero-range H1 clock denominator correction, six tests, no extra IO/authority."
+      "expected_current_sha": "cb4b5470dc8bbb1735ef414b02ea0056660e6578",
+      "reason": "P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval. P235 actual delayed decision settled M15 path completeness and private mirrored frozen-level/chase recheck, stale/gap fail-closed, coverage only, no expiry, signal, I/O or schedule change; six tests. P236 private symmetric two-closed-M15 early relative-extremum/contact/reclaim observations independent of confirmation pivot availability, aggregate coverage only, six tests, no event rule/authority or extra I/O. P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P238 price-independent full decision-clock census, interior/trailing missing slots and joint precursor coverage, raw replay crosscheck, six tests, no new IO or authority. P239 third bounded joint clock-only research cohort, exact overlap reuse and raw coverage validation, six tests, no extra IO or authority. P240 technical intersections on unique receipts and zero-range H1 clock denominator correction, six tests, no extra IO/authority. P241 native H4/D1 gap partition and decision recheck without fresh five-row D1, six tests, no extra IO or authority."
     },
     {
       "path": "tests/test_mfx_p232_delayed_middle_pairs.py",
@@ -3810,8 +3810,8 @@
     {
       "path": "tests/test_mfx_p237_private_setup_context_identity.py",
       "change": "added",
-      "expected_current_sha": "c275105c5fb9b946745776e3681010b1a6008c37",
-      "reason": "P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P240 technical intersections on unique receipts and zero-range H1 clock denominator correction, six tests, no extra IO/authority."
+      "expected_current_sha": "dbc131953d454131f318a48a8e8e7e6aad19912d",
+      "reason": "P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P240 technical intersections on unique receipts and zero-range H1 clock denominator correction, six tests, no extra IO/authority. P241 native H4/D1 gap partition and decision recheck without fresh five-row D1, six tests, no extra IO or authority."
     },
     {
       "path": "docs/MFX_P237_PRIVATE_BOUNDED_SETUP_CONTEXT_IDENTITY.md",
@@ -3836,6 +3836,12 @@
       "change": "added",
       "expected_current_sha": "3f169d78d87276576841568321a54b419d158bfa",
       "reason": "P240 technical intersections on unique receipts and zero-range H1 clock denominator correction, six tests, no extra IO/authority."
+    },
+    {
+      "path": "docs/MFX_P241_NATIVE_CONTEXT_GAP_ACCOUNTING.md",
+      "change": "added",
+      "expected_current_sha": "90453efea37df40d10e27f5b86126bc9164c8d31",
+      "reason": "P241 native H4/D1 gap partition and decision recheck without fresh five-row D1, six tests, no extra IO or authority."
     }
   ]
 }
