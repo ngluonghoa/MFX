@@ -79,8 +79,8 @@ def check_sim_setup_invalidation(
            for p in (h1_path, h4_path)):
         raise ValueError("P214_BOUNDED_IMMUTABLE_PATH_REQUIRED")
     computed = compute_mfx_b2s2_v2_closed_candidate(
-        snapshot.rule_id, snapshot.bars, read_mfx_confirmed_b2s2_v2(),
-        snapshot.decision_utc, confirmed_m15_history=snapshot.confirmed_m15_history,
+        snapshot.rule_id, snapshot.bars, snapshot.confirmed_m15_history,
+        read_mfx_confirmed_b2s2_v2(), snapshot.decision_utc,
     )
     paths = {Timeframe.H1: h1_path, Timeframe.H4: h4_path}
     if any(paths[tf] for tf in paths if tf not in policy.frames):
