@@ -132,6 +132,10 @@ class PrivateDelayedMiddlePair:
     setup_context_identity: PrivateSetupContextIdentity | None = field(repr=False)
 
 
+PRECURSOR_STATES = ("complete", "prior_missing", "prior_late", "earlier_gap_or_late")
+DECISION_STATES = ("complete", "interior_only", "trailing_only", "both_gaps")
+
+
 @dataclass(frozen=True, slots=True, repr=False)
 class MiddlePairClockCensus:
     verified_hours: int
@@ -139,9 +143,19 @@ class MiddlePairClockCensus:
     prior_hour_late: int
     earlier_history_gap_or_late: int
     private_eligible_indices: tuple[int, ...] = field(repr=False)
+    private_precursor_states: tuple[str, ...] = field(repr=False)
 
     def public_summary(self) -> dict[str, int | bool]:
         eligible = len(self.private_eligible_indices)
+        states = self.private_precursor_states
+        if (type(states) is not tuple or len(states) != self.verified_hours
+                or any(s not in PRECURSOR_STATES for s in states)
+                or tuple(i for i, s in enumerate(states) if s == "complete")
+                    != self.private_eligible_indices
+                or tuple(states.count(s) for s in PRECURSOR_STATES[1:]) != (
+                    self.prior_hour_missing, self.prior_hour_late,
+                    self.earlier_history_gap_or_late)):
+            raise ValueError("P243_PRECURSOR_STATE_ACCOUNTING_DRIFT")
         if (self.prior_hour_missing+self.prior_hour_late+self.earlier_history_gap_or_late
                 +eligible != self.verified_hours):
             raise ValueError("P233_CLOCK_CENSUS_ACCOUNTING_DRIFT")
@@ -176,19 +190,24 @@ def middle_pair_clock_census(
         prev_known,prev_end=known,end
     missing=late=gap=0
     eligible=[]
+    states=[]
     for i,(_,end) in enumerate(commits):
         cutoff=end-3*M15
         prior=end-HOUR
         if prior not in by_end:
             missing+=1
+            states.append("prior_missing")
         elif by_end[prior]>cutoff:
             late+=1
+            states.append("prior_late")
         elif any(prior-j*HOUR not in by_end
                  or by_end[prior-j*HOUR]>cutoff for j in range(4)):
             gap+=1
+            states.append("earlier_gap_or_late")
         else:
             eligible.append(i)
-    return MiddlePairClockCensus(len(commits),missing,late,gap,tuple(eligible))
+            states.append("complete")
+    return MiddlePairClockCensus(len(commits),missing,late,gap,tuple(eligible),tuple(states))
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -254,6 +273,44 @@ def summarize_decision_clocks(
             "pretrigger_and_decision_clock_complete": joint,
             "selection_uses_prices_or_outcomes": False,
             "expiry_policy_selected": False}
+
+
+def summarize_joint_clock_blockers(
+    census: MiddlePairClockCensus, rows: tuple[DecisionClockCoverage, ...],
+    visibility: tuple[bool, ...],
+) -> dict[str, object]:
+    """P243 joint clock deficit, not a counterfactual recovery or expiry rule."""
+    census.public_summary()
+    summarize_decision_clocks(rows, census)
+    if (type(visibility) is not tuple or len(visibility) != census.verified_hours
+            or any(type(v) is not bool for v in visibility)):
+        raise ValueError("P243_D1_VISIBILITY_DENOMINATOR_DRIFT")
+    result: dict[str, object] = {}
+    for present, key in ((False, "without_visible_d1_archive"),
+                         (True, "with_visible_d1_archive")):
+        matrix = {p: dict.fromkeys(DECISION_STATES, 0) for p in PRECURSOR_STATES}
+        interior_slots = trailing_slots = total = 0
+        for state, row, visible in zip(census.private_precursor_states, rows, visibility):
+            if visible != present:
+                continue
+            decision_state = ("both_gaps" if row.interior_missing_slots and row.trailing_missing_slots
+                              else "interior_only" if row.interior_missing_slots
+                              else "trailing_only" if row.trailing_missing_slots
+                              else "complete")
+            matrix[state][decision_state] += 1
+            interior_slots += row.interior_missing_slots
+            trailing_slots += row.trailing_missing_slots
+            total += 1
+        result[key] = {
+            "verified_hours": total,
+            "precursor_by_decision_clock": matrix,
+            "total_interior_missing_m15_slot_observations": interior_slots,
+            "total_trailing_missing_m15_slot_observations": trailing_slots,
+        }
+    return {**result, "selection_uses_prices_or_outcomes": False,
+            "schedule_change_selected": False, "expiry_policy_selected": False,
+            "publisher_first_known_verified": False, "historical_oos_qualified": False,
+            "action": "NO_SIGNAL"}
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -419,6 +476,8 @@ class PrivateDelayedMiddleReplay:
                     "joint_clock_complete": sum(i in precursor and self.decision_clocks[i].complete
                                                 for i in indices),
                 }
+            summary["joint_clock_blocker_matrix"] = summarize_joint_clock_blockers(
+                self.clock_census, self.decision_clocks, visibility)
             summary["d1_archive_clock_visibility_census"] = {
                 **eras,
                 "selection_uses_prices_or_outcomes": False,

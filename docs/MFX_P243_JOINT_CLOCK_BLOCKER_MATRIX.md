@@ -1,0 +1,5 @@
+# P243 — joint clock blocker matrix
+
+Actual P241–P242 runtime #45887387529 on exact protected main b62e7e1325db1b1b0674f56b711dd14166993e34 passed at 26 Nov 20:04:11 UTC; 1377 GET, 382 M5 parent manifests, 256 raw SHA hours, 72 H4 pairs, 15 private revised D1 vintages, canonical D1 one row. No provider/write/broker. Full tail 42 precursor, 45 decision, 6 joint, 211 trailing-only. D1 absent era 197 hours: joint6, precursor-only26, decision-only28, neither137. D1 visible era 59: joint0, precursor-only10, decision-only11, neither38. All six joint receipts lack visible D1; two also lack H4 pivots. Unique60: fresh D1 36, absent24; H4 structure54, pivots insufficient5, stale1; bound10, decision recheck6, intersection0.
+
+P243 preserves each prior-clock blocker class from existing census and cross-tabulates with decision gap class by actual D1 archive visibility, counting missing slot observations (not unique slots). Existing receipt cohorts, cutoffs and IO unchanged. No recovery claim, schedule change, expiry rule, market result, publisher first-known, source admission, OOS or signal. Six regression tests. NO_SIGNAL.
