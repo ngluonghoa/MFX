@@ -3588,8 +3588,8 @@
     {
       "path": "mfx_research/p219_m5_archive_time_prefixes.py",
       "change": "added",
-      "expected_current_sha": "8cb078be34aa1de292f252f8f260a38a72d1c656",
-      "reason": "P219 current archive-time metadata prefixes use existing root-pinned raw SHA audit and causal observed cutoff; nine tests, real metadata evidence, no source-first-known/OOS or provider/Drive/broker writes."
+      "expected_current_sha": "c7b24accabbec31fce8acf811666bc7c2a88f4ac",
+      "reason": "P219 current archive-time metadata prefixes use existing root-pinned raw SHA audit and causal observed cutoff; nine tests, real metadata evidence, no source-first-known/OOS or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority."
     },
     {
       "path": "tests/test_mfx_p219_m5_archive_time_prefixes.py",
@@ -3606,14 +3606,14 @@
     {
       "path": "mfx_research/p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "377c8eb746a127fd4052efaad1faa1c2feaacafc",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes."
+      "expected_current_sha": "9aeb8cb7cf6c3a5268f2315664306b9514631db8",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority."
     },
     {
       "path": "tests/test_mfx_p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "043e1a040d75f18b8d17051ee75f91d1ceb66346",
-      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes."
+      "expected_current_sha": "2604ba5fcfb2c56db10c72eab77e762c18591383",
+      "reason": "P220 observed metadata-gated M5/native H4/P209 D1 vintage private six-TF and B2/S2 requirement replay, eight tests, no real OOS, source approval or provider/Drive/broker writes. P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority."
     },
     {
       "path": "docs/MFX_P220_PRIVATE_OBSERVED_SIX_TF_REPLAY.md",
@@ -3638,6 +3638,12 @@
       "change": "added",
       "expected_current_sha": "7b541e800cf62c19cdb85b907adac7fe6698162a",
       "reason": "P221 bounded existing manual GET-only observed replay integration, fixed metadata scopes, no cron, provider requests, writes, market signals or broker; runtime witness remains required."
+    },
+    {
+      "path": "docs/MFX_P222_SOURCE_REQUIRED_FRAME_CENSUS.md",
+      "change": "added",
+      "expected_current_sha": "2d2b9d8e7e90f05a79aa3d20fef0c13c65458e22",
+      "reason": "P222 separate source-required four-frame freshness from optional M5, all-six unchanged, bounded observed raw-tail commit-time census, four tests, no signal or new I/O authority."
     }
   ]
 }
