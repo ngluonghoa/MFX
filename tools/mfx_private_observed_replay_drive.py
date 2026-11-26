@@ -92,6 +92,11 @@ def _metadata(session: Any, scope: str) -> tuple[tuple[str, ObservedObjectTime],
     raise ValueError("P221_METADATA_PAGE_LIMIT")
 
 
+def capture_replay_metadata(session: Any) -> dict[str, tuple[tuple[str, ObservedObjectTime], ...]]:
+    """Capture live namespace and clocks before the first SHA audit."""
+    return {k: _metadata(session, k) for k in _SCOPES}
+
+
 def _decisions(items: tuple[ObservedObjectTime, ...], now: datetime) -> tuple[datetime, ...]:
     if (type(now) is not datetime or now.tzinfo is None
             or now.utcoffset() != timedelta(0) or not items
@@ -106,6 +111,7 @@ def observed_replay_in_existing_probe(
     m5: ReadOnlyObjectStore, h4: ReadOnlyObjectStore,
     original: ReadOnlyObjectStore, revised: ReadOnlyObjectStore,
     *, asof_utc: datetime,
+    metadata_before_audit: dict[str, tuple[tuple[str, ObservedObjectTime], ...]] | None = None,
 ) -> PrivateObservedReplay:
     if (evidence.active_d1_source_epoch != "P192_D1_FRESH_20261118"
             or not evidence.github_reviewed_m5_anchors_checked
@@ -113,7 +119,10 @@ def observed_replay_in_existing_probe(
             or evidence.technical.stage != "UNVERIFIED"
             or evidence.may_publish_buy_sell or evidence.may_trade):
         raise ValueError("P221_OWNER_SELECTED_PRIVATE_EPOCH_REQUIRED")
-    before = {k: _metadata(session, k) for k in _SCOPES}
+    if (type(metadata_before_audit) is not dict
+            or set(metadata_before_audit) != set(_SCOPES)):
+        raise ValueError("P224_PREAUDIT_METADATA_REQUIRED")
+    before = metadata_before_audit
     times = {k: tuple(x[1] for x in v) for k, v in before.items()}
     for key, count, tip in (
         ("m5_manifests", evidence.m5_total_archived_manifest_pairs,
@@ -131,6 +140,6 @@ def observed_replay_in_existing_probe(
     if (replay.fixture_anchors_used or replay.m5_pairs_metadata_checked !=
             evidence.m5_total_archived_manifest_pairs
             or replay.h4_pairs_verified != evidence.h4_manifest_pairs_full_sha
-            or {k: _metadata(session, k) for k in _SCOPES} != before):
+            or capture_replay_metadata(session) != before):
         raise ValueError("P221_REPLAY_SCOPE_OR_METADATA_DRIFT")
     return replay
