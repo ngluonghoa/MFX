@@ -6,8 +6,9 @@ No market-side conversion, synthetic relabeling of actual bars, or release.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from typing import Any
+from zoneinfo import ZoneInfo
 
 from mfx_cache.native_d1_epoch_20261118 import audit_fresh_epoch
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
@@ -30,7 +31,8 @@ from mfx_research.sealed_private_m15_microbreak import (
     compute_private_sealed_m15_microbreak,
 )
 from mfx_research.six_tf_readonly_context import (
-    SixTimeframeResearchReceipt, _native_utc_start,
+    SixTimeframeResearchReceipt, _native_utc_start, _expected_last_closed,
+    GRACE, MAX_H4_AGE, MAX_D1_SESSION_DATE_AGE,
     build_six_timeframe_readonly_context,
 )
 from mfx_research.six_tf_sealed_archive_consumer import (
@@ -42,6 +44,79 @@ from tools.audit_mfx_p209_d1_private_cache import (
 from tools.mfx_native_htf_drive_seal import MAX_NATIVE_FILES, _batch_from_chunk
 
 VERSION = "MFX_P220_PRIVATE_OBSERVED_SIX_TF_REPLAY_V1"
+# SOURCE_LOCKED_03 B2/S2 REQUIRED lines; M5 is optional/ARMED.
+B2S2_STRUCTURAL_FRAMES = ("D1", "H4", "H1", "M15")
+_INTRADAY_WIDTHS = (("M5", 5), ("M15", 15), ("M30", 30), ("H1", 60))
+
+
+@dataclass(frozen=True, slots=True)
+class ArchiveFreshnessCensus:
+    sampled_commit_instants: int
+    fresh_by_frame: tuple[tuple[str, int], ...]
+    four_structural_frames_fresh: int
+    all_six_frames_fresh: int
+    four_structural_fresh_m5_stale: int
+
+    def public_summary(self) -> dict[str, object]:
+        return {
+            "sample_basis": "DISTINCT_CURRENT_METADATA_COMMIT_TIMES_VERIFIED_M5_RAW_TAIL",
+            "sampled_commit_instants": self.sampled_commit_instants,
+            "fresh_by_frame": dict(self.fresh_by_frame),
+            "b2s2_structural_frames": list(B2S2_STRUCTURAL_FRAMES),
+            "four_structural_frames_fresh": self.four_structural_frames_fresh,
+            "all_six_frames_fresh": self.all_six_frames_fresh,
+            "four_structural_fresh_m5_stale": self.four_structural_fresh_m5_stale,
+            "d1_calendar_qualified": False,
+            "source_first_known_verified": False,
+            "signal_eligibility_assessed": False,
+            "historical_oos_qualified": False,
+        }
+
+
+def _archive_freshness_census(
+    commits: tuple[tuple[datetime, datetime], ...],
+    h4: tuple[tuple[datetime, tuple[NativeFXBar, ...]], ...],
+    d1: tuple[tuple[datetime, PrivateSnapshot], ...],
+    *, cutoff: datetime,
+) -> ArchiveFreshnessCensus:
+    """Time-label coverage only. Never evaluate direction or strategy here.
+
+    Every M5 hour was already independently SHA-verified this run.
+    At a shared commit instant use the newest sealed source hour, not
+    multiple decisions on the same instant. No raw older than that tail.
+    """
+    by_time: dict[datetime, datetime] = {}
+    for known, end in commits:
+        if known <= cutoff:
+            by_time[known] = max(end, by_time.get(known, end))
+    counts = dict.fromkeys(("M5", "M15", "M30", "H1", "H4", "D1"), 0)
+    required = six = optional_m5_stale = 0
+    for known, end in sorted(by_time.items()):
+        fresh = {f for f, width in _INTRADAY_WIDTHS
+                 if end == _expected_last_closed(known, width)}
+        visible_h4 = tuple(b for observed, bars in h4 if observed <= known
+                           for b in bars)
+        if visible_h4:
+            h4_end = _native_utc_start(visible_h4[-1].native_open_label) + timedelta(hours=4)
+            if GRACE <= known-h4_end <= MAX_H4_AGE:
+                fresh.add("H4")
+        visible_d1 = [snap for created, snap in d1
+                      if created <= known and snap.observed <= known]
+        if visible_d1:
+            selected = max(visible_d1, key=lambda snap: snap.observed)
+            today = known.astimezone(ZoneInfo("Australia/Sydney")).date()
+            age = (today - date.fromisoformat(selected.rows[-1].native_open_label)).days
+            if 1 <= age <= MAX_D1_SESSION_DATE_AGE:
+                fresh.add("D1")
+        for frame in fresh:
+            counts[frame] += 1
+        core = set(B2S2_STRUCTURAL_FRAMES) <= fresh
+        required += int(core)
+        six += int(len(fresh) == 6)
+        optional_m5_stale += int(core and "M5" not in fresh)
+    return ArchiveFreshnessCensus(len(by_time), tuple(counts.items()),
+                                  required, six, optional_m5_stale)
+
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -61,9 +136,10 @@ class PrivateObservedReplay:
     d1_snapshots_verified: int
     m5_pairs_metadata_checked: int
     fixture_anchors_used: bool
+    archive_freshness_census: ArchiveFreshnessCensus | None = None
 
     def public_summary(self) -> dict[str, object]:
-        return {
+        summary: dict[str, object] = {
             "version": VERSION,
             "decision_cutoffs_checked": len(self.private_contexts),
             "cutoffs_with_all_six_fresh_frames": sum(
@@ -87,6 +163,9 @@ class PrivateObservedReplay:
             "may_publish_buy_sell": False, "may_trade": False,
             "provider_requests": 0, "drive_writes": 0, "broker_orders": 0,
         }
+        if self.archive_freshness_census is not None:
+            summary["archive_freshness_census"] = self.archive_freshness_census.public_summary()
+        return summary
 
 
 def _native_h4_history(
@@ -211,5 +290,8 @@ def replay_private_observed_six_tf(
         contexts.append(PrivateObservedContext(
             decision, p.verified_raw_hours, len(h4_rows), len(daily),
             context, readiness))
+    census = _archive_freshness_census(
+        m5.private_raw_hour_commits, h4, d1, cutoff=decisions_utc[-1])
     return PrivateObservedReplay(
-        tuple(contexts), len(h4), len(d1), m5.metadata_pairs, m5.fixture_anchors_used)
+        tuple(contexts), len(h4), len(d1), m5.metadata_pairs,
+        m5.fixture_anchors_used, census)
