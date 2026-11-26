@@ -5,6 +5,7 @@ signal. This is an integration *capability*, not proof a real run occurred.
 """
 from __future__ import annotations
 
+from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 import json
 import os
@@ -62,6 +63,8 @@ from mfx_cache.native_d1_epoch_20261118 import (
 from mfx_cache.p209_d1_revision_snapshot_cache import (
     PREFIX as REVISED_D1_PREFIX, PrivateP209D1Store,
 )
+
+from tools.mfx_private_observed_replay_drive import observed_replay_in_existing_probe
 
 VERSION = "MFX_V1_MANUAL_PRIVATE_DRIVE_GET_ONLY_SIX_TF_V1"
 CONFIRMATION = "READ_ONLY_NO_SIGNAL"
@@ -182,11 +185,14 @@ def private_get_only_probe(
     # input candles for the active research D1 after that cutoff.
     active_d1: ReadOnlyObjectStore = ReadOnlyView(
         PrivateD1Nov18Store(session))
+    revised: ReadOnlyObjectStore = ReadOnlyView(PrivateP209D1Store(session))
     evidence = consume_sealed_archives_for_six_tf(
         m5, h4, d1, asof_utc=asof_utc,
         owner_nov18_d1_epoch_store=active_d1,
-        revised_d1_research_store=ReadOnlyView(PrivateP209D1Store(session)))
-    return evidence, session.get_count
+        revised_d1_research_store=revised)
+    observed = observed_replay_in_existing_probe(
+        session, evidence, m5, h4, active_d1, revised, asof_utc=asof_utc)
+    return replace(evidence, private_observed_replay=observed), session.get_count
 
 
 def _safe_microbreak_public_history(status: str) -> str:
@@ -832,6 +838,9 @@ def main() -> None:
         if receipt.private_revised_d1_six_tf is not None:
             payload["p211_private_revised_d1_research"] = (
                 receipt.private_revised_d1_six_tf.public_summary())
+        if receipt.private_observed_replay is not None:
+            payload["p221_private_observed_replay"] = (
+                receipt.private_observed_replay.public_summary())
         encoded = json.dumps(payload, sort_keys=True)
         if payload["status"] == D1_HOLD_PUBLIC_STATUS:
             print("MFX_V1_MANUAL_DRIVE_GET_ONLY_D1_QUARANTINED_NO_SIGNAL")
