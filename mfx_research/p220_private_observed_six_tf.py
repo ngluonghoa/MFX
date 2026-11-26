@@ -22,6 +22,7 @@ from mfx_research.p228_pretrigger_native import (
 )
 from mfx_research.p229_pretrigger_m15 import (
     PrivatePretriggerM15, calculate_pretrigger_m15,
+    early_observation_coverage,
 )
 from mfx_research.p230_private_boundary_path import (
     PrivateBoundaryReceipt, inspect_private_setup_boundaries,
@@ -240,7 +241,7 @@ def _core_summary(census: ArchiveFreshnessCensus,
     core_technical = 0
     pretrigger_ready = 0
     pretrigger_h4 = pretrigger_d1 = pretrigger_joint = 0
-    pretrigger_m15 = pretrigger_m15_complete = 0
+    pretrigger_m15 = pretrigger_m15_complete = pretrigger_early = 0
     boundary_h1_paths = boundary_h4_paths = boundary_complete = 0
     for r in rows:
         if r.context is None or r.readiness is None:
@@ -276,6 +277,7 @@ def _core_summary(census: ArchiveFreshnessCensus,
             raise ValueError("P229_PRETRIGGER_M15_AUTHORITY_DRIFT")
         pretrigger_m15 += int(m15.status == "PRIVATE_M15_DRAFT_GEOMETRY_COMPUTED")
         pretrigger_m15_complete += int(m15.history_to_setup_complete)
+        pretrigger_early += int(early_observation_coverage(m15, pretrigger))
         boundary = r.boundary
         if (boundary is None or boundary.cutoff_utc != pretrigger.cutoff_utc
                 or boundary.action != "NO_SIGNAL" or boundary.buffer_selected
@@ -308,6 +310,8 @@ def _core_summary(census: ArchiveFreshnessCensus,
         "pretrigger_h1_h4_and_unqualified_d1_inputs_present": pretrigger_joint,
         "pretrigger_m15_draft_geometry_computed": pretrigger_m15,
         "pretrigger_m15_history_to_settled_setup_boundary": pretrigger_m15_complete,
+        "pretrigger_m15_early_observation_coverage": pretrigger_early,
+        "early_event_rule_approved": False,
         "boundary_h1_paths_inspected": boundary_h1_paths,
         "boundary_h4_paths_inspected": boundary_h4_paths,
         "boundary_both_closed_grids_complete": boundary_complete,

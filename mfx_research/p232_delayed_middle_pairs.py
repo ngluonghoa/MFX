@@ -21,7 +21,7 @@ from mfx_research.p228_pretrigger_native import (
     PrivatePretriggerNative, calculate_pretrigger_native,
 )
 from mfx_research.p229_pretrigger_m15 import (
-    PrivatePretriggerM15, _calculate_archive_geometry,
+    PrivatePretriggerM15, _calculate_archive_geometry, early_observation_coverage,
 )
 from mfx_research.p230_private_boundary_path import (
     PrivateBoundaryReceipt, inspect_private_setup_boundaries,
@@ -198,7 +198,7 @@ class PrivateDelayedMiddleReplay:
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
         h1 = h4 = d1 = complete = geometry = joint = 0
         h1_paths = h4_paths = both_grids = 0
-        decision_grids = decision_rechecks = 0
+        decision_grids = decision_rechecks = early_coverage = 0
         for row in samples:
             if (row.archive_decision_utc-row.trigger_end_utc < M15+GRACE
                     or row.h1.cutoff_utc != row.trigger_end_utc-2*M15
@@ -235,6 +235,7 @@ class PrivateDelayedMiddleReplay:
                 raise ValueError("P235_DELAYED_DECISION_AUTHORITY_DRIFT")
             decision_grids += int(delayed.closed_grid_complete)
             decision_rechecks += int(bool(delayed.sides))
+            early_coverage += int(early_observation_coverage(row.m15, row.h1))
             h1_ok = row.h1.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
             h4_ok = row.native.h4_status == "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
             d1_ok = row.native.d1_status == "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
@@ -259,6 +260,7 @@ class PrivateDelayedMiddleReplay:
             "boundary_both_closed_grids_complete": both_grids,
             "delayed_decision_m15_grids_complete": decision_grids,
             "delayed_decision_frozen_level_rechecks_computed": decision_rechecks,
+            "pretrigger_m15_early_observation_coverage": early_coverage,
         }
 
     def public_summary(self) -> dict[str, object]:
@@ -299,6 +301,7 @@ class PrivateDelayedMiddleReplay:
         summary["post_entry_monitoring_verified"] = False
         summary["delayed_decision_expiry_policy_selected"] = False
         summary["delayed_decision_executable_quote_verified"] = False
+        summary["early_event_rule_approved"] = False
         return summary
 
 

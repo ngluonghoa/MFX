@@ -258,3 +258,20 @@ class P235DelayedDecisionTests(TestCase):
         bad=replace(row,delayed_decision=replace(row.delayed_decision,expiry_policy_selected=True))
         with self.assertRaisesRegex(ValueError,"DELAYED_DECISION_AUTHORITY_DRIFT"):
             replace(r,samples=r.samples[:-1]+(bad,)).public_summary()
+
+class P236EarlyCoverageIntegrationTests(TestCase):
+    def test_delayed_coverage_masks_observations_and_rejects_authority(self):
+        import json
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        row=r.samples[-1]
+        summary=r.public_summary()
+        self.assertEqual(summary["pretrigger_m15_early_observation_coverage"],1)
+        self.assertEqual(summary["clock_selected_replay"]["pretrigger_m15_early_observation_coverage"],1)
+        encoded=json.dumps(summary)
+        for secret in ("strict_relative_extremum","strict_zone_edge_reclaim","first_zone_contact"):
+            self.assertNotIn(secret,encoded)
+        self.assertFalse(summary["early_event_rule_approved"])
+        bad=replace(row,m15=replace(row.m15,early_event_approved=True))
+        with self.assertRaisesRegex(ValueError,"EARLY_OBSERVATION_AUTHORITY_DRIFT"):
+            replace(r,samples=r.samples[:-1]+(bad,)).public_summary()
