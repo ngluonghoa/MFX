@@ -5,7 +5,9 @@ from decimal import Decimal
 from unittest import TestCase
 
 from mfx_research.p227_pretrigger_h1 import calculate_pretrigger_h1
-from mfx_research.p232_delayed_middle_pairs import replay_delayed_middle_pairs
+from mfx_research.p232_delayed_middle_pairs import (
+    middle_pair_clock_census, replay_delayed_middle_pairs,
+)
 from test_mfx_p227_pretrigger_h1 import fixture, START
 
 
@@ -57,7 +59,7 @@ class P232DelayedMiddlePairTests(TestCase):
     def test_archive_before_hour_grace_rejected(self):
         raw,clocks = shaped()
         invalid = clocks[:-1]+((clocks[-1][1],clocks[-1][1]),)
-        with self.assertRaisesRegex(ValueError,"BEFORE_SETTLED_HOUR"):
+        with self.assertRaisesRegex(ValueError,"ARCHIVE_CLOCK_DRIFT"):
             run(raw,invalid)
 
     def test_empty_prefix_and_no_price_or_direction_leak(self):
@@ -68,3 +70,55 @@ class P232DelayedMiddlePairTests(TestCase):
         self.assertNotIn("1.16",summary)
         self.assertNotIn("crossed",summary)
         self.assertNotIn("B2",summary)
+
+
+class P233MiddleClockCensusTests(TestCase):
+    def test_full_denominator_and_reused_selected_receipt(self):
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        self.assertEqual(r.clock_census.private_eligible_indices,(4,))
+        self.assertIs(r.clock_eligible_samples[0],r.samples[-1])
+        summary=r.public_summary()
+        self.assertEqual(summary["clock_census"]["prior_hour_missing_in_verified_tail"],1)
+        self.assertEqual(summary["clock_census"]["earlier_required_history_gap_or_late"],3)
+        self.assertEqual(summary["clock_census"]["four_contiguous_h1_hours_available_before_setup"],1)
+        self.assertEqual(summary["clock_selected_replay"]["middle_pairs_replayed"],1)
+        self.assertFalse(summary["clock_census"]["selection_uses_prices_or_outcomes"])
+
+    def test_late_previous_hour_excluded(self):
+        raw,clocks=shaped()
+        late=clocks[:3]+((START+timedelta(hours=4,minutes=16),clocks[3][1]),)+clocks[4:]
+        r=run(raw,late)
+        self.assertEqual(r.clock_census.private_eligible_indices,())
+        self.assertEqual(r.public_summary()["clock_census"]["prior_hour_archived_after_setup"],1)
+        self.assertEqual(len(r.clock_eligible_samples),0)
+
+    def test_gap_cannot_be_filled_by_older_history(self):
+        _,clocks=fixture()
+        r=middle_pair_clock_census(clocks[:1]+clocks[2:])
+        self.assertEqual(r.private_eligible_indices,())
+        self.assertEqual(r.prior_hour_missing,2)
+
+    def test_selection_independent_of_prices_and_bounded(self):
+        raw,clocks=shaped()
+        changed=tuple(replace(b,high="1.95") for b in raw)
+        a,b=run(raw,clocks),run(changed,clocks)
+        self.assertEqual(a.clock_census,b.clock_census)
+        times=tuple((START+timedelta(hours=i+1,minutes=7),
+                     START+timedelta(hours=i+1)) for i in range(100))
+        census=middle_pair_clock_census(times)
+        self.assertEqual(len(census.private_eligible_indices),96)
+        self.assertEqual(census.public_summary()["clock_eligible_not_replayed_due_to_limit"],64)
+
+    def test_nonmonotone_commit_or_duplicate_hour_rejected(self):
+        _,clocks=fixture()
+        with self.assertRaisesRegex(ValueError,"ARCHIVE_CLOCK_DRIFT"):
+            middle_pair_clock_census(clocks[:2]+clocks[1:])
+
+    def test_no_private_indices_or_signal_in_public_summary(self):
+        import json
+        raw,clocks=shaped()
+        s=json.dumps(run(raw,clocks).public_summary())
+        self.assertNotIn("private_eligible_indices",s)
+        self.assertNotIn("2026-11-26",s)
+        self.assertIn("NO_SIGNAL",s)
