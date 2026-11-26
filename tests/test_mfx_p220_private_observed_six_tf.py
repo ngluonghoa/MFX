@@ -187,6 +187,9 @@ class P220ObservedSixTFTests(TestCase):
     def test_p223_duplicate_sample_reuses_receipt(self):
         r = self.replay()
         self.assertIs(r.private_core_contexts[0],r.private_contexts[-1])
+        identity = r.public_summary()["private_trigger_slot_accounting"]
+        self.assertGreaterEqual(identity["repeated_paired_slot_observations"],1)
+        self.assertFalse(identity["persistent_idempotence_verified"])
         self.assertEqual(r.public_summary()["core_structural_replay"][
             "core_cutoffs_not_replayed_due_to_limit"],0)
 
