@@ -264,6 +264,7 @@ class PrivateDelayedMiddleReplay:
     clock_eligible_samples: tuple[PrivateDelayedMiddlePair, ...] = field(default=(), repr=False)
     decision_clocks: tuple[DecisionClockCoverage, ...] = field(default=(), repr=False)
     joint_clock_samples: tuple[PrivateDelayedMiddlePair, ...] = field(default=(), repr=False)
+    d1_archive_visible_at_setup: tuple[bool, ...] = field(default=(), repr=False)
 
     @staticmethod
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
@@ -400,6 +401,31 @@ class PrivateDelayedMiddleReplay:
             summary["clock_census"] = self.clock_census.public_summary()
             summary["decision_clock_census"] = summarize_decision_clocks(
                 self.decision_clocks, self.clock_census)
+            # P242: separate archive-era opportunities without selecting on
+            # D1 price, trend, calendar, or history length.
+            visibility = self.d1_archive_visible_at_setup
+            if (type(visibility) is not tuple or len(visibility) != self.verified_hours
+                    or any(type(v) is not bool for v in visibility)):
+                raise ValueError("P242_D1_CLOCK_VISIBILITY_DRIFT")
+            precursor = set(self.clock_census.private_eligible_indices)
+            eras: dict[str, dict[str, int]] = {}
+            for present, key in ((False, "without_visible_d1_archive"),
+                                 (True, "with_visible_d1_archive")):
+                indices = tuple(i for i, visible in enumerate(visibility) if visible == present)
+                eras[key] = {
+                    "verified_hours": len(indices),
+                    "precursor_clock_complete": sum(i in precursor for i in indices),
+                    "decision_clock_complete": sum(self.decision_clocks[i].complete for i in indices),
+                    "joint_clock_complete": sum(i in precursor and self.decision_clocks[i].complete
+                                                for i in indices),
+                }
+            summary["d1_archive_clock_visibility_census"] = {
+                **eras,
+                "selection_uses_prices_or_outcomes": False,
+                "d1_calendar_qualified": False,
+                "publisher_first_known_verified": False,
+                "historical_oos_qualified": False,
+            }
             recent_indices = tuple(range(max(0,self.verified_hours-MAX_SAMPLE),
                                          self.verified_hours))
             eligible_indices = self.clock_census.private_eligible_indices[-MAX_SAMPLE:]
@@ -415,6 +441,8 @@ class PrivateDelayedMiddleReplay:
                 (joint_indices, self.joint_clock_samples),
             ):
                 for i,row in zip(indices,cohort):
+                    if visibility[i] != (row.native.d1_status != "NO_PRETRIGGER_D1_VINTAGE"):
+                        raise ValueError("P242_D1_CLOCK_RAW_VISIBILITY_DRIFT")
                     clock = self.decision_clocks[i]
                     if (row.delayed_decision.closed_grid_complete != clock.complete
                             or row.delayed_decision.observed_closed_m15_bars != clock.observed_slots):
@@ -460,7 +488,8 @@ class PrivateDelayedMiddleReplay:
                 "joint_trigger_slot_accounting": summarize_private_trigger_slots(
                     tuple(row.trigger_identity for row in self.joint_clock_samples)),
             }
-        elif self.clock_eligible_samples or self.decision_clocks or self.joint_clock_samples:
+        elif (self.clock_eligible_samples or self.decision_clocks or self.joint_clock_samples
+              or self.d1_archive_visible_at_setup):
             raise ValueError("P233_MISSING_CLOCK_CENSUS")
         summary["delayed_trigger_slot_accounting"] = summarize_private_trigger_slots(
             tuple(row.trigger_identity for row in self.samples+self.clock_eligible_samples))
@@ -490,6 +519,22 @@ def replay_delayed_middle_pairs(
         raise ValueError("P232_EXACT_BOUNDED_PREFIX_REQUIRED")
     census = middle_pair_clock_census(commits)
     decision_clocks = decision_clock_coverage(commits)
+    # Current immutable archive creation is only a local visibility proxy.
+    # A revision observed earlier but archived later must not fill the gap.
+    if type(d1) is not tuple:
+        raise ValueError("P242_TYPED_D1_HISTORY_REQUIRED")
+    archive_clocks = []
+    for created, snap in d1:
+        if (type(created) is not datetime or created.tzinfo is None
+                or created.utcoffset() != timedelta(0) or type(snap) is not PrivateSnapshot
+                or type(snap.observed) is not datetime or snap.observed.tzinfo is None
+                or snap.observed.utcoffset() != timedelta(0) or snap.observed > created
+                or not snap.rows):
+            raise ValueError("P242_D1_ARCHIVE_CLOCK_DRIFT")
+        archive_clocks.append(created)
+    first_archive = min(archive_clocks) if archive_clocks else None
+    d1_visibility = tuple(first_archive is not None and first_archive <= end-3*M15
+                          for _, end in commits)
     recent = tuple(range(max(0,len(commits)-MAX_SAMPLE),len(commits)))
     eligible = census.private_eligible_indices[-MAX_SAMPLE:]
     joint = tuple(i for i in census.private_eligible_indices
@@ -540,6 +585,6 @@ def replay_delayed_middle_pairs(
     receipt = PrivateDelayedMiddleReplay(
         len(commits),tuple(samples[i] for i in recent),census,
         tuple(samples[i] for i in eligible),decision_clocks,
-        tuple(samples[i] for i in joint))
+        tuple(samples[i] for i in joint),d1_visibility)
     receipt.public_summary()
     return receipt

@@ -173,3 +173,54 @@ class P241NativeGapAccountingTests(TestCase):
         self.assertEqual(s["bound_context_with_decision_recheck_coverage"],0)
         self.assertFalse(s["market_signal_eligibility_assessed"])
         self.assertEqual(s["action"],"NO_SIGNAL")
+
+class P242D1ClockVisibilityTests(TestCase):
+    def test_no_d1_archive_keeps_full_denominator(self):
+        s=run(snapshots=()).public_summary()["d1_archive_clock_visibility_census"]
+        self.assertEqual(s["without_visible_d1_archive"]["verified_hours"],5)
+        self.assertEqual(s["without_visible_d1_archive"]["joint_clock_complete"],1)
+        self.assertEqual(s["with_visible_d1_archive"]["verified_hours"],0)
+        self.assertFalse(s["publisher_first_known_verified"])
+
+    def test_exact_cutoff_archive_is_visible(self):
+        v=vintage(CUTOFF)
+        r=run(snapshots=((v.observed,v),))
+        s=r.public_summary()["d1_archive_clock_visibility_census"]
+        self.assertEqual(s["with_visible_d1_archive"]["verified_hours"],1)
+        self.assertEqual(s["with_visible_d1_archive"]["joint_clock_complete"],1)
+        self.assertEqual(s["without_visible_d1_archive"]["verified_hours"],4)
+
+    def test_late_archive_never_backfills_earlier_cutoff(self):
+        v=vintage(CUTOFF-timedelta(minutes=1))
+        r=run(snapshots=((CUTOFF+timedelta(minutes=1),v),))
+        s=r.public_summary()["d1_archive_clock_visibility_census"]
+        self.assertEqual(s["with_visible_d1_archive"]["verified_hours"],0)
+        self.assertEqual(s["without_visible_d1_archive"]["joint_clock_complete"],1)
+
+    def test_partition_matches_independent_clock_denominators(self):
+        s=run().public_summary()
+        p=s["d1_archive_clock_visibility_census"]
+        a,b=p["without_visible_d1_archive"],p["with_visible_d1_archive"]
+        self.assertEqual(a["verified_hours"]+b["verified_hours"],s["verified_hours"])
+        self.assertEqual(a["precursor_clock_complete"]+b["precursor_clock_complete"],
+                         s["clock_census"]["four_contiguous_h1_hours_available_before_setup"])
+        self.assertEqual(a["decision_clock_complete"]+b["decision_clock_complete"],
+                         s["decision_clock_census"]["decision_grid_complete"])
+        self.assertEqual(a["joint_clock_complete"]+b["joint_clock_complete"],
+                         s["decision_clock_census"]["pretrigger_and_decision_clock_complete"])
+
+    def test_forged_visibility_is_rejected(self):
+        r=run()
+        wrong=tuple(not v for v in r.d1_archive_visible_at_setup)
+        with self.assertRaisesRegex(ValueError,"P242_D1_CLOCK_RAW_VISIBILITY_DRIFT"):
+            replace(r,d1_archive_visible_at_setup=wrong).public_summary()
+
+    def test_visibility_census_is_price_independent_and_redacted(self):
+        raw,clocks=shaped()
+        a=run(raw,clocks).public_summary()["d1_archive_clock_visibility_census"]
+        b=run(tuple(replace(x,high="1.95") for x in raw),clocks).public_summary()[
+            "d1_archive_clock_visibility_census"]
+        self.assertEqual(a,b)
+        self.assertNotIn("2026-11",json.dumps(a))
+        self.assertFalse(a["d1_calendar_qualified"])
+        self.assertFalse(a["selection_uses_prices_or_outcomes"])
