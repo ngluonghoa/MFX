@@ -13,7 +13,10 @@ from zoneinfo import ZoneInfo
 from mfx_cache.native_d1_epoch_20261118 import audit_fresh_epoch
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
 from mfx_cache.native_htf_archive import plan_native_sealed
-from mfx_cache.td_m5_codec import digest
+from mfx_cache.td_m5_codec import ClosedM5Bar, digest
+from mfx_research.p227_pretrigger_h1 import (
+    PrivatePretriggerH1, calculate_pretrigger_h1,
+)
 from mfx_research import p193_owner_nov18_active_d1_reader as p193
 from mfx_research.p219_m5_archive_time_prefixes import (
     ObservedObjectTime, _metadata_index, replay_m5_current_metadata_prefixes,
@@ -131,6 +134,7 @@ class PrivateObservedContext:
     d1_visible_rows: int
     context: SixTimeframeResearchReceipt | None = field(repr=False)
     readiness: PrivateB2S2Readiness | None = field(repr=False)
+    pretrigger_h1: PrivatePretriggerH1 | None = field(default=None, repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -204,6 +208,7 @@ def _core_summary(census: ArchiveFreshnessCensus,
         raise ValueError("P223_CORE_SAMPLE_ACCOUNTING_DRIFT")
     data_complete = 0
     core_technical = 0
+    pretrigger_ready = 0
     for r in rows:
         if r.context is None or r.readiness is None:
             raise ValueError("P223_MISSING_REPLAY_RECEIPT")
@@ -212,6 +217,12 @@ def _core_summary(census: ArchiveFreshnessCensus,
                 or r.readiness.publisher_first_known_verified
                 or tuple(g.rule_id for g in r.readiness.gates) != ("B2", "S2")):
             raise ValueError("P223_PRIVATE_RESEARCH_AUTHORITY_DRIFT")
+        pretrigger = r.pretrigger_h1
+        if (pretrigger is None or pretrigger.action != "NO_SIGNAL"
+                or pretrigger.numeric_policy_approved or pretrigger.may_trade
+                or pretrigger.may_publish_buy_sell or pretrigger.publisher_first_known_verified):
+            raise ValueError("P227_PRETRIGGER_RESEARCH_AUTHORITY_DRIFT")
+        pretrigger_ready += int(pretrigger.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED")
         present = {f.frame for f in r.context.frames}
         core_technical += int(set(B2S2_STRUCTURAL_FRAMES) <= present)
         # Counts only availability of structural ingredients, not direction,
@@ -225,6 +236,8 @@ def _core_summary(census: ArchiveFreshnessCensus,
         "core_cutoffs_not_replayed_due_to_limit":
             census.four_structural_frames_fresh-len(rows),
         "core_technical_receipts_complete": core_technical,
+        "pretrigger_h1_draft_contexts_computed": pretrigger_ready,
+        "pretrigger_h1_basis": "ARCHIVE_METADATA_PROXY_BEFORE_FIRST_OF_TWO_M15_BARS",
         "cutoffs_with_basic_structural_ingredients_one_or_both_sides": data_complete,
         "d1_trend_calendar_qualified": False,
         "numeric_strategy_approved": False,
@@ -333,12 +346,12 @@ def replay_private_observed_six_tf(
     h4 = _native_h4_history(h4_store, h4_manifests, h4_chunks, audited_at_utc)
     d1 = _private_d1_history(original_d1_store, revised_d1_store,
                              revised_d1_times, audited_at_utc)
-    def context_at(decision: datetime, raw: tuple, hours: int) -> PrivateObservedContext:
+    def context_at(decision: datetime, raw: tuple[ClosedM5Bar, ...], hours: int) -> PrivateObservedContext:
         h4_rows = tuple(bar for known, bars in h4 if known <= decision for bar in bars)
         visible = [s for created, s in d1 if created <= decision and s.observed <= decision]
         selected = max(visible, key=lambda s: s.observed) if visible else None
         daily = selected.rows if selected else ()
-        context = readiness = None
+        context = readiness = pretrigger = None
         if raw:
             h4_batch, d1_batch = _batch("4h", h4_rows), _batch("1day", daily)
             context = build_six_timeframe_readonly_context(
@@ -350,8 +363,14 @@ def replay_private_observed_six_tf(
             readiness = compute_private_option_b2s2_requirements(
                 multi, context, pivots, micro,
                 active_d1_source_epoch="P209_PRIVATE_REVISED_D1_RESEARCH_ONLY")
+            m15 = next((frame for frame in context.frames if frame.frame == "M15"), None)
+            if m15 is not None:
+                pretrigger = calculate_pretrigger_h1(
+                    raw, m5.private_raw_hour_commits[:hours],
+                    latest_m15_open=datetime.fromisoformat(m15.source_label),
+                    decision_utc=decision)
         return PrivateObservedContext(
-            decision, hours, len(h4_rows), len(daily), context, readiness)
+            decision, hours, len(h4_rows), len(daily), context, readiness, pretrigger)
 
     contexts = tuple(context_at(p.decision_utc, p.private_m5, p.verified_raw_hours)
                      for p in m5.private_prefixes)

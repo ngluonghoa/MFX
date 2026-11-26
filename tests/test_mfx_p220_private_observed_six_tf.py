@@ -168,6 +168,8 @@ class P220ObservedSixTFTests(TestCase):
         d = r.public_summary()["core_structural_replay"]
         self.assertEqual(d["core_cutoffs_replayed"], 1)
         self.assertEqual(d["core_technical_receipts_complete"], 1)
+        self.assertEqual(d["pretrigger_h1_draft_contexts_computed"], 0)
+        self.assertIsNotNone(row.pretrigger_h1)
         self.assertEqual(d["cutoffs_with_basic_structural_ingredients_one_or_both_sides"],0)
         self.assertFalse(d["market_signal_eligibility_assessed"])
 
