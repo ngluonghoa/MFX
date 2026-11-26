@@ -193,3 +193,68 @@ class P234DelayedBoundaryIdentityTests(TestCase):
         bad=replace(row,boundary=replace(row.boundary,buffer_selected=True))
         with self.assertRaisesRegex(ValueError,"DELAYED_BOUNDARY_AUTHORITY_DRIFT"):
             replace(r,samples=r.samples[:-1]+(bad,)).public_summary()
+
+class P235DelayedDecisionTests(TestCase):
+    def test_complete_decision_grid_and_private_recheck(self):
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        row=r.samples[-1]
+        d=row.delayed_decision
+        self.assertEqual(d.observed_closed_m15_bars,1)
+        self.assertTrue(d.closed_grid_complete)
+        self.assertEqual(tuple(s.rule_id for s in d.sides),("B2","S2"))
+        levels={s.rule_id:s.level for s in row.m15.sides}
+        self.assertEqual(d.sides[0].signed_distance_from_frozen_level,
+                         Decimal(raw[-1].close)-levels["B2"])
+        self.assertEqual(d.sides[1].signed_distance_from_frozen_level,
+                         levels["S2"]-Decimal(raw[-1].close))
+        self.assertEqual(r.public_summary()["delayed_decision_frozen_level_rechecks_computed"],1)
+
+    def test_last_quarter_close_changes_decision_not_trigger(self):
+        raw,clocks=shaped()
+        a=run(raw,clocks).samples[-1]
+        changed=raw[:-1]+(replace(raw[-1],low="0.99",close="1.00"),)
+        b=run(changed,clocks).samples[-1]
+        self.assertEqual(a.m15,b.m15)
+        self.assertEqual(a.trigger_identity,b.trigger_identity)
+        self.assertNotEqual(a.delayed_decision,b.delayed_decision)
+
+    def test_stale_last_close_is_not_decision_recheck(self):
+        raw,clocks=shaped()
+        late=clocks[:-1]+((clocks[-1][0]+timedelta(minutes=15),clocks[-1][1]),)
+        d=run(raw,late).samples[-1].delayed_decision
+        self.assertEqual(d.observed_closed_m15_bars,1)
+        self.assertFalse(d.closed_grid_complete)
+        self.assertEqual(d.sides,())
+
+    def test_equal_clock_catchup_uses_all_visible_quarters(self):
+        raw,clocks=shaped()
+        known=clocks[-1][0]+timedelta(hours=1)
+        extra=tuple(replace(x,start_utc=(
+            START+timedelta(hours=5,minutes=5*j)).isoformat())
+            for j,x in enumerate(raw[-12:]))
+        extended=clocks[:-1]+((known,clocks[-1][1]),
+                               (known,clocks[-1][1]+timedelta(hours=1)))
+        d=run(raw+extra,extended).samples[-2].delayed_decision
+        self.assertEqual(d.observed_closed_m15_bars,5)
+        self.assertTrue(d.closed_grid_complete)
+
+    def test_missing_h1_no_decision_recheck_even_with_grid(self):
+        raw,clocks=shaped()
+        late=clocks[:3]+((START+timedelta(hours=4,minutes=16),clocks[3][1]),)+clocks[4:]
+        d=run(raw,late).samples[-1].delayed_decision
+        self.assertTrue(d.closed_grid_complete)
+        self.assertEqual(d.sides,())
+
+    def test_private_values_masked_and_authority_drift_rejected(self):
+        import json
+        raw,clocks=shaped()
+        r=run(raw,clocks)
+        row=r.samples[-1]
+        encoded=json.dumps(r.public_summary())
+        self.assertNotIn("signed_distance_from_frozen_level",encoded)
+        self.assertNotIn("within_draft_chase_window",encoded)
+        self.assertFalse(r.public_summary()["delayed_decision_executable_quote_verified"])
+        bad=replace(row,delayed_decision=replace(row.delayed_decision,expiry_policy_selected=True))
+        with self.assertRaisesRegex(ValueError,"DELAYED_DECISION_AUTHORITY_DRIFT"):
+            replace(r,samples=r.samples[:-1]+(bad,)).public_summary()

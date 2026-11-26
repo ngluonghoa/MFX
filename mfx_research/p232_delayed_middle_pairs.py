@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
+from decimal import Decimal
 
 from mfx_cache.native_fx_htf import NativeFXBar
 from mfx_cache.td_m5_codec import ClosedM5Bar
@@ -28,6 +29,9 @@ from mfx_research.p230_private_boundary_path import (
 from mfx_research.p231_private_trigger_identity import (
     PrivateTriggerIdentity, _identify_closed_trigger_pair, summarize_private_trigger_slots,
 )
+from mfx_research.mfx_b2s2_confirmed_policy_v2 import _p160_still_pinned
+from mfx_research.mfx_b2s2_independent_policy_draft import read_independent_mfx_policy_draft
+from mfx_research.six_tf_readonly_context import _expected_last_closed
 from tools.audit_mfx_p209_d1_private_cache import PrivateSnapshot
 
 MAX_SAMPLE = 32
@@ -35,6 +39,81 @@ MAX_HOURS = 256
 M15 = timedelta(minutes=15)
 HOUR = timedelta(hours=1)
 GRACE = timedelta(seconds=15)
+
+
+@dataclass(frozen=True, slots=True, repr=False)
+class PrivateDecisionSide:
+    rule_id: str
+    signed_distance_from_frozen_level: Decimal = field(repr=False)
+    within_draft_chase_window: bool = field(repr=False)
+
+
+@dataclass(frozen=True, slots=True, repr=False)
+class PrivateDelayedDecision:
+    trigger_end: datetime = field(repr=False)
+    decision: datetime = field(repr=False)
+    observed_closed_m15_bars: int
+    closed_grid_complete: bool
+    sides: tuple[PrivateDecisionSide, ...] = field(repr=False)
+    expiry_policy_selected: bool = False
+    numeric_policy_approved: bool = False
+    action: str = "NO_SIGNAL"
+    may_publish_buy_sell: bool = False
+    may_trade: bool = False
+
+
+def _inspect_delayed_decision(
+    visible_raw: tuple[ClosedM5Bar, ...], h1: PrivatePretriggerH1,
+    m15: PrivatePretriggerM15, *, trigger_end: datetime, decision: datetime,
+) -> PrivateDelayedDecision:
+    """P235: closed M15 path from frozen trigger to actual archive decision.
+
+    Do not substitute a stale last close for the expected settled decision
+    close. Only an unapproved MID draft geometry recheck, not a quote,
+    entry, expiry selection, or post-entry monitoring.
+    """
+    for clock in (trigger_end, decision):
+        if (type(clock) is not datetime or clock.tzinfo is None
+                or clock.utcoffset() != timedelta(0)):
+            raise ValueError("P235_EXACT_UTC_REQUIRED")
+    if (type(h1) is not PrivatePretriggerH1 or type(m15) is not PrivatePretriggerM15
+            or h1.cutoff_utc != trigger_end-2*M15 or m15.cutoff_utc != h1.cutoff_utc
+            or decision-trigger_end < M15+GRACE
+            or any(x.action != "NO_SIGNAL" or x.numeric_policy_approved
+                   or x.publisher_first_known_verified or x.may_publish_buy_sell
+                   or x.may_trade for x in (h1, m15)) or m15.d1_trend_qualified):
+        raise ValueError("P235_DECISION_CONTEXT_DRIFT")
+    expected = _expected_last_closed(decision, 15)
+    post = tuple(b for b in visible_raw
+                 if datetime.fromisoformat(b.start_utc) >= trigger_end)
+    candles = derive_intraday(post, "M15", asof_utc=decision).candles if post else ()
+    tip = trigger_end
+    complete = True
+    for candle in candles:
+        start, end = map(datetime.fromisoformat, (candle.start_utc, candle.end_utc))
+        if start < tip or end-start != M15 or end > expected:
+            raise ValueError("P235_DECISION_GRID_DRIFT")
+        complete = complete and start == tip
+        tip = end
+    complete = complete and bool(candles) and tip == expected
+    sides = []
+    if (complete and h1.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
+            and m15.status == "PRIVATE_M15_DRAFT_GEOMETRY_COMPUTED"):
+        if (h1.mean_tr is None or not h1.mean_tr.is_finite() or h1.mean_tr <= 0
+                or tuple(s.rule_id for s in m15.sides) != ("B2", "S2")):
+            raise ValueError("P235_FROZEN_DRAFT_CONTEXT_DRIFT")
+        _p160_still_pinned()
+        chase = h1.mean_tr * read_independent_mfx_policy_draft().max_chase_multiple
+        close = Decimal(candles[-1].close)
+        for side in m15.sides:
+            if side.level is None:
+                continue
+            if not side.level.is_finite() or side.level <= 0:
+                raise ValueError("P235_FROZEN_LEVEL_DRIFT")
+            distance = close-side.level if side.rule_id == "B2" else side.level-close
+            sides.append(PrivateDecisionSide(side.rule_id, distance,
+                                             0 < distance <= chase))
+    return PrivateDelayedDecision(trigger_end, decision, len(candles), complete, tuple(sides))
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -46,6 +125,7 @@ class PrivateDelayedMiddlePair:
     m15: PrivatePretriggerM15 = field(repr=False)
     boundary: PrivateBoundaryReceipt = field(repr=False)
     trigger_identity: PrivateTriggerIdentity = field(repr=False)
+    delayed_decision: PrivateDelayedDecision = field(repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -118,6 +198,7 @@ class PrivateDelayedMiddleReplay:
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
         h1 = h4 = d1 = complete = geometry = joint = 0
         h1_paths = h4_paths = both_grids = 0
+        decision_grids = decision_rechecks = 0
         for row in samples:
             if (row.archive_decision_utc-row.trigger_end_utc < M15+GRACE
                     or row.h1.cutoff_utc != row.trigger_end_utc-2*M15
@@ -143,6 +224,17 @@ class PrivateDelayedMiddleReplay:
             both_grids += int(all(s.h1 is not None and s.h4 is not None
                                   and s.h1.closed_grid_complete and s.h4.closed_grid_complete
                                   for s in boundary.sides))
+            delayed = row.delayed_decision
+            if (type(delayed) is not PrivateDelayedDecision
+                    or delayed.trigger_end != row.trigger_end_utc
+                    or delayed.decision != row.archive_decision_utc
+                    or delayed.action != "NO_SIGNAL" or delayed.expiry_policy_selected
+                    or delayed.numeric_policy_approved or delayed.may_publish_buy_sell
+                    or delayed.may_trade or (delayed.sides and not delayed.closed_grid_complete)
+                    or (delayed.closed_grid_complete and delayed.observed_closed_m15_bars < 1)):
+                raise ValueError("P235_DELAYED_DECISION_AUTHORITY_DRIFT")
+            decision_grids += int(delayed.closed_grid_complete)
+            decision_rechecks += int(bool(delayed.sides))
             h1_ok = row.h1.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
             h4_ok = row.native.h4_status == "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
             d1_ok = row.native.d1_status == "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
@@ -165,6 +257,8 @@ class PrivateDelayedMiddleReplay:
             "boundary_h1_paths_inspected": h1_paths,
             "boundary_h4_paths_inspected": h4_paths,
             "boundary_both_closed_grids_complete": both_grids,
+            "delayed_decision_m15_grids_complete": decision_grids,
+            "delayed_decision_frozen_level_rechecks_computed": decision_rechecks,
         }
 
     def public_summary(self) -> dict[str, object]:
@@ -203,6 +297,8 @@ class PrivateDelayedMiddleReplay:
             tuple(row.trigger_identity for row in self.samples+self.clock_eligible_samples))
         summary["boundary_invalidation_buffer_selected"] = False
         summary["post_entry_monitoring_verified"] = False
+        summary["delayed_decision_expiry_policy_selected"] = False
+        summary["delayed_decision_executable_quote_verified"] = False
         return summary
 
 
@@ -262,8 +358,10 @@ def replay_delayed_middle_pairs(
             visible_raw, visible_h4, h1, native, decision=known)
         identity = _identify_closed_trigger_pair(
             pair_raw, latest_m15_open=latest_open, decision=known)
+        delayed = _inspect_delayed_decision(
+            visible_raw, h1, m15, trigger_end=trigger_end, decision=known)
         samples[i] = PrivateDelayedMiddlePair(
-            known,trigger_end,h1,native,m15,boundary,identity)
+            known,trigger_end,h1,native,m15,boundary,identity,delayed)
     receipt = PrivateDelayedMiddleReplay(
         len(commits),tuple(samples[i] for i in recent),census,
         tuple(samples[i] for i in eligible))
