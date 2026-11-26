@@ -29,6 +29,9 @@ from mfx_research.p230_private_boundary_path import (
 from mfx_research.p231_private_trigger_identity import (
     PrivateTriggerIdentity, identify_private_trigger_pair, summarize_private_trigger_slots,
 )
+from mfx_research.p232_delayed_middle_pairs import (
+    PrivateDelayedMiddleReplay, replay_delayed_middle_pairs,
+)
 from mfx_research import p193_owner_nov18_active_d1_reader as p193
 from mfx_research.p219_m5_archive_time_prefixes import (
     ObservedObjectTime, _metadata_index, replay_m5_current_metadata_prefixes,
@@ -163,6 +166,7 @@ class PrivateObservedReplay:
     archive_freshness_census: ArchiveFreshnessCensus | None = None
     private_core_contexts: tuple[PrivateObservedContext, ...] = field(default=(), repr=False)
     replay_io_counts: tuple[int, int, int] | None = None
+    delayed_middle_replay: PrivateDelayedMiddleReplay | None = field(default=None, repr=False)
 
     def public_summary(self) -> dict[str, object]:
         summary: dict[str, object] = {
@@ -201,6 +205,8 @@ class PrivateObservedReplay:
             if row.trigger_identity is not None:
                 receipts.append(row.trigger_identity)
         summary["private_trigger_slot_accounting"] = summarize_private_trigger_slots(tuple(receipts))
+        if self.delayed_middle_replay is not None:
+            summary["delayed_middle_m15_research"] = self.delayed_middle_replay.public_summary()
         if self.replay_io_counts is not None:
             first, replay, reused = self.replay_io_counts
             if any(type(n) is not int or n < 0 for n in (first, replay, reused)):
@@ -473,6 +479,9 @@ def replay_private_observed_six_tf(
             row = context_at(decision, final_raw[:hours*12], hours)
         core.append(row)
     _core_summary(census, tuple(core))
+    delayed = replay_delayed_middle_pairs(
+        final_raw, m5.private_raw_hour_commits[:len(final_raw)//12], h4, d1)
     return PrivateObservedReplay(
         contexts, len(h4), len(d1), m5.metadata_pairs,
-        m5.fixture_anchors_used, census, tuple(core))
+        m5.fixture_anchors_used, census, tuple(core),
+        delayed_middle_replay=delayed)
