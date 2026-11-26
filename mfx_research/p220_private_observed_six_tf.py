@@ -20,6 +20,9 @@ from mfx_research.p227_pretrigger_h1 import (
 from mfx_research.p228_pretrigger_native import (
     PrivatePretriggerNative, calculate_pretrigger_native,
 )
+from mfx_research.p229_pretrigger_m15 import (
+    PrivatePretriggerM15, calculate_pretrigger_m15,
+)
 from mfx_research import p193_owner_nov18_active_d1_reader as p193
 from mfx_research.p219_m5_archive_time_prefixes import (
     ObservedObjectTime, _metadata_index, replay_m5_current_metadata_prefixes,
@@ -139,6 +142,7 @@ class PrivateObservedContext:
     readiness: PrivateB2S2Readiness | None = field(repr=False)
     pretrigger_h1: PrivatePretriggerH1 | None = field(default=None, repr=False)
     pretrigger_native: PrivatePretriggerNative | None = field(default=None, repr=False)
+    pretrigger_m15: PrivatePretriggerM15 | None = field(default=None, repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -214,6 +218,7 @@ def _core_summary(census: ArchiveFreshnessCensus,
     core_technical = 0
     pretrigger_ready = 0
     pretrigger_h4 = pretrigger_d1 = pretrigger_joint = 0
+    pretrigger_m15 = pretrigger_m15_complete = 0
     for r in rows:
         if r.context is None or r.readiness is None:
             raise ValueError("P223_MISSING_REPLAY_RECEIPT")
@@ -240,6 +245,14 @@ def _core_summary(census: ArchiveFreshnessCensus,
         pretrigger_h4 += int(h4_ok)
         pretrigger_d1 += int(d1_ok)
         pretrigger_joint += int(h1_ok and h4_ok and d1_ok)
+        m15 = r.pretrigger_m15
+        if (m15 is None or m15.cutoff_utc != pretrigger.cutoff_utc
+                or m15.action != "NO_SIGNAL" or m15.numeric_policy_approved
+                or m15.publisher_first_known_verified or m15.d1_trend_qualified
+                or m15.may_publish_buy_sell or m15.may_trade):
+            raise ValueError("P229_PRETRIGGER_M15_AUTHORITY_DRIFT")
+        pretrigger_m15 += int(m15.status == "PRIVATE_M15_DRAFT_GEOMETRY_COMPUTED")
+        pretrigger_m15_complete += int(m15.history_to_setup_complete)
         present = {f.frame for f in r.context.frames}
         core_technical += int(set(B2S2_STRUCTURAL_FRAMES) <= present)
         # Counts only availability of structural ingredients, not direction,
@@ -257,6 +270,8 @@ def _core_summary(census: ArchiveFreshnessCensus,
         "pretrigger_h4_draft_structures_computed": pretrigger_h4,
         "pretrigger_d1_fresh_vintages_with_five_rows": pretrigger_d1,
         "pretrigger_h1_h4_and_unqualified_d1_inputs_present": pretrigger_joint,
+        "pretrigger_m15_draft_geometry_computed": pretrigger_m15,
+        "pretrigger_m15_history_to_settled_setup_boundary": pretrigger_m15_complete,
         "pretrigger_h1_basis": "ARCHIVE_METADATA_PROXY_BEFORE_FIRST_OF_TWO_M15_BARS",
         "cutoffs_with_basic_structural_ingredients_one_or_both_sides": data_complete,
         "d1_trend_calendar_qualified": False,
@@ -371,7 +386,7 @@ def replay_private_observed_six_tf(
         visible = [s for created, s in d1 if created <= decision and s.observed <= decision]
         selected = max(visible, key=lambda s: s.observed) if visible else None
         daily = selected.rows if selected else ()
-        context = readiness = pretrigger = native = None
+        context = readiness = pretrigger = native = trigger = None
         if raw:
             h4_batch, d1_batch = _batch("4h", h4_rows), _batch("1day", daily)
             context = build_six_timeframe_readonly_context(
@@ -393,8 +408,13 @@ def replay_private_observed_six_tf(
                     tuple((known, rows) for known, rows in h4 if known <= decision),
                     tuple((created, snap) for created, snap in d1 if created <= decision),
                     cutoff=pretrigger.cutoff_utc, decision=decision)
+                trigger = calculate_pretrigger_m15(
+                    raw, m5.private_raw_hour_commits[:hours], pretrigger,
+                    latest_m15_open=datetime.fromisoformat(m15.source_label),
+                    decision=decision)
         return PrivateObservedContext(
-            decision, hours, len(h4_rows), len(daily), context, readiness, pretrigger, native)
+            decision, hours, len(h4_rows), len(daily), context, readiness,
+            pretrigger, native, trigger)
 
     contexts = tuple(context_at(p.decision_utc, p.private_m5, p.verified_raw_hours)
                      for p in m5.private_prefixes)
