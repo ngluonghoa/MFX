@@ -3512,6 +3512,24 @@
       "change": "added",
       "expected_current_sha": "255aacd8f1ddb066c1cad277dcf7c17f2d17bedf",
       "reason": "P214 source-aligned symmetric closed H1/H4 setup invalidation SIM experiment, explicit buffer and selected frames, causal same-source future bars, eight tests, no source approvals or provider/Drive/broker operations."
+    },
+    {
+      "path": "mfx_research/p215_sim_structural_tp1.py",
+      "change": "added",
+      "expected_current_sha": "08f4184c8df1f2923d866d81e03dbd8f5b15d316",
+      "reason": "P215 structural first-obstacle SIM SL/TP1 and net R, explicit shared parameters and quote-side offset, eight tests, no source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "tests/test_mfx_p215_sim_structural_tp1.py",
+      "change": "added",
+      "expected_current_sha": "448736d7d96065184805fe3bea5bc3eb86cf6c3f",
+      "reason": "P215 structural first-obstacle SIM SL/TP1 and net R, explicit shared parameters and quote-side offset, eight tests, no source approval or provider/Drive/broker operations."
+    },
+    {
+      "path": "docs/MFX_P215_SIM_STRUCTURAL_FIRST_OBSTACLE_TP1.md",
+      "change": "added",
+      "expected_current_sha": "300997cb0adaf2c1210b4731063c73bc56c7b702",
+      "reason": "P215 structural first-obstacle SIM SL/TP1 and net R, explicit shared parameters and quote-side offset, eight tests, no source approval or provider/Drive/broker operations."
     }
   ]
 }
