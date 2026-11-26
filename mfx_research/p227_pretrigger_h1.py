@@ -61,13 +61,33 @@ def calculate_pretrigger_h1(
             or latest_m15_open.microsecond
             or latest_m15_open + M15 != _expected_last_closed(decision_utc, 15)):
         raise ValueError("P227_LATEST_CLOSED_TRIGGER_GRID_REQUIRED")
+    _validate_hour_prefix_shape(raw, commits)
+    if datetime.fromisoformat(raw[-1].start_utc) + M5 != latest_m15_open + M15:
+        raise ValueError("P227_TRIGGER_SOURCE_TIP_MISMATCH")
+    return _calculate_archive_h1_at_cutoff(
+        raw, commits, cutoff=latest_m15_open-M15, decision_utc=decision_utc)
+
+
+def _validate_hour_prefix_shape(
+    raw: tuple[ClosedM5Bar, ...], commits: tuple[tuple[datetime, datetime], ...],
+) -> None:
     if (type(commits) is not tuple or not 1 <= len(commits) <= MAX_HOURS
             or type(raw) is not tuple or len(raw) != 12 * len(commits)):
         raise ValueError("P227_EXACT_BOUNDED_SHA_HOUR_PREFIX_REQUIRED")
+
+
+def _calculate_archive_h1_at_cutoff(
+    raw: tuple[ClosedM5Bar, ...], commits: tuple[tuple[datetime, datetime], ...],
+    *, cutoff: datetime, decision_utc: datetime,
+) -> PrivatePretriggerH1:
+    """Internal archive prefix calculation; a caller must bind its trigger."""
+    _utc(cutoff)
+    _utc(decision_utc)
+    if (cutoff >= decision_utc or cutoff.minute % 15 or cutoff.second
+            or cutoff.microsecond):
+        raise ValueError("P232_SETUP_CUTOFF_GRID_REQUIRED")
+    _validate_hour_prefix_shape(raw, commits)
     validate_m5(raw, asof_utc=decision_utc)
-    if datetime.fromisoformat(raw[-1].start_utc) + M5 != latest_m15_open + M15:
-        raise ValueError("P227_TRIGGER_SOURCE_TIP_MISMATCH")
-    cutoff = latest_m15_open - M15
     visible = 0
     previous_known: datetime | None = None
     previous_end: datetime | None = None

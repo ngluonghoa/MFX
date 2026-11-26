@@ -57,7 +57,23 @@ def calculate_pretrigger_m15(
     if h1 != calculate_pretrigger_h1(raw, commits, latest_m15_open=latest_m15_open,
                                      decision_utc=decision):
         raise ValueError("P229_H1_SOURCE_CONTEXT_DRIFT")
+    return _calculate_archive_geometry(
+        raw, commits, h1, trigger_raw=raw[-6:],
+        latest_m15_open=latest_m15_open, decision=decision)
+
+
+def _calculate_archive_geometry(
+    raw: tuple[ClosedM5Bar, ...],
+    commits: tuple[tuple[datetime, datetime], ...],
+    h1: PrivatePretriggerH1,
+    *, trigger_raw: tuple[ClosedM5Bar, ...],
+    latest_m15_open: datetime, decision: datetime,
+) -> PrivatePretriggerM15:
+    """Internal geometry; caller binds the exact H1 and source trigger pair."""
     cutoff = h1.cutoff_utc
+    if (cutoff != latest_m15_open-M15 or type(trigger_raw) is not tuple
+            or len(trigger_raw) != 6):
+        raise ValueError("P232_TRIGGER_CUTOFF_JOIN_DRIFT")
     visible = sum(known <= cutoff and end <= cutoff for known, end in commits)
     eligible = tuple(b for b in raw[:12*visible]
                      if datetime.fromisoformat(b.start_utc)+M5 <= cutoff-GRACE)
@@ -88,7 +104,7 @@ def calculate_pretrigger_m15(
         return PrivatePretriggerM15(cutoff, "PRETRIGGER_H1_CONTEXT_UNAVAILABLE", complete)
     # The trigger candles are evaluated at decision, never fed into the
     # pretrigger pivot or H1 zone. Exact two contiguous closed M15 bars.
-    triggers = derive_intraday(raw[-6:], "M15", asof_utc=decision).candles
+    triggers = derive_intraday(trigger_raw, "M15", asof_utc=decision).candles
     if (len(triggers) != 2 or datetime.fromisoformat(triggers[0].start_utc) != cutoff
             or triggers[0].end_utc != triggers[1].start_utc
             or datetime.fromisoformat(triggers[1].start_utc) != latest_m15_open):
