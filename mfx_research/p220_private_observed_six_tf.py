@@ -24,6 +24,9 @@ from mfx_research.p229_pretrigger_m15 import (
     PrivatePretriggerM15, calculate_pretrigger_m15,
     early_observation_coverage,
 )
+from mfx_research.p237_private_setup_context_identity import (
+    PrivateSetupContextIdentity, bind_private_setup_context,
+)
 from mfx_research.p230_private_boundary_path import (
     PrivateBoundaryReceipt, inspect_private_setup_boundaries,
 )
@@ -155,6 +158,7 @@ class PrivateObservedContext:
     pretrigger_m15: PrivatePretriggerM15 | None = field(default=None, repr=False)
     boundary: PrivateBoundaryReceipt | None = field(default=None, repr=False)
     trigger_identity: PrivateTriggerIdentity | None = field(default=None, repr=False)
+    setup_context_identity: PrivateSetupContextIdentity | None = field(default=None, repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -242,6 +246,7 @@ def _core_summary(census: ArchiveFreshnessCensus,
     pretrigger_ready = 0
     pretrigger_h4 = pretrigger_d1 = pretrigger_joint = 0
     pretrigger_m15 = pretrigger_m15_complete = pretrigger_early = 0
+    setup_identity_coverage = 0
     boundary_h1_paths = boundary_h4_paths = boundary_complete = 0
     for r in rows:
         if r.context is None or r.readiness is None:
@@ -278,6 +283,12 @@ def _core_summary(census: ArchiveFreshnessCensus,
         pretrigger_m15 += int(m15.status == "PRIVATE_M15_DRAFT_GEOMETRY_COMPUTED")
         pretrigger_m15_complete += int(m15.history_to_setup_complete)
         pretrigger_early += int(early_observation_coverage(m15, pretrigger))
+        if r.trigger_identity is None:
+            raise ValueError("P237_MISSING_TRIGGER_IDENTITY")
+        expected_identity = bind_private_setup_context(pretrigger, native, m15, r.trigger_identity)
+        if r.setup_context_identity != expected_identity:
+            raise ValueError("P237_SETUP_CONTEXT_BINDING_DRIFT")
+        setup_identity_coverage += int(expected_identity is not None)
         boundary = r.boundary
         if (boundary is None or boundary.cutoff_utc != pretrigger.cutoff_utc
                 or boundary.action != "NO_SIGNAL" or boundary.buffer_selected
@@ -312,6 +323,8 @@ def _core_summary(census: ArchiveFreshnessCensus,
         "pretrigger_m15_history_to_settled_setup_boundary": pretrigger_m15_complete,
         "pretrigger_m15_early_observation_coverage": pretrigger_early,
         "early_event_rule_approved": False,
+        "bounded_setup_context_identity_coverage": setup_identity_coverage,
+        "full_setup_revision_identity_verified": False,
         "boundary_h1_paths_inspected": boundary_h1_paths,
         "boundary_h4_paths_inspected": boundary_h4_paths,
         "boundary_both_closed_grids_complete": boundary_complete,
@@ -430,7 +443,7 @@ def replay_private_observed_six_tf(
         visible = [s for created, s in d1 if created <= decision and s.observed <= decision]
         selected = max(visible, key=lambda s: s.observed) if visible else None
         daily = selected.rows if selected else ()
-        context = readiness = pretrigger = native = trigger = boundary = identity = None
+        context = readiness = pretrigger = native = trigger = boundary = identity = setup_identity = None
         if raw:
             h4_batch, d1_batch = _batch("4h", h4_rows), _batch("1day", daily)
             context = build_six_timeframe_readonly_context(
@@ -461,9 +474,10 @@ def replay_private_observed_six_tf(
                 identity = identify_private_trigger_pair(
                     raw, latest_m15_open=datetime.fromisoformat(m15.source_label),
                     decision=decision)
+                setup_identity = bind_private_setup_context(pretrigger, native, trigger, identity)
         return PrivateObservedContext(
             decision, hours, len(h4_rows), len(daily), context, readiness,
-            pretrigger, native, trigger, boundary, identity)
+            pretrigger, native, trigger, boundary, identity, setup_identity)
 
     contexts = tuple(context_at(p.decision_utc, p.private_m5, p.verified_raw_hours)
                      for p in m5.private_prefixes)

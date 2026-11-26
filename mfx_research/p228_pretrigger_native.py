@@ -11,6 +11,7 @@ from decimal import Decimal
 from zoneinfo import ZoneInfo
 
 from mfx_cache.native_fx_htf import NativeFXBar, NativeFXBatch
+from mfx_cache.td_m5_codec import digest
 from mfx_research.mfx_b2s2_confirmed_policy_v2 import (
     _p160_still_pinned, read_mfx_confirmed_b2s2_v2,
 )
@@ -41,6 +42,8 @@ class PrivatePretriggerNative:
     action: str = "NO_SIGNAL"
     may_publish_buy_sell: bool = False
     may_trade: bool = False
+    h4_context_sha256: str | None = field(default=None, repr=False)
+    d1_context_sha256: str | None = field(default=None, repr=False)
 
 
 def _utc(clock: datetime) -> None:
@@ -113,8 +116,15 @@ def calculate_pretrigger_native(
         else:
             d1_status = "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
 
+    d1_context = None
+    if d1_status == "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED":
+        assert selected is not None
+        d1_context = digest({"schema": "P237_D1_PRIVATE_VINTAGE_V1",
+                             "cutoff": cutoff.isoformat(), "snapshot": selected.identity,
+                             "observed": selected.observed.isoformat(),
+                             "source": [b.sha256() for b in daily]})
     h4_status, trend = "NO_PRETRIGGER_H4_ARCHIVE", "UNKNOWN"
-    anchor_end = low_anchor = high_anchor = None
+    anchor_end = low_anchor = high_anchor = h4_context = None
     if visible_h4:
         end = _native_utc_start(visible_h4[-1].native_open_label) + H4
         if cutoff-end > MAX_H4_AGE:
@@ -126,8 +136,8 @@ def calculate_pretrigger_native(
                 raise ValueError("P228_PINNED_DRAFT_PIVOT_WIDTH_DRIFT")
             rows = tuple(_Bar(b.native_open_label, b.open, b.high, b.low, b.close, b.sha256())
                          for b in visible_h4[-16:])
-            study = _scan_one("H4", _latest_contiguous(rows, "H4"),
-                              policy.htf_left, policy.htf_right)
+            contiguous = _latest_contiguous(rows, "H4")
+            study = _scan_one("H4", contiguous, policy.htf_left, policy.htf_right)
             highs = [p.candidate_mid_price for p in study.pivots if p.kind == "HIGH"]
             lows = [p.candidate_mid_price for p in study.pivots if p.kind == "LOW"]
             if len(highs) < 2 or len(lows) < 2:
@@ -135,9 +145,14 @@ def calculate_pretrigger_native(
             else:
                 h4_status = "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
                 anchor_end, low_anchor, high_anchor = end, lows[-1], highs[-1]
+                h4_context = digest({"schema": "P237_H4_DRAFT_INPUT_V1",
+                                     "cutoff": cutoff.isoformat(),
+                                     "policy": policy.fingerprint_sha256,
+                                     "source": [b.sha_claim for b in contiguous]})
                 if highs[-1] > highs[-2] and lows[-1] > lows[-2]:
                     trend = "UP"
                 elif highs[-1] < highs[-2] and lows[-1] < lows[-2]:
                     trend = "DOWN"
     return PrivatePretriggerNative(h4_status, d1_status, cutoff, trend, daily,
-                                   anchor_end, low_anchor, high_anchor)
+                                   anchor_end, low_anchor, high_anchor,
+                                   h4_context_sha256=h4_context, d1_context_sha256=d1_context)

@@ -32,6 +32,9 @@ from mfx_research.p231_private_trigger_identity import (
 from mfx_research.mfx_b2s2_confirmed_policy_v2 import _p160_still_pinned
 from mfx_research.mfx_b2s2_independent_policy_draft import read_independent_mfx_policy_draft
 from mfx_research.six_tf_readonly_context import _expected_last_closed
+from mfx_research.p237_private_setup_context_identity import (
+    PrivateSetupContextIdentity, bind_private_setup_context,
+)
 from tools.audit_mfx_p209_d1_private_cache import PrivateSnapshot
 
 MAX_SAMPLE = 32
@@ -126,6 +129,7 @@ class PrivateDelayedMiddlePair:
     boundary: PrivateBoundaryReceipt = field(repr=False)
     trigger_identity: PrivateTriggerIdentity = field(repr=False)
     delayed_decision: PrivateDelayedDecision = field(repr=False)
+    setup_context_identity: PrivateSetupContextIdentity | None = field(repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -198,7 +202,7 @@ class PrivateDelayedMiddleReplay:
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
         h1 = h4 = d1 = complete = geometry = joint = 0
         h1_paths = h4_paths = both_grids = 0
-        decision_grids = decision_rechecks = early_coverage = 0
+        decision_grids = decision_rechecks = early_coverage = setup_identity_coverage = 0
         for row in samples:
             if (row.archive_decision_utc-row.trigger_end_utc < M15+GRACE
                     or row.h1.cutoff_utc != row.trigger_end_utc-2*M15
@@ -236,6 +240,10 @@ class PrivateDelayedMiddleReplay:
             decision_grids += int(delayed.closed_grid_complete)
             decision_rechecks += int(bool(delayed.sides))
             early_coverage += int(early_observation_coverage(row.m15, row.h1))
+            expected_identity = bind_private_setup_context(row.h1, row.native, row.m15, row.trigger_identity)
+            if row.setup_context_identity != expected_identity:
+                raise ValueError("P237_SETUP_CONTEXT_BINDING_DRIFT")
+            setup_identity_coverage += int(expected_identity is not None)
             h1_ok = row.h1.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
             h4_ok = row.native.h4_status == "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
             d1_ok = row.native.d1_status == "PRETRIGGER_D1_VINTAGE_PRESENT_CALENDAR_UNQUALIFIED"
@@ -261,6 +269,7 @@ class PrivateDelayedMiddleReplay:
             "delayed_decision_m15_grids_complete": decision_grids,
             "delayed_decision_frozen_level_rechecks_computed": decision_rechecks,
             "pretrigger_m15_early_observation_coverage": early_coverage,
+            "bounded_setup_context_identity_coverage": setup_identity_coverage,
         }
 
     def public_summary(self) -> dict[str, object]:
@@ -302,6 +311,7 @@ class PrivateDelayedMiddleReplay:
         summary["delayed_decision_expiry_policy_selected"] = False
         summary["delayed_decision_executable_quote_verified"] = False
         summary["early_event_rule_approved"] = False
+        summary["full_setup_revision_identity_verified"] = False
         return summary
 
 
@@ -363,8 +373,9 @@ def replay_delayed_middle_pairs(
             pair_raw, latest_m15_open=latest_open, decision=known)
         delayed = _inspect_delayed_decision(
             visible_raw, h1, m15, trigger_end=trigger_end, decision=known)
+        setup_identity = bind_private_setup_context(h1, native, m15, identity)
         samples[i] = PrivateDelayedMiddlePair(
-            known,trigger_end,h1,native,m15,boundary,identity,delayed)
+            known,trigger_end,h1,native,m15,boundary,identity,delayed,setup_identity)
     receipt = PrivateDelayedMiddleReplay(
         len(commits),tuple(samples[i] for i in recent),census,
         tuple(samples[i] for i in eligible))
