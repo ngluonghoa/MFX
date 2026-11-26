@@ -64,7 +64,10 @@ from mfx_cache.p209_d1_revision_snapshot_cache import (
     PREFIX as REVISED_D1_PREFIX, PrivateP209D1Store,
 )
 
-from tools.mfx_private_observed_replay_drive import observed_replay_in_existing_probe
+from tools.mfx_private_observed_replay_drive import (
+    capture_replay_metadata, observed_replay_in_existing_probe,
+)
+from mfx_cache.td_m5_codec import canonical
 
 VERSION = "MFX_V1_MANUAL_PRIVATE_DRIVE_GET_ONLY_SIX_TF_V1"
 CONFIRMATION = "READ_ONLY_NO_SIGNAL"
@@ -141,19 +144,56 @@ class GetOnlyDriveSession:
 class ReadOnlyView:
     """Only list/read is reachable by the signal research consumer."""
 
-    __slots__ = ("__store",)
+    __slots__ = ("__store", "__capture", "__frozen", "__records", "__bytes",
+                 "__replay_reads")
 
-    def __init__(self, store: Any) -> None:
+    def __init__(self, store: Any, *, capture: bool = False) -> None:
         if (not callable(getattr(store, "list_names", None))
                 or not callable(getattr(store, "read", None))):
             raise ValueError("MFX_V1_READONLY_STORE_CONTRACT_REQUIRED")
         self.__store = store
+        if type(capture) is not bool:
+            raise ValueError("P224_CAPTURE_FLAG_REQUIRED")
+        self.__capture = capture
+        self.__frozen = False
+        self.__records: dict[tuple[str, str], bytes] = {}
+        self.__bytes = 0
+        self.__replay_reads = 0
+
+    def freeze_for_replay(self) -> None:
+        if not self.__capture or self.__frozen:
+            raise ValueError("P224_INVALID_CAPTURE_PHASE")
+        self.__frozen = True
+
+    @property
+    def replay_reads(self) -> int:
+        return self.__replay_reads
 
     def list_names(self, bucket: str) -> tuple[str, ...]:
         return self.__store.list_names(bucket)
 
     def read(self, bucket: str, name: str) -> dict[str, Any]:
-        return self.__store.read(bucket, name)
+        key = (bucket, name)
+        if self.__frozen:
+            if key not in self.__records:
+                raise ValueError("P224_UNAUDITED_REPLAY_OBJECT")
+            self.__replay_reads += 1
+            return json.loads(self.__records[key])
+        result = self.__store.read(bucket, name)
+        if self.__capture:
+            if type(result) is not dict:
+                raise ValueError("P224_TYPED_CAPTURE_REQUIRED")
+            body = canonical(result)
+            prior = self.__records.get(key)
+            if prior is not None and prior != body:
+                raise ValueError("P224_REPEATED_LIVE_READ_DRIFT")
+            if prior is None:
+                if (len(self.__records) >= MAX_DRIVE_GETS
+                        or self.__bytes + len(body) > 64 * 1024 * 1024):
+                    raise ValueError("P224_BOUNDED_CAPTURE_LIMIT")
+                self.__records[key] = body
+                self.__bytes += len(body)
+        return result
 
 
 def manual_dispatch_authorized(settings: dict[str, str]) -> bool:
@@ -174,24 +214,31 @@ def private_get_only_probe(
     synthetic fixture pin overrides are intentionally not an argument.
     """
     session = GetOnlyDriveSession(upstream_session)
-    m5: ReadOnlyObjectStore = ReadOnlyView(PrivateDriveBatchStore(session))
-    h4: ReadOnlyObjectStore = ReadOnlyView(
-        PrivateNativeDriveStore(session, symbol="EUR/USD", interval="4h"))
+    m5 = ReadOnlyView(PrivateDriveBatchStore(session), capture=True)
+    h4 = ReadOnlyView(
+        PrivateNativeDriveStore(session, symbol="EUR/USD", interval="4h"), capture=True)
     d1: ReadOnlyObjectStore = ReadOnlyView(
         PrivateNativeDriveStore(session, symbol="EUR/USD", interval="1day"))
     # P0.193: the owner selected a fresh 18-Nov Sydney-local D1 root
     # that is independently SHA pinned to a real source audit. The original
     # V1 and P171 archives remain read-only historical evidence, NEVER
     # input candles for the active research D1 after that cutoff.
-    active_d1: ReadOnlyObjectStore = ReadOnlyView(
-        PrivateD1Nov18Store(session))
-    revised: ReadOnlyObjectStore = ReadOnlyView(PrivateP209D1Store(session))
+    active_d1 = ReadOnlyView(PrivateD1Nov18Store(session), capture=True)
+    revised = ReadOnlyView(PrivateP209D1Store(session), capture=True)
+    metadata = capture_replay_metadata(session)
     evidence = consume_sealed_archives_for_six_tf(
         m5, h4, d1, asof_utc=asof_utc,
         owner_nov18_d1_epoch_store=active_d1,
         revised_d1_research_store=revised)
+    first_audit_gets = session.get_count
+    for view in (m5, h4, active_d1, revised):
+        view.freeze_for_replay()
     observed = observed_replay_in_existing_probe(
-        session, evidence, m5, h4, active_d1, revised, asof_utc=asof_utc)
+        session, evidence, m5, h4, active_d1, revised,
+        asof_utc=asof_utc, metadata_before_audit=metadata)
+    observed = replace(observed, replay_io_counts=(
+        first_audit_gets, session.get_count-first_audit_gets,
+        sum(view.replay_reads for view in (m5, h4, active_d1, revised))))
     return replace(evidence, private_observed_replay=observed), session.get_count
 
 
