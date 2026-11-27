@@ -3932,6 +3932,24 @@
       "change": "added",
       "expected_current_sha": "1e9488810b262c94159945a22d9e4de9c4babd42",
       "reason": "P250 independent SIM reflection of shared P249 P189 entry/P215 structural net R/P214 invalidation including quote side and causal paths; seven tests, no market or source approval."
+    },
+    {
+      "path": "mfx_research/p251_shared_structural_fold.py",
+      "change": "added",
+      "expected_current_sha": "32b01254533ff2bb878630b825f11167a7ffb13f",
+      "reason": "P251 research-only canonical structural fold; no original source or production promotion"
+    },
+    {
+      "path": "tests/test_mfx_p251_shared_structural_fold.py",
+      "change": "added",
+      "expected_current_sha": "18106f0573b8a4eb08f52941557df7aec53fb7b3",
+      "reason": "P251 research-only canonical structural fold; no original source or production promotion"
+    },
+    {
+      "path": "docs/MFX_P251_SHARED_STRUCTURAL_FOLD.md",
+      "change": "added",
+      "expected_current_sha": "307f064087a43c67f5f4ccb6fab7155f48d63730",
+      "reason": "P251 research-only canonical structural fold; no original source or production promotion"
     }
   ]
 }
