@@ -8,6 +8,8 @@ from mfx_cache.td_m5_codec import digest
 from mfx_cache.native_d1_epoch_20261118 import audit_fresh_epoch
 from mfx_research import p193_owner_nov18_active_d1_reader as p193
 from mfx_research.p219_m5_archive_time_prefixes import ObservedObjectTime
+from mfx_research.unified_modes import MfxMode
+from mfx_research.p177_real_source_b2s2_readiness import compute_private_option_b2s2_requirements
 from mfx_research.p220_private_observed_six_tf import (
     replay_private_observed_six_tf, _archive_freshness_census,
 )
@@ -214,3 +216,36 @@ class P220ObservedSixTFTests(TestCase):
         self.assertNotIn(r.private_core_contexts[0].decision_utc.isoformat(),public)
         self.assertNotIn("experimental_cross",public)
         self.assertEqual(r.public_summary()["action"],"NO_SIGNAL")
+
+    def test_p275_default_and_research_same(self):
+        self.assertEqual(self.replay().public_summary(),
+                         self.replay(mode=MfxMode.RESEARCH).public_summary())
+
+    def test_p275_validation_uses_same_private_replay(self):
+        research = self.replay(mode=MfxMode.RESEARCH)
+        validation = self.replay(mode=MfxMode.VALIDATION)
+        self.assertEqual(research, validation)
+        self.assertEqual(validation.public_summary()["action"], "NO_SIGNAL")
+
+    def test_p275_production_denied_before_archive_read(self):
+        with patch("mfx_research.p220_private_observed_six_tf.replay_m5_current_metadata_prefixes") as read:
+            with self.assertRaisesRegex(ValueError, "P271_PRODUCTION_PROFILE_NOT_QUALIFIED"):
+                self.replay(mode=MfxMode.PRODUCTION)
+            read.assert_not_called()
+
+    def test_p275_raw_mode_rejected_before_archive_read(self):
+        with patch("mfx_research.p220_private_observed_six_tf.replay_m5_current_metadata_prefixes") as read:
+            for mode in ("RESEARCH", "VALIDATION", True, None):
+                with self.subTest(mode=mode), self.assertRaisesRegex(TypeError, "P271_EXACT_MFX_MODE_REQUIRED"):
+                    self.replay(mode=mode)
+            read.assert_not_called()
+
+    def test_p275_direct_readiness_production_denied_first(self):
+        with self.assertRaisesRegex(ValueError, "P271_PRODUCTION_PROFILE_NOT_QUALIFIED"):
+            compute_private_option_b2s2_requirements(None, None, None, None,
+                active_d1_source_epoch="P209_PRIVATE_REVISED_D1_RESEARCH_ONLY", mode=MfxMode.PRODUCTION)
+
+    def test_p275_direct_readiness_raw_mode_denied_first(self):
+        with self.assertRaisesRegex(TypeError, "P271_EXACT_MFX_MODE_REQUIRED"):
+            compute_private_option_b2s2_requirements(None, None, None, None,
+                active_d1_source_epoch="P209_PRIVATE_REVISED_D1_RESEARCH_ONLY", mode="VALIDATION")

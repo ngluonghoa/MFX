@@ -6,6 +6,7 @@ No market-side conversion, synthetic relabeling of actual bars, or release.
 from __future__ import annotations
 
 from mfx_research.p254_d1_research_vintage import select_private_d1_research_vintage
+from mfx_research.unified_modes import MfxMode, require_candidate_mode
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
@@ -430,7 +431,9 @@ def replay_private_observed_six_tf(
     revised_d1_times: tuple[ObservedObjectTime, ...],
     decisions_utc: tuple[datetime, ...], audited_at_utc: datetime,
     fixture_pins: SyntheticFixturePins | None = None,
+    mode: MfxMode = MfxMode.RESEARCH,
 ) -> PrivateObservedReplay:
+    require_candidate_mode(mode)
     m5 = replay_m5_current_metadata_prefixes(
         m5_store, manifests=m5_manifests, chunks=m5_chunks,
         decisions_utc=decisions_utc, audited_at_utc=audited_at_utc,
@@ -453,7 +456,8 @@ def replay_private_observed_six_tf(
             micro = compute_private_sealed_m15_microbreak(multi, context, pivots)
             readiness = compute_private_option_b2s2_requirements(
                 multi, context, pivots, micro,
-                active_d1_source_epoch="P209_PRIVATE_REVISED_D1_RESEARCH_ONLY")
+                active_d1_source_epoch="P209_PRIVATE_REVISED_D1_RESEARCH_ONLY",
+                mode=mode)
             m15 = next((frame for frame in context.frames if frame.frame == "M15"), None)
             if m15 is not None:
                 pretrigger = calculate_pretrigger_h1(

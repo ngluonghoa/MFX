@@ -1,0 +1,3 @@
+# P275 — shared candidate-mode gate for private observed replay
+
+P220 and P177 enforce the same exact typed MfxMode policy as P271 before source reads or readiness calculations. RESEARCH is the backward-compatible default; VALIDATION invokes the same source-specific private computations without changing result authority. PRODUCTION and untyped modes fail closed. Validation here is technical observed-metadata replay, NOT publisher first-known evidence or real historical OOS. No source conversion, source admission, numerical approval, workflow/schedule, broker, provider or cache writes. Seven focused regression cases, including P221’s existing owner-gated GET-only replay explicitly selecting VALIDATION after SHA audit. No new dispatch or mode promotion.

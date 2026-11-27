@@ -19,6 +19,7 @@ from mfx_research.mfx_b2s2_independent_policy_draft import (
     read_independent_mfx_policy_draft,
 )
 from mfx_research.sealed_multibar_private_features import PrivateMultiBarReceipt
+from mfx_research.unified_modes import MfxMode, require_candidate_mode
 from mfx_research.sealed_private_pivot_sensitivity import (
     POLICY_WINDOWS, PrivatePivotSensitivityReceipt,
     scan_private_sealed_pivot_sensitivity,
@@ -101,8 +102,10 @@ def compute_private_option_b2s2_requirements(
     pivots: PrivatePivotSensitivityReceipt,
     microbreak: PrivateMicroBreakReceipt,
     *, active_d1_source_epoch: str,
+    mode: MfxMode = MfxMode.RESEARCH,
 ) -> PrivateB2S2Readiness:
     """Recalculate prior source receipts before ANY private readiness claim."""
+    require_candidate_mode(mode)
     if (type(multi) is not PrivateMultiBarReceipt
             or type(technical) is not SixTimeframeResearchReceipt
             or type(pivots) is not PrivatePivotSensitivityReceipt

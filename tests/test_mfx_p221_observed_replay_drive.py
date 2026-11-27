@@ -9,6 +9,7 @@ from unittest.mock import patch
 
 from mfx_research.p219_m5_archive_time_prefixes import ObservedObjectTime
 from mfx_research.p220_private_observed_six_tf import PrivateObservedReplay
+from mfx_research.unified_modes import MfxMode
 from tools import mfx_private_observed_replay_drive as adapter
 from tools import run_mfx_v1_manual_drive_six_tf as manual
 from test_mfx_v1_manual_signal_only_drive_output import mocked, settings
@@ -110,6 +111,30 @@ class P221Tests(TestCase):
         self.assertIs(args[4],consume.call_args.kwargs["owner_nov18_d1_epoch_store"])
         self.assertIs(args[5],consume.call_args.kwargs["revised_d1_research_store"])
         self.assertNotIn("private_observed_replay",repr(result))
+
+    def test_p275_existing_audit_calls_explicit_validation(self):
+        m5_tip, h4_tip = "a"*64, "b"*64
+        evidence = replace(
+            mocked(), active_d1_source_epoch="P192_D1_FRESH_20261118",
+            m5_total_archived_manifest_pairs=1, h4_manifest_pairs_full_sha=1,
+            m5_manifest_tip_sha256=m5_tip, h4_manifest_tip_sha256=h4_tip,
+        )
+        now = ASOF
+        prior = now - timedelta(minutes=5)
+        metadata = {key: () for key in adapter._SCOPES}
+        for key, tip in (("m5_manifests", m5_tip), ("h4_manifests", h4_tip)):
+            metadata[key] = (("fixture", ObservedObjectTime("m_"+tip+".json", prior, prior)),)
+        expected = PrivateObservedReplay((),1,0,1,False)
+        with patch.object(adapter, "replay_private_observed_six_tf", return_value=expected) as replay, patch.object(
+                adapter, "capture_replay_metadata", return_value=metadata):
+            actual = adapter.observed_replay_in_existing_probe(
+                Session([]), evidence, None, None, None, None,
+                asof_utc=now, metadata_before_audit=metadata,
+            )
+        self.assertIs(actual, expected)
+        self.assertIs(replay.call_args.kwargs["mode"], MfxMode.VALIDATION)
+        self.assertEqual(actual.public_summary()["action"], "NO_SIGNAL")
+        self.assertFalse(actual.public_summary()["historical_oos_qualified"])
 
     def test_cli_projects_only_safe_aggregate(self):
         output = StringIO()
