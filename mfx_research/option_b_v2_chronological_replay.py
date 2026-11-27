@@ -21,6 +21,7 @@ from mfx_research.mfx_b2s2_confirmed_policy_v2 import (
     compute_mfx_b2s2_v2_closed_candidate,
     read_mfx_confirmed_b2s2_v2,
 )
+from mfx_research.unified_modes import MfxMode
 
 VERSION = "MFX_OPTION_B_V2_CHRONOLOGICAL_REPLAY_SIM_ONLY_V1"
 MAX_SNAPSHOTS = 32
@@ -164,7 +165,7 @@ def replay_option_b_v2(
         result = compute_mfx_b2s2_v2_closed_candidate(
             rule_id=snap.rule_id, bars=snap.bars,
             confirmed_m15_history=snap.confirmed_m15_history,
-            policy=policy, decision_utc=decision,
+            policy=policy, decision_utc=decision, mode=MfxMode.VALIDATION,
         )
         if (result.public_action != "NO_SIGNAL"
                 or result.stage != "UNVERIFIED"

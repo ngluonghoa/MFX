@@ -27,6 +27,7 @@ from mfx_research.mfx_b2s2_confirmed_policy_v2 import (
     compute_mfx_b2s2_v2_closed_candidate,
 )
 from mfx_research.offline_ema_signals import CandidateAction
+from mfx_research.unified_modes import MfxMode
 
 VERSION = "MFX_P189_B2S2_EXECUTABLE_CLOSED_OHLC_MIRROR_SIM_ONLY_V1"
 SIDES = {"B2": "S2", "S2": "B2"}
@@ -206,9 +207,11 @@ def verify_executable_b2s2_sim_mirror(
     )
     original = compute_mfx_b2s2_v2_closed_candidate(
         rule_id, bars, confirmed_m15_history, policy, decision_utc,
+        mode=MfxMode.VALIDATION,
     )
     opposite = compute_mfx_b2s2_v2_closed_candidate(
         SIDES[rule_id], synthetic, mirrored_history, policy, decision_utc,
+        mode=MfxMode.VALIDATION,
     )
     _assert_research_only(original)
     _assert_research_only(opposite)

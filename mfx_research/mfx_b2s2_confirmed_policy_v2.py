@@ -30,6 +30,7 @@ from mfx_research.p031_sim_22_zone_router import (
     ResearchZoneReport, SimZoneLabelClaim, route_sim_22_zone_labels,
 )
 from mfx_research.pullback_pilot import UnapprovedResearchParameters
+from mfx_research.unified_modes import MfxMode, require_candidate_mode
 
 VERSION = "MFX:B2S2-NEW-STRATEGY-DRAFT-002"
 SCHEMA = "MFX_OPTION_B_CONFIRMED_SWING_DRAFT_V1"
@@ -210,11 +211,13 @@ def compute_mfx_b2s2_v2_closed_candidate(
     confirmed_m15_history: tuple[MarketBar, ...],
     policy: MfxConfirmedB2S2V2Policy,
     decision_utc: datetime,
+    *, mode: MfxMode = MfxMode.RESEARCH,
 ) -> MfxB2S2V2ClosedResearch:
     """Use exact historical closed SIM bars; all research events private.
 
     No result can claim real source first-known, account rights or release.
     """
+    require_candidate_mode(mode)
     if type(rule_id) is not str or rule_id not in ("B2", "S2"):
         raise ValueError("P161_ONLY_OPTION_B_B2_S2")
     if type(bars) is not SyntheticMultiTfBars:

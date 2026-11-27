@@ -2748,8 +2748,8 @@
     {
       "path": "mfx_research/mfx_b2s2_confirmed_policy_v2.py",
       "change": "added",
-      "expected_current_sha": "eb19213a8f66087081be7e397389a31f3d4acfbe",
-      "reason": "P0.161 actual B2/S2 confirmed HTF and M15 causal synthetic numerical strategy candidate composed from existing P020/P018/P031; public NO_SIGNAL."
+      "expected_current_sha": "78d83930b246eeede978f37ce9833dc96af6368e",
+      "reason": "P0.161 actual B2/S2 confirmed HTF and M15 causal synthetic numerical strategy candidate composed from existing P020/P018/P031; public NO_SIGNAL. P271 explicit unified mode candidate route."
     },
     {
       "path": "tests/test_mfx_v1_p161_option_b_confirmed_b2s2_v2.py",
@@ -2802,8 +2802,8 @@
     {
       "path": "mfx_research/option_b_v2_chronological_replay.py",
       "change": "added",
-      "expected_current_sha": "1e4a9e3f1897e9ae4dc889795e7d5e72ab86126d",
-      "reason": "P0.165 bounded causal chronological Option B v2 SIM replay, source identity dedup and SHA chain with zero real source rights."
+      "expected_current_sha": "1f83d01ad131e205612820964e437daa174b0639",
+      "reason": "P0.165 bounded causal chronological Option B v2 SIM replay, source identity dedup and SHA chain with zero real source rights. P271 explicit unified mode candidate route."
     },
     {
       "path": "tests/test_mfx_p165_option_b_v2_chronological_replay.py",
@@ -3138,8 +3138,8 @@
     {
       "path": "mfx_research/p189_b2s2_executable_ohlc_mirror.py",
       "change": "added",
-      "expected_current_sha": "f650a03bccc960dbba9600a360b31be71f00459e",
-      "reason": "P0.189: genuine P161 SYNTHETIC-only closed OHLC B2/S2 inverse-mirror numeric QA; 22 adversarial price/pivot/ATR/zone/causal tests; no real vendor/Drive, no original numeric approval (0/36), no source/cron/secrets/broker changes."
+      "expected_current_sha": "77c986a4114d23f5601a8dd4283c81cc52f8541a",
+      "reason": "P0.189: genuine P161 SYNTHETIC-only closed OHLC B2/S2 inverse-mirror numeric QA; 22 adversarial price/pivot/ATR/zone/causal tests; no real vendor/Drive, no original numeric approval (0/36), no source/cron/secrets/broker changes. P271 explicit unified mode candidate route."
     },
     {
       "path": "tests/test_mfx_p189_b2s2_closed_ohlc_mirror.py",
@@ -4256,6 +4256,24 @@
       "change": "added",
       "expected_current_sha": "e1a0f9db451205c2096b10bf3d31daa3709c52a3",
       "reason": "P270 unified signal geometry; all source and authority gates preserved."
+    },
+    {
+      "path": "mfx_research/unified_modes.py",
+      "change": "added",
+      "expected_current_sha": "d01bb5fb994e56db2c4f5721927eeef285e00aa6",
+      "reason": "P271 typed mode policy, same candidate code; production denied."
+    },
+    {
+      "path": "tests/test_mfx_p271_unified_modes.py",
+      "change": "added",
+      "expected_current_sha": "4e3bb0b68f51ff4962486307bfda9f1fb50118e5",
+      "reason": "P271 typed mode policy, same candidate code; production denied."
+    },
+    {
+      "path": "docs/MFX_P271_UNIFIED_MODE_CANDIDATE_ROUTE.md",
+      "change": "added",
+      "expected_current_sha": "d6e1808f116183da0ef946960d99e8a856dd8b63",
+      "reason": "P271 typed mode policy, same candidate code; production denied."
     }
   ]
 }
