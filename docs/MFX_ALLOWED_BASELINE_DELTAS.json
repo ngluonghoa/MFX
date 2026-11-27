@@ -3872,6 +3872,12 @@
       "change": "added",
       "expected_current_sha": "44ce880bd903831ebdeae4dcb18558705db2896a",
       "reason": "P246 earliest actual cross-frame complete recheck after H4 recovery, causal clock selection, six tests, zero extra IO or authority."
+    },
+    {
+      "path": "docs/MFX_P247_SIGNAL_FIRST_OWNER_DECISION_PACK.md",
+      "change": "added",
+      "expected_current_sha": "72b5f2fa8046e69832e3cdb4f47ad8c3091b4285",
+      "reason": "P247 compact signal-first owner review navigation and explicit external evidence stop conditions; no source approval, code or data change."
     }
   ]
 }
