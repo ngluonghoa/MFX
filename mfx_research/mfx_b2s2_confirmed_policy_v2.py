@@ -292,8 +292,10 @@ def compute_mfx_b2s2_v2_closed_candidate(
             stream_id=last.observation.stream_id,
             label=rule_id,
             closed_candle_end_utc=last.key.bar_end_utc,
-            first_known_utc=last.first_known_utc,
-            retrieved_at_utc=last.observation.retrieved_at_utc,
+            # This is a derived SIM claim, not a raw vendor observation.
+            # Both clocks bind the complete input-availability boundary.
+            first_known_utc=swing.signal.first_known_utc,
+            retrieved_at_utc=swing.signal.first_known_utc,
         ),)
     routed = route_sim_22_zone_labels(claims, decision_utc)
     if (len(routed.classified) != len(claims)

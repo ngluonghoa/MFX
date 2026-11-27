@@ -91,6 +91,35 @@ class OptionBConfirmedV2Tests(TestCase):
                          Decimal("1.1995"))
         self.assertEqual(result.routed.classified[0].label, "S2")
 
+    def test_routed_candidate_clock_includes_both_probe_retrievals(self):
+        for rule in ("B2", "S2"):
+            d = inputs(rule)
+            first, last = d["bars"].trigger_m15
+            late = last.first_known_utc + timedelta(seconds=5)
+            first = replace(first, observation=replace(first.observation, retrieved_at_utc=late))
+            d["bars"] = replace(d["bars"], trigger_m15=(first, last))
+            d["decision_utc"] = late
+            with self.subTest(rule=rule):
+                r = compute_mfx_b2s2_v2_closed_candidate(**d)
+                self.assertEqual(r.source.signal.first_known_utc, late)
+                self.assertEqual(r.routed.classified[0].first_known_utc, late)
+                self.assertEqual(r.routed.events[0].first_known_utc, late)
+                self.assertEqual(r.public_action, "NO_SIGNAL")
+
+    def test_routed_candidate_revision_known_after_raw_retrieval(self):
+        for rule in ("B2", "S2"):
+            d = inputs(rule)
+            first, last = d["bars"].trigger_m15
+            late = last.first_known_utc + timedelta(seconds=5)
+            last = replace(last, first_known_utc=late)
+            d["bars"] = replace(d["bars"], trigger_m15=(first, last))
+            d["decision_utc"] = late
+            with self.subTest(rule=rule):
+                r = compute_mfx_b2s2_v2_closed_candidate(**d)
+                self.assertEqual(r.source.signal.first_known_utc, late)
+                self.assertEqual(r.routed.events[0].first_known_utc, late)
+                self.assertEqual(r.public_action, "NO_SIGNAL")
+
     def test_03_genuine_D1_H4_highs_lows_and_no_future(self):
         for rule in ("B2", "S2"):
             r = run(rule)

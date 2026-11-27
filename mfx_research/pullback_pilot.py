@@ -190,13 +190,18 @@ def evaluate_unapproved_b2_s2(
     if first.key.bar_end_utc != last.key.bar_start_utc:
         raise ValueError("P018_NONCONTIGUOUS_M15_BARS")
 
+    # The computed SIM receipt cannot be observable before either consumed
+    # revision is known AND retrieved. This is not publisher first-known.
+    candidate_known = max(max(b.first_known_utc, b.observation.retrieved_at_utc)
+                          for b in bars)
+
     def result(action: CandidateAction, reason: str) -> ResearchPullbackResult:
         return ResearchPullbackResult(
             action=action, rule_id=context.rule_id,
             instrument_version=context.instrument_version,
             origin_event_id=context.origin_event_id,
             parameter_version=parameters.version, reason=reason,
-            first_known_utc=last.first_known_utc,
+            first_known_utc=candidate_known,
             decision_utc=decision_utc,
         )
 

@@ -936,8 +936,8 @@
     {
       "path": "mfx_research/pullback_pilot.py",
       "change": "added",
-      "expected_current_sha": "22c7bd4cbac53b202ea34841357e177789c87ee5",
-      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade; first CI RED 42615772051 returned mixed-source before explicit OANDA/unlicensed-source reason, reordered fail-closed rejection before identity; no src/runtime change P270 shared B2/S2 price predicate kernel. P276 shared candidate decision kernel, separate source eligibility and NO_SIGNAL retained."
+      "expected_current_sha": "ca010a0d499ccc8f62b122f9d36fabc1166c54d4",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade; first CI RED 42615772051 returned mixed-source before explicit OANDA/unlicensed-source reason, reordered fail-closed rejection before identity; no src/runtime change P270 shared B2/S2 price predicate kernel. P276 shared candidate decision kernel, separate source eligibility and NO_SIGNAL retained. P283 aggregate computed SIM candidate availability across both probes."
     },
     {
       "path": "mfx_research/source_parameter_review.py",
@@ -1134,8 +1134,8 @@
     {
       "path": "tests/test_a04_p18_pullback_pilot.py",
       "change": "added",
-      "expected_current_sha": "e06e5f4fe5ebea99172a11ab9f14700da24194f5",
-      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade"
+      "expected_current_sha": "4011eb7385bb0a5b1bf3f53494548ea4ba4c8e7a",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade P283 aggregate computed SIM candidate availability across both probes."
     },
     {
       "path": "tests/test_a04_p19_causal_multitf_context.py",
@@ -2748,14 +2748,14 @@
     {
       "path": "mfx_research/mfx_b2s2_confirmed_policy_v2.py",
       "change": "added",
-      "expected_current_sha": "78d83930b246eeede978f37ce9833dc96af6368e",
-      "reason": "P0.161 actual B2/S2 confirmed HTF and M15 causal synthetic numerical strategy candidate composed from existing P020/P018/P031; public NO_SIGNAL. P271 explicit unified mode candidate route."
+      "expected_current_sha": "c7d883bad69b37d20eedf638e79151d94b1a0aed",
+      "reason": "P0.161 actual B2/S2 confirmed HTF and M15 causal synthetic numerical strategy candidate composed from existing P020/P018/P031; public NO_SIGNAL. P271 explicit unified mode candidate route. P283 aggregate computed SIM candidate availability across both probes."
     },
     {
       "path": "tests/test_mfx_v1_p161_option_b_confirmed_b2s2_v2.py",
       "change": "added",
-      "expected_current_sha": "b090a99a7c297cd97f59ea3c657caa4d365b709a",
-      "reason": "P0.161 28 synthetic hermetic positive and negative tests for causal D1/H4/M15 strategy, source rights and no release."
+      "expected_current_sha": "e77a6e6ed439ea812b8786483a101c4ad0398b78",
+      "reason": "P0.161 28 synthetic hermetic positive and negative tests for causal D1/H4/M15 strategy, source rights and no release. P283 aggregate computed SIM candidate availability across both probes."
     },
     {
       "path": "docs/MFX_V1_P161_OPTION_B_RIGHT_CONFIRMED_B2S2_CANDIDATE.md",
@@ -4412,6 +4412,12 @@
       "change": "added",
       "expected_current_sha": "850603d9995e9770f7da45e085da48cc1c75551f",
       "reason": "P282 shared synthetic fixed UTC grid correctness; no signal authority."
+    },
+    {
+      "path": "docs/MFX_P283_SIM_CANDIDATE_AVAILABILITY.md",
+      "change": "added",
+      "expected_current_sha": "055618497b780a0592f2a7bf148abca5a0b0f106",
+      "reason": "P283 synthetic candidate timing correctness; no market authority."
     }
   ]
 }
