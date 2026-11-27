@@ -24,7 +24,7 @@ from mfx_research.p229_pretrigger_m15 import (
     PrivatePretriggerM15, _calculate_archive_geometry, early_observation_coverage,
 )
 from mfx_research.p230_private_boundary_path import (
-    PrivateBoundaryReceipt, inspect_private_setup_boundaries,
+    PrivateBoundaryReceipt, PrivateBoundaryPath, inspect_private_setup_boundaries,
 )
 from mfx_research.p231_private_trigger_identity import (
     PrivateTriggerIdentity, _identify_closed_trigger_pair, summarize_private_trigger_slots,
@@ -313,6 +313,47 @@ def summarize_joint_clock_blockers(
             "action": "NO_SIGNAL"}
 
 
+def _boundary_clock_gap(row: PrivateDelayedMiddlePair, frame: str) -> tuple[str, int]:
+    """P244: count closed slots only, never export price, breach or direction."""
+    if frame == "H1":
+        minutes = 60
+        anchor_present = row.h1.status == "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED"
+        prior = _expected_last_closed(row.h1.cutoff_utc, minutes)
+        paths = tuple(s.h1 for s in row.boundary.sides)
+    elif frame == "H4":
+        minutes = 240
+        anchor_present = row.native.h4_status == "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"
+        prior = row.native.h4_prior_end
+        paths = tuple(s.h4 for s in row.boundary.sides)
+    else:
+        raise ValueError("P244_UNKNOWN_BOUNDARY_FRAME")
+    if not anchor_present:
+        if any(p is not None for p in paths):
+            raise ValueError("P244_BOUNDARY_ANCHOR_AVAILABILITY_DRIFT")
+        return "anchor_unavailable", 0
+    if prior is None or any(type(p) is not PrivateBoundaryPath for p in paths):
+        raise ValueError("P244_BOUNDARY_PATH_MISSING")
+    width = timedelta(minutes=minutes)
+    span = _expected_last_closed(row.archive_decision_utc, minutes)-prior
+    if span < timedelta(0) or span % width:
+        raise ValueError("P244_BOUNDARY_EXPECTED_GRID_DRIFT")
+    expected = span//width
+    for p in paths:
+        if (type(p.observed_closed_bars) is not int
+                or not 0 <= p.observed_closed_bars <= expected
+                or type(p.closed_grid_complete) is not bool
+                or p.closed_grid_complete != (p.observed_closed_bars == expected)):
+            raise ValueError("P244_BOUNDARY_SLOT_ACCOUNTING_DRIFT")
+    if paths[0].observed_closed_bars != paths[1].observed_closed_bars:
+        raise ValueError("P244_BOUNDARY_MIRROR_GRID_DRIFT")
+    missing = expected-paths[0].observed_closed_bars
+    if not expected:
+        return "no_new_closed_slot_due", 0
+    if not missing:
+        return "complete_nonempty", 0
+    return ("all_due_slots_missing" if missing == expected else "partial_grid"), missing
+
+
 @dataclass(frozen=True, slots=True, repr=False)
 class PrivateDelayedMiddleReplay:
     verified_hours: int
@@ -340,6 +381,12 @@ class PrivateDelayedMiddleReplay:
                                   "PRETRIGGER_H4_PIVOTS_INSUFFICIENT",
                                   "PRETRIGGER_H4_DRAFT_STRUCTURE_COMPUTED"), 0)
         decision_d1_gaps = 0
+        boundary_states = ("anchor_unavailable", "no_new_closed_slot_due", "complete_nonempty",
+                           "all_due_slots_missing", "partial_grid")
+        h1_gap_counts = dict.fromkeys(boundary_states, 0)
+        h4_gap_counts = dict.fromkeys(boundary_states, 0)
+        h1_missing_slots = h4_missing_slots = 0
+        bound_recheck_h1_only = bound_recheck_h4_only = bound_recheck_both_missing = 0
         for row in samples:
             if (row.archive_decision_utc-row.trigger_end_utc < M15+GRACE
                     or row.h1.cutoff_utc != row.trigger_end_utc-2*M15
@@ -386,6 +433,18 @@ class PrivateDelayedMiddleReplay:
             boundary_complete = all(s.h1 is not None and s.h4 is not None
                                     and s.h1.closed_grid_complete and s.h4.closed_grid_complete
                                     for s in boundary.sides)
+            h1_state, h1_missing = _boundary_clock_gap(row, "H1")
+            h4_state, h4_missing = _boundary_clock_gap(row, "H4")
+            h1_gap_counts[h1_state] += 1
+            h4_gap_counts[h4_state] += 1
+            h1_missing_slots += h1_missing
+            h4_missing_slots += h4_missing
+            if bound and recheck:
+                if "anchor_unavailable" in (h1_state, h4_state):
+                    raise ValueError("P244_BOUND_CONTEXT_ANCHOR_DRIFT")
+                bound_recheck_h1_only += int(h1_missing > 0 and h4_missing == 0)
+                bound_recheck_h4_only += int(h4_missing > 0 and h1_missing == 0)
+                bound_recheck_both_missing += int(h1_missing > 0 and h4_missing > 0)
             bound_and_decision += int(bound and recheck)
             bound_and_boundary += int(bound and boundary_complete)
             combined_coverage += int(bound and recheck and boundary_complete)
@@ -405,8 +464,18 @@ class PrivateDelayedMiddleReplay:
             complete += int(complete_ok)
             geometry += int(geometry_ok)
             joint += int(h1_ok and h4_ok and d1_ok and complete_ok and geometry_ok)
+        if (bound_recheck_h1_only + bound_recheck_h4_only + bound_recheck_both_missing
+                + combined_coverage != bound_and_decision):
+            raise ValueError("P244_BOUND_RECHECK_PARTITION_DRIFT")
         return {
             "middle_pairs_replayed": len(samples),
+            **{f"boundary_h1_{k}": v for k,v in h1_gap_counts.items()},
+            **{f"boundary_h4_{k}": v for k,v in h4_gap_counts.items()},
+            "boundary_h1_missing_slot_observations": h1_missing_slots,
+            "boundary_h4_missing_slot_observations": h4_missing_slots,
+            "bound_recheck_h1_only_gap": bound_recheck_h1_only,
+            "bound_recheck_h4_only_gap": bound_recheck_h4_only,
+            "bound_recheck_both_boundary_gaps": bound_recheck_both_missing,
             "pretrigger_h1_draft_contexts_computed": h1,
             "pretrigger_h4_draft_structures_computed": h4,
             "pretrigger_d1_fresh_vintages_with_five_rows": d1,
