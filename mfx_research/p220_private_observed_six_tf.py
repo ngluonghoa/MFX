@@ -5,6 +5,8 @@ No market-side conversion, synthetic relabeling of actual bars, or release.
 """
 from __future__ import annotations
 
+from mfx_research.p254_d1_research_vintage import select_private_d1_research_vintage
+
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
 from typing import Any
@@ -124,10 +126,8 @@ def _archive_freshness_census(
             h4_end = _native_utc_start(visible_h4[-1].native_open_label) + timedelta(hours=4)
             if GRACE <= known-h4_end <= MAX_H4_AGE:
                 fresh.add("H4")
-        visible_d1 = [snap for created, snap in d1
-                      if created <= known and snap.observed <= known]
-        if visible_d1:
-            selected = max(visible_d1, key=lambda snap: snap.observed)
+        selected = select_private_d1_research_vintage(d1, cutoff=known)
+        if selected is not None:
             today = known.astimezone(ZoneInfo("Australia/Sydney")).date()
             age = (today - date.fromisoformat(selected.rows[-1].native_open_label)).days
             if 1 <= age <= MAX_D1_SESSION_DATE_AGE:
@@ -440,8 +440,7 @@ def replay_private_observed_six_tf(
                              revised_d1_times, audited_at_utc)
     def context_at(decision: datetime, raw: tuple[ClosedM5Bar, ...], hours: int) -> PrivateObservedContext:
         h4_rows = tuple(bar for known, bars in h4 if known <= decision for bar in bars)
-        visible = [s for created, s in d1 if created <= decision and s.observed <= decision]
-        selected = max(visible, key=lambda s: s.observed) if visible else None
+        selected = select_private_d1_research_vintage(d1, cutoff=decision)
         daily = selected.rows if selected else ()
         context = readiness = pretrigger = native = trigger = boundary = identity = setup_identity = None
         if raw:
