@@ -8,7 +8,9 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from decimal import Decimal
 
+from mfx_cache.td_m5_codec import digest
 from mfx_cache.v2_engine import DerivedCandle, derive_intraday
+from mfx_research.p231_private_trigger_identity import PrivateTriggerIdentity
 from mfx_research.p256_ema_watch import EMAWatch, _watch_from_validated_rows
 from mfx_research.six_tf_readonly_context import _expected_last_closed
 
@@ -23,6 +25,7 @@ TOLERANCE = Decimal("0.5")  # Explicit uncalibrated private research scenario.
 class PrivateSeedComparison:
     long_observations: tuple[EMAWatch, ...] = field(repr=False)
     agreement: tuple[tuple[bool, bool], ...] = field(repr=False)
+    context_sha256: str = field(repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -33,6 +36,8 @@ class PrivateEMAWatch:
     seed_clock_state: str = "UNCLASSIFIED"
     comparison: PrivateSeedComparison | None = field(default=None, repr=False)
     long_seed_clock_state: str = "UNCLASSIFIED"
+    probe_source_sha256: str | None = field(default=None, repr=False)
+    short_context_sha256: str | None = field(default=None, repr=False)
 
 
 def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
@@ -44,6 +49,9 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
             or datetime.fromisoformat(probe.end_utc) != cutoff + M15
             or cutoff + M15 > decision):
         raise ValueError("P263_ARCHIVE_PROBE_JOIN_DRIFT")
+    # P232 uses the first middle-quarter probe of its final complete hour.
+    if derive_intraday(raw[-9:-6], "M15", asof_utc=decision).candles != (probe,):
+        raise ValueError("P266_EXACT_PROBE_SOURCE_DRIFT")
     expected = _expected_last_closed(cutoff, 60)
     visible = {end: i for i, (known, end) in enumerate(commits)
                if known <= cutoff and end <= expected}
@@ -53,7 +61,8 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
     long_state = _seed_clock_state(commits, long_targets, cutoff)
     if state != "COMPLETE":
         return PrivateEMAWatch(cutoff, "HISTORY_UNAVAILABLE", seed_clock_state=state,
-                               long_seed_clock_state=long_state)
+                               long_seed_clock_state=long_state,
+                               probe_source_sha256=probe.source_sha256)
     indices = tuple(visible[t] for t in targets)
     if indices != tuple(range(indices[0], indices[0] + SEED)):
         raise ValueError("P263_ARCHIVE_INDEX_DRIFT")
@@ -61,6 +70,7 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
                            asof_utc=cutoff).candles
     if tuple(datetime.fromisoformat(x.end_utc) for x in rows) != targets:
         raise ValueError("P263_SEED_GRID_DRIFT")
+    short_context = _seed_context(rows, commits, indices, probe, cutoff)
     try:
         pair = tuple(_watch_from_validated_rows(rule, rows, probe, TOLERANCE)
                      for rule in ("B2", "S2"))
@@ -68,7 +78,9 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
         if str(e) != "P256_ZERO_TR":
             raise
         return PrivateEMAWatch(cutoff, "ZERO_TR", seed_clock_state="COMPLETE",
-                               long_seed_clock_state=long_state)
+                               long_seed_clock_state=long_state,
+                               probe_source_sha256=probe.source_sha256,
+                               short_context_sha256=short_context)
     comparison = None
     if long_state == "COMPLETE":
         long_indices = tuple(visible[t] for t in long_targets)
@@ -81,8 +93,10 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
             raise ValueError("P265_LONG_SEED_SUFFIX_DRIFT")
         long_pair = tuple(_watch_from_validated_rows(rule, long_rows, probe, TOLERANCE)
                           for rule in ("B2", "S2"))
-        comparison = PrivateSeedComparison(long_pair, _agreement(pair, long_pair))
-    return PrivateEMAWatch(cutoff, "OBSERVED", pair, "COMPLETE", comparison, long_state)
+        long_context = _seed_context(long_rows, commits, long_indices, probe, cutoff)
+        comparison = PrivateSeedComparison(long_pair, _agreement(pair, long_pair), long_context)
+    return PrivateEMAWatch(cutoff, "OBSERVED", pair, "COMPLETE", comparison, long_state,
+                           probe.source_sha256, short_context)
 
 
 def ema_observation_available(value, cutoff):
@@ -170,3 +184,37 @@ def ema_seed_comparison_available(value, cutoff):
             or comparison.agreement != _agreement(value.observations, comparison.long_observations)):
         raise ValueError("P265_COMPARISON_PAIR_DRIFT")
     return True
+
+
+def _seed_context(rows, commits, indices, probe, cutoff):
+    """Bind the consumed inputs, not later decision prices or outcomes."""
+    return digest({"schema": "MFX_P266_PRIVATE_EMA_CONTEXT_V1",
+                   "cutoff": cutoff.isoformat(), "seed": len(rows),
+                   "tolerance": str(TOLERANCE), "probe": probe.source_sha256,
+                   "hours": [[row.source_sha256, row.end_utc, commits[i][0].isoformat()]
+                             for row, i in zip(rows, indices)]})
+
+
+def _is_sha(value):
+    return (type(value) is str and len(value) == 64
+            and all(c in "0123456789abcdef" for c in value))
+
+
+def bind_private_ema_to_trigger(value, trigger, cutoff):
+    """Validate same first-probe source join; never an event or approval."""
+    if value is None:
+        return False
+    available = ema_observation_available(value, cutoff)
+    if (type(trigger) is not PrivateTriggerIdentity
+            or not _is_sha(value.probe_source_sha256)
+            or value.probe_source_sha256 != trigger.first_probe_source_sha256):
+        raise ValueError("P266_EMA_TRIGGER_SOURCE_DRIFT")
+    complete = ema_clock_state(value, cutoff) == "COMPLETE"
+    if (complete != _is_sha(value.short_context_sha256)
+            or (not complete and value.short_context_sha256 is not None)):
+        raise ValueError("P266_SHORT_SEED_CONTEXT_DRIFT")
+    if ema_seed_comparison_available(value, cutoff):
+        if (not _is_sha(value.comparison.context_sha256)
+                or value.comparison.context_sha256 == value.short_context_sha256):
+            raise ValueError("P266_LONG_SEED_CONTEXT_DRIFT")
+    return available

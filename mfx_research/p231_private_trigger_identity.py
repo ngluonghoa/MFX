@@ -35,6 +35,7 @@ class PrivateTriggerIdentity:
     full_setup_revision_identity_verified: bool = False
     may_publish_buy_sell: bool = False
     may_trade: bool = False
+    first_probe_source_sha256: str | None = field(default=None, repr=False)
 
 
 def identify_private_trigger_pair(
@@ -75,7 +76,7 @@ def _identify_closed_trigger_pair(
         payload = digest({"slot": slot, "trigger_source_sha256": [b.source_sha256 for b in pair],
                           "policy_fingerprint": policy.fingerprint_sha256})
         slots.append(PrivateTriggerSlot(slot,payload))
-    return PrivateTriggerIdentity(tuple(slots))
+    return PrivateTriggerIdentity(tuple(slots), first_probe_source_sha256=pair[0].source_sha256)
 
 
 def summarize_private_trigger_slots(
@@ -87,6 +88,7 @@ def summarize_private_trigger_slots(
     seen: dict[str,str] = {}
     repeated = 0
     seen_pairs: set[tuple[str, str]] = set()
+    seen_probes: dict[tuple[str, str], str | None] = {}
     for receipt in receipts:
         if (type(receipt) is not PrivateTriggerIdentity or receipt.action != "NO_SIGNAL"
                 or receipt.expiry_policy_selected or receipt.persistent_idempotence_verified
@@ -101,6 +103,13 @@ def summarize_private_trigger_slots(
         if pair not in seen_pairs and any(key in seen for key in pair):
             raise ValueError("P231_PARTIAL_OR_REORDERED_PAIR_CONFLICT")
         seen_pairs.add(pair)
+        probe = receipt.first_probe_source_sha256
+        if probe is not None and (type(probe) is not str or len(probe) != 64
+                                  or any(c not in "0123456789abcdef" for c in probe)):
+            raise ValueError("P266_TRIGGER_PROBE_DIGEST_DRIFT")
+        if pair in seen_probes and seen_probes[pair] != probe:
+            raise ValueError("P266_TRIGGER_PROBE_SOURCE_CONFLICT")
+        seen_probes[pair] = probe
         for slot in receipt.private_slots:
             if type(slot) is not PrivateTriggerSlot or any(
                     type(x) is not str or len(x) != 64
