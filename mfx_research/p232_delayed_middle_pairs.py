@@ -15,8 +15,8 @@ from mfx_cache.native_fx_htf import NativeFXBar
 from mfx_cache.td_m5_codec import ClosedM5Bar
 from mfx_cache.v2_engine import derive_intraday
 from mfx_research.p263_private_ema_watch import (
-    PrivateEMAWatch, SEED_CLOCK_STATES, _observe_archive_ema, ema_clock_state,
-    bind_private_ema_to_trigger, ema_seed_comparison_available,
+    LATE_SEED_WINDOWS, PrivateEMAWatch, SEED_CLOCK_STATES, _observe_archive_ema, ema_clock_state,
+    bind_private_ema_to_trigger, ema_seed_comparison_available, late_seed_window,
 )
 from mfx_research.p227_pretrigger_h1 import (
     PrivatePretriggerH1, _calculate_archive_h1_at_cutoff,
@@ -475,6 +475,7 @@ class PrivateDelayedMiddleReplay:
         ema_paired_seeds = ema_paired_bound = ema_paired_recheck = 0
         ema_states = dict.fromkeys(SEED_CLOCK_STATES, 0)
         long_states = dict.fromkeys(SEED_CLOCK_STATES[:-1], 0)
+        late_windows = dict.fromkeys(LATE_SEED_WINDOWS, 0)
         h1_paths = h4_paths = both_grids = 0
         decision_grids = decision_rechecks = early_coverage = setup_identity_coverage = 0
         bound_and_decision = bound_and_boundary = combined_coverage = 0
@@ -540,6 +541,10 @@ class PrivateDelayedMiddleReplay:
             if ema_available:
                 long_states[row.ema_watch.long_seed_clock_state] += 1
             ema_states[ema_clock_state(row.ema_watch, row.h1.cutoff_utc)] += 1
+            late_window = late_seed_window(row.ema_watch, row.h1.cutoff_utc,
+                                           row.archive_decision_utc)
+            if late_window is not None:
+                late_windows[late_window] += 1
             ema_zero_tr += int(row.ema_watch is not None and row.ema_watch.status == "ZERO_TR")
             expected_identity = bind_private_setup_context(row.h1, row.native, row.m15, row.trigger_identity)
             if row.setup_context_identity != expected_identity:
@@ -596,10 +601,13 @@ class PrivateDelayedMiddleReplay:
         if (sum(long_states.values()) != ema_coverage
                 or long_states["COMPLETE"] != ema_paired_seeds):
             raise ValueError("P267_LONG_SEED_CONDITIONAL_PARTITION_DRIFT")
+        if sum(late_windows.values()) != ema_states["LATE_HOUR"]:
+            raise ValueError("P268_LATE_SEED_WINDOW_PARTITION_DRIFT")
         return {
             "middle_pairs_replayed": len(samples),
             **{f"ema_seed_clock_{k.lower()}": v for k, v in ema_states.items()},
             "ema_seed_zero_tr": ema_zero_tr,
+            **{f"ema_late_seed_{k.lower()}": v for k, v in late_windows.items()},
             "ema_paired_50_100_seed_coverage": ema_paired_seeds,
             **{f"ema_long_seed_given_short_{k.lower()}": v for k, v in long_states.items()},
             "ema_paired_50_100_seed_bound_context": ema_paired_bound,
