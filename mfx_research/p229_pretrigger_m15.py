@@ -19,6 +19,7 @@ from mfx_research.p227_pretrigger_h1 import PrivatePretriggerH1, calculate_pretr
 from mfx_research.sealed_multibar_private_features import _Bar, _latest_contiguous
 from mfx_research.sealed_private_pivot_sensitivity import _scan_one
 from mfx_research.six_tf_readonly_context import GRACE
+from mfx_research.shared_b2s2_geometry import b2s2_geometry
 
 M5 = timedelta(minutes=5)
 M15 = timedelta(minutes=15)
@@ -131,22 +132,16 @@ def _calculate_archive_geometry(
     for rule, levels, zone in (("B2", highs, h1.support_zone),
                                ("S2", lows, h1.resistance_zone)):
         level = levels[-1] if levels else None
-        near = first_low <= zone[1]+tolerance and first_high >= zone[0]-tolerance
+        near, crossed, anti = b2s2_geometry(
+            rule, first_low, first_high, first_close, last_close,
+            zone, level, tolerance, chase,
+        )
         # P236 independent observations, not a confirmed swing or early event.
         # They require the frozen H1 zone, but not a confirmed micro level.
         relative = last_low > first_low if rule == "B2" else last_high < first_high
         reclaim = (first_close <= zone[1] < last_close if rule == "B2"
                    else first_close >= zone[0] > last_close)
         early.append(PrivateEarlyObservation(rule, near, relative, reclaim))
-        crossed = False
-        anti = False
-        if level is not None:
-            if rule == "B2":
-                crossed = first_close <= level < last_close
-                anti = crossed and last_close-level <= chase
-            else:
-                crossed = first_close >= level > last_close
-                anti = crossed and level-last_close <= chase
         sides.append(PrivateM15Geometry(rule, level, near, crossed, anti))
     if not highs and not lows:
         return PrivatePretriggerM15(cutoff, "NO_PRETRIGGER_M15_LEVEL", complete,

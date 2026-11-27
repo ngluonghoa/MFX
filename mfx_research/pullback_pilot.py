@@ -20,6 +20,7 @@ from forex_trading.model import SignalStage
 from forex_trading.quotes import ensure_utc
 
 from mfx_research.offline_ema_signals import CandidateAction
+from mfx_research.shared_b2s2_geometry import b2s2_geometry
 
 
 class StructuralTrend(str, Enum):
@@ -209,27 +210,12 @@ def evaluate_unapproved_b2_s2(
 
     tolerance = context.known_atr * parameters.near_zone_atr_multiple
     chase = context.known_atr * parameters.max_chase_atr_multiple
-    if context.rule_id == "B2":
-        # Prior M15 *observes* a known H1 support neighborhood, then latest
-        # M15 closes above a micro-high known before the two-bar window.
-        near = (first.low <= context.h1_zone_high + tolerance
-                and first.high >= context.h1_zone_low - tolerance)
-        triggered = (
-            first.close <= context.known_micro_level
-            and last.close > context.known_micro_level
-        )
-        anti_chase = last.close - context.known_micro_level <= chase
-        candidate = CandidateAction.BUY
-    else:
-        # Mirrored bearish retracement: known resistance and micro-low.
-        near = (first.high >= context.h1_zone_low - tolerance
-                and first.low <= context.h1_zone_high + tolerance)
-        triggered = (
-            first.close >= context.known_micro_level
-            and last.close < context.known_micro_level
-        )
-        anti_chase = context.known_micro_level - last.close <= chase
-        candidate = CandidateAction.SELL
+    near, triggered, anti_chase = b2s2_geometry(
+        context.rule_id, first.low, first.high, first.close, last.close,
+        (context.h1_zone_low, context.h1_zone_high), context.known_micro_level,
+        tolerance, chase,
+    )
+    candidate = CandidateAction.BUY if context.rule_id == "B2" else CandidateAction.SELL
     if not near:
         return result(CandidateAction.NO_SIGNAL, "P018_PRIOR_M15_NOT_NEAR_H1_ZONE")
     if not triggered:
