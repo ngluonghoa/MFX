@@ -16,6 +16,7 @@ from decimal import Decimal
 from hashlib import sha256
 import json
 
+from mfx_research.shared_pivot_selection import strict_pivot_indices
 from mfx_research.sealed_multibar_private_features import (
     VERSION as MULTIBAR_VERSION, PrivateMultiBarReceipt, _Bar, _number,
     _latest_contiguous, _ts, WIDTHS,
@@ -193,15 +194,9 @@ def _scan_one(
         (_number(x.high),_number(x.low)) for x in rows
     )
     pivots: list[PrivatePivotPoint] = []
-    for i in range(left,len(candles)-right):
+    for i, kind in strict_pivot_indices(candles, left, right):
         hi,lo = candles[i]
-        neighbors = candles[i-left:i]+candles[i+1:i+right+1]
-        high = all(hi > h for h,_ in neighbors)
-        low = all(lo < low_ for _,low_ in neighbors)
-        # Strict extrema, no ties; a candle making BOTH extremes is
-        # ambiguous for structural direction and MUST be discarded.
-        if high == low:
-            continue
+        high = kind == "HIGH"
         right_end = _ts(rows[i+right].label,frame)+timedelta(
             minutes=WIDTHS[frame])
         pivots.append(PrivatePivotPoint(

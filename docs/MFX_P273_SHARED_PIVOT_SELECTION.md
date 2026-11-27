@@ -1,0 +1,3 @@
+# P273 — shared strict pivot selection
+
+DEC-MFX-UNIFIED-001. P020 SIM and P156/P228/P229 private archive pivot scans use one price-only strict extrema selection routine. Ties and ambiguous outside bars remain excluded; right-width boundary unchanged. The SIM caller still checks exact first-known/retrieval/closed timestamps; the archive caller still uses its SHA/contiguity and right-closed clocks without first-known authority. D1 native is rejected before selection. No source relabel, new I/O, release, numeric approval, cache, workflow or schedule changes. Six focused tests and existing regression suites. Atomic only after independently accepted P272.
