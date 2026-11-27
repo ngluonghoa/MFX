@@ -20,6 +20,7 @@ from mfx_research.causal_multitf_context import (
     _validate_closed_synthetic,
 )
 from mfx_research.shared_h1_features import mean_true_range, h1_zone
+from mfx_research.shared_pivot_trend import trend_from_pivot_prices
 from mfx_research.pullback_pilot import (
     ClaimedStructuralContext, ResearchPullbackResult, StructuralTrend,
     UnapprovedResearchParameters, evaluate_unapproved_b2_s2,
@@ -169,13 +170,7 @@ def trend_from_confirmed_swings(
         raise TypeError("P020_TYPED_CONFIRMED_SWING_SCAN_REQUIRED")
     highs = [x.price for x in receipt.pivots if x.kind is PivotKind.HIGH]
     lows = [x.price for x in receipt.pivots if x.kind is PivotKind.LOW]
-    if len(highs) < 2 or len(lows) < 2:
-        return StructuralTrend.UNKNOWN
-    if highs[-1] > highs[-2] and lows[-1] > lows[-2]:
-        return StructuralTrend.UP
-    if highs[-1] < highs[-2] and lows[-1] < lows[-2]:
-        return StructuralTrend.DOWN
-    return StructuralTrend.UNKNOWN
+    return StructuralTrend(trend_from_pivot_prices(highs, lows))
 
 
 def derive_swing_b2_s2_research(

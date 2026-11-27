@@ -1,0 +1,3 @@
+# P272 — shared confirmed-pivot trend feature
+
+DEC-MFX-UNIFIED-001. P020 SIM D1/H4 and P228 private native H4 now call the same strict latest-two-highs-and-lows feature arithmetic. Equality, mixed directions and insufficient history remain UNKNOWN; P228 retains its distinct insufficient/stale/status/anchor and SHA lineage, and D1 native calendar remains unqualified. This is feature arithmetic only; no raw/source conversion, confirmed real BUY/SELL, cache I/O, schedule, source admission, numeric approval, OOS or release changes. Six focused regressions plus existing end-to-end suites. Atomic after independently accepted P271.
