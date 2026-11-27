@@ -127,6 +127,17 @@ def _validate_closed_synthetic(
                 bar.key.aggregation_version != original_aggregation):
             raise ValueError("P019_INTRA_TIMEFRAME_STREAM_MISMATCH")
         previous = bar
+    # Preserve the existing source/causality error precedence before grid QA.
+    # Other SIM calendar identities retain their existing relative contract.
+    if calendar == "SIM:UTC-CLOSED":
+        for bar in series:
+            start = bar.key.bar_start_utc
+            if (start.second or start.microsecond
+                    or (tf is Timeframe.M15 and start.minute % 15)
+                    or (tf is Timeframe.H1 and start.minute)
+                    or (tf is Timeframe.H4 and (start.hour % 4 or start.minute))
+                    or (tf is Timeframe.D1 and (start.hour or start.minute))):
+                raise ValueError("P282_OFF_GRID_UTC_CLOSED_BAR")
 
 
 def _extrema_proxy(series: tuple[MarketBar, ...]) -> StructuralTrend:

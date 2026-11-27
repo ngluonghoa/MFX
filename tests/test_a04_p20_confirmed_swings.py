@@ -272,6 +272,50 @@ class ConfirmedRightBarSwingTests(unittest.TestCase):
         self.assertGreater(r.derived_context.known_atr, Decimal("0"))
         self.assertIs(r.signal.action, CandidateAction.BUY)
 
+    def test_fixed_utc_calendar_rejects_shifted_daily_and_h4_pivots(self):
+        from test_mfx_p257_previous_session_watch import shift
+        for rule in ("B2", "S2"):
+            data, policy = case_confirmed(rule)
+            for tf, rows, delta in (
+                (Timeframe.D1, data.daily, timedelta(hours=-1)),
+                (Timeframe.H4, data.four_hour, timedelta(hours=-1)),
+                (Timeframe.H4, data.four_hour, timedelta(minutes=-1)),
+            ):
+                with self.subTest(rule=rule, tf=tf, delta=delta):
+                    shifted = tuple(shift(x, delta) for x in rows)
+                    with self.assertRaisesRegex(ValueError, "P282_OFF_GRID"):
+                        detect_confirmed_swings(
+                            shifted, tf, policy, data.trigger_m15[0].key.bar_start_utc)
+
+    def test_fixed_utc_calendar_rejects_shifted_h1_context(self):
+        from test_mfx_p257_previous_session_watch import shift
+        for rule in ("B2", "S2"):
+            data, _ = case_confirmed(rule)
+            with self.subTest(rule=rule), self.assertRaisesRegex(ValueError, "P282_OFF_GRID"):
+                eval_changed(rule, hourly=tuple(shift(x, -timedelta(minutes=1))
+                                                for x in data.hourly))
+
+    def test_fixed_utc_calendar_rejects_shifted_m15_pivot_history(self):
+        from test_mfx_p257_previous_session_watch import shift
+        from test_mfx_v1_p161_option_b_confirmed_b2s2_v2 import inputs
+        for rule in ("B2", "S2"):
+            d = inputs(rule)
+            _, policy = case_confirmed(rule)
+            shifted = tuple(shift(x, -timedelta(seconds=1))
+                            for x in d["confirmed_m15_history"])
+            with self.subTest(rule=rule), self.assertRaisesRegex(ValueError, "P282_OFF_GRID"):
+                detect_confirmed_swings(shifted, Timeframe.M15, policy,
+                                        d["bars"].trigger_m15[0].key.bar_start_utc)
+
+    def test_other_synthetic_calendar_relative_grid_unchanged(self):
+        from test_mfx_p257_previous_session_watch import shift
+        data, policy = case_confirmed("B2")
+        rows = tuple(shift(replace(x, key=replace(x.key, calendar_version="SIM:RELATIVE")),
+                           -timedelta(hours=1)) for x in data.daily)
+        scan = detect_confirmed_swings(rows, Timeframe.D1, policy,
+                                       data.trigger_m15[0].key.bar_start_utc)
+        self.assertIs(trend_from_confirmed_swings(scan), StructuralTrend.UP)
+
     def test_cross_rule_b2_s2_not_conflated(self):
         b2 = evaluate_case("B2")
         s2 = evaluate_case("S2")

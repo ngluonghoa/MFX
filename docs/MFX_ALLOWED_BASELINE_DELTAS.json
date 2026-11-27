@@ -834,8 +834,8 @@
     {
       "path": "mfx_research/causal_multitf_context.py",
       "change": "added",
-      "expected_current_sha": "29f645ccea8ea09e65219e0cff693246984bed8d",
-      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker P269 shared H1 arithmetic migration."
+      "expected_current_sha": "b9afc723d0beec2faba5d5653d8b6afbe6906930",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker P269 shared H1 arithmetic migration. P282 fixed UTC-CLOSED synthetic calendar validation."
     },
     {
       "path": "mfx_research/confirmed_swings.py",
@@ -1146,8 +1146,8 @@
     {
       "path": "tests/test_a04_p20_confirmed_swings.py",
       "change": "added",
-      "expected_current_sha": "e6a22bdfb3499b95703576a0c180b34eacb34b75",
-      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker; initial PR CI RED 42623985698 single test expected FUTURE_KNOWN but source correctly rejects FUTURE_PRICE_BAR before right bar close, corrected assertion"
+      "expected_current_sha": "b63d0d59f1995adaf1ee62172d67025f1e117711",
+      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker; initial PR CI RED 42623985698 single test expected FUTURE_KNOWN but source correctly rejects FUTURE_PRICE_BAR before right bar close, corrected assertion P282 fixed UTC-CLOSED synthetic calendar validation."
     },
     {
       "path": "tests/test_a04_p21_source_parameter_review.py",
@@ -4406,6 +4406,12 @@
       "change": "added",
       "expected_current_sha": "02147bb834f8ca8452008b8f2c4137823ca9c48c",
       "reason": "P281 exact H4 shadow row identity/value correctness; no source authority."
+    },
+    {
+      "path": "docs/MFX_P282_FIXED_UTC_CLOSED_GRID.md",
+      "change": "added",
+      "expected_current_sha": "850603d9995e9770f7da45e085da48cc1c75551f",
+      "reason": "P282 shared synthetic fixed UTC grid correctness; no signal authority."
     }
   ]
 }
