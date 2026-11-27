@@ -22,6 +22,7 @@ permissions:
 concurrency:
   group: mfx-twelvedata-private-cache
   cancel-in-progress: false
+  queue: max
 
 jobs:
   manual-existing-drive-readonly-six-tf:
