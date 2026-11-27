@@ -4004,6 +4004,24 @@
       "change": "added",
       "expected_current_sha": "c4e2a408c79e1819251761b0f7b6aeae0363da3b",
       "reason": "P254 one causal latest whole private D1 vintage; no stitching, fallback, canonical admission, publisher first-known or new IO."
+    },
+    {
+      "path": "mfx_research/p255_shared_cost_stress.py",
+      "change": "added",
+      "expected_current_sha": "f58c67531e4032d56ea3d9707314feb37128b414",
+      "reason": "P255 fixed accepted targets, adverse per-unit fee stress, monotonicity and receipt integrity; synthetic only; not historical calibration or signal release."
+    },
+    {
+      "path": "tests/test_mfx_p255_shared_cost_stress.py",
+      "change": "added",
+      "expected_current_sha": "39a39379b4a4048f60042c3c3153ef8f10ffc4c5",
+      "reason": "P255 fixed accepted targets, adverse per-unit fee stress, monotonicity and receipt integrity; synthetic only; not historical calibration or signal release."
+    },
+    {
+      "path": "docs/MFX_P255_FIXED_TARGET_SIM_COST_STRESS.md",
+      "change": "added",
+      "expected_current_sha": "ba1d7f4f274d8406e157fb087b62ee5bc9d5618d",
+      "reason": "P255 fixed accepted targets, adverse per-unit fee stress, monotonicity and receipt integrity; synthetic only; not historical calibration or signal release."
     }
   ]
 }
