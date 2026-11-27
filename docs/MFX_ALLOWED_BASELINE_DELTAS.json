@@ -4368,8 +4368,8 @@
     {
       "path": "mfx_research/p278_d1_vintage_research.py",
       "change": "added",
-      "expected_current_sha": "7078566602544e4d7675407e7d329e8e9a44ff43",
-      "reason": "P278 active whole native-D1 vintage ordinal capacity and revision accounting; no authority."
+      "expected_current_sha": "ce1a8167bf6c92c930d974d276661baafe179ecd",
+      "reason": "P279 descriptive active D1 revision location, field and observation age accounting; no maturity or authority change."
     },
     {
       "path": "tests/test_mfx_p278_d1_vintage_research.py",
@@ -4382,6 +4382,18 @@
       "change": "added",
       "expected_current_sha": "14527cf1130a150dd1bf97b8c09f4b3c42344eb6",
       "reason": "P278 active whole native-D1 vintage ordinal capacity and revision accounting; no authority."
+    },
+    {
+      "path": "tests/test_mfx_p279_revision_profile.py",
+      "change": "added",
+      "expected_current_sha": "7a0a63a21c97bdbcbd5f6a7596e1bf5190f6a280",
+      "reason": "P279 descriptive native D1 revision research and hermetic regressions; no source approval."
+    },
+    {
+      "path": "docs/MFX_P279_D1_REVISION_PROFILE.md",
+      "change": "added",
+      "expected_current_sha": "370d36736c8e32e9061a58259c826a7967591ffc",
+      "reason": "P279 descriptive native D1 revision research and hermetic regressions; no source approval."
     }
   ]
 }
