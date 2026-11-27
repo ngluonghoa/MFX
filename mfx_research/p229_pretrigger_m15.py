@@ -19,7 +19,7 @@ from mfx_research.p227_pretrigger_h1 import PrivatePretriggerH1, calculate_pretr
 from mfx_research.sealed_multibar_private_features import _Bar, _latest_contiguous
 from mfx_research.sealed_private_pivot_sensitivity import _scan_one
 from mfx_research.six_tf_readonly_context import GRACE
-from mfx_research.shared_b2s2_geometry import b2s2_geometry
+from mfx_research.shared_b2s2_geometry import b2s2_geometry, strict_closed_cross
 
 M5 = timedelta(minutes=5)
 M15 = timedelta(minutes=15)
@@ -139,8 +139,9 @@ def _calculate_archive_geometry(
         # P236 independent observations, not a confirmed swing or early event.
         # They require the frozen H1 zone, but not a confirmed micro level.
         relative = last_low > first_low if rule == "B2" else last_high < first_high
-        reclaim = (first_close <= zone[1] < last_close if rule == "B2"
-                   else first_close >= zone[0] > last_close)
+        reclaim = strict_closed_cross(
+            rule, first_close, last_close, zone[1] if rule == "B2" else zone[0],
+        )
         early.append(PrivateEarlyObservation(rule, near, relative, reclaim))
         sides.append(PrivateM15Geometry(rule, level, near, crossed, anti))
     if not highs and not lows:

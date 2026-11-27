@@ -5,6 +5,7 @@ from datetime import datetime
 from forex_trading.market_data import Timeframe
 from mfx_research.p256_ema_watch import validate_series
 from mfx_research.p257_previous_session_watch import previous_session_level
+from mfx_research.shared_b2s2_geometry import strict_closed_cross
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -32,5 +33,5 @@ def session_reclaim_reject(rule, previous_session, probes, decision_utc: datetim
     level = previous_session_level(rule, previous_session, cutoff, identity)
     if max(a.first_known_utc, a.observation.retrieved_at_utc) > b.key.bar_start_utc:
         raise ValueError("P258_PRIOR_CLOSE_NOT_KNOWN_BEFORE_SECOND_PROBE")
-    observed = a.close < level < b.close if rule == "B2" else a.close > level > b.close
+    observed = strict_closed_cross(rule, a.close, b.close, level, prior_inclusive=False)
     return ReclaimReject(observed)

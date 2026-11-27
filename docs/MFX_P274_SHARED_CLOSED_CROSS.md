@@ -1,0 +1,3 @@
+# P274 — shared confirmed and early closed-cross predicate
+
+DEC-MFX-UNIFIED-001. P018/P161 and P229 geometry, P158 private M15 microbreak, P259 EARLY BOS, P258 strict session reclaim/reject and P236 archive zone edge reclaim now reuse the same directional closed-cross calculation. Distinct prior-equality semantics are explicit: BOS and microbreak inclusive prior, strict session reclaim excludes prior equality, latest equality never fires. P158 prior high-first ordering, P259 already-broken gate, P258 prior-known/session boundaries and P229 setup cutoffs are unchanged. No unification of source authority, no new source/cache/workflow/schedule or release, no broker. Six focused boundary tests plus full regressions; atomic only after P273 independent main acceptance.
