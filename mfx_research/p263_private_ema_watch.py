@@ -15,7 +15,14 @@ from mfx_research.six_tf_readonly_context import _expected_last_closed
 HOUR = timedelta(hours=1)
 M15 = timedelta(minutes=15)
 SEED = 50
+SENSITIVITY_SEED = 100
 TOLERANCE = Decimal("0.5")  # Explicit uncalibrated private research scenario.
+
+
+@dataclass(frozen=True, slots=True, repr=False)
+class PrivateSeedComparison:
+    long_observations: tuple[EMAWatch, ...] = field(repr=False)
+    agreement: tuple[tuple[bool, bool], ...] = field(repr=False)
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -24,6 +31,8 @@ class PrivateEMAWatch:
     status: str
     observations: tuple[EMAWatch, ...] = field(default=(), repr=False)
     seed_clock_state: str = "UNCLASSIFIED"
+    comparison: PrivateSeedComparison | None = field(default=None, repr=False)
+    long_seed_clock_state: str = "UNCLASSIFIED"
 
 
 def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
@@ -40,8 +49,11 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
                if known <= cutoff and end <= expected}
     targets = tuple(expected - i * HOUR for i in reversed(range(SEED)))
     state = _seed_clock_state(commits, targets, cutoff)
+    long_targets = tuple(expected - i * HOUR for i in reversed(range(SENSITIVITY_SEED)))
+    long_state = _seed_clock_state(commits, long_targets, cutoff)
     if state != "COMPLETE":
-        return PrivateEMAWatch(cutoff, "HISTORY_UNAVAILABLE", seed_clock_state=state)
+        return PrivateEMAWatch(cutoff, "HISTORY_UNAVAILABLE", seed_clock_state=state,
+                               long_seed_clock_state=long_state)
     indices = tuple(visible[t] for t in targets)
     if indices != tuple(range(indices[0], indices[0] + SEED)):
         raise ValueError("P263_ARCHIVE_INDEX_DRIFT")
@@ -55,8 +67,22 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
     except ValueError as e:
         if str(e) != "P256_ZERO_TR":
             raise
-        return PrivateEMAWatch(cutoff, "ZERO_TR", seed_clock_state="COMPLETE")
-    return PrivateEMAWatch(cutoff, "OBSERVED", pair, "COMPLETE")
+        return PrivateEMAWatch(cutoff, "ZERO_TR", seed_clock_state="COMPLETE",
+                               long_seed_clock_state=long_state)
+    comparison = None
+    if long_state == "COMPLETE":
+        long_indices = tuple(visible[t] for t in long_targets)
+        if long_indices != tuple(range(long_indices[0], long_indices[0] + SENSITIVITY_SEED)):
+            raise ValueError("P265_LONG_SEED_INDEX_DRIFT")
+        long_rows = derive_intraday(raw[long_indices[0]*12:(long_indices[-1]+1)*12], "H1",
+                                    asof_utc=cutoff).candles
+        if (tuple(datetime.fromisoformat(x.end_utc) for x in long_rows) != long_targets
+                or long_rows[-SEED:] != rows):
+            raise ValueError("P265_LONG_SEED_SUFFIX_DRIFT")
+        long_pair = tuple(_watch_from_validated_rows(rule, long_rows, probe, TOLERANCE)
+                          for rule in ("B2", "S2"))
+        comparison = PrivateSeedComparison(long_pair, _agreement(pair, long_pair))
+    return PrivateEMAWatch(cutoff, "OBSERVED", pair, "COMPLETE", comparison, long_state)
 
 
 def ema_observation_available(value, cutoff):
@@ -109,3 +135,38 @@ def ema_clock_state(value, cutoff):
     if (state == "COMPLETE") != (available or value.status == "ZERO_TR"):
         raise ValueError("P264_SEED_CLOCK_STATUS_DRIFT")
     return state
+
+
+def _agreement(short, long):
+    return tuple((a.near20 == b.near20, a.near50 == b.near50)
+                 for a, b in zip(short, long))
+
+
+def ema_seed_comparison_available(value, cutoff):
+    """Only paired coverage is public; private agreement is never serialized."""
+    short_available = ema_observation_available(value, cutoff)
+    short_state = ema_clock_state(value, cutoff)
+    if value is None:
+        return False
+    long_state = value.long_seed_clock_state
+    if long_state not in SEED_CLOCK_STATES[:-1]:
+        raise ValueError("P265_LONG_SEED_CLOCK_STATE_DRIFT")
+    if long_state == "COMPLETE" and short_state != "COMPLETE":
+        raise ValueError("P265_IMPOSSIBLE_LONG_SEED_COVERAGE")
+    comparison = value.comparison
+    available = short_available and long_state == "COMPLETE"
+    if available != (comparison is not None):
+        raise ValueError("P265_COMPARISON_COVERAGE_DRIFT")
+    if not available:
+        return False
+    if (type(comparison) is not PrivateSeedComparison
+            or type(comparison.long_observations) is not tuple
+            or len(comparison.long_observations) != 2
+            or any(type(x) is not EMAWatch or type(x.near20) is not bool
+                   or type(x.near50) is not bool for x in comparison.long_observations)
+            or type(comparison.agreement) is not tuple
+            or any(type(x) is not tuple or len(x) != 2
+                   or any(type(v) is not bool for v in x) for x in comparison.agreement)
+            or comparison.agreement != _agreement(value.observations, comparison.long_observations)):
+        raise ValueError("P265_COMPARISON_PAIR_DRIFT")
+    return True

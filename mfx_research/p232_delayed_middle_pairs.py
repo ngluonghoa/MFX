@@ -16,7 +16,7 @@ from mfx_cache.td_m5_codec import ClosedM5Bar
 from mfx_cache.v2_engine import derive_intraday
 from mfx_research.p263_private_ema_watch import (
     PrivateEMAWatch, SEED_CLOCK_STATES, _observe_archive_ema, ema_clock_state,
-    ema_observation_available,
+    ema_observation_available, ema_seed_comparison_available,
 )
 from mfx_research.p227_pretrigger_h1 import (
     PrivatePretriggerH1, _calculate_archive_h1_at_cutoff,
@@ -472,6 +472,7 @@ class PrivateDelayedMiddleReplay:
         h1 = h4 = d1 = complete = geometry = joint = 0
         ema_coverage = ema_and_bound = ema_and_recheck = ema_and_boundary = 0
         ema_and_all = ema_zero_tr = 0
+        ema_paired_seeds = ema_paired_bound = ema_paired_recheck = 0
         ema_states = dict.fromkeys(SEED_CLOCK_STATES, 0)
         h1_paths = h4_paths = both_grids = 0
         decision_grids = decision_rechecks = early_coverage = setup_identity_coverage = 0
@@ -532,6 +533,8 @@ class PrivateDelayedMiddleReplay:
             early_coverage += int(early_observation_coverage(row.m15, row.h1))
             ema_available = ema_observation_available(row.ema_watch, row.h1.cutoff_utc)
             ema_coverage += int(ema_available)
+            paired_seeds = ema_seed_comparison_available(row.ema_watch, row.h1.cutoff_utc)
+            ema_paired_seeds += int(paired_seeds)
             ema_states[ema_clock_state(row.ema_watch, row.h1.cutoff_utc)] += 1
             ema_zero_tr += int(row.ema_watch is not None and row.ema_watch.status == "ZERO_TR")
             expected_identity = bind_private_setup_context(row.h1, row.native, row.m15, row.trigger_identity)
@@ -555,6 +558,8 @@ class PrivateDelayedMiddleReplay:
                 bound_recheck_h1_only += int(h1_missing > 0 and h4_missing == 0)
                 bound_recheck_h4_only += int(h4_missing > 0 and h1_missing == 0)
                 bound_recheck_both_missing += int(h1_missing > 0 and h4_missing > 0)
+            ema_paired_bound += int(paired_seeds and bound)
+            ema_paired_recheck += int(paired_seeds and bound and recheck)
             ema_and_bound += int(ema_available and bound)
             ema_and_recheck += int(ema_available and bound and recheck)
             ema_and_boundary += int(ema_available and bound and boundary_complete)
@@ -588,6 +593,9 @@ class PrivateDelayedMiddleReplay:
             "middle_pairs_replayed": len(samples),
             **{f"ema_seed_clock_{k.lower()}": v for k, v in ema_states.items()},
             "ema_seed_zero_tr": ema_zero_tr,
+            "ema_paired_50_100_seed_coverage": ema_paired_seeds,
+            "ema_paired_50_100_seed_bound_context": ema_paired_bound,
+            "ema_paired_50_100_seed_bound_decision_recheck": ema_paired_recheck,
             "ema_with_bound_context": ema_and_bound,
             "ema_with_bound_context_and_decision_recheck": ema_and_recheck,
             "ema_with_bound_context_and_both_boundary_grids": ema_and_boundary,
