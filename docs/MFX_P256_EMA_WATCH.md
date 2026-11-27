@@ -1,0 +1,3 @@
+# P256 — alternate H1 EMA20/50 WATCH hypothesis
+
+Source LOCKED_03 paragraphs 30/35 and 118/123: EMA candidate is an optional WATCH branch, not a replacement for original structure. Option B research. Freeze at M15 open, use 50–512 contiguous synthetic closed H1 bars; seed EMA from first close, compare separately EMA20/50 with explicit 0–2 simple TR14 tolerance and directional close. The numerical policy is an uncalibrated experiment, not original Forex approval. Test mirror, boundary, future knowledge, stale/gapped/short history; no production path, provider I/O, cache writes or orders. Rollback: squash revert this research PR. NO_SIGNAL.
