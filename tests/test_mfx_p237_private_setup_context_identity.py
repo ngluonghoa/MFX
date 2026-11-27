@@ -287,3 +287,64 @@ class P243JointClockBlockerTests(TestCase):
         self.assertFalse(a["schedule_change_selected"])
         self.assertFalse(a["expiry_policy_selected"])
         self.assertEqual(a["action"],"NO_SIGNAL")
+
+
+class P244BoundaryGapTests(TestCase):
+    def test_each_frame_partition_and_combined_denominator(self):
+        s=run().public_summary()
+        for c in (s,s["clock_selected_replay"],s["joint_clock_selected_replay"],
+                  s["unique_receipt_technical_coverage"]):
+            for f in ("h1","h4"):
+                self.assertEqual(c["middle_pairs_replayed"],sum(c[f"boundary_{f}_{k}"]
+                    for k in ("anchor_unavailable","no_new_closed_slot_due","complete_nonempty",
+                              "all_due_slots_missing","partial_grid")))
+            self.assertEqual(c["bound_context_with_decision_recheck_coverage"],
+                sum(c[k] for k in ("bound_recheck_h1_only_gap","bound_recheck_h4_only_gap",
+                    "bound_recheck_both_boundary_gaps","bound_context_decision_and_both_boundary_grids_coverage")))
+
+    def test_h4_no_new_slot_is_not_missing(self):
+        c=run().public_summary()["joint_clock_selected_replay"]
+        self.assertEqual(c["boundary_h1_complete_nonempty"],1)
+        self.assertEqual(c["boundary_h4_no_new_closed_slot_due"],1)
+        self.assertEqual(c["boundary_h4_missing_slot_observations"],0)
+
+    def test_h4_due_but_not_archived_is_distinct_from_no_due_slot(self):
+        from mfx_research.p232_delayed_middle_pairs import _boundary_clock_gap
+        from mfx_research.p230_private_boundary_path import PrivateBoundaryPath
+        row=run().samples[-1]
+        missing=PrivateBoundaryPath(0,False,None,False)
+        r=replace(row,native=replace(row.native,h4_prior_end=row.native.h4_prior_end-timedelta(hours=4)),
+                  boundary=replace(row.boundary,sides=tuple(replace(s,h4=missing) for s in row.boundary.sides)))
+        self.assertEqual(_boundary_clock_gap(r,"H4"),("all_due_slots_missing",1))
+        c=run()._summary((r,))
+        self.assertEqual(c["bound_recheck_h4_only_gap"],1)
+        self.assertEqual(c["bound_context_decision_and_both_boundary_grids_coverage"],0)
+
+    def test_missing_anchor_is_not_missing_slot_count(self):
+        c=run(h4=(),snapshots=()).public_summary()["joint_clock_selected_replay"]
+        self.assertEqual(c["boundary_h4_anchor_unavailable"],1)
+        self.assertEqual(c["boundary_h4_missing_slot_observations"],0)
+
+    def test_forged_complete_or_asymmetric_slot_count_rejected(self):
+        from mfx_research.p232_delayed_middle_pairs import _boundary_clock_gap
+        row=run().samples[-1]
+        sides=row.boundary.sides
+        bad=replace(row,boundary=replace(row.boundary,sides=(replace(sides[0],
+                    h1=replace(sides[0].h1,closed_grid_complete=False)),sides[1])))
+        with self.assertRaisesRegex(ValueError,"P244_BOUNDARY_SLOT_ACCOUNTING_DRIFT"):
+            _boundary_clock_gap(bad,"H1")
+        bad=replace(row,boundary=replace(row.boundary,sides=(replace(sides[0],
+                    h1=replace(sides[0].h1,observed_closed_bars=0,closed_grid_complete=False)),sides[1])))
+        with self.assertRaisesRegex(ValueError,"P244_BOUNDARY_MIRROR_GRID_DRIFT"):
+            _boundary_clock_gap(bad,"H1")
+
+    def test_partial_grid_counts_slots_without_exposing_breach(self):
+        from mfx_research.p232_delayed_middle_pairs import _boundary_clock_gap
+        row=run().samples[-1]
+        later=replace(row,archive_decision_utc=row.archive_decision_utc+timedelta(hours=2),
+            boundary=replace(row.boundary,sides=tuple(replace(s,h1=replace(s.h1,
+                closed_grid_complete=False)) for s in row.boundary.sides)))
+        self.assertEqual(_boundary_clock_gap(later,"H1"),("partial_grid",2))
+        s=json.dumps(run().public_summary())
+        self.assertNotIn("minimum_signed_distance",s)
+        self.assertNotIn("unbuffered_boundary_breach",s)
