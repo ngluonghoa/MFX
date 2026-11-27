@@ -474,6 +474,7 @@ class PrivateDelayedMiddleReplay:
         ema_and_all = ema_zero_tr = 0
         ema_paired_seeds = ema_paired_bound = ema_paired_recheck = 0
         ema_states = dict.fromkeys(SEED_CLOCK_STATES, 0)
+        long_states = dict.fromkeys(SEED_CLOCK_STATES[:-1], 0)
         h1_paths = h4_paths = both_grids = 0
         decision_grids = decision_rechecks = early_coverage = setup_identity_coverage = 0
         bound_and_decision = bound_and_boundary = combined_coverage = 0
@@ -536,6 +537,8 @@ class PrivateDelayedMiddleReplay:
             ema_coverage += int(ema_available)
             paired_seeds = ema_seed_comparison_available(row.ema_watch, row.h1.cutoff_utc)
             ema_paired_seeds += int(paired_seeds)
+            if ema_available:
+                long_states[row.ema_watch.long_seed_clock_state] += 1
             ema_states[ema_clock_state(row.ema_watch, row.h1.cutoff_utc)] += 1
             ema_zero_tr += int(row.ema_watch is not None and row.ema_watch.status == "ZERO_TR")
             expected_identity = bind_private_setup_context(row.h1, row.native, row.m15, row.trigger_identity)
@@ -590,11 +593,15 @@ class PrivateDelayedMiddleReplay:
         if (sum(ema_states.values()) != len(samples)
                 or ema_coverage + ema_zero_tr != ema_states["COMPLETE"]):
             raise ValueError("P264_EMA_COVERAGE_PARTITION_DRIFT")
+        if (sum(long_states.values()) != ema_coverage
+                or long_states["COMPLETE"] != ema_paired_seeds):
+            raise ValueError("P267_LONG_SEED_CONDITIONAL_PARTITION_DRIFT")
         return {
             "middle_pairs_replayed": len(samples),
             **{f"ema_seed_clock_{k.lower()}": v for k, v in ema_states.items()},
             "ema_seed_zero_tr": ema_zero_tr,
             "ema_paired_50_100_seed_coverage": ema_paired_seeds,
+            **{f"ema_long_seed_given_short_{k.lower()}": v for k, v in long_states.items()},
             "ema_paired_50_100_seed_bound_context": ema_paired_bound,
             "ema_paired_50_100_seed_bound_decision_recheck": ema_paired_recheck,
             "ema_with_bound_context": ema_and_bound,

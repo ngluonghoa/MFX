@@ -1,0 +1,3 @@
+# P267 — conditional long-seed coverage partition
+
+P266 exact-main runtime 45983483465 recorded 30/61 short-seed observations and 23/61 paired 50/100-hour observations. Seven short-observed receipts lack a long comparison. Count the already validated long-seed clock state only among short-observed receipts, not over all receipts. Complete must equal paired coverage; all five bins must sum to short observation coverage. No extra I/O, no additional prices, direction, agreement, parameter selection, source admission, or signal. Existing cohort and unique-receipt summaries reuse the partition. Six regression tests; rollback squash revert.
