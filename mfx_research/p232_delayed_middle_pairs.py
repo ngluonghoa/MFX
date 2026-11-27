@@ -14,6 +14,9 @@ from decimal import Decimal
 from mfx_cache.native_fx_htf import NativeFXBar
 from mfx_cache.td_m5_codec import ClosedM5Bar
 from mfx_cache.v2_engine import derive_intraday
+from mfx_research.p263_private_ema_watch import (
+    PrivateEMAWatch, _observe_archive_ema, ema_observation_available,
+)
 from mfx_research.p227_pretrigger_h1 import (
     PrivatePretriggerH1, _calculate_archive_h1_at_cutoff,
 )
@@ -130,6 +133,7 @@ class PrivateDelayedMiddlePair:
     trigger_identity: PrivateTriggerIdentity = field(repr=False)
     delayed_decision: PrivateDelayedDecision = field(repr=False)
     setup_context_identity: PrivateSetupContextIdentity | None = field(repr=False)
+    ema_watch: PrivateEMAWatch | None = field(default=None, repr=False)
 
 
 PRECURSOR_STATES = ("complete", "prior_missing", "prior_late", "earlier_gap_or_late")
@@ -465,6 +469,7 @@ class PrivateDelayedMiddleReplay:
     @staticmethod
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
         h1 = h4 = d1 = complete = geometry = joint = 0
+        ema_coverage = 0
         h1_paths = h4_paths = both_grids = 0
         decision_grids = decision_rechecks = early_coverage = setup_identity_coverage = 0
         bound_and_decision = bound_and_boundary = combined_coverage = 0
@@ -522,6 +527,7 @@ class PrivateDelayedMiddleReplay:
             decision_grids += int(delayed.closed_grid_complete)
             decision_rechecks += int(bool(delayed.sides))
             early_coverage += int(early_observation_coverage(row.m15, row.h1))
+            ema_coverage += int(ema_observation_available(row.ema_watch, row.h1.cutoff_utc))
             expected_identity = bind_private_setup_context(row.h1, row.native, row.m15, row.trigger_identity)
             if row.setup_context_identity != expected_identity:
                 raise ValueError("P237_SETUP_CONTEXT_BINDING_DRIFT")
@@ -586,6 +592,7 @@ class PrivateDelayedMiddleReplay:
             "delayed_decision_m15_grids_complete": decision_grids,
             "delayed_decision_frozen_level_rechecks_computed": decision_rechecks,
             "pretrigger_m15_early_observation_coverage": early_coverage,
+            "pretrigger_ema50_seeded_observation_coverage": ema_coverage,
             "bounded_setup_context_identity_coverage": setup_identity_coverage,
             "bound_context_with_decision_recheck_coverage": bound_and_decision,
             "bound_context_with_both_boundary_grids_coverage": bound_and_boundary,
@@ -860,8 +867,10 @@ def replay_delayed_middle_pairs(
         delayed = _inspect_delayed_decision(
             visible_raw, h1, m15, trigger_end=trigger_end, decision=known)
         setup_identity = bind_private_setup_context(h1, native, m15, identity)
+        ema = _observe_archive_ema(prefix, commits[:i+1], pair[0],
+                                   cutoff=cutoff, decision=known)
         samples[i] = PrivateDelayedMiddlePair(
-            known,trigger_end,h1,native,m15,boundary,identity,delayed,setup_identity)
+            known,trigger_end,h1,native,m15,boundary,identity,delayed,setup_identity,ema)
     followups = tuple((samples[i], later) for i in joint
                       for later in (_observed_h4_followup(samples[i],raw,commits,h4),)
                       if later is not None)

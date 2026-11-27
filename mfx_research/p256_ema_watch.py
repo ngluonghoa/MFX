@@ -73,6 +73,11 @@ def ema_watch(rule, h1, probe, decision_utc: datetime, *, near_atr: Decimal):
     validate_series(h1, Timeframe.H1, cutoff, identity)
     if len(h1) < 50 or cutoff - h1[-1].key.bar_end_utc >= timedelta(hours=1):
         raise ValueError("P256_INSUFFICIENT_OR_STALE_H1")
+    return _watch_from_validated_rows(rule, h1, probe, near_atr)
+
+
+def _watch_from_validated_rows(rule, h1, probe, near_atr):
+    """Shared arithmetic ONLY; caller is responsible for source and clocks."""
     tr = [max(Fraction(b.high) - Fraction(b.low), abs(Fraction(b.high) - Fraction(a.close)),
               abs(Fraction(b.low) - Fraction(a.close))) for a, b in zip(h1[-15:-1], h1[-14:])]
     scale = sum(tr) / 14
