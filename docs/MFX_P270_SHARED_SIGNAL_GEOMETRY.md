@@ -1,0 +1,3 @@
+# P270 — shared B2/S2 price-predicate kernel
+
+DEC-MFX-UNIFIED-001. Replace duplicate zone overlap, strict closed micro-level crossing and inclusive chase limit in P018 SIM evaluator (also used by P161 and chronological replay) and P229 private archive geometry. Preserve P018 trend/invalidation and reason priority, P229 separate early geometry, missing level and no signal status. No production route or source relabeling. Both callers now use a single pure calculation; source/clock/policy gates remain distinct. Six focused regressions, all existing tests, atomic PR after accepted P269. No strategy or numeric approval, cache, I/O, schedule, broker or baseline changes.

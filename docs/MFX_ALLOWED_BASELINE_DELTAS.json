@@ -936,8 +936,8 @@
     {
       "path": "mfx_research/pullback_pilot.py",
       "change": "added",
-      "expected_current_sha": "ed1b2901398663391f15d09248e554b3b14a85c2",
-      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade; first CI RED 42615772051 returned mixed-source before explicit OANDA/unlicensed-source reason, reordered fail-closed rejection before identity; no src/runtime change"
+      "expected_current_sha": "af25c547ee902ae958616363a19796e924cde084",
+      "reason": "A04/P0.18 real B2/S2 research-only numeric pullback pilots with mandatory SIM parameter policy, synthetic H4/D1/H1 claimed structure, closed M15 causal MID, no original Forex calibration/economic source parity, no src/real provider/cache/trade; first CI RED 42615772051 returned mixed-source before explicit OANDA/unlicensed-source reason, reordered fail-closed rejection before identity; no src/runtime change P270 shared B2/S2 price predicate kernel."
     },
     {
       "path": "mfx_research/source_parameter_review.py",
@@ -3708,8 +3708,8 @@
     {
       "path": "mfx_research/p229_pretrigger_m15.py",
       "change": "added",
-      "expected_current_sha": "5254d58fbc4908c4ec0f14eafc548614230d608f",
-      "reason": "P229 prior archive-visible M15 draft pivots plus symmetric two-closed-bar near/cross/anti-chase arithmetic using rechecked P227 H1, separate setup history coverage, no directional output or authority change; five tests and integration, no new I/O. P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P236 private symmetric two-closed-M15 early relative-extremum/contact/reclaim observations independent of confirmation pivot availability, aggregate coverage only, six tests, no event rule/authority or extra I/O. P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O."
+      "expected_current_sha": "ab194c7205c6a0ccd559517d47fe1807ddbc9cb9",
+      "reason": "P229 prior archive-visible M15 draft pivots plus symmetric two-closed-bar near/cross/anti-chase arithmetic using rechecked P227 H1, separate setup history coverage, no directional output or authority change; five tests and integration, no new I/O. P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P236 private symmetric two-closed-M15 early relative-extremum/contact/reclaim observations independent of confirmation pivot availability, aggregate coverage only, six tests, no event rule/authority or extra I/O. P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P270 shared B2/S2 price predicate kernel."
     },
     {
       "path": "tests/test_mfx_p229_pretrigger_m15.py",
@@ -4238,6 +4238,24 @@
       "change": "added",
       "expected_current_sha": "08ce85ed1ca2d0166e49b95b00280d324af02458",
       "reason": "P269 owner-approved MFX-only unified feature engine migration; existing gates preserved."
+    },
+    {
+      "path": "mfx_research/shared_b2s2_geometry.py",
+      "change": "added",
+      "expected_current_sha": "d5b9b21656b0c64512be4997d8755451283c7f95",
+      "reason": "P270 unified signal geometry; all source and authority gates preserved."
+    },
+    {
+      "path": "tests/test_mfx_p270_shared_b2s2_geometry.py",
+      "change": "added",
+      "expected_current_sha": "24b59fdeddb0e00bbf5387f028464f8e00625c81",
+      "reason": "P270 unified signal geometry; all source and authority gates preserved."
+    },
+    {
+      "path": "docs/MFX_P270_SHARED_SIGNAL_GEOMETRY.md",
+      "change": "added",
+      "expected_current_sha": "e1a0f9db451205c2096b10bf3d31daa3709c52a3",
+      "reason": "P270 unified signal geometry; all source and authority gates preserved."
     }
   ]
 }
