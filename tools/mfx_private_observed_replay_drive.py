@@ -13,6 +13,7 @@ from mfx_cache.native_htf_archive import _scope
 from mfx_cache.p209_d1_revision_snapshot_cache import PREFIX as REVISED_PREFIX
 from mfx_cache.v2_batch_commit import CHUNK_PREFIX, MANIFEST_PREFIX
 from mfx_research.p219_m5_archive_time_prefixes import ObservedObjectTime
+from mfx_research.unified_modes import MfxMode
 from mfx_research.p220_private_observed_six_tf import (
     PrivateObservedReplay, replay_private_observed_six_tf,
 )
@@ -136,7 +137,7 @@ def observed_replay_in_existing_probe(
     replay = replay_private_observed_six_tf(
         m5, h4, original, revised, **times,
         decisions_utc=_decisions(times["m5_manifests"], asof_utc),
-        audited_at_utc=asof_utc)
+        audited_at_utc=asof_utc, mode=MfxMode.VALIDATION)
     if (replay.fixture_anchors_used or replay.m5_pairs_metadata_checked !=
             evidence.m5_total_archived_manifest_pairs
             or replay.h4_pairs_verified != evidence.h4_manifest_pairs_full_sha
