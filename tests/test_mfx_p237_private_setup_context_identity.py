@@ -411,3 +411,63 @@ class P245ObservedH4FollowupTests(TestCase):
         self.assertFalse(f["original_decision_rewritten"])
         self.assertFalse(f["expiry_policy_selected"])
         self.assertEqual(f["action"],"NO_SIGNAL")
+
+
+class P246CrossFrameFollowupTests(TestCase):
+    def fixture(self, minutes=20, extend=False):
+        from datetime import datetime
+        raw,clocks=shaped()
+        shift=timedelta(hours=3)
+        raw=tuple(replace(b,start_utc=(datetime.fromisoformat(b.start_utc)+shift).isoformat()) for b in raw)
+        clocks=tuple((known+shift,end+shift) for known,end in clocks)
+        end=clocks[-1][1]
+        h4=h4_fixture()
+        bar=replace(h4[-1][1][0],native_open_label=(end-timedelta(hours=4)).strftime("%Y-%m-%d %H:%M:%S"))
+        h4=h4+((end+timedelta(minutes=minutes),(bar,)),)
+        if extend:
+            raw=raw+tuple(replace(b,start_utc=(datetime.fromisoformat(b.start_utc)+timedelta(hours=1)).isoformat()) for b in raw[-12:])
+            clocks=clocks+((end+timedelta(hours=1,minutes=7),end+timedelta(hours=1)),)
+        return run(raw,clocks,h4=h4)
+
+    def test_first_h4_arrival_can_be_complete(self):
+        r=self.fixture(12)
+        f=r.public_summary()["first_complete_observed_cross_frame_recheck"]
+        self.assertEqual(f["joint_grid_recoveries"],1)
+        self.assertEqual(r.complete_followups[0][1],r.h4_followups[0][1])
+
+    def test_next_m5_actual_arrival_recovers_all_grids(self):
+        r=self.fixture(20,True)
+        f=r.public_summary()["first_complete_observed_cross_frame_recheck"]
+        self.assertEqual(f["joint_grid_recoveries"],1)
+        self.assertEqual(f["frozen_level_rechecks"],1)
+        original,later=r.complete_followups[0]
+        self.assertEqual(later.archive_decision_utc,r.samples[-1].archive_decision_utc)
+        self.assertEqual(original.setup_context_identity,later.setup_context_identity)
+        self.assertGreater(later.archive_decision_utc,r.h4_followups[0][1].archive_decision_utc)
+
+    def test_no_actual_later_complete_clock(self):
+        r=self.fixture()
+        f=r.public_summary()["first_complete_observed_cross_frame_recheck"]
+        self.assertEqual(f["first_h4_recoveries"],1)
+        self.assertEqual(f["joint_grid_recoveries"],0)
+        self.assertEqual(f["no_joint_grid_recovery_in_audited_history"],1)
+
+    def test_no_h4_gap_no_followup(self):
+        f=self.fixture(7,True).public_summary()["first_complete_observed_cross_frame_recheck"]
+        self.assertEqual(f["first_h4_recoveries"],0)
+        self.assertEqual(f["joint_grid_recoveries"],0)
+
+    def test_duplicate_complete_followup_rejected(self):
+        r=self.fixture(12)
+        with self.assertRaisesRegex(ValueError,"P246_COMPLETE_FOLLOWUP_DRIFT"):
+            replace(r,complete_followups=r.complete_followups*2).public_summary()
+
+    def test_redacted_coverage_only(self):
+        r=self.fixture(20,True)
+        f=r.public_summary()["first_complete_observed_cross_frame_recheck"]
+        s=json.dumps(f)
+        self.assertNotIn("2026-11",s)
+        self.assertNotIn(r.complete_followups[0][0].setup_context_identity.bounded_context_sha256,s)
+        self.assertFalse(f["selection_uses_prices_or_outcomes"])
+        self.assertFalse(f["expiry_policy_selected"])
+        self.assertEqual(f["action"],"NO_SIGNAL")

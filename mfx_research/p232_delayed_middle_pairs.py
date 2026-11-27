@@ -398,6 +398,58 @@ def _observed_h4_followup(
     return None
 
 
+def _first_complete_observed_followup(
+    first: PrivateDelayedMiddlePair, raw: tuple[ClosedM5Bar, ...],
+    commits: tuple[tuple[datetime, datetime], ...],
+    h4: tuple[tuple[datetime, tuple[NativeFXBar, ...]], ...],
+) -> PrivateDelayedMiddlePair | None:
+    """P246: first jointly complete observed clock, not price-based selection.
+
+    Use existing immutable archive arrivals only. No expiry or live action
+    inference; a complete grid is not an approved or successful trade.
+    """
+    if first.setup_context_identity is None:
+        raise ValueError("P246_FROZEN_CONTEXT_REQUIRED")
+    prior_h1 = _expected_last_closed(first.h1.cutoff_utc, 60)
+    prior_h4 = first.native.h4_prior_end
+    if prior_h4 is None:
+        raise ValueError("P246_H4_ANCHOR_REQUIRED")
+    width = 4*HOUR
+    clocks = sorted({known for known,_ in commits+h4
+                     if known >= first.archive_decision_utc})
+    for clock in clocks:
+        known_h1 = {end for known,end in commits if known <= clock}
+        known_h4 = {_native_utc_start(b.native_open_label)+width
+                    for known,bars in h4 if known <= clock for b in bars}
+        def covered(start: datetime, step: timedelta, ends: set[datetime]) -> bool:
+            last = _expected_last_closed(clock, int(step.total_seconds()//60))
+            return last >= start and all(start+i*step in ends
+                       for i in range(1,(last-start)//step+1))
+        # M15 slots are derived only from complete sealed M5 hours.
+        m15_ends = {end-j*M15 for end in known_h1 for j in range(4)}
+        if not (covered(first.trigger_end_utc,M15,m15_ends)
+                and covered(prior_h1,HOUR,known_h1)
+                and covered(prior_h4,width,known_h4)):
+            continue
+        count = sum(known <= clock for known,_ in commits)
+        visible_raw = raw[:12*count]
+        visible_h4 = tuple(b for known,bars in h4 if known <= clock for b in bars
+                           if _native_utc_start(b.native_open_label)+width
+                              <= _expected_last_closed(clock,240))
+        boundary = inspect_private_setup_boundaries(
+            visible_raw,visible_h4,first.h1,first.native,decision=clock)
+        delayed = _inspect_delayed_decision(
+            visible_raw,first.h1,first.m15,trigger_end=first.trigger_end_utc,decision=clock)
+        if (not delayed.closed_grid_complete
+                or not all(s.h1 is not None and s.h4 is not None
+                           and s.h1.closed_grid_complete and s.h4.closed_grid_complete
+                           for s in boundary.sides)):
+            raise ValueError("P246_METADATA_RAW_GRID_DRIFT")
+        return replace(first,archive_decision_utc=clock,boundary=boundary,
+                       delayed_decision=delayed)
+    return None
+
+
 @dataclass(frozen=True, slots=True, repr=False)
 class PrivateDelayedMiddleReplay:
     verified_hours: int
@@ -408,6 +460,7 @@ class PrivateDelayedMiddleReplay:
     joint_clock_samples: tuple[PrivateDelayedMiddlePair, ...] = field(default=(), repr=False)
     d1_archive_visible_at_setup: tuple[bool, ...] = field(default=(), repr=False)
     h4_followups: tuple[tuple[PrivateDelayedMiddlePair, PrivateDelayedMiddlePair], ...] = field(default=(), repr=False)
+    complete_followups: tuple[tuple[PrivateDelayedMiddlePair, PrivateDelayedMiddlePair], ...] = field(default=(), repr=False)
 
     @staticmethod
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
@@ -663,6 +716,30 @@ class PrivateDelayedMiddleReplay:
                 "publisher_first_known_verified": False, "historical_oos_qualified": False,
                 "market_signal_eligibility_assessed": False, "action": "NO_SIGNAL",
             }
+            first_by_id = {id(original): later for original,later in self.h4_followups}
+            complete_ids: set[int] = set()
+            for original, later in self.complete_followups:
+                first = first_by_id.get(id(original))
+                if (first is None or id(original) in complete_ids
+                        or later.archive_decision_utc < first.archive_decision_utc
+                        or replace(later,archive_decision_utc=original.archive_decision_utc,
+                                   boundary=original.boundary,
+                                   delayed_decision=original.delayed_decision) != original
+                        or not later.delayed_decision.closed_grid_complete
+                        or any(_boundary_clock_gap(later,f)[1] for f in ("H1","H4"))):
+                    raise ValueError("P246_COMPLETE_FOLLOWUP_DRIFT")
+                complete_ids.add(id(original))
+            complete_summary = self._summary(tuple(later for _,later in self.complete_followups))
+            summary["first_complete_observed_cross_frame_recheck"] = {
+                "first_h4_recoveries": len(self.h4_followups),
+                "joint_grid_recoveries": len(self.complete_followups),
+                "no_joint_grid_recovery_in_audited_history": len(self.h4_followups)-len(self.complete_followups),
+                "frozen_level_rechecks": complete_summary["delayed_decision_frozen_level_rechecks_computed"],
+                "selection_uses_prices_or_outcomes": False,
+                "original_decision_rewritten": False, "expiry_policy_selected": False,
+                "publisher_first_known_verified": False, "historical_oos_qualified": False,
+                "market_signal_eligibility_assessed": False, "action": "NO_SIGNAL",
+            }
             prior_indices = set(recent_indices+eligible_indices)
             overlap = len(prior_indices.intersection(joint_indices))
             # Count distinct receipts once, not summed cohort margins.
@@ -692,7 +769,7 @@ class PrivateDelayedMiddleReplay:
                     tuple(row.trigger_identity for row in self.joint_clock_samples)),
             }
         elif (self.clock_eligible_samples or self.decision_clocks or self.joint_clock_samples
-              or self.d1_archive_visible_at_setup or self.h4_followups):
+              or self.d1_archive_visible_at_setup or self.h4_followups or self.complete_followups):
             raise ValueError("P233_MISSING_CLOCK_CENSUS")
         summary["delayed_trigger_slot_accounting"] = summarize_private_trigger_slots(
             tuple(row.trigger_identity for row in self.samples+self.clock_eligible_samples))
@@ -788,9 +865,12 @@ def replay_delayed_middle_pairs(
     followups = tuple((samples[i], later) for i in joint
                       for later in (_observed_h4_followup(samples[i],raw,commits,h4),)
                       if later is not None)
+    complete_followups = tuple((original,later) for original,first in followups
+                               for later in (_first_complete_observed_followup(first,raw,commits,h4),)
+                               if later is not None)
     receipt = PrivateDelayedMiddleReplay(
         len(commits),tuple(samples[i] for i in recent),census,
         tuple(samples[i] for i in eligible),decision_clocks,
-        tuple(samples[i] for i in joint),d1_visibility,followups)
+        tuple(samples[i] for i in joint),d1_visibility,followups,complete_followups)
     receipt.public_summary()
     return receipt
