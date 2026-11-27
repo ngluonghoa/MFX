@@ -4040,6 +4040,24 @@
       "change": "added",
       "expected_current_sha": "476843bf2f085d0d79c04d8b7601c141d59aad7e",
       "reason": "P256 causal synthetic EMA WATCH research; no source approval, I/O or signal authority."
+    },
+    {
+      "path": "mfx_research/p257_previous_session_watch.py",
+      "change": "added",
+      "expected_current_sha": "1280f589ebbf31adb358d3e5c20d1c41ee73c491",
+      "reason": "P257 Option B causal paired SIM research; no source admission, I/O or signal authority."
+    },
+    {
+      "path": "tests/test_mfx_p257_previous_session_watch.py",
+      "change": "added",
+      "expected_current_sha": "98fed54d1245c6f1fd0e4e00d185979d92b02b27",
+      "reason": "P257 Option B causal paired SIM research; no source admission, I/O or signal authority."
+    },
+    {
+      "path": "docs/MFX_P257_PREVIOUS_SESSION_WATCH.md",
+      "change": "added",
+      "expected_current_sha": "42f98fddce27aad3a08a9f2f2ba64f2dc2518385",
+      "reason": "P257 Option B causal paired SIM research; no source admission, I/O or signal authority."
     }
   ]
 }
