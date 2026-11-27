@@ -756,8 +756,8 @@
     {
       "path": "mfx_cache/h4_shadow.py",
       "change": "added",
-      "expected_current_sha": "6ade104387664f74037093ae2510929dace3ac3e",
-      "reason": "A04/P0.65 pure in-memory standalone M5->H4 48 CLOSED UTC 4h-grid shadow research and typed H4 native-comparison receipt; no changes to P0.46 source-native-only H4/D1 production contract or P0.64 GitHub workflow, no Drive/network/trading and all parity results explicitly unverified until live SHA lineage proof."
+      "expected_current_sha": "bf0bab63b0e8d4851ba45b710f3c76cf1d78ca25",
+      "reason": "A04/P0.65 pure in-memory standalone M5->H4 48 CLOSED UTC 4h-grid shadow research and typed H4 native-comparison receipt; no changes to P0.46 source-native-only H4/D1 production contract or P0.64 GitHub workflow, no Drive/network/trading and all parity results explicitly unverified until live SHA lineage proof. P280 strict native H4 UTC minute/second alignment in parity comparator."
     },
     {
       "path": "mfx_cache/native_fx_htf.py",
@@ -1404,8 +1404,8 @@
     {
       "path": "tests/test_a04_p65_m5_h4_shadow_parity.py",
       "change": "added",
-      "expected_current_sha": "bb21c0530b8d9cb0c03ae4890fdf95d065439424",
-      "reason": "A04/P0.65 hermetic positive/negative H4 shadow tests: 48-M5 required, incomplete gap/UTC alignment/revisions, two windows, native MID parity equality/mismatch/missing, provenance, no D1 M5 promotion, no price/network/Drive/broker actions."
+      "expected_current_sha": "08e83886ca6a13c3332f98938131ab468f3f1027",
+      "reason": "A04/P0.65 hermetic positive/negative H4 shadow tests: 48-M5 required, incomplete gap/UTC alignment/revisions, two windows, native MID parity equality/mismatch/missing, provenance, no D1 M5 promotion, no price/network/Drive/broker actions. P280 strict native H4 UTC minute/second alignment in parity comparator."
     },
     {
       "path": "tests/test_a04_p66_readonly_m5_h4_live_parity.py",
@@ -4394,6 +4394,12 @@
       "change": "added",
       "expected_current_sha": "370d36736c8e32e9061a58259c826a7967591ffc",
       "reason": "P279 descriptive native D1 revision research and hermetic regressions; no source approval."
+    },
+    {
+      "path": "docs/MFX_P280_H4_NATIVE_GRID_PARITY.md",
+      "change": "added",
+      "expected_current_sha": "2abef9f3d463769c6f749609cbe3e294e5355c08",
+      "reason": "P280 H4 native parity grid correctness; no source or release authority."
     }
   ]
 }

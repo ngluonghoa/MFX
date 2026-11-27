@@ -122,7 +122,7 @@ def _native_index(bars: tuple[NativeFXBar, ...]) -> dict[str, NativeFXBar]:
         except (TypeError, ValueError, ArithmeticError) as exc:
             raise ValueError("P065_NATIVE_LABEL_OR_OHLC_INVALID") from exc
         if (stamp.strftime("%Y-%m-%d %H:%M:%S") != bar.native_open_label
-                or stamp.hour % 4):
+                or stamp.hour % 4 or stamp.minute or stamp.second):
             raise ValueError("P065_NATIVE_H4_UTC_GRID_INVALID")
         o, hi, lo, c = vals
         if (any(not x.is_finite() or x <= 0 for x in vals)
