@@ -155,18 +155,28 @@ def compare_shadow_to_native(
                 or candle.price_side != "MID"
                 or candle.is_source_native is not False
                 or candle.source_numeric_strategy_approved is not False
-                or len(candle.source_sha256) != 64):
+                or type(candle.source_sha256) is not str
+                or len(candle.source_sha256) != 64
+                or any(ch not in "0123456789abcdef" for ch in candle.source_sha256)):
             raise ValueError("P065_UNTRUSTED_SHADOW_CANDLE")
         try:
             anchor = datetime.fromisoformat(candle.start_utc)
-            if (anchor.utcoffset() != timedelta(0) or anchor.hour % 4
+            if (anchor.isoformat() != candle.start_utc
+                    or anchor.utcoffset() != timedelta(0) or anchor.hour % 4
                     or anchor.minute or anchor.second or anchor.microsecond
                     or candle.end_utc != (anchor + H4_SPAN).isoformat()):
                 raise ValueError("P065_SHADOW_UTC_WINDOW_INVALID")
-            derived_prices = tuple(Decimal(getattr(candle, field))
-                                   for field in ("open", "high", "low", "close"))
+            price_texts = tuple(getattr(candle, field)
+                                for field in ("open", "high", "low", "close"))
+            if any(type(value) is not str for value in price_texts):
+                raise ValueError("P065_SHADOW_PRICE_NOT_STRING")
+            derived_prices = tuple(Decimal(value) for value in price_texts)
         except (TypeError, ValueError, ArithmeticError) as exc:
             raise ValueError("P065_SHADOW_CANDLE_MALFORMED") from exc
+        o, hi, lo, close = derived_prices
+        if (any(not x.is_finite() or x <= 0 for x in derived_prices)
+                or lo > min(o, close) or hi < max(o, close) or hi < lo):
+            raise ValueError("P065_SHADOW_OHLC_INVALID")
         if previous is not None and candle.start_utc <= previous:
             raise ValueError("P065_DUPLICATE_OR_UNSORTED_SHADOW")
         previous = candle.start_utc

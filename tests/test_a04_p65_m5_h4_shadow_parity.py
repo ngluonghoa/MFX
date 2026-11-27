@@ -200,6 +200,56 @@ class H4NativeParityTests(unittest.TestCase):
             compare_shadow_to_native(
                 replace(self.shadow, candles=(bad,)), (self.reference,))
 
+    def test_equivalent_noncanonical_shadow_start_rejected(self) -> None:
+        candle = self.shadow.candles[0]
+        for label in (candle.start_utc.replace("T", " "),
+                      candle.start_utc.replace("+00:00", "Z"),
+                      candle.start_utc.replace(":00+00:00", "+00:00")):
+            with self.subTest(label=label):
+                bad = replace(candle, start_utc=label)
+                with self.assertRaisesRegex(ValueError, "SHADOW_CANDLE_MALFORMED"):
+                    compare_shadow_to_native(
+                        replace(self.shadow, candles=(bad,)), (self.reference,))
+
+    def test_equivalent_start_cannot_count_same_native_window_twice(self) -> None:
+        candle = self.shadow.candles[0]
+        alias = replace(candle, start_utc=candle.start_utc.replace("T", " "))
+        with self.assertRaisesRegex(ValueError, "SHADOW_CANDLE_MALFORMED"):
+            compare_shadow_to_native(
+                replace(self.shadow, candles=(alias, candle)), (self.reference,))
+
+    def test_canonical_duplicate_shadow_start_still_rejected(self) -> None:
+        candle = self.shadow.candles[0]
+        with self.assertRaisesRegex(ValueError, "DUPLICATE_OR_UNSORTED_SHADOW"):
+            compare_shadow_to_native(
+                replace(self.shadow, candles=(candle, candle)), (self.reference,))
+
+    def test_shadow_fingerprint_requires_exact_lowercase_hex(self) -> None:
+        candle = self.shadow.candles[0]
+        for value in ("x" * 64, "A" * 64, "0" * 63, None):
+            with self.subTest(value=value):
+                bad = replace(candle, source_sha256=value)
+                with self.assertRaisesRegex(ValueError, "UNTRUSTED_SHADOW"):
+                    compare_shadow_to_native(
+                        replace(self.shadow, candles=(bad,)), (self.reference,))
+
+    def test_nonfinite_nonpositive_and_inverted_shadow_ohlc_rejected(self) -> None:
+        candle = self.shadow.candles[0]
+        for kwargs in ({"high": "NaN"}, {"high": "Infinity"}, {"low": "0"},
+                       {"close": "-1"}, {"high": "1.01"}, {"low": "1.2"}):
+            with self.subTest(kwargs=kwargs):
+                bad = replace(candle, **kwargs)
+                with self.assertRaisesRegex(ValueError, "SHADOW_OHLC_INVALID"):
+                    compare_shadow_to_native(
+                        replace(self.shadow, candles=(bad,)), (self.reference,))
+
+    def test_shadow_prices_require_text_not_numeric_coercion(self) -> None:
+        candle = self.shadow.candles[0]
+        bad = replace(candle, open=Decimal(candle.open))
+        with self.assertRaisesRegex(ValueError, "SHADOW_CANDLE_MALFORMED"):
+            compare_shadow_to_native(
+                replace(self.shadow, candles=(bad,)), (self.reference,))
+
     def test_no_derived_h4_no_false_match(self) -> None:
         out = compare_shadow_to_native(
             derive_h4_shadow(m5(47), asof_utc=ASOF), (self.reference,))
