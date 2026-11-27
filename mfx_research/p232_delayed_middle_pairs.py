@@ -7,7 +7,7 @@ entry, first-known attestation, or qualified historical OOS.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta
 from decimal import Decimal
 
@@ -31,7 +31,7 @@ from mfx_research.p231_private_trigger_identity import (
 )
 from mfx_research.mfx_b2s2_confirmed_policy_v2 import _p160_still_pinned
 from mfx_research.mfx_b2s2_independent_policy_draft import read_independent_mfx_policy_draft
-from mfx_research.six_tf_readonly_context import _expected_last_closed
+from mfx_research.six_tf_readonly_context import _expected_last_closed, _native_utc_start
 from mfx_research.p237_private_setup_context_identity import (
     PrivateSetupContextIdentity, bind_private_setup_context,
 )
@@ -354,6 +354,50 @@ def _boundary_clock_gap(row: PrivateDelayedMiddlePair, frame: str) -> tuple[str,
     return ("all_due_slots_missing" if missing == expected else "partial_grid"), missing
 
 
+def _observed_h4_followup(
+    row: PrivateDelayedMiddlePair, raw: tuple[ClosedM5Bar, ...],
+    commits: tuple[tuple[datetime, datetime], ...],
+    h4: tuple[tuple[datetime, tuple[NativeFXBar, ...]], ...],
+) -> PrivateDelayedMiddlePair | None:
+    """Revisit frozen inputs only at a real later H4 archive arrival.
+
+    Restore originally missing slots, not the original decision. The new
+    clock must independently satisfy the complete current M15/H1/H4 grids.
+    No expiry, execution, or persistent event inference.
+    """
+    if (row.setup_context_identity is None or not row.delayed_decision.sides
+            or _boundary_clock_gap(row, "H4")[1] == 0):
+        return None
+    prior = row.native.h4_prior_end
+    assert prior is not None
+    width = 4*HOUR
+    expected = _expected_last_closed(row.archive_decision_utc, 240)
+    def visible_at(clock: datetime) -> tuple[NativeFXBar, ...]:
+        return tuple(b for known, bars in h4 if known <= clock for b in bars
+                     if _native_utc_start(b.native_open_label)+width
+                        <= _expected_last_closed(clock, 240))
+    def original_ends(clock: datetime) -> set[datetime]:
+        return {end for b in visible_at(clock)
+                for end in (_native_utc_start(b.native_open_label)+width,)
+                if prior < end <= expected}
+    originally = original_ends(row.archive_decision_utc)
+    due = {prior+i*width for i in range(1,(expected-prior)//width+1)}
+    if len(originally) != row.boundary.sides[0].h4.observed_closed_bars:
+        raise ValueError("P245_ORIGINAL_H4_CLOCK_DRIFT")
+    for clock in sorted({known for known,_ in h4 if known > row.archive_decision_utc}):
+        if original_ends(clock) != due:
+            continue
+        count = sum(known <= clock for known,_ in commits)
+        visible_raw = raw[:12*count]
+        boundary = inspect_private_setup_boundaries(
+            visible_raw, visible_at(clock), row.h1, row.native, decision=clock)
+        delayed = _inspect_delayed_decision(
+            visible_raw, row.h1, row.m15, trigger_end=row.trigger_end_utc, decision=clock)
+        return replace(row, archive_decision_utc=clock, boundary=boundary,
+                       delayed_decision=delayed)
+    return None
+
+
 @dataclass(frozen=True, slots=True, repr=False)
 class PrivateDelayedMiddleReplay:
     verified_hours: int
@@ -363,6 +407,7 @@ class PrivateDelayedMiddleReplay:
     decision_clocks: tuple[DecisionClockCoverage, ...] = field(default=(), repr=False)
     joint_clock_samples: tuple[PrivateDelayedMiddlePair, ...] = field(default=(), repr=False)
     d1_archive_visible_at_setup: tuple[bool, ...] = field(default=(), repr=False)
+    h4_followups: tuple[tuple[PrivateDelayedMiddlePair, PrivateDelayedMiddlePair], ...] = field(default=(), repr=False)
 
     @staticmethod
     def _summary(samples: tuple[PrivateDelayedMiddlePair, ...]) -> dict[str, int]:
@@ -588,6 +633,36 @@ class PrivateDelayedMiddleReplay:
                    for row in self.joint_clock_samples):
                 raise ValueError("P239_JOINT_CLOCK_RAW_COVERAGE_DRIFT")
             joint_summary = self._summary(self.joint_clock_samples)
+            # P245: actual subsequent H4 arrivals are separate observations,
+            # never substituted into the original decision or cohort margins.
+            candidates = tuple(r for r in self.joint_clock_samples
+                               if r.setup_context_identity is not None
+                               and r.delayed_decision.sides
+                               and _boundary_clock_gap(r,"H4")[1] > 0)
+            seen_followups: set[int] = set()
+            for original, later in self.h4_followups:
+                if (not any(original is r for r in candidates) or id(original) in seen_followups
+                        or later.archive_decision_utc <= original.archive_decision_utc
+                        or replace(later, archive_decision_utc=original.archive_decision_utc,
+                                   boundary=original.boundary,
+                                   delayed_decision=original.delayed_decision) != original):
+                    raise ValueError("P245_FROZEN_FOLLOWUP_DRIFT")
+                seen_followups.add(id(original))
+            later_summary = self._summary(tuple(later for _,later in self.h4_followups))
+            summary["observed_later_h4_archive_recheck"] = {
+                "original_joint_bound_recheck_with_h4_gap": len(candidates),
+                "original_due_h4_slots_later_visible": len(self.h4_followups),
+                "no_observed_recovery_in_audited_history": len(candidates)-len(self.h4_followups),
+                "later_h4_grid_complete": (later_summary["boundary_h4_no_new_closed_slot_due"]
+                                          +later_summary["boundary_h4_complete_nonempty"]),
+                "later_m15_grid_complete": later_summary["delayed_decision_m15_grids_complete"],
+                "later_frozen_level_recheck": later_summary["delayed_decision_frozen_level_rechecks_computed"],
+                "later_bound_recheck_and_both_boundaries": later_summary[
+                    "bound_context_decision_and_both_boundary_grids_coverage"],
+                "original_decision_rewritten": False, "expiry_policy_selected": False,
+                "publisher_first_known_verified": False, "historical_oos_qualified": False,
+                "market_signal_eligibility_assessed": False, "action": "NO_SIGNAL",
+            }
             prior_indices = set(recent_indices+eligible_indices)
             overlap = len(prior_indices.intersection(joint_indices))
             # Count distinct receipts once, not summed cohort margins.
@@ -617,7 +692,7 @@ class PrivateDelayedMiddleReplay:
                     tuple(row.trigger_identity for row in self.joint_clock_samples)),
             }
         elif (self.clock_eligible_samples or self.decision_clocks or self.joint_clock_samples
-              or self.d1_archive_visible_at_setup):
+              or self.d1_archive_visible_at_setup or self.h4_followups):
             raise ValueError("P233_MISSING_CLOCK_CENSUS")
         summary["delayed_trigger_slot_accounting"] = summarize_private_trigger_slots(
             tuple(row.trigger_identity for row in self.samples+self.clock_eligible_samples))
@@ -710,9 +785,12 @@ def replay_delayed_middle_pairs(
         setup_identity = bind_private_setup_context(h1, native, m15, identity)
         samples[i] = PrivateDelayedMiddlePair(
             known,trigger_end,h1,native,m15,boundary,identity,delayed,setup_identity)
+    followups = tuple((samples[i], later) for i in joint
+                      for later in (_observed_h4_followup(samples[i],raw,commits,h4),)
+                      if later is not None)
     receipt = PrivateDelayedMiddleReplay(
         len(commits),tuple(samples[i] for i in recent),census,
         tuple(samples[i] for i in eligible),decision_clocks,
-        tuple(samples[i] for i in joint),d1_visibility)
+        tuple(samples[i] for i in joint),d1_visibility,followups)
     receipt.public_summary()
     return receipt
