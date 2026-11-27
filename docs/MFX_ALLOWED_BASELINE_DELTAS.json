@@ -840,8 +840,8 @@
     {
       "path": "mfx_research/confirmed_swings.py",
       "change": "added",
-      "expected_current_sha": "33aa6afc29bb77ba5f012fe75e332c1b3fd81873",
-      "reason": "P0.161 backward-compatible P020 confirmed pivot M15 scanner and exact prior-closed micro level for MFX v2 B2/S2, no original Forex rule or live data. P269 shared H1 arithmetic migration."
+      "expected_current_sha": "a5faadb79d878995211387640085f3ac92fbc1c2",
+      "reason": "P0.161 backward-compatible P020 confirmed pivot M15 scanner and exact prior-closed micro level for MFX v2 B2/S2, no original Forex rule or live data. P269 shared H1 arithmetic migration. P272 shared confirmed-pivot trend predicate; existing source/clock gates unchanged."
     },
     {
       "path": "mfx_research/offline_ema_signals.py",
@@ -3690,8 +3690,8 @@
     {
       "path": "mfx_research/p228_pretrigger_native.py",
       "change": "added",
-      "expected_current_sha": "577fc1269db01e3e84bb06d175bc59dd0184f3bc",
-      "reason": "P228 causal native H4 and revised D1 pretrigger archive selection, private mirrored structural trend, D1 vintage availability only and no calendar/source promotion; aggregate counts, six hermetic tests and existing replay integration, no extra I/O. P230 frozen H1/H4 raw anchor signed distance and observed closed grid diagnostics, no buffer selection or rule authority, private only, redacted coverage and seven tests, no I/O or schedule changes. P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P254 one causal latest whole private D1 vintage; no stitching, fallback, canonical admission, publisher first-known or new IO."
+      "expected_current_sha": "a94f594b793e9a90fb62027c053718e4722f611d",
+      "reason": "P228 causal native H4 and revised D1 pretrigger archive selection, private mirrored structural trend, D1 vintage availability only and no calendar/source promotion; aggregate counts, six hermetic tests and existing replay integration, no extra I/O. P230 frozen H1/H4 raw anchor signed distance and observed closed grid diagnostics, no buffer selection or rule authority, private only, redacted coverage and seven tests, no I/O or schedule changes. P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P254 one causal latest whole private D1 vintage; no stitching, fallback, canonical admission, publisher first-known or new IO. P272 shared confirmed-pivot trend predicate; existing source/clock gates unchanged."
     },
     {
       "path": "tests/test_mfx_p228_pretrigger_native.py",
@@ -4274,6 +4274,24 @@
       "change": "added",
       "expected_current_sha": "d6e1808f116183da0ef946960d99e8a856dd8b63",
       "reason": "P271 typed mode policy, same candidate code; production denied."
+    },
+    {
+      "path": "mfx_research/shared_pivot_trend.py",
+      "change": "added",
+      "expected_current_sha": "128a5b39585dd470f812abe8e9589305a73577ee",
+      "reason": "P272 shared confirmed-pivot trend; source and authority gates preserved."
+    },
+    {
+      "path": "tests/test_mfx_p272_shared_pivot_trend.py",
+      "change": "added",
+      "expected_current_sha": "fd17f670acbe2361112b77ddd07a1800fb33afab",
+      "reason": "P272 shared confirmed-pivot trend; source and authority gates preserved."
+    },
+    {
+      "path": "docs/MFX_P272_SHARED_PIVOT_TREND.md",
+      "change": "added",
+      "expected_current_sha": "40afabd1ebdf25b2e79dbecafb3777f51596fc00",
+      "reason": "P272 shared confirmed-pivot trend; source and authority gates preserved."
     }
   ]
 }

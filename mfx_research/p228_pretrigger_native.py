@@ -19,6 +19,7 @@ from mfx_research.mfx_b2s2_confirmed_policy_v2 import (
 )
 from mfx_research.sealed_multibar_private_features import _Bar, _latest_contiguous
 from mfx_research.sealed_private_pivot_sensitivity import _scan_one
+from mfx_research.shared_pivot_trend import trend_from_pivot_prices
 from mfx_research.six_tf_readonly_context import (
     GRACE, MAX_H4_AGE, MAX_D1_SESSION_DATE_AGE, _native_utc_start, _validate_native,
 )
@@ -148,10 +149,7 @@ def calculate_pretrigger_native(
                                      "cutoff": cutoff.isoformat(),
                                      "policy": policy.fingerprint_sha256,
                                      "source": [b.sha_claim for b in contiguous]})
-                if highs[-1] > highs[-2] and lows[-1] > lows[-2]:
-                    trend = "UP"
-                elif highs[-1] < highs[-2] and lows[-1] < lows[-2]:
-                    trend = "DOWN"
+                trend = trend_from_pivot_prices(highs, lows)
     return PrivatePretriggerNative(h4_status, d1_status, cutoff, trend, daily,
                                    anchor_end, low_anchor, high_anchor,
                                    h4_context_sha256=h4_context, d1_context_sha256=d1_context)
