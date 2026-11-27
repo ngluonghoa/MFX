@@ -38,6 +38,7 @@ class PrivateEMAWatch:
     long_seed_clock_state: str = "UNCLASSIFIED"
     probe_source_sha256: str | None = field(default=None, repr=False)
     short_context_sha256: str | None = field(default=None, repr=False)
+    late_seed_ready_utc: datetime | None = field(default=None, repr=False)
 
 
 def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
@@ -60,9 +61,16 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
     long_targets = tuple(expected - i * HOUR for i in reversed(range(SENSITIVITY_SEED)))
     long_state = _seed_clock_state(commits, long_targets, cutoff)
     if state != "COMPLETE":
+        ready = None
+        if state == "LATE_HOUR":
+            known_by_end = {end: known for known, end in commits}
+            ready = max(known_by_end[t] for t in targets)
+            if not cutoff < ready <= decision:
+                raise ValueError("P268_LATE_SEED_CLOCK_DRIFT")
         return PrivateEMAWatch(cutoff, "HISTORY_UNAVAILABLE", seed_clock_state=state,
                                long_seed_clock_state=long_state,
-                               probe_source_sha256=probe.source_sha256)
+                               probe_source_sha256=probe.source_sha256,
+                               late_seed_ready_utc=ready)
     indices = tuple(visible[t] for t in targets)
     if indices != tuple(range(indices[0], indices[0] + SEED)):
         raise ValueError("P263_ARCHIVE_INDEX_DRIFT")
@@ -218,3 +226,24 @@ def bind_private_ema_to_trigger(value, trigger, cutoff):
                 or value.comparison.context_sha256 == value.short_context_sha256):
             raise ValueError("P266_LONG_SEED_CONTEXT_DRIFT")
     return available
+
+
+LATE_SEED_WINDOWS = ("BY_FIRST_PROBE_CLOSE", "BY_PAIR_CLOSE", "AFTER_PAIR_CLOSE")
+
+
+def late_seed_window(value, cutoff, decision):
+    """Clock evidence only: never recompute EMA or rewrite setup at a later clock."""
+    state = ema_clock_state(value, cutoff)
+    ready = None if value is None else value.late_seed_ready_utc
+    if state != "LATE_HOUR":
+        if ready is not None:
+            raise ValueError("P268_UNEXPECTED_LATE_SEED_CLOCK")
+        return None
+    if (type(ready) is not datetime or ready.tzinfo is None
+            or ready.utcoffset() != timedelta(0) or not cutoff < ready <= decision):
+        raise ValueError("P268_LATE_SEED_CLOCK_DRIFT")
+    if ready <= cutoff + M15:
+        return "BY_FIRST_PROBE_CLOSE"
+    if ready <= cutoff + 2*M15:
+        return "BY_PAIR_CLOSE"
+    return "AFTER_PAIR_CLOSE"
