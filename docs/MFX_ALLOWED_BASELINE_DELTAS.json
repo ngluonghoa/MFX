@@ -840,8 +840,8 @@
     {
       "path": "mfx_research/confirmed_swings.py",
       "change": "added",
-      "expected_current_sha": "a5faadb79d878995211387640085f3ac92fbc1c2",
-      "reason": "P0.161 backward-compatible P020 confirmed pivot M15 scanner and exact prior-closed micro level for MFX v2 B2/S2, no original Forex rule or live data. P269 shared H1 arithmetic migration. P272 shared confirmed-pivot trend predicate; existing source/clock gates unchanged."
+      "expected_current_sha": "cf21e3c04e0cac5d0be085945a86a62e9966524f",
+      "reason": "P0.161 backward-compatible P020 confirmed pivot M15 scanner and exact prior-closed micro level for MFX v2 B2/S2, no original Forex rule or live data. P269 shared H1 arithmetic migration. P272 shared confirmed-pivot trend predicate; existing source/clock gates unchanged. P273 shared strict price-only pivot selection; source and right-clock gates unchanged."
     },
     {
       "path": "mfx_research/offline_ema_signals.py",
@@ -2646,8 +2646,8 @@
     {
       "path": "mfx_research/sealed_private_pivot_sensitivity.py",
       "change": "added",
-      "expected_current_sha": "f1e29e5ca5bbcbbfecf25b9d3e269c9334a4ca2e",
-      "reason": "P0.156 actual private strict right-bar confirmed extrema on independently SHA checked sealed history with two unapproved research windows, no fake publisher-first-known or numeric 1:1."
+      "expected_current_sha": "88ee3e593e85d8387c4be8b62da0a37db7411f41",
+      "reason": "P0.156 actual private strict right-bar confirmed extrema on independently SHA checked sealed history with two unapproved research windows, no fake publisher-first-known or numeric 1:1. P273 shared strict price-only pivot selection; source and right-clock gates unchanged."
     },
     {
       "path": "tests/test_mfx_v1_private_sealed_pivot_sensitivity.py",
@@ -4292,6 +4292,24 @@
       "change": "added",
       "expected_current_sha": "40afabd1ebdf25b2e79dbecafb3777f51596fc00",
       "reason": "P272 shared confirmed-pivot trend; source and authority gates preserved."
+    },
+    {
+      "path": "mfx_research/shared_pivot_selection.py",
+      "change": "added",
+      "expected_current_sha": "2fcc24b548b49ca7a97ea7f3d4848cf70c97393b",
+      "reason": "P273 unified strict pivot selection; source and authority preserved."
+    },
+    {
+      "path": "tests/test_mfx_p273_shared_pivot_selection.py",
+      "change": "added",
+      "expected_current_sha": "f0c2096cdc232d1aa98bbb15a0551ebd0bd52db4",
+      "reason": "P273 unified strict pivot selection; source and authority preserved."
+    },
+    {
+      "path": "docs/MFX_P273_SHARED_PIVOT_SELECTION.md",
+      "change": "added",
+      "expected_current_sha": "427a61c6c85fa67ba59f75477d20a7df62cccc8d",
+      "reason": "P273 unified strict pivot selection; source and authority preserved."
     }
   ]
 }

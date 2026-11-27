@@ -21,6 +21,7 @@ from mfx_research.causal_multitf_context import (
 )
 from mfx_research.shared_h1_features import mean_true_range, h1_zone
 from mfx_research.shared_pivot_trend import trend_from_pivot_prices
+from mfx_research.shared_pivot_selection import strict_pivot_indices
 from mfx_research.pullback_pilot import (
     ClaimedStructuralContext, ResearchPullbackResult, StructuralTrend,
     UnapprovedResearchParameters, evaluate_unapproved_b2_s2,
@@ -125,14 +126,10 @@ def detect_confirmed_swings(
     )
     pivots: list[ConfirmedSwing] = []
     left, right = policy.left_bars, policy.right_bars
-    for i in range(left, len(series) - right):
+    prices = tuple((bar.high, bar.low) for bar in series)
+    for i, kind in strict_pivot_indices(prices, left, right):
         sample = series[i]
-        neighbors = series[i - left:i] + series[i + 1:i + right + 1]
-        is_high = all(sample.high > n.high for n in neighbors)
-        is_low = all(sample.low < n.low for n in neighbors)
-        # Same-bar high+low extrema produce conflicting structural meaning.
-        if is_high == is_low:
-            continue
+        is_high = kind == "HIGH"
         complete_right = series[i + right]
         known = max(
             b.first_known_utc
