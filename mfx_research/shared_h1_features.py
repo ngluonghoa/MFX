@@ -6,9 +6,21 @@ without converting provenance, claiming entitlement or activating a detector.
 Preserves simple mean TR (not Wilder ATR) and directional extrema anchors.
 """
 from decimal import Decimal
+from typing import Protocol
 
 
-def mean_true_range(rows, period: int) -> Decimal:
+class H1PriceRow(Protocol):
+    @property
+    def high(self) -> Decimal | str: ...
+
+    @property
+    def low(self) -> Decimal | str: ...
+
+    @property
+    def close(self) -> Decimal | str: ...
+
+
+def mean_true_range(rows: tuple[H1PriceRow, ...], period: int) -> Decimal:
     if type(rows) is not tuple or type(period) is not int or not 1 <= period < len(rows):
         raise ValueError("P269_COMPLETE_H1_TR_WINDOW_REQUIRED")
     window = rows[-period-1:]
@@ -21,7 +33,8 @@ def mean_true_range(rows, period: int) -> Decimal:
     return sum(values, Decimal(0)) / Decimal(period)
 
 
-def h1_zone(rows, lookback: int, mean: Decimal, multiple: Decimal, rule: str):
+def h1_zone(rows: tuple[H1PriceRow, ...], lookback: int, mean: Decimal,
+            multiple: Decimal, rule: str) -> tuple[Decimal, Decimal]:
     if (type(rows) is not tuple or type(lookback) is not int
             or not 1 <= lookback <= len(rows) or rule not in ("B2", "S2")):
         raise ValueError("P269_EXACT_H1_ZONE_WINDOW_AND_SIDE_REQUIRED")

@@ -4224,7 +4224,7 @@
     {
       "path": "mfx_research/shared_h1_features.py",
       "change": "added",
-      "expected_current_sha": "d340e46e0ae63e0038a54c9cc05ccb0e20e6c52f",
+      "expected_current_sha": "6d16781f42ee0d6f7b8304e22e1a24662806dc75",
       "reason": "P269 owner-approved MFX-only unified feature engine migration; existing gates preserved."
     },
     {
