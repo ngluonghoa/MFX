@@ -9,6 +9,7 @@ permissions:
 concurrency:
   group: mfx-twelvedata-private-cache
   cancel-in-progress: false
+  queue: max
 
 jobs:
   sealed-index:
