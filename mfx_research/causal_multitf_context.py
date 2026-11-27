@@ -106,16 +106,6 @@ def _validate_closed_synthetic(
             raise ValueError("P019_CROSS_TIMEFRAME_OR_SIDE_MISMATCH")
         if bar.key.bar_end_utc - bar.key.bar_start_utc != _DURATIONS[tf]:
             raise ValueError("P019_SIM_UTC_TIMEFRAME_DURATION_MISMATCH")
-        # The explicit UTC-CLOSED fixture calendar uses fixed UTC slots.
-        # Other SIM calendar identities retain their existing relative contract.
-        if calendar == "SIM:UTC-CLOSED":
-            start = bar.key.bar_start_utc
-            if (start.second or start.microsecond
-                    or (tf is Timeframe.M15 and start.minute % 15)
-                    or (tf is Timeframe.H1 and start.minute)
-                    or (tf is Timeframe.H4 and (start.hour % 4 or start.minute))
-                    or (tf is Timeframe.D1 and (start.hour or start.minute))):
-                raise ValueError("P282_OFF_GRID_UTC_CLOSED_BAR")
         if bar.key.bar_end_utc > known_at:
             raise ValueError("P019_FUTURE_PRICE_BAR_NOT_CLOSED_AT_CONTEXT_CUTOFF")
         if (bar.first_known_utc > known_at or
@@ -137,6 +127,17 @@ def _validate_closed_synthetic(
                 bar.key.aggregation_version != original_aggregation):
             raise ValueError("P019_INTRA_TIMEFRAME_STREAM_MISMATCH")
         previous = bar
+    # Preserve the existing source/causality error precedence before grid QA.
+    # Other SIM calendar identities retain their existing relative contract.
+    if calendar == "SIM:UTC-CLOSED":
+        for bar in series:
+            start = bar.key.bar_start_utc
+            if (start.second or start.microsecond
+                    or (tf is Timeframe.M15 and start.minute % 15)
+                    or (tf is Timeframe.H1 and start.minute)
+                    or (tf is Timeframe.H4 and (start.hour % 4 or start.minute))
+                    or (tf is Timeframe.D1 and (start.hour or start.minute))):
+                raise ValueError("P282_OFF_GRID_UTC_CLOSED_BAR")
 
 
 def _extrema_proxy(series: tuple[MarketBar, ...]) -> StructuralTrend:

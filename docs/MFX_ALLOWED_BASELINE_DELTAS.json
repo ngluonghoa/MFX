@@ -834,7 +834,7 @@
     {
       "path": "mfx_research/causal_multitf_context.py",
       "change": "added",
-      "expected_current_sha": "a66da445f6b04dee32fea99f8c0b9da98d1d8fb0",
+      "expected_current_sha": "b9afc723d0beec2faba5d5653d8b6afbe6906930",
       "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker P269 shared H1 arithmetic migration. P282 fixed UTC-CLOSED synthetic calendar validation."
     },
     {
