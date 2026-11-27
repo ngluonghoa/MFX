@@ -1,0 +1,3 @@
+# P264 — explain actual private EMA coverage
+
+P263 exact-main runtime 45978753926 showed 30/61 distinct EMA observations, 30/32 four-hour clock-selected and 4/7 joint-clock-selected, but margins alone cannot establish why 31 were unavailable or how many overlap bound context, decision recheck or both boundary grids. Partition each exact 50-hour seed clock into COMPLETE, OUTSIDE_TAIL, MISSING_HOUR, LATE_HOUR or MIXED; complete but zero TR remains separately counted. UNCLASSIFIED is reserved for legacy absent fixture receipts. Report intersection coverage with bound setup and decision/boundary readiness, no direction or price. Existing cohorts and observation arithmetic unchanged. Five regression tests; no new IO or source admission. NO_SIGNAL. Rollback: squash revert.
