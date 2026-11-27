@@ -4058,6 +4058,24 @@
       "change": "added",
       "expected_current_sha": "42f98fddce27aad3a08a9f2f2ba64f2dc2518385",
       "reason": "P257 Option B causal paired SIM research; no source admission, I/O or signal authority."
+    },
+    {
+      "path": "mfx_research/p258_session_reclaim_reject.py",
+      "change": "added",
+      "expected_current_sha": "dfca4ef31db806dd7d80a897d7ee2d2157732402",
+      "reason": "P258 Option B causal paired SIM research; no source admission, I/O or signal authority."
+    },
+    {
+      "path": "tests/test_mfx_p258_session_reclaim_reject.py",
+      "change": "added",
+      "expected_current_sha": "70b5107ef4861332516c4b80f00f2e85b36764b2",
+      "reason": "P258 Option B causal paired SIM research; no source admission, I/O or signal authority."
+    },
+    {
+      "path": "docs/MFX_P258_SESSION_RECLAIM_REJECT.md",
+      "change": "added",
+      "expected_current_sha": "e9215c6cd98252d096e3944d6fd70b5b228dc41a",
+      "reason": "P258 Option B causal paired SIM research; no source admission, I/O or signal authority."
     }
   ]
 }
