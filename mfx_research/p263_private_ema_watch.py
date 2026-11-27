@@ -23,6 +23,7 @@ class PrivateEMAWatch:
     cutoff_utc: datetime = field(repr=False)
     status: str
     observations: tuple[EMAWatch, ...] = field(default=(), repr=False)
+    seed_clock_state: str = "UNCLASSIFIED"
 
 
 def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
@@ -38,8 +39,9 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
     visible = {end: i for i, (known, end) in enumerate(commits)
                if known <= cutoff and end <= expected}
     targets = tuple(expected - i * HOUR for i in reversed(range(SEED)))
-    if any(t not in visible for t in targets):
-        return PrivateEMAWatch(cutoff, "HISTORY_UNAVAILABLE")
+    state = _seed_clock_state(commits, targets, cutoff)
+    if state != "COMPLETE":
+        return PrivateEMAWatch(cutoff, "HISTORY_UNAVAILABLE", seed_clock_state=state)
     indices = tuple(visible[t] for t in targets)
     if indices != tuple(range(indices[0], indices[0] + SEED)):
         raise ValueError("P263_ARCHIVE_INDEX_DRIFT")
@@ -53,8 +55,8 @@ def _observe_archive_ema(raw, commits, probe, *, cutoff, decision):
     except ValueError as e:
         if str(e) != "P256_ZERO_TR":
             raise
-        return PrivateEMAWatch(cutoff, "ZERO_TR")
-    return PrivateEMAWatch(cutoff, "OBSERVED", pair)
+        return PrivateEMAWatch(cutoff, "ZERO_TR", seed_clock_state="COMPLETE")
+    return PrivateEMAWatch(cutoff, "OBSERVED", pair, "COMPLETE")
 
 
 def ema_observation_available(value, cutoff):
@@ -74,3 +76,36 @@ def ema_observation_available(value, cutoff):
                    or type(x.near50) is not bool for x in value.observations)):
         raise ValueError("P263_EMA_PAIR_DRIFT")
     return True
+
+
+SEED_CLOCK_STATES = ("COMPLETE", "OUTSIDE_TAIL", "MISSING_HOUR", "LATE_HOUR",
+                     "MIXED", "UNCLASSIFIED")
+
+
+def _seed_clock_state(commits, targets, cutoff):
+    """Classify exact required hours using metadata, not prices or outcomes."""
+    known_by_end = {end: known for known, end in commits}
+    if len(known_by_end) != len(commits):
+        raise ValueError("P264_DUPLICATE_ARCHIVE_HOUR")
+    first = min(known_by_end)
+    gaps = set()
+    for target in targets:
+        if target not in known_by_end:
+            gaps.add("OUTSIDE_TAIL" if target < first else "MISSING_HOUR")
+        elif known_by_end[target] > cutoff:
+            gaps.add("LATE_HOUR")
+    return next(iter(gaps)) if len(gaps) == 1 else "MIXED" if gaps else "COMPLETE"
+
+
+def ema_clock_state(value, cutoff):
+    available = ema_observation_available(value, cutoff)
+    if value is None:
+        return "UNCLASSIFIED"
+    state = value.seed_clock_state
+    if state not in SEED_CLOCK_STATES:
+        raise ValueError("P264_UNKNOWN_SEED_CLOCK_STATE")
+    if state == "UNCLASSIFIED":
+        raise ValueError("P264_UNCLASSIFIED_EMA_RECEIPT")
+    if (state == "COMPLETE") != (available or value.status == "ZERO_TR"):
+        raise ValueError("P264_SEED_CLOCK_STATUS_DRIFT")
+    return state
