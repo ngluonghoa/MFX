@@ -8,6 +8,7 @@ from mfx_cache.td_m5_codec import digest
 from mfx_research.p227_pretrigger_h1 import PrivatePretriggerH1
 from mfx_research.p228_pretrigger_native import PrivatePretriggerNative
 from mfx_research.p229_pretrigger_m15 import PrivatePretriggerM15, early_observation_coverage
+from mfx_research.shared_b2s2_decision import B2S2Decision, decide_b2s2
 from mfx_research.p231_private_trigger_identity import (
     PrivateTriggerIdentity, summarize_private_trigger_slots,
 )
@@ -25,6 +26,7 @@ class PrivateSetupContextIdentity:
     expiry_policy_selected: bool = False
     may_publish_buy_sell: bool = False
     may_trade: bool = False
+    private_candidate_decisions: tuple[B2S2Decision, ...] = field(default=(), repr=False)
 
 
 def bind_private_setup_context(
@@ -67,10 +69,24 @@ def bind_private_setup_context(
         raise ValueError("P237_EARLY_CONTEXT_MISSING")
     _p160_still_pinned()
     policy = read_mfx_confirmed_b2s2_v2()
+    # A private observed D1 vintage does not establish a qualified trend.
+    # P230 raw boundary observations likewise cannot choose an invalidation rule.
+    # Invoke exactly the same decision core as SIM, with those inputs unknown.
+    if tuple(side.rule_id for side in m15.sides) != ("B2", "S2"):
+        raise ValueError("P276_BOUND_GEOMETRY_PAIR_REQUIRED")
+    decisions_list: list[B2S2Decision] = []
+    for side in m15.sides:
+        values = (side.near, side.crossed, side.anti_chase)
+        decisions_list.append(decide_b2s2(
+            side.rule_id, "UNKNOWN", native.h4_trend, None, lambda: values,
+        ))
+    decisions = tuple(decisions_list)
+    if any(x.action != "NO_SIGNAL" for x in decisions):
+        raise ValueError("P276_OBSERVED_UNQUALIFIED_D1_CANNOT_SIGNAL")
     return PrivateSetupContextIdentity(digest({
         "schema": "MFX_P237_BOUNDED_SETUP_SOURCE_CONTEXT_V1",
         "cutoff": h1.cutoff_utc.isoformat(),
         "component_source_sha256": list(identities),
         "policy": policy.fingerprint_sha256,
         "trigger_slots": [[s.slot_sha256, s.trigger_payload_sha256] for s in trigger.private_slots],
-    }))
+    }), private_candidate_decisions=decisions)

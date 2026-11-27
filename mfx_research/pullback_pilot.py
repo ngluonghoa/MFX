@@ -21,6 +21,7 @@ from forex_trading.quotes import ensure_utc
 
 from mfx_research.offline_ema_signals import CandidateAction
 from mfx_research.shared_b2s2_geometry import b2s2_geometry
+from mfx_research.shared_b2s2_decision import decide_b2s2
 
 
 class StructuralTrend(str, Enum):
@@ -199,27 +200,17 @@ def evaluate_unapproved_b2_s2(
             decision_utc=decision_utc,
         )
 
-    expected_trend = (
-        StructuralTrend.UP if context.rule_id == "B2" else StructuralTrend.DOWN
-    )
-    if (context.d1_trend is not expected_trend
-            or context.h4_trend is not expected_trend):
-        return result(CandidateAction.NO_SIGNAL, "P018_TREND_NOT_SUPPORTED")
-    if context.structure_invalidated:
-        return result(CandidateAction.NO_SIGNAL, "P018_STRUCTURE_INVALIDATED")
+    def geometry() -> tuple[bool, bool, bool]:
+        tolerance = context.known_atr * parameters.near_zone_atr_multiple
+        chase = context.known_atr * parameters.max_chase_atr_multiple
+        return b2s2_geometry(
+            context.rule_id, first.low, first.high, first.close, last.close,
+            (context.h1_zone_low, context.h1_zone_high), context.known_micro_level,
+            tolerance, chase,
+        )
 
-    tolerance = context.known_atr * parameters.near_zone_atr_multiple
-    chase = context.known_atr * parameters.max_chase_atr_multiple
-    near, triggered, anti_chase = b2s2_geometry(
-        context.rule_id, first.low, first.high, first.close, last.close,
-        (context.h1_zone_low, context.h1_zone_high), context.known_micro_level,
-        tolerance, chase,
+    decision = decide_b2s2(
+        context.rule_id, context.d1_trend.value, context.h4_trend.value,
+        context.structure_invalidated, geometry,
     )
-    candidate = CandidateAction.BUY if context.rule_id == "B2" else CandidateAction.SELL
-    if not near:
-        return result(CandidateAction.NO_SIGNAL, "P018_PRIOR_M15_NOT_NEAR_H1_ZONE")
-    if not triggered:
-        return result(CandidateAction.NO_SIGNAL, "P018_NO_LATEST_MICRO_BREAK")
-    if not anti_chase:
-        return result(CandidateAction.NO_SIGNAL, "P018_SYNTHETIC_ANTI_CHASE_LIMIT")
-    return result(candidate, "P018_SYNTHETIC_PARAMETRIC_PATTERN_UNVERIFIED")
+    return result(CandidateAction(decision.action), decision.reason)
