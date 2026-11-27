@@ -19,6 +19,7 @@ from mfx_research.causal_multitf_context import (
     SyntheticDerivationParameters, SyntheticMultiTfBars,
     _validate_closed_synthetic,
 )
+from mfx_research.shared_h1_features import mean_true_range, h1_zone
 from mfx_research.pullback_pilot import (
     ClaimedStructuralContext, ResearchPullbackResult, StructuralTrend,
     UnapprovedResearchParameters, evaluate_unapproved_b2_s2,
@@ -289,27 +290,14 @@ def derive_swing_b2_s2_research(
                     latest_known.confirmation_index].key.bar_end_utc > cutoff):
             raise ValueError("P020_M15_PIVOT_NOT_KNOWN_BEFORE_TRIGGER_OPEN")
         micro_level = latest_known.price
-    tr: list[Decimal] = []
-    for i in range(len(h1) - zone_policy.atr_h1_periods, len(h1)):
-        x, previous = h1[i], h1[i - 1]
-        tr.append(max(
-            x.high - x.low,
-            abs(x.high - previous.close),
-            abs(x.low - previous.close),
-        ))
-    atr = sum(tr, Decimal("0")) / Decimal(zone_policy.atr_h1_periods)
+    atr = mean_true_range(h1, zone_policy.atr_h1_periods)
     if atr <= 0 or not atr.is_finite():
         raise ValueError("P020_NO_H1_TRUE_RANGE_ATR")
-    zone = h1[-zone_policy.h1_zone_lookback:]
-    width = atr * zone_policy.zone_width_atr_multiple
-    if rule_id == "B2":
-        anchor = min(x.low for x in zone)
-        zone_low, zone_high = anchor, anchor + width
-        micro = seed.high
-    else:
-        anchor = max(x.high for x in zone)
-        zone_low, zone_high = anchor - width, anchor
-        micro = seed.low
+    zone_low, zone_high = h1_zone(
+        h1, zone_policy.h1_zone_lookback, atr,
+        zone_policy.zone_width_atr_multiple, rule_id,
+    )
+    micro = seed.high if rule_id == "B2" else seed.low
     if micro_level is not None:
         micro = micro_level
     if zone_low <= 0:

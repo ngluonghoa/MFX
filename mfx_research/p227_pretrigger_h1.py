@@ -15,6 +15,7 @@ from mfx_research.mfx_b2s2_confirmed_policy_v2 import _p160_still_pinned
 from mfx_research.mfx_b2s2_independent_policy_draft import (
     read_independent_mfx_policy_draft,
 )
+from mfx_research.shared_h1_features import mean_true_range, h1_zone
 from mfx_research.six_tf_readonly_context import _expected_last_closed
 
 HOUR = timedelta(hours=1)
@@ -127,18 +128,14 @@ def _calculate_archive_h1_at_cutoff(
     suffix = suffix[start:]
     if len(suffix) < needed:
         return PrivatePretriggerH1("PRETRIGGER_H1_HISTORY_INSUFFICIENT", len(suffix), cutoff)
-    tr = [max(Decimal(x.high)-Decimal(x.low),
-              abs(Decimal(x.high)-Decimal(prev.close)),
-              abs(Decimal(x.low)-Decimal(prev.close)))
-          for prev, x in zip(suffix, suffix[1:])]
-    period = policy.h1_tr_mean_period
-    mean = sum(tr[-period:], Decimal(0)) / Decimal(period)
+    mean = mean_true_range(suffix, policy.h1_tr_mean_period)
     if mean <= 0:
         return PrivatePretriggerH1("PRETRIGGER_H1_ZERO_RANGE", len(suffix), cutoff)
-    zone = suffix[-policy.h1_zone_lookback:]
-    low, high = min(Decimal(x.low) for x in zone), max(Decimal(x.high) for x in zone)
-    width = mean * policy.h1_width_multiple
-    if high - width <= 0:
+    support = h1_zone(suffix, policy.h1_zone_lookback, mean,
+                      policy.h1_width_multiple, "B2")
+    resistance = h1_zone(suffix, policy.h1_zone_lookback, mean,
+                         policy.h1_width_multiple, "S2")
+    if resistance[0] <= 0:
         return PrivatePretriggerH1("PRETRIGGER_H1_NONPOSITIVE_ZONE", len(suffix), cutoff)
     source_context = digest({"schema": "P237_H1_DRAFT_INPUT_V1",
                              "cutoff": cutoff.isoformat(),
@@ -146,6 +143,6 @@ def _calculate_archive_h1_at_cutoff(
                              "source": [b.source_sha256 for b in suffix]})
     return PrivatePretriggerH1(
         "PRETRIGGER_H1_DRAFT_CONTEXT_COMPUTED", len(suffix), cutoff, mean,
-        (low, low+width), (high-width, high),
+        support, resistance,
         source_context_sha256=source_context,
     )
