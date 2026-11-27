@@ -16,6 +16,7 @@ from forex_trading.market_data import (
 )
 from forex_trading.quotes import ensure_utc
 
+from mfx_research.shared_h1_features import mean_true_range, h1_zone
 from mfx_research.pullback_pilot import (
     ClaimedStructuralContext, ResearchPullbackResult, StructuralTrend,
     UnapprovedResearchParameters, evaluate_unapproved_b2_s2,
@@ -201,29 +202,14 @@ def derive_and_evaluate_b2_s2(
 
     h1 = bars.hourly
     atr_periods = derivation.atr_h1_periods
-    tr_values: list[Decimal] = []
-    # Previous H1 close is known; unlike high-low-only proxy this handles
-    # H1 interbar gaps, but NOT broker ticks, spread or execution costs.
-    for i in range(len(h1) - atr_periods, len(h1)):
-        current, prior = h1[i], h1[i - 1]
-        tr_values.append(max(
-            current.high - current.low,
-            abs(current.high - prior.close),
-            abs(current.low - prior.close),
-        ))
-    atr = sum(tr_values, Decimal("0")) / Decimal(atr_periods)
+    atr = mean_true_range(h1, atr_periods)
     if not atr.is_finite() or atr <= 0:
         raise ValueError("P019_NO_POSITIVE_H1_TRUE_RANGE")
-    zone_bars = h1[-derivation.h1_zone_lookback:]
-    width = atr * derivation.zone_width_atr_multiple
-    if rule_id == "B2":
-        anchor = min(x.low for x in zone_bars)
-        zone_low, zone_high = anchor, anchor + width
-        micro = seed.high
-    else:
-        anchor = max(x.high for x in zone_bars)
-        zone_low, zone_high = anchor - width, anchor
-        micro = seed.low
+    zone_low, zone_high = h1_zone(
+        h1, derivation.h1_zone_lookback, atr,
+        derivation.zone_width_atr_multiple, rule_id,
+    )
+    micro = seed.high if rule_id == "B2" else seed.low
     if zone_low <= 0:
         raise ValueError("P019_DERIVED_ZONE_NOT_POSITIVE")
     first_known = max(
