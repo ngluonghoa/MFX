@@ -38,6 +38,37 @@ class UnapprovedPullbackResearchTests(unittest.TestCase):
         self.assertEqual(result.rule_id, "S2")
         self.assertIs(result.stage, SignalStage.UNVERIFIED)
 
+    def test_candidate_clock_includes_late_earlier_probe_retrieval(self) -> None:
+        for rule in ("B2", "S2"):
+            bars, ctx, p = case(rule)
+            first, last = bars
+            late = last.first_known_utc + timedelta(seconds=5)
+            first = replace(first, observation=replace(first.observation, retrieved_at_utc=late))
+            with self.subTest(rule=rule):
+                result = evaluate_unapproved_b2_s2((first, last), ctx, p, late)
+                self.assertEqual(result.first_known_utc, late)
+                self.assertIs(result.action, CandidateAction.BUY if rule == "B2" else CandidateAction.SELL)
+
+    def test_candidate_clock_includes_late_latest_probe_retrieval(self) -> None:
+        for rule in ("B2", "S2"):
+            bars, ctx, p = case(rule)
+            first, last = bars
+            late = last.first_known_utc + timedelta(seconds=5)
+            last = replace(last, observation=replace(last.observation, retrieved_at_utc=late))
+            with self.subTest(rule=rule):
+                result = evaluate_unapproved_b2_s2((first, last), ctx, p, late)
+                self.assertEqual(result.first_known_utc, late)
+
+    def test_candidate_clock_includes_later_revision_knowledge_even_no_signal(self) -> None:
+        bars, ctx, p = case("B2")
+        first, last = bars
+        late = last.first_known_utc + timedelta(seconds=5)
+        first = replace(first, first_known_utc=late)
+        result = evaluate_unapproved_b2_s2(
+            (first, last), replace(ctx, h4_trend=StructuralTrend.UNKNOWN), p, late)
+        self.assertIs(result.action, CandidateAction.NO_SIGNAL)
+        self.assertEqual(result.first_known_utc, late)
+
     def test_no_source_parity_no_confirmed_signal_no_trade(self) -> None:
         for rule in ("B2", "S2"):
             with self.subTest(rule=rule):
