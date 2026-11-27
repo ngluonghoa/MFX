@@ -3914,6 +3914,24 @@
       "change": "added",
       "expected_current_sha": "1899d235208e60a83359608fee741524fb161baf",
       "reason": "P249 versioned shared independent synthetic B2/S2 policy scenario; explicit non-calibrated price-unit assumptions and existing risk/monitoring policy adapters, six tests, no source authority, data IO, trading or schedule changes."
+    },
+    {
+      "path": "mfx_research/p250_shared_sim_mirror.py",
+      "change": "added",
+      "expected_current_sha": "0b9abf895fad9eb741704b2b4a7275bc37825679",
+      "reason": "P250 independent SIM reflection of shared P249 P189 entry/P215 structural net R/P214 invalidation including quote side and causal paths; seven tests, no market or source approval."
+    },
+    {
+      "path": "tests/test_mfx_p250_shared_sim_mirror.py",
+      "change": "added",
+      "expected_current_sha": "6adafd45a0f0c50b79f17e66cceb802e2cfc6fdc",
+      "reason": "P250 independent SIM reflection of shared P249 P189 entry/P215 structural net R/P214 invalidation including quote side and causal paths; seven tests, no market or source approval."
+    },
+    {
+      "path": "docs/MFX_P250_SHARED_SIM_MIRROR.md",
+      "change": "added",
+      "expected_current_sha": "1e9488810b262c94159945a22d9e4de9c4babd42",
+      "reason": "P250 independent SIM reflection of shared P249 P189 entry/P215 structural net R/P214 invalidation including quote side and causal paths; seven tests, no market or source approval."
     }
   ]
 }
