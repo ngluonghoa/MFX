@@ -348,3 +348,66 @@ class P244BoundaryGapTests(TestCase):
         s=json.dumps(run().public_summary())
         self.assertNotIn("minimum_signed_distance",s)
         self.assertNotIn("unbuffered_boundary_breach",s)
+
+
+class P245ObservedH4FollowupTests(TestCase):
+    def shifted(self, minutes=None):
+        from datetime import datetime
+        raw,clocks=shaped()
+        shift=timedelta(hours=3)
+        raw=tuple(replace(b,start_utc=(datetime.fromisoformat(b.start_utc)+shift).isoformat()) for b in raw)
+        clocks=tuple((known+shift,end+shift) for known,end in clocks)
+        h4=h4_fixture()
+        if minutes is not None:
+            end=clocks[-1][1]
+            bar=replace(h4[-1][1][0],native_open_label=(end-timedelta(hours=4)).strftime("%Y-%m-%d %H:%M:%S"))
+            h4=h4+((end+timedelta(minutes=minutes),(bar,)),)
+        return run(raw,clocks,h4=h4)
+
+    def test_later_actual_h4_arrival_is_distinct_frozen_recheck(self):
+        r=self.shifted(12)
+        s=r.public_summary()
+        f=s["observed_later_h4_archive_recheck"]
+        self.assertEqual(f["original_joint_bound_recheck_with_h4_gap"],1)
+        self.assertEqual(f["original_due_h4_slots_later_visible"],1)
+        self.assertEqual(f["later_bound_recheck_and_both_boundaries"],1)
+        self.assertEqual(s["joint_clock_selected_replay"]["bound_context_decision_and_both_boundary_grids_coverage"],0)
+        original,later=r.h4_followups[0]
+        self.assertEqual(original.setup_context_identity,later.setup_context_identity)
+        self.assertGreater(later.archive_decision_utc,original.archive_decision_utc)
+
+    def test_h4_arrival_after_m15_settlement_cannot_reuse_stale_decision(self):
+        f=self.shifted(20).public_summary()["observed_later_h4_archive_recheck"]
+        self.assertEqual(f["later_h4_grid_complete"],1)
+        self.assertEqual(f["later_m15_grid_complete"],0)
+        self.assertEqual(f["later_frozen_level_recheck"],0)
+        self.assertEqual(f["later_bound_recheck_and_both_boundaries"],0)
+
+    def test_no_observed_later_archive_no_fabricated_revisit(self):
+        f=self.shifted().public_summary()["observed_later_h4_archive_recheck"]
+        self.assertEqual(f["no_observed_recovery_in_audited_history"],1)
+        self.assertEqual(f["original_due_h4_slots_later_visible"],0)
+
+    def test_same_decision_clock_is_not_followup(self):
+        f=self.shifted(7).public_summary()["observed_later_h4_archive_recheck"]
+        self.assertEqual(f["original_joint_bound_recheck_with_h4_gap"],0)
+        self.assertEqual(f["original_due_h4_slots_later_visible"],0)
+
+    def test_forged_frozen_context_or_duplicate_rejected(self):
+        r=self.shifted(12)
+        original,later=r.h4_followups[0]
+        for rows in (((original,replace(later,trigger_identity=replace(later.trigger_identity,
+                     persistent_idempotence_verified=True))),),
+                     ((original,later),(original,later))):
+            with self.assertRaisesRegex(ValueError,"P245_FROZEN_FOLLOWUP_DRIFT"):
+                replace(r,h4_followups=rows).public_summary()
+
+    def test_followup_summary_masks_values_and_has_no_authority(self):
+        r=self.shifted(12)
+        f=r.public_summary()["observed_later_h4_archive_recheck"]
+        s=json.dumps(f)
+        self.assertNotIn("2026-11",s)
+        self.assertNotIn(r.h4_followups[0][0].setup_context_identity.bounded_context_sha256,s)
+        self.assertFalse(f["original_decision_rewritten"])
+        self.assertFalse(f["expiry_policy_selected"])
+        self.assertEqual(f["action"],"NO_SIGNAL")
