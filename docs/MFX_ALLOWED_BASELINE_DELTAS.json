@@ -3606,8 +3606,8 @@
     {
       "path": "mfx_research/p220_private_observed_six_tf.py",
       "change": "added",
-      "expected_current_sha": "d066c9977f898a95c554de325b4843fb7849b669",
-      "reason": "P277 private UTC civil-day coverage diagnostic on audited existing replay; no authority change."
+      "expected_current_sha": "081dda9a27001b3b096769fab5f8fedf0511525e",
+      "reason": "P278 adds private active native-D1 vintage research beside P277 civil-day capacity; no source qualification."
     },
     {
       "path": "tests/test_mfx_p220_private_observed_six_tf.py",
@@ -4364,6 +4364,24 @@
       "change": "added",
       "expected_current_sha": "7a4adaccaec9fbd9cfaaaf723e90a86b9d631555",
       "reason": "P277 private UTC civil-day coverage diagnostic; no authority change."
+    },
+    {
+      "path": "mfx_research/p278_d1_vintage_research.py",
+      "change": "added",
+      "expected_current_sha": "7078566602544e4d7675407e7d329e8e9a44ff43",
+      "reason": "P278 active whole native-D1 vintage ordinal capacity and revision accounting; no authority."
+    },
+    {
+      "path": "tests/test_mfx_p278_d1_vintage_research.py",
+      "change": "added",
+      "expected_current_sha": "8f364599f698635ecdd09f7047a6579b120af293",
+      "reason": "P278 active whole native-D1 vintage ordinal capacity and revision accounting; no authority."
+    },
+    {
+      "path": "docs/MFX_P278_NATIVE_D1_VINTAGE_STABILITY.md",
+      "change": "added",
+      "expected_current_sha": "14527cf1130a150dd1bf97b8c09f4b3c42344eb6",
+      "reason": "P278 active whole native-D1 vintage ordinal capacity and revision accounting; no authority."
     }
   ]
 }

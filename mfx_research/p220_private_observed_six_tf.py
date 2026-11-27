@@ -8,6 +8,7 @@ from __future__ import annotations
 from mfx_research.p254_d1_research_vintage import select_private_d1_research_vintage
 from mfx_research.unified_modes import MfxMode, require_candidate_mode
 from mfx_research.p277_civil_day_research import CivilDayStudy, study_civil_days
+from mfx_research.p278_d1_vintage_research import VintageStudy, study_native_vintages
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
@@ -176,6 +177,7 @@ class PrivateObservedReplay:
     delayed_middle_replay: PrivateDelayedMiddleReplay | None = field(default=None, repr=False)
 
     civil_day_study: CivilDayStudy | None = None
+    native_vintage_study: VintageStudy | None = None
 
     def public_summary(self) -> dict[str, object]:
         summary: dict[str, object] = {
@@ -218,6 +220,8 @@ class PrivateObservedReplay:
             summary["delayed_middle_m15_research"] = self.delayed_middle_replay.public_summary()
         if self.civil_day_study is not None:
             summary["utc_civil_day_research"] = self.civil_day_study.public_summary()
+        if self.native_vintage_study is not None:
+            summary["native_d1_vintage_research"] = self.native_vintage_study.public_summary()
         if self.replay_io_counts is not None:
             first, replay, reused = self.replay_io_counts
             if any(type(n) is not int or n < 0 for n in (first, replay, reused)):
@@ -513,4 +517,5 @@ def replay_private_observed_six_tf(
         delayed_middle_replay=delayed,
         civil_day_study=study_civil_days(
             final_raw, m5.private_raw_hour_commits[:len(final_raw)//12],
-            cutoff=decisions_utc[-1]))
+            cutoff=decisions_utc[-1]),
+        native_vintage_study=study_native_vintages(d1, cutoff=decisions_utc[-1]))
