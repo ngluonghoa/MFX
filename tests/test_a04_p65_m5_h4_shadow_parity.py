@@ -167,6 +167,21 @@ class H4NativeParityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "UTC_GRID"):
             compare_shadow_to_native(self.shadow, (ref,))
 
+    def test_native_off_grid_minute_is_rejected_not_missing(self) -> None:
+        ref = replace(self.reference, native_open_label="2026-11-11 00:05:00")
+        with self.assertRaisesRegex(ValueError, "UTC_GRID"):
+            compare_shadow_to_native(self.shadow, (ref,))
+
+    def test_native_off_grid_second_is_rejected_not_missing(self) -> None:
+        ref = replace(self.reference, native_open_label="2026-11-11 04:00:01")
+        with self.assertRaisesRegex(ValueError, "UTC_GRID"):
+            compare_shadow_to_native(self.shadow, (ref,))
+
+    def test_native_off_grid_extra_row_cannot_hide_behind_match(self) -> None:
+        ref = replace(self.reference, native_open_label="2026-11-11 04:01:00")
+        with self.assertRaisesRegex(ValueError, "UTC_GRID"):
+            compare_shadow_to_native(self.shadow, (self.reference, ref))
+
     def test_duplicate_native_is_rejected(self) -> None:
         with self.assertRaisesRegex(ValueError, "DUPLICATE"):
             compare_shadow_to_native(self.shadow,
