@@ -28,7 +28,8 @@ class P256Tests(TestCase):
     def test_touch_mirror_and_no_authority(self):
         h, p = fixture()
         a = ema_watch("B2", h, p, p.first_known_utc, near_atr=D("0"))
-        mirror = lambda b: reflect_sim_closed_ohlc(b, anchor=D("1.2"))
+        def mirror(b):
+            return reflect_sim_closed_ohlc(b, anchor=D("1.2"))
         q = mirror(p)
         b = ema_watch("S2", tuple(map(mirror, h)), q, q.first_known_utc, near_atr=D("0"))
         self.assertEqual((a.near20, a.near50), (True, True))
@@ -44,7 +45,7 @@ class P256Tests(TestCase):
 
     def test_future_h1_and_stale_h1_rejected(self):
         h, p = fixture()
-        for rows in (h[:-1], h[:-1] + (replace(h[-1],
+        for rows in (h[:-1], h[:5] + h[6:], h[:-1] + (replace(h[-1],
                     first_known_utc=p.first_known_utc),)):
             with self.assertRaises(ValueError):
                 ema_watch("B2", rows, p, p.first_known_utc, near_atr=D("0"))

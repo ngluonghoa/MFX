@@ -4026,13 +4026,13 @@
     {
       "path": "mfx_research/p256_ema_watch.py",
       "change": "added",
-      "expected_current_sha": "f9bf73e34f32afcaf701721aa6d11af065d7c80d",
+      "expected_current_sha": "af9f23422da8051c77a3835bcdf49391765df0d5",
       "reason": "P256 causal synthetic EMA WATCH research; no source approval, I/O or signal authority."
     },
     {
       "path": "tests/test_mfx_p256_ema_watch.py",
       "change": "added",
-      "expected_current_sha": "f4dd2f804cc5850f8313c44176399e6d8ec9f092",
+      "expected_current_sha": "a0c116a28660f504c3b5a1e6b5184850650077fc",
       "reason": "P256 causal synthetic EMA WATCH research; no source approval, I/O or signal authority."
     },
     {
