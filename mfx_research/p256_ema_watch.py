@@ -16,6 +16,14 @@ def validate_series(rows, tf, cutoff, identity=None):
     if (type(rows) is not tuple or not 1 <= len(rows) <= 512
             or any(type(b) is not MarketBar for b in rows)):
         raise ValueError("P256_BOUNDED_TYPED_SERIES_REQUIRED")
+    # Fixed UTC synthetic calendar only; length alone does not establish grid.
+    for bar in rows:
+        start = bar.key.bar_start_utc
+        if (start.second or start.microsecond
+                or (tf is Timeframe.M15 and start.minute % 15)
+                or (tf is Timeframe.H1 and start.minute)
+                or (tf is Timeframe.D1 and (start.hour or start.minute))):
+            raise ValueError("P261_OFF_GRID_SYNTHETIC_BAR")
     first = rows[0]
     actual = (first.key.instrument_version, first.observation.provider_id,
               first.key.calendar_version)

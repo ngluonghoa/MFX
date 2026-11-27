@@ -31,6 +31,7 @@ def adr_session_gate(daily, current, decision_utc: datetime, *,
     start = current[0].key.bar_start_utc
     end = current[-1].key.bar_end_utc
     if (start.hour or start.minute or start.second or start.microsecond
+            or not start <= decision_utc < start + timedelta(days=1)
             or end > start + timedelta(days=1)
             or decision_utc - end >= timedelta(minutes=15)):
         raise ValueError("P260_INCOMPLETE_OR_STALE_CURRENT_SESSION")
