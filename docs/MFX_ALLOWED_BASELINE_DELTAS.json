@@ -3744,8 +3744,8 @@
     {
       "path": "mfx_research/p231_private_trigger_identity.py",
       "change": "added",
-      "expected_current_sha": "ea5e6d0e407c6e3ada92bac008ce67afaa80be11",
-      "reason": "P231 private paired trigger-slot identity and payload conflict/dedup across bounded in-memory archive replay only; no persistence, expiry policy, complete setup identity, price publication or signal approval; six tests and integration. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval."
+      "expected_current_sha": "5ddf2d1d14f841c274fec5fd39196688f7c643ce",
+      "reason": "P231 private paired trigger-slot identity and payload conflict/dedup across bounded in-memory archive replay only; no persistence, expiry policy, complete setup identity, price publication or signal approval; six tests and integration. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval. P266 private EMA source identity and probe join."
     },
     {
       "path": "tests/test_mfx_p231_private_trigger_identity.py",
@@ -3762,8 +3762,8 @@
     {
       "path": "mfx_research/p232_delayed_middle_pairs.py",
       "change": "added",
-      "expected_current_sha": "6b6db897136a94c3b37dd0077bda51f3dbf09657",
-      "reason": "P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval. P235 actual delayed decision settled M15 path completeness and private mirrored frozen-level/chase recheck, stale/gap fail-closed, coverage only, no expiry, signal, I/O or schedule change; six tests. P236 private symmetric two-closed-M15 early relative-extremum/contact/reclaim observations independent of confirmation pivot availability, aggregate coverage only, six tests, no event rule/authority or extra I/O. P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P238 price-independent full decision-clock census, interior/trailing missing slots and joint precursor coverage, raw replay crosscheck, six tests, no new IO or authority. P239 third bounded joint clock-only research cohort, exact overlap reuse and raw coverage validation, six tests, no extra IO or authority. P240 technical intersections on unique receipts and zero-range H1 clock denominator correction, six tests, no extra IO/authority. P241 native H4/D1 gap partition and decision recheck without fresh five-row D1, six tests, no extra IO or authority. P242 causal D1 archive visibility full-tail clock opportunity partition and selected receipt crosscheck, six tests, no extra IO or authority. P243 mutually exclusive precursor/decision blocker matrix per actual D1 archive era, missing slot observations, fail-closed conservation, six tests, no additional IO or authority. P244 exact mirrored H1/H4 boundary slot accounting and bound-recheck gap partition, six tests, no additional IO or authority. P245 separate actual later H4 archive followup on frozen context, no original decision rewrite, six tests, zero extra IO or authority. P246 earliest actual cross-frame complete recheck after H4 recovery, causal clock selection, six tests, zero extra IO or authority. P263 private EMA archive-visible research integration. P264 EMA seed clock partition and joint coverage. P265 paired private EMA seed sensitivity."
+      "expected_current_sha": "17af70503393c3b90819d0f01e3849b41a8805b7",
+      "reason": "P232 distinct delayed middle M15 pair replay on actual sealed-hour archive clocks, preserve latest-only public entrypoints, pretrigger H1/H4/D1 and middle trigger SHA source isolation, aggregate coverage only, no approval/I/O/schedule changes. P233 full clock-only precursor coverage denominator and latest32 eligible delayed-middle sample separate from recent cohort, overlap reused; six tests; no price-based selection, signal, I/O or schedule changes. P234 delayed-path private frozen boundary coverage and exact middle trigger identity reuse; same-clock visible prefix only for boundary, no chosen buffer/expiry or post-entry claim, six tests, no extra I/O or approval. P235 actual delayed decision settled M15 path completeness and private mirrored frozen-level/chase recheck, stale/gap fail-closed, coverage only, no expiry, signal, I/O or schedule change; six tests. P236 private symmetric two-closed-M15 early relative-extremum/contact/reclaim observations independent of confirmation pivot availability, aggregate coverage only, six tests, no event rule/authority or extra I/O. P237 bounded private exact consumed setup-source digest binding to paired trigger identity, complete structural coverage only with unqualified D1, no persistent event/expiry or publication authority, six tests, zero extra I/O. P238 price-independent full decision-clock census, interior/trailing missing slots and joint precursor coverage, raw replay crosscheck, six tests, no new IO or authority. P239 third bounded joint clock-only research cohort, exact overlap reuse and raw coverage validation, six tests, no extra IO or authority. P240 technical intersections on unique receipts and zero-range H1 clock denominator correction, six tests, no extra IO/authority. P241 native H4/D1 gap partition and decision recheck without fresh five-row D1, six tests, no extra IO or authority. P242 causal D1 archive visibility full-tail clock opportunity partition and selected receipt crosscheck, six tests, no extra IO or authority. P243 mutually exclusive precursor/decision blocker matrix per actual D1 archive era, missing slot observations, fail-closed conservation, six tests, no additional IO or authority. P244 exact mirrored H1/H4 boundary slot accounting and bound-recheck gap partition, six tests, no additional IO or authority. P245 separate actual later H4 archive followup on frozen context, no original decision rewrite, six tests, zero extra IO or authority. P246 earliest actual cross-frame complete recheck after H4 recovery, causal clock selection, six tests, zero extra IO or authority. P263 private EMA archive-visible research integration. P264 EMA seed clock partition and joint coverage. P265 paired private EMA seed sensitivity. P266 private EMA source identity and probe join."
     },
     {
       "path": "tests/test_mfx_p232_delayed_middle_pairs.py",
@@ -4146,8 +4146,8 @@
     {
       "path": "mfx_research/p263_private_ema_watch.py",
       "change": "added",
-      "expected_current_sha": "2f861f1079835c9dfd192bc92d011d10a4501806",
-      "reason": "P263 private archive-visible EMA research; no new IO, source approval or signal authority. P264 EMA seed clock partition and joint coverage. P265 paired private EMA seed sensitivity."
+      "expected_current_sha": "d3c2b5d0d0939283297a36a046d9fc6a0e0454c8",
+      "reason": "P263 private archive-visible EMA research; no new IO, source approval or signal authority. P264 EMA seed clock partition and joint coverage. P265 paired private EMA seed sensitivity. P266 private EMA source identity and probe join."
     },
     {
       "path": "tests/test_mfx_p263_private_ema_watch.py",
@@ -4184,6 +4184,18 @@
       "change": "added",
       "expected_current_sha": "e9a348fa7e5a975d0369cbb2808422e486332297",
       "reason": "P265 common-sample private EMA warm-up comparison; no signal authority."
+    },
+    {
+      "path": "tests/test_mfx_p266_private_ema_source_identity.py",
+      "change": "added",
+      "expected_current_sha": "99105577e897dfb095ce64340ea16950aae0fc23",
+      "reason": "P266 private EMA source provenance; no signal authority."
+    },
+    {
+      "path": "docs/MFX_P266_PRIVATE_EMA_SOURCE_IDENTITY.md",
+      "change": "added",
+      "expected_current_sha": "05fc7020ad866ac0836dd672b25569055ced5ac0",
+      "reason": "P266 private EMA source provenance; no signal authority."
     }
   ]
 }

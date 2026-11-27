@@ -16,7 +16,7 @@ from mfx_cache.td_m5_codec import ClosedM5Bar
 from mfx_cache.v2_engine import derive_intraday
 from mfx_research.p263_private_ema_watch import (
     PrivateEMAWatch, SEED_CLOCK_STATES, _observe_archive_ema, ema_clock_state,
-    ema_observation_available, ema_seed_comparison_available,
+    bind_private_ema_to_trigger, ema_seed_comparison_available,
 )
 from mfx_research.p227_pretrigger_h1 import (
     PrivatePretriggerH1, _calculate_archive_h1_at_cutoff,
@@ -531,7 +531,8 @@ class PrivateDelayedMiddleReplay:
             decision_grids += int(delayed.closed_grid_complete)
             decision_rechecks += int(bool(delayed.sides))
             early_coverage += int(early_observation_coverage(row.m15, row.h1))
-            ema_available = ema_observation_available(row.ema_watch, row.h1.cutoff_utc)
+            ema_available = bind_private_ema_to_trigger(row.ema_watch, row.trigger_identity,
+                                                        row.h1.cutoff_utc)
             ema_coverage += int(ema_available)
             paired_seeds = ema_seed_comparison_available(row.ema_watch, row.h1.cutoff_utc)
             ema_paired_seeds += int(paired_seeds)
