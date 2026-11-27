@@ -5,6 +5,8 @@ No synthetic relabeling of real prices, D1 calendar inference or signal authorit
 """
 from __future__ import annotations
 
+from mfx_research.p254_d1_research_vintage import select_private_d1_research_vintage
+
 from dataclasses import dataclass, field
 from datetime import date, datetime, timedelta
 from decimal import Decimal
@@ -89,7 +91,6 @@ def calculate_pretrigger_native(
                               if _native_utc_start(b.native_open_label) + H4 <= cutoff - GRACE)
         previous_clock, previous_label = known, bars[-1].native_open_label
 
-    eligible_d1: list[PrivateSnapshot] = []
     seen: set[datetime] = set()
     for created, snap in d1:
         _utc(created)
@@ -101,9 +102,7 @@ def calculate_pretrigger_native(
             raise ValueError("P228_D1_ARCHIVE_CLOCK_DRIFT")
         _validate_native(_batch("1day", snap.rows), "1day", asof=snap.observed)
         seen.add(snap.observed)
-        if created <= cutoff:
-            eligible_d1.append(snap)
-    selected = max(eligible_d1, key=lambda s: s.observed) if eligible_d1 else None
+    selected = select_private_d1_research_vintage(d1, cutoff=cutoff)
     daily = selected.rows if selected else ()
     d1_status = "NO_PRETRIGGER_D1_VINTAGE"
     if daily:
