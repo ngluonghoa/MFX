@@ -4124,6 +4124,24 @@
       "change": "added",
       "expected_current_sha": "5dcaa28c2e1d500c5bfbc20ff33b44d28a155087",
       "reason": "P261 synthetic UTC grid and day rollover regression; no production authority."
+    },
+    {
+      "path": "mfx_research/p262_shared_research_observations.py",
+      "change": "added",
+      "expected_current_sha": "db9ea83a42edc3ec6ec3f48e0cf1d6f21d975a17",
+      "reason": "P262 common causal paired SIM observation packet; no scoring, source approval or execution authority."
+    },
+    {
+      "path": "tests/test_mfx_p262_shared_research_observations.py",
+      "change": "added",
+      "expected_current_sha": "57918c1b4c79f38c049e32b01eb3392cf2f137ec",
+      "reason": "P262 common causal paired SIM observation packet; no scoring, source approval or execution authority."
+    },
+    {
+      "path": "docs/MFX_P262_SHARED_RESEARCH_OBSERVATIONS.md",
+      "change": "added",
+      "expected_current_sha": "7ae87c61d4eb913388f55d9d5c33b291fb7b3c54",
+      "reason": "P262 common causal paired SIM observation packet; no scoring, source approval or execution authority."
     }
   ]
 }
