@@ -7,6 +7,7 @@ from mfx_research.confirmed_swings import (
     PivotKind, SyntheticPivotParameters, detect_confirmed_swings,
 )
 from mfx_research.p256_ema_watch import validate_series
+from mfx_research.shared_b2s2_geometry import strict_closed_cross
 
 
 @dataclass(frozen=True, slots=True, repr=False)
@@ -45,5 +46,5 @@ def early_bos(rule, history, probes, decision_utc: datetime, *, left: int, right
     later = history[pivots[-1].confirmation_index + 1:]
     if any(x.close > level if rule == "B2" else x.close < level for x in later):
         return EarlyBOS(False, False)
-    observed = a.close <= level < b.close if rule == "B2" else a.close >= level > b.close
+    observed = strict_closed_cross(rule, a.close, b.close, level)
     return EarlyBOS(observed, True)

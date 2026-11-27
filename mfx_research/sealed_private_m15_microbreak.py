@@ -22,6 +22,7 @@ from mfx_research.sealed_private_pivot_sensitivity import (
     scan_private_sealed_pivot_sensitivity,
 )
 from mfx_research.six_tf_readonly_context import SixTimeframeResearchReceipt
+from mfx_research.shared_b2s2_geometry import strict_closed_cross
 
 VERSION = "MFX_V1_P158_SEALED_PRIVATE_CAUSAL_M15_MICROBREAK_V1"
 
@@ -117,9 +118,9 @@ def _one_profile(
     now_close = _number(rows[-1].close)
     cross = "NO_RESEARCH_EVENT"
     level: Decimal | None = None
-    if high is not None and prev_close <= high.candidate_mid_price < now_close:
+    if high is not None and strict_closed_cross("B2", prev_close, now_close, high.candidate_mid_price):
         cross, level = "EXPERIMENTAL_UP_CROSS", high.candidate_mid_price
-    elif low is not None and prev_close >= low.candidate_mid_price > now_close:
+    elif low is not None and strict_closed_cross("S2", prev_close, now_close, low.candidate_mid_price):
         cross, level = "EXPERIMENTAL_DOWN_CROSS", low.candidate_mid_price
     return PrivateMicroBreakProfile(
         left, right,
