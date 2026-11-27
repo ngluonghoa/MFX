@@ -4022,6 +4022,24 @@
       "change": "added",
       "expected_current_sha": "ba1d7f4f274d8406e157fb087b62ee5bc9d5618d",
       "reason": "P255 fixed accepted targets, adverse per-unit fee stress, monotonicity and receipt integrity; synthetic only; not historical calibration or signal release."
+    },
+    {
+      "path": "mfx_research/p256_ema_watch.py",
+      "change": "added",
+      "expected_current_sha": "f9bf73e34f32afcaf701721aa6d11af065d7c80d",
+      "reason": "P256 causal synthetic EMA WATCH research; no source approval, I/O or signal authority."
+    },
+    {
+      "path": "tests/test_mfx_p256_ema_watch.py",
+      "change": "added",
+      "expected_current_sha": "f4dd2f804cc5850f8313c44176399e6d8ec9f092",
+      "reason": "P256 causal synthetic EMA WATCH research; no source approval, I/O or signal authority."
+    },
+    {
+      "path": "docs/MFX_P256_EMA_WATCH.md",
+      "change": "added",
+      "expected_current_sha": "476843bf2f085d0d79c04d8b7601c141d59aad7e",
+      "reason": "P256 causal synthetic EMA WATCH research; no source approval, I/O or signal authority."
     }
   ]
 }
