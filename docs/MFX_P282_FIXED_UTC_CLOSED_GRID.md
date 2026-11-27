@@ -1,0 +1,3 @@
+# P282 — fixed UTC-CLOSED validation in the shared synthetic feature route
+
+P261 enforces fixed grid in alternate WATCH/EARLY research, but P019 shared closed-series validation used by P020/P161 only checks duration and contiguity. For the explicitly named SIM:UTC-CLOSED calendar (original fixtures start at UTC midnight), require exact D1/H4/H1/M15 UTC opens. A shifted but equally spaced series must not masquerade as fixed UTC. Other synthetic calendar identities preserve existing relative semantics; no market calendar or native D1 inference. Four regression methods cover mirrored HTF, H1, M15, and unchanged relative calendar. No source-lock, cache, workflow, provider, schedule, MST or release authority change. NO_SIGNAL.
