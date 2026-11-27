@@ -1,0 +1,3 @@
+# P250 — integrated shared B2/S2 reflection witness
+
+Use the single versioned P249 research scenario, recompute P189 entry geometry, then independently run P215 structural target/economics and P214 closed H1/H4 invalidation on original and fully price-reflected synthetic input including reversed bid/ask and later paths. Compare dispositions, first/next obstacle, accepted exits if available, spread, after-cost risk/reward/net R, side reversal, anchors, counts and causal invalidation clocks. Missing/no-setup and blocked economics do not become accepted plans. The scope is pinned independent MFX SIM only; it is not complete original Forex detector parity, OOS, market data rights, or real execution. Seven tests. No new calls, schedule, source approval or signal.
