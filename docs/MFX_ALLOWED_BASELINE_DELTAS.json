@@ -4094,6 +4094,24 @@
       "change": "added",
       "expected_current_sha": "71fdfee15e359a4720c5516d8bdd8744eab2c2db",
       "reason": "P259 Option B causal paired SIM research; no source admission, I/O or signal authority."
+    },
+    {
+      "path": "mfx_research/p260_adr_session_gate.py",
+      "change": "added",
+      "expected_current_sha": "bbd371638c31e0d464413767e3b7adb0804cd063",
+      "reason": "P260 Option B causal paired SIM research; no source admission, I/O or signal authority."
+    },
+    {
+      "path": "tests/test_mfx_p260_adr_session_gate.py",
+      "change": "added",
+      "expected_current_sha": "7d4d81cd0dc7e6990f18c7c4dcd02d50c560bb00",
+      "reason": "P260 Option B causal paired SIM research; no source admission, I/O or signal authority."
+    },
+    {
+      "path": "docs/MFX_P260_ADR_SESSION_GATE.md",
+      "change": "added",
+      "expected_current_sha": "3894de16f67d72c1bcac4b7e2856b50dc74ee875",
+      "reason": "P260 Option B causal paired SIM research; no source admission, I/O or signal authority."
     }
   ]
 }
