@@ -3950,6 +3950,24 @@
       "change": "added",
       "expected_current_sha": "307f064087a43c67f5f4ccb6fab7155f48d63730",
       "reason": "P251 research-only canonical structural fold; no original source or production promotion"
+    },
+    {
+      "path": "mfx_research/p252_shared_sim_lifecycle.py",
+      "change": "added",
+      "expected_current_sha": "c6b7a14c3bc57ac80314c0f587f9b5a9d9313d6d",
+      "reason": "P252 Research-only shared profile lifecycle, no production promotion"
+    },
+    {
+      "path": "tests/test_mfx_p252_shared_sim_lifecycle.py",
+      "change": "added",
+      "expected_current_sha": "87120551cf500713966aefd0232d9bc82f358a7f",
+      "reason": "P252 Research-only shared profile lifecycle, no production promotion"
+    },
+    {
+      "path": "docs/MFX_P252_SHARED_SIM_LIFECYCLE.md",
+      "change": "added",
+      "expected_current_sha": "3eb7d8a2591031038d7fc05164e4874a7b004073",
+      "reason": "P252 Research-only shared profile lifecycle, no production promotion"
     }
   ]
 }
