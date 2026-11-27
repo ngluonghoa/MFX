@@ -1,0 +1,26 @@
+{
+  "schema": "MFX_P249_B2S2_SIM_PROFILE_V1",
+  "scope": "INDEPENDENT_MFX_SYNTHETIC_SCENARIO_ONLY",
+  "rules": [
+    "B2",
+    "S2"
+  ],
+  "entry_profile": "PINNED_P160_P161_P188",
+  "price_unit": "EURUSD_STYLE_SIM_PRICE_0.0001_PER_PIP",
+  "invalidation_frames": [
+    "H1",
+    "H4"
+  ],
+  "invalidation_buffer_pips": "0.5",
+  "stop_frame": "H1",
+  "stop_buffer_pips": "1",
+  "target_buffer_pips": "0.5",
+  "mid_exit_offset_pips": "0.5",
+  "minimum_net_r": "1.5",
+  "expiry_m15_slots": 4,
+  "quote_max_age_seconds": 30,
+  "source_numeric_approved": false,
+  "real_market_data_allowed": false,
+  "may_publish_buy_sell": false,
+  "may_trade": false
+}

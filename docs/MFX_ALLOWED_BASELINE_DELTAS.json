@@ -3890,6 +3890,30 @@
       "change": "added",
       "expected_current_sha": "48cea1a1b5f163e73f56eaaf1e3f0a740b518808",
       "reason": "P248 shared-cache pending-run protection, static tests and operational evidence only; no source or signal authority."
+    },
+    {
+      "path": "docs/MFX_P249_B2S2_SIM_PROFILE.json",
+      "change": "added",
+      "expected_current_sha": "87fd0e7815e7be02e89a2ce1e2f683774d4146b9",
+      "reason": "P249 versioned shared independent synthetic B2/S2 policy scenario; explicit non-calibrated price-unit assumptions and existing risk/monitoring policy adapters, six tests, no source authority, data IO, trading or schedule changes."
+    },
+    {
+      "path": "mfx_research/p249_b2s2_sim_profile.py",
+      "change": "added",
+      "expected_current_sha": "d70c2c571121a71bc2c0f5f85690c16d5be9c05b",
+      "reason": "P249 versioned shared independent synthetic B2/S2 policy scenario; explicit non-calibrated price-unit assumptions and existing risk/monitoring policy adapters, six tests, no source authority, data IO, trading or schedule changes."
+    },
+    {
+      "path": "tests/test_mfx_p249_b2s2_sim_profile.py",
+      "change": "added",
+      "expected_current_sha": "14809124bbf2a7962591af55dad741efa101c545",
+      "reason": "P249 versioned shared independent synthetic B2/S2 policy scenario; explicit non-calibrated price-unit assumptions and existing risk/monitoring policy adapters, six tests, no source authority, data IO, trading or schedule changes."
+    },
+    {
+      "path": "docs/MFX_P249_SHARED_B2S2_SIM_SCENARIO.md",
+      "change": "added",
+      "expected_current_sha": "1899d235208e60a83359608fee741524fb161baf",
+      "reason": "P249 versioned shared independent synthetic B2/S2 policy scenario; explicit non-calibrated price-unit assumptions and existing risk/monitoring policy adapters, six tests, no source authority, data IO, trading or schedule changes."
     }
   ]
 }
