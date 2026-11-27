@@ -3968,6 +3968,24 @@
       "change": "added",
       "expected_current_sha": "3eb7d8a2591031038d7fc05164e4874a7b004073",
       "reason": "P252 Research-only shared profile lifecycle, no production promotion"
+    },
+    {
+      "path": "mfx_research/p253_massive_bbo_schema_sim.py",
+      "change": "added",
+      "expected_current_sha": "9f23a02802ab2cc150a273c8d93dae4eb6eed286",
+      "reason": "P253 synthetic-only Massive BBO schema, exact event clock and decimal prices; no publisher first-known, rights, real source or signal approval."
+    },
+    {
+      "path": "tests/test_mfx_p253_massive_bbo_schema_sim.py",
+      "change": "added",
+      "expected_current_sha": "69c130f323e6462a2e5a2328fca8a127a20c57ad",
+      "reason": "P253 synthetic-only Massive BBO schema, exact event clock and decimal prices; no publisher first-known, rights, real source or signal approval."
+    },
+    {
+      "path": "docs/MFX_P253_BIDASK_SOURCE_SCHEMA_REVIEW.md",
+      "change": "added",
+      "expected_current_sha": "0e6dd95b6355aea4d04ad74ac7cb0cff02849f67",
+      "reason": "P253 synthetic-only Massive BBO schema, exact event clock and decimal prices; no publisher first-known, rights, real source or signal approval."
     }
   ]
 }
