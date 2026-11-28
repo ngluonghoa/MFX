@@ -1,0 +1,3 @@
+# P286 — computed SIM B2/S2 router availability
+
+P283 corrected the P018 receipt to include both trigger revision-known and retrieval clocks. P032 still compared against only the final bar revision clock and used raw final-bar timestamps in a derived claim; late retrieval could reject a valid as-of computed pattern (or incorrectly timestamp a claim). Bind P032 to the aggregate consumed-clock boundary and pass the computed clock to the derived SIM router claim, consistent with P161. Four regression methods across B2/S2 and P033 replay, including NO_SIGNAL and future retrieval rejection. Preserve original origin ID, price arithmetic, source gates and hash-chain contract. No source/cache/workflow/schedule/Production/MST changes. NO_SIGNAL.

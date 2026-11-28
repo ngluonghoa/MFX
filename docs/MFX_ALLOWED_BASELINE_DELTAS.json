@@ -900,8 +900,8 @@
     {
       "path": "mfx_research/p032_synthetic_ohlc_bridge.py",
       "change": "added",
-      "expected_current_sha": "9e446ffa639a9b7e4e10fec30da0d27954c76739",
-      "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched."
+      "expected_current_sha": "c06850cd28860bd96d16d5136281b282e3f2117e",
+      "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched. P286 computed SIM B2/S2 router and replay availability."
     },
     {
       "path": "mfx_research/p033_asof_sim_replay.py",
@@ -1224,14 +1224,14 @@
     {
       "path": "tests/test_a04_p32_synthetic_ohlc_bridge.py",
       "change": "added",
-      "expected_current_sha": "32336f568ddb1fe7cd5cc97572d34930b83e2a70",
-      "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched."
+      "expected_current_sha": "a06aaf10c321255b7add810c889e9276e10a5b04",
+      "reason": "A04/P0.32 computed synthetic CLOSED D1/H4/H1/M15 OHLC B2/S2 research pilot into existing P031 22-zone NO_SIGNAL event router. Includes 24 preregistered causal/negative/nonpromotion tests, hosted Cloud demo/strict mypy, SHA allowlist. NO source Forex numeric approval, no real provider/Drive raw quote cache/alerts/broker/release, original Forex src untouched. P286 computed SIM B2/S2 router and replay availability."
     },
     {
       "path": "tests/test_a04_p33_asof_sim_replay.py",
       "change": "added",
-      "expected_current_sha": "32ae114c89182453dcf6267391f5f5eed44c9238",
-      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
+      "expected_current_sha": "707e1f5022d6c0a5f4c59d0331c577ec54b8144e",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. P286 computed SIM B2/S2 router and replay availability."
     },
     {
       "path": "tests/test_a04_p34_sim_adversarial_review.py",
@@ -4430,6 +4430,12 @@
       "change": "added",
       "expected_current_sha": "6944a8628977bfce87ea85badada9289a554eef4",
       "reason": "P285 computed SIM EMA availability; no market authority."
+    },
+    {
+      "path": "docs/MFX_P286_SIM_ROUTER_COMPUTED_AVAILABILITY.md",
+      "change": "added",
+      "expected_current_sha": "c23a71e7ff9db37844793e7797cba4a23be53cb8",
+      "reason": "P286 synthetic router computed availability; no market authority."
     }
   ]
 }
