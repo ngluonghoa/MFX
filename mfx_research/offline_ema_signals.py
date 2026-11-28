@@ -147,7 +147,10 @@ def research_only_ema_signal(
         instrument=first.key.instrument_version,
         timeframe=Timeframe.M15,
         latest_bar_end_utc=bars[-1].key.bar_end_utc,
-        first_known_utc=bars[-1].first_known_utc,
+        # EMA consumes the entire bounded prefix, including its seed.
+        # This is computed availability, not a publisher first-known claim.
+        first_known_utc=max(max(b.first_known_utc, b.observation.retrieved_at_utc)
+                            for b in bars),
         decision_utc=decision_utc,
         reason=("RESEARCH_ONLY_SYNTHETIC_EMA_CROSS_NOT_ORIGINAL_FOREX"
                 if action is not CandidateAction.NO_SIGNAL
