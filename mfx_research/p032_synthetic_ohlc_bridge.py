@@ -166,10 +166,15 @@ def compute_and_route_sim_b2_s2(
     if pattern.action not in (expected, CandidateAction.NO_SIGNAL):
         raise ValueError("P032_WRONG_DIRECTION_FROM_UNAPPROVED_SIM_PILOT")
     latest = bars.trigger_m15[-1]
+    # P283's computed clock includes both trigger revisions and retrievals.
+    expected_known = max(
+        max(bar.first_known_utc, bar.observation.retrieved_at_utc)
+        for bar in bars.trigger_m15
+    )
     if (latest.key.side is not BarSide.MID
             or pattern.instrument_version != latest.key.instrument_version
             or pattern.origin_event_id != origin
-            or pattern.first_known_utc != latest.first_known_utc):
+            or pattern.first_known_utc != expected_known):
         raise ValueError("P032_SOURCE_ORIGIN_OR_MID_IDENTITY_DRIFT")
 
     claims: tuple[SimZoneLabelClaim, ...] = ()
@@ -182,8 +187,9 @@ def compute_and_route_sim_b2_s2(
             stream_id=latest.observation.stream_id,
             label=rule_id,  # from computed + verified P019/P018, not user claim
             closed_candle_end_utc=latest.key.bar_end_utc,
-            first_known_utc=latest.first_known_utc,
-            retrieved_at_utc=latest.observation.retrieved_at_utc,
+            # Derived SIM event availability, not raw publisher timestamps.
+            first_known_utc=pattern.first_known_utc,
+            retrieved_at_utc=pattern.first_known_utc,
         ),)
     routed = route_sim_22_zone_labels(claims, decision_utc)
     if (len(routed.classified) != len(claims)

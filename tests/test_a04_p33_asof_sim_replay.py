@@ -123,6 +123,23 @@ class P033AsOfSyntheticReplayTests(unittest.TestCase):
                                  entry.decision_utc)
         self.assertEqual(r.replay_asof_utc, r.entries[-1].decision_utc)
 
+    def test_delayed_probe_receipt_keeps_causal_replay_chain(self) -> None:
+        for rule in ("B2", "S2"):
+            a = w(rule)
+            first, last = a.bars.trigger_m15
+            late = a.decision_utc + timedelta(seconds=5)
+            first = replace(first, observation=replace(
+                first.observation, retrieved_at_utc=late))
+            delayed = replace(a, bars=replace(a.bars, trigger_m15=(first, last)),
+                              decision_utc=late)
+            with self.subTest(rule=rule):
+                got = report(delayed)
+                self.assertEqual(got.entries[0].computed_receipt.first_known_utc, late)
+                self.assertEqual(got.entries[0].computed_receipt.classified_output.events[0].first_known_utc, late)
+                self.assertEqual(got.entries[0].action, "NO_SIGNAL")
+                self.assertTrue(verify_sim_replay_chain(got))
+                self.assertNotEqual(got.chain_tip_sha256, report(a).chain_tip_sha256)
+
     def test_06_identical_replay_yields_stable_hash_chain(self) -> None:
         a, b = report(w("B2"), w("S2", 1)), report(w("B2"), w("S2", 1))
         self.assertEqual(a, b)

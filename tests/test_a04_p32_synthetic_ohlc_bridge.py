@@ -140,6 +140,45 @@ class P032CausalComputedSIMToZoneTests(unittest.TestCase):
         self.assertEqual(r.classified_output.classified[0].first_known_utc,
                          bar.first_known_utc)
 
+    def test_delayed_either_probe_retrieval_routes_computed_availability(self) -> None:
+        for rule in SUPPORTED_PILOTS:
+            for index in (0, 1):
+                b, _, _ = case_from_closed_bars(rule)
+                first, last = b.trigger_m15
+                late = last.first_known_utc + timedelta(seconds=5)
+                probe = b.trigger_m15[index]
+                updated = replace(probe, observation=replace(
+                    probe.observation, retrieved_at_utc=late))
+                pair = (updated, last) if index == 0 else (first, updated)
+                with self.subTest(rule=rule, index=index):
+                    got = case(rule, bars=replace(b, trigger_m15=pair),
+                               decision=late)
+                    self.assertIs(got.experimental_numeric_action,
+                                  CandidateAction.BUY if rule == "B2" else CandidateAction.SELL)
+                    self.assertEqual(got.first_known_utc, late)
+                    self.assertEqual(got.classified_output.classified[0].first_known_utc, late)
+                    self.assertEqual(got.classified_output.events[0].first_known_utc, late)
+                    self.assertEqual(got.action, "NO_SIGNAL")
+
+    def test_late_probe_no_pattern_remains_empty_but_clock_is_causal(self) -> None:
+        b, _, _ = case_from_closed_bars("B2")
+        first, last = b.trigger_m15
+        late = last.first_known_utc + timedelta(seconds=5)
+        first = replace(first, observation=replace(first.observation, retrieved_at_utc=late))
+        last = replace(last, close=first.close)
+        got = case("B2", bars=replace(b, trigger_m15=(first, last)), decision=late)
+        self.assertIs(got.experimental_numeric_action, CandidateAction.NO_SIGNAL)
+        self.assertEqual(got.first_known_utc, late)
+        self.assertEqual(got.classified_output.events, ())
+
+    def test_delayed_probe_beyond_asof_remains_rejected(self) -> None:
+        b, _, _ = case_from_closed_bars("S2")
+        first, last = b.trigger_m15
+        late = last.first_known_utc + timedelta(seconds=5)
+        first = replace(first, observation=replace(first.observation, retrieved_at_utc=late))
+        with self.assertRaisesRegex(ValueError, "FUTURE_KNOWN_OR_RETRIEVED"):
+            case("S2", bars=replace(b, trigger_m15=(first, last)), decision=late-timedelta(seconds=1))
+
     def test_11_mid_only_no_executable_quote_side(self) -> None:
         for rule in SUPPORTED_PILOTS:
             with self.subTest(rule=rule):
