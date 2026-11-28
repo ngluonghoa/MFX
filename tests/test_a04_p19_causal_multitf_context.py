@@ -37,6 +37,24 @@ def evaluate(rule: str, **change):
 
 
 class CausalSyntheticMultitfTests(unittest.TestCase):
+    def test_reject_m15_seed_trigger_stream_drift_both_directions(self):
+        for rule in ("B2", "S2"):
+            bars, *_ = case_from_closed_bars(rule)
+            seed = bars.micro_seed_m15[0]
+            wrong = replace(seed, observation=replace(
+                seed.observation, stream_id="SIM:OTHER-M15"))
+            with self.subTest(rule=rule), self.assertRaisesRegex(ValueError, "P019_M15_SEED_TRIGGER_STREAM_DRIFT"):
+                evaluate(rule, micro_seed_m15=(wrong,))
+
+    def test_reject_m15_seed_trigger_aggregation_drift_both_directions(self):
+        for rule in ("B2", "S2"):
+            bars, *_ = case_from_closed_bars(rule)
+            seed = bars.micro_seed_m15[0]
+            wrong = replace(seed, key=replace(
+                seed.key, aggregation_version="SIM:OTHER-AGG"))
+            with self.subTest(rule=rule), self.assertRaisesRegex(ValueError, "P019_M15_SEED_TRIGGER_STREAM_DRIFT"):
+                evaluate(rule, micro_seed_m15=(wrong,))
+
     def test_real_computation_b2_buy_from_ohlc(self):
         receipt=evaluate_case("B2")
         self.assertIs(receipt.signal.action,CandidateAction.BUY)
