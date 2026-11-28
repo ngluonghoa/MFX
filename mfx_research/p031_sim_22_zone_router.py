@@ -78,7 +78,8 @@ class ResearchZoneRow:
     calendar_version: str
     origin_event_id: str
     research_opportunity_id: str
-    first_known_utc: datetime
+    first_known_utc: datetime  # Source-claimed knowledge clock.
+    available_at_utc: datetime  # Computed row cannot precede retrieval.
     action: str = "NO_SIGNAL"
     stage: str = "UNVERIFIED"
     actual_source_signal_confirmed: bool = False
@@ -103,7 +104,8 @@ class ResearchEventGroup:
     exit_long_labels: tuple[str, ...]
     exit_short_labels: tuple[str, ...]
     display_outcome: str
-    first_known_utc: datetime
+    first_known_utc: datetime  # Earliest source-claimed event onset.
+    available_at_utc: datetime  # All grouped labels are available by this clock.
     conflict: bool = False
     action: str = "NO_SIGNAL"
     may_publish_alert: bool = False
@@ -224,6 +226,7 @@ def route_sim_22_zone_labels(
                 origin_event_id=claim.origin_event_id,
                 research_opportunity_id=opp,
                 first_known_utc=claim.first_known_utc,
+                available_at_utc=claim.retrieved_at_utc,
             ))
         longs = tuple(group_labels["ENTRY_LONG_CANDIDATE"])
         shorts = tuple(group_labels["ENTRY_SHORT_CANDIDATE"])
@@ -245,6 +248,7 @@ def route_sim_22_zone_labels(
             exit_short_labels=short_exits,
             display_outcome=_outcome(longs, shorts),
             first_known_utc=min(c.first_known_utc for c in members),
+            available_at_utc=max(c.retrieved_at_utc for c in members),
             conflict=bool(longs and shorts),
         ))
     return ResearchZoneReport(

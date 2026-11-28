@@ -229,6 +229,8 @@ def _verify_entry_invariants(entry: ResearchReplayEntry) -> None:
                 or row.research_opportunity_id != event.research_opportunity_id
                 or row.first_known_utc != receipt.first_known_utc
                 or event.first_known_utc != receipt.first_known_utc
+                or row.available_at_utc != receipt.first_known_utc
+                or event.available_at_utc != receipt.first_known_utc
                 or event.matched_labels != expected
                 or event.entry_long_labels != (expected if direction is CandidateAction.BUY else ())
                 or event.entry_short_labels != (expected if direction is CandidateAction.SELL else ())

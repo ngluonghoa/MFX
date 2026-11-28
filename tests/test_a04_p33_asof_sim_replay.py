@@ -78,6 +78,25 @@ def shifted_changed(window: SyntheticReplayWindow) -> SyntheticReplayWindow:
 
 
 class P033AsOfSyntheticReplayTests(unittest.TestCase):
+    def test_computed_group_availability_is_bound_to_replay(self) -> None:
+        for rule in ("B2", "S2"):
+            r = report(w(rule))
+            entry = r.entries[0]
+            receipt = entry.computed_receipt
+            routed = receipt.classified_output
+            row, event = routed.classified[0], routed.events[0]
+            self.assertEqual(row.available_at_utc, receipt.first_known_utc)
+            self.assertEqual(event.available_at_utc, receipt.first_known_utc)
+            for changed in (
+                replace(routed, classified=(replace(row, available_at_utc=row.available_at_utc-ONE_SECOND),)),
+                replace(routed, events=(replace(event, available_at_utc=event.available_at_utc-ONE_SECOND),)),
+            ):
+                with self.subTest(rule=rule), self.assertRaisesRegex(
+                    ValueError, "P033_NESTED_ROUTED_RECEIPT_DRIFT"
+                ):
+                    verify_sim_replay_chain(replace(r, entries=(
+                        replace(entry, computed_receipt=replace(receipt, classified_output=changed)),)))
+
     def test_reject_nested_authority_drift_even_with_original_chain(self) -> None:
         for rule in ("B2", "S2"):
             r = report(w(rule))

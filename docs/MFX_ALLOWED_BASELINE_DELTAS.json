@@ -894,8 +894,8 @@
     {
       "path": "mfx_research/p031_sim_22_zone_router.py",
       "change": "added",
-      "expected_current_sha": "38dcfd00f00bfb8eb0100507848ed618519121a3",
-      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched."
+      "expected_current_sha": "a1c98db9bebb1ec285250ff25fd8c5e8c77fc27f",
+      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched. P288 separate SIM row/group availability from source knowledge."
     },
     {
       "path": "mfx_research/p032_synthetic_ohlc_bridge.py",
@@ -906,8 +906,8 @@
     {
       "path": "mfx_research/p033_asof_sim_replay.py",
       "change": "added",
-      "expected_current_sha": "e10952f2b2d583dad671d46d5f5d1666cb87bd09",
-      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. P287 nested SIM replay receipt consistency."
+      "expected_current_sha": "8b20fc5a9b498c409a9d0ea2732f3a66980bea1b",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. P287 nested SIM replay receipt consistency. P288 separate SIM row/group availability from source knowledge."
     },
     {
       "path": "mfx_research/p034_sim_adversarial_review.py",
@@ -1218,8 +1218,8 @@
     {
       "path": "tests/test_a04_p31_sim_22_zone_router.py",
       "change": "added",
-      "expected_current_sha": "a5adc71a7ecc60388dd580c8f91b06e6f119ecca",
-      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched."
+      "expected_current_sha": "94509a036502dfee9de1ffafd488c8476545ca54",
+      "reason": "A04/P0.31 MFX-only typed 22-zone SIM metadata presentation router: dynamically read P0.30 source-sealed approved roles, 24 preregistered functional positive/negative tests, deterministic event grouping, mixed-direction conflict NO_SIGNAL, nonentry watch/exit isolation, strict UTC/SIM provenance and hosted CI demo. Zero numerical approval/live feeds/Drive raw cache/publish/broker orders, original frozen Forex src untouched. P288 separate SIM row/group availability from source knowledge."
     },
     {
       "path": "tests/test_a04_p32_synthetic_ohlc_bridge.py",
@@ -1230,8 +1230,8 @@
     {
       "path": "tests/test_a04_p33_asof_sim_replay.py",
       "change": "added",
-      "expected_current_sha": "47e3574c57aa5f87b978872e709524a706398da3",
-      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. P286 computed SIM B2/S2 router and replay availability. P287 nested SIM replay receipt consistency."
+      "expected_current_sha": "c46d2132eb9de4b5888fffb9cc551880b81cc768",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. P286 computed SIM B2/S2 router and replay availability. P287 nested SIM replay receipt consistency. P288 separate SIM row/group availability from source knowledge."
     },
     {
       "path": "tests/test_a04_p34_sim_adversarial_review.py",
@@ -4442,6 +4442,12 @@
       "change": "added",
       "expected_current_sha": "8f0fbe2124091390987e2f11628ea35922d0e1f6",
       "reason": "P287 SIM replay nested consistency; no market authority."
+    },
+    {
+      "path": "docs/MFX_P288_SIM_GROUP_AVAILABILITY.md",
+      "change": "added",
+      "expected_current_sha": "c4453007f014465da23d4c198906b1b738f13845",
+      "reason": "P288 group computed availability; no market authority."
     }
   ]
 }

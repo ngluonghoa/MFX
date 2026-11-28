@@ -37,6 +37,41 @@ def c(label: str, **kw: object) -> SimZoneLabelClaim:
 
 
 class P031SimZoneResearchRouterTests(unittest.TestCase):
+    def test_row_separates_source_known_and_retrieved_availability(self) -> None:
+        for label in ("B2", "S2", "B7", "S3"):
+            claim = c(label, retrieved_at_utc=T+timedelta(minutes=3))
+            r = route_sim_22_zone_labels((claim,), DECISION)
+            with self.subTest(label=label):
+                self.assertEqual(r.classified[0].first_known_utc, T)
+                self.assertEqual(r.classified[0].available_at_utc, claim.retrieved_at_utc)
+                self.assertEqual(r.events[0].available_at_utc, claim.retrieved_at_utc)
+
+    def test_conflict_availability_is_latest_member_retrieval(self) -> None:
+        a = c("B2")
+        b = c("S2", first_known_utc=T+timedelta(minutes=2),
+              retrieved_at_utc=T+timedelta(minutes=4))
+        early = route_sim_22_zone_labels((a,), a.retrieved_at_utc)
+        full = route_sim_22_zone_labels((a, b), DECISION)
+        reverse = route_sim_22_zone_labels((b, a), DECISION)
+        self.assertFalse(early.events[0].conflict)
+        self.assertTrue(full.events[0].conflict)
+        self.assertEqual(full.events, reverse.events)
+        self.assertEqual(full.events[0].research_opportunity_id,
+                         early.events[0].research_opportunity_id)
+        self.assertEqual(full.events[0].first_known_utc, a.first_known_utc)
+        self.assertEqual(full.events[0].available_at_utc, b.retrieved_at_utc)
+        with self.assertRaisesRegex(ValueError, "P031_FUTURE_KNOWN"):
+            route_sim_22_zone_labels((a, b), b.retrieved_at_utc-timedelta(seconds=1))
+
+    def test_independent_events_keep_independent_availability(self) -> None:
+        first = c("B2", origin_event_id="SIM:A")
+        second = c("S2", origin_event_id="SIM:B",
+                   retrieved_at_utc=T+timedelta(minutes=3))
+        r = route_sim_22_zone_labels((second, first), DECISION)
+        self.assertEqual(tuple(e.available_at_utc for e in r.events),
+                         (first.retrieved_at_utc, second.retrieved_at_utc))
+        self.assertTrue(all(e.available_at_utc < DECISION for e in r.events))
+
     def test_01_original_18_catalog_is_unchanged(self) -> None:
         validate_catalog(ZONES)
         self.assertEqual(len(ZONES), 18)
