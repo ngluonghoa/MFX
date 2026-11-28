@@ -1,0 +1,3 @@
+# P285 — synthetic EMA prefix availability
+
+P016 computes an EMA crossover from all supplied closed synthetic M15 bars but reported only the final bar revision-known clock. A late seed, earlier revision-known clock or delayed final retrieval could predate the computed receipt. Report the maximum of revision-known and retrieval clocks across the complete consumed prefix, following P283 availability semantics. This includes NO_SIGNAL results. Four regression methods cover both directions, flat input, delayed intermediate revision/final retrieval and rejection beyond as-of. Existing arithmetic and source/causal gates unchanged. No provider/cache/schedule/Production/MST change. NO_SIGNAL.

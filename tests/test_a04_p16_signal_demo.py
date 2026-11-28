@@ -24,6 +24,45 @@ class OfflineEmaResearchSignalTests(unittest.TestCase):
             bars, bars[-1].first_known_utc + timedelta(seconds=1), **changes,
         )
 
+    def test_computed_clock_includes_late_seed_retrieval_all_actions(self):
+        for sample, expected in ((BUY_CLOSES, CandidateAction.BUY),
+                                 (SELL_CLOSES, CandidateAction.SELL),
+                                 (FLAT_CLOSES, CandidateAction.NO_SIGNAL)):
+            bars = synthetic_m15_bars(sample)
+            late = bars[-1].first_known_utc + timedelta(seconds=5)
+            seed = replace(bars[0], observation=replace(
+                bars[0].observation, retrieved_at_utc=late))
+            with self.subTest(sample=sample):
+                value = research_only_ema_signal((seed,) + bars[1:], late)
+                self.assertEqual(value.first_known_utc, late)
+                self.assertIs(value.action, expected)
+                self.assertFalse(value.can_trade)
+
+    def test_computed_clock_includes_late_intermediate_revision(self):
+        bars = synthetic_m15_bars(BUY_CLOSES)
+        late = bars[-1].first_known_utc + timedelta(seconds=7)
+        middle = replace(bars[2], first_known_utc=late)
+        value = research_only_ema_signal(bars[:2] + (middle,) + bars[3:], late)
+        self.assertEqual(value.first_known_utc, late)
+        self.assertIs(value.action, CandidateAction.BUY)
+
+    def test_computed_clock_includes_late_final_retrieval(self):
+        bars = synthetic_m15_bars(SELL_CLOSES)
+        late = bars[-1].first_known_utc + timedelta(seconds=9)
+        last = replace(bars[-1], observation=replace(
+            bars[-1].observation, retrieved_at_utc=late))
+        value = research_only_ema_signal(bars[:-1] + (last,), late)
+        self.assertEqual(value.first_known_utc, late)
+        self.assertIs(value.action, CandidateAction.SELL)
+
+    def test_future_seed_retrieval_still_rejected(self):
+        bars = synthetic_m15_bars(BUY_CLOSES)
+        decision = bars[-1].first_known_utc
+        seed = replace(bars[0], observation=replace(
+            bars[0].observation, retrieved_at_utc=decision + timedelta(seconds=1)))
+        with self.assertRaisesRegex(ValueError, "FUTURE_BAR_OR_RETRIEVAL"):
+            research_only_ema_signal((seed,) + bars[1:], decision)
+
     def test_actual_buy_cross_from_closed_m15_ema(self):
         value = self.evaluate()
         self.assertIs(value.action, CandidateAction.BUY)

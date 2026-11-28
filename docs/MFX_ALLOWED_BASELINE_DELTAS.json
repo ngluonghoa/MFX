@@ -846,8 +846,8 @@
     {
       "path": "mfx_research/offline_ema_signals.py",
       "change": "added",
-      "expected_current_sha": "ee0474da59349ab7633653dbbe3f1922b3ac5f8f",
-      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+      "expected_current_sha": "a3b98b02f3b541a157b97ab7332e2b0207da54d6",
+      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights P285 complete SIM EMA prefix availability clock."
     },
     {
       "path": "mfx_research/p022_policy_casebook.py",
@@ -1122,8 +1122,8 @@
     {
       "path": "tests/test_a04_p16_signal_demo.py",
       "change": "added",
-      "expected_current_sha": "5aaf7a8090aa903229569cbcbc38a00891b7b49c",
-      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights"
+      "expected_current_sha": "39e1b8ba0ea893b2844a4f5606213f4baef16328",
+      "reason": "A04/P0.16 actually executable synthetic-only M15 EMA crossover BUY/SELL research evaluator isolated outside frozen Forex source/wheel, safety tests, NO original 18-zone parity or trading rights P285 complete SIM EMA prefix availability clock."
     },
     {
       "path": "tests/test_a04_p17_zone_catalog_gate.py",
@@ -4424,6 +4424,12 @@
       "change": "added",
       "expected_current_sha": "0e855272f4e56981b0e06fb4c5572b52f929cf91",
       "reason": "P284 synthetic M15 identity correctness; no signal authority."
+    },
+    {
+      "path": "docs/MFX_P285_SIM_EMA_PREFIX_AVAILABILITY.md",
+      "change": "added",
+      "expected_current_sha": "6944a8628977bfce87ea85badada9289a554eef4",
+      "reason": "P285 computed SIM EMA availability; no market authority."
     }
   ]
 }
