@@ -39,6 +39,24 @@ def eval_changed(rule: str, **changed):
 
 
 class ConfirmedRightBarSwingTests(unittest.TestCase):
+    def test_reject_m15_seed_trigger_stream_drift_both_directions(self):
+        for rule in ("B2", "S2"):
+            bars, *_ = case_confirmed(rule)
+            seed = bars.micro_seed_m15[0]
+            wrong = replace(seed, observation=replace(
+                seed.observation, stream_id="SIM:OTHER-M15"))
+            with self.subTest(rule=rule), self.assertRaisesRegex(ValueError, "P020_M15_TRIGGER_STREAM_DRIFT"):
+                eval_changed(rule, micro_seed_m15=(wrong,))
+
+    def test_reject_m15_seed_trigger_aggregation_drift_both_directions(self):
+        for rule in ("B2", "S2"):
+            bars, *_ = case_confirmed(rule)
+            seed = bars.micro_seed_m15[0]
+            wrong = replace(seed, key=replace(
+                seed.key, aggregation_version="SIM:OTHER-AGG"))
+            with self.subTest(rule=rule), self.assertRaisesRegex(ValueError, "P020_M15_TRIGGER_STREAM_DRIFT"):
+                eval_changed(rule, micro_seed_m15=(wrong,))
+
     def test_b2_buy_only_after_actual_htf_confirmed_pivots(self):
         got = evaluate_case("B2")
         self.assertIs(got.signal.action, CandidateAction.BUY)

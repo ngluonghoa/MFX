@@ -282,6 +282,10 @@ def derive_swing_b2_s2_research(
                     latest_known.confirmation_index].key.bar_end_utc > cutoff):
             raise ValueError("P020_M15_PIVOT_NOT_KNOWN_BEFORE_TRIGGER_OPEN")
         micro_level = latest_known.price
+    elif any(x.observation.stream_id != seed.observation.stream_id
+             or x.key.aggregation_version != seed.key.aggregation_version
+             for x in m15):
+        raise ValueError("P020_M15_TRIGGER_STREAM_DRIFT")
     atr = mean_true_range(h1, zone_policy.atr_h1_periods)
     if atr <= 0 or not atr.is_finite():
         raise ValueError("P020_NO_H1_TRUE_RANGE_ATR")

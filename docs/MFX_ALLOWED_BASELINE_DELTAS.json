@@ -834,14 +834,14 @@
     {
       "path": "mfx_research/causal_multitf_context.py",
       "change": "added",
-      "expected_current_sha": "b9afc723d0beec2faba5d5653d8b6afbe6906930",
-      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker P269 shared H1 arithmetic migration. P282 fixed UTC-CLOSED synthetic calendar validation."
+      "expected_current_sha": "b2762c93736a2fce7bcc6c3e1958ceb1ae76f9e4",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker P269 shared H1 arithmetic migration. P282 fixed UTC-CLOSED synthetic calendar validation. P284 SIM M15 seed/trigger identity continuity."
     },
     {
       "path": "mfx_research/confirmed_swings.py",
       "change": "added",
-      "expected_current_sha": "cf21e3c04e0cac5d0be085945a86a62e9966524f",
-      "reason": "P0.161 backward-compatible P020 confirmed pivot M15 scanner and exact prior-closed micro level for MFX v2 B2/S2, no original Forex rule or live data. P269 shared H1 arithmetic migration. P272 shared confirmed-pivot trend predicate; existing source/clock gates unchanged. P273 shared strict price-only pivot selection; source and right-clock gates unchanged."
+      "expected_current_sha": "ff1236fb5538e5c37c5afc589958b96d9cacb5b5",
+      "reason": "P0.161 backward-compatible P020 confirmed pivot M15 scanner and exact prior-closed micro level for MFX v2 B2/S2, no original Forex rule or live data. P269 shared H1 arithmetic migration. P272 shared confirmed-pivot trend predicate; existing source/clock gates unchanged. P273 shared strict price-only pivot selection; source and right-clock gates unchanged. P284 SIM M15 seed/trigger identity continuity."
     },
     {
       "path": "mfx_research/offline_ema_signals.py",
@@ -1140,14 +1140,14 @@
     {
       "path": "tests/test_a04_p19_causal_multitf_context.py",
       "change": "added",
-      "expected_current_sha": "a8d46f82340a1f92c565cabce2b90990bdbceb55",
-      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS"
+      "expected_current_sha": "73539461b2846866c8a7cb3921d021eb90296fd6",
+      "reason": "A04/P0.19 real pure synthetic D1/H4 high-low trend proxy, H1 true-range ATR/support/resistance and pre-known M15 micro-level; B2/S2 research signals from independent closed bars; no source-approved pivot numeric parity, no src/live cache/broker; fixed Ruff E701/E741 after initial PR CI demonstrated 999 unittest PASS P284 SIM M15 seed/trigger identity continuity."
     },
     {
       "path": "tests/test_a04_p20_confirmed_swings.py",
       "change": "added",
-      "expected_current_sha": "b63d0d59f1995adaf1ee62172d67025f1e117711",
-      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker; initial PR CI RED 42623985698 single test expected FUTURE_KNOWN but source correctly rejects FUTURE_PRICE_BAR before right bar close, corrected assertion P282 fixed UTC-CLOSED synthetic calendar validation."
+      "expected_current_sha": "a03a487334f4d75802457e078d773d77f77da68f",
+      "reason": "A04/P0.20 strictly causal right-bar confirmed D1/H4 swing research, HH/HL or LH/LL from known-close synthetic candles, B2/S2 research routing only; no source numeric 1:1/approved policy, real provider/Drive market cache/broker; initial PR CI RED 42623985698 single test expected FUTURE_KNOWN but source correctly rejects FUTURE_PRICE_BAR before right bar close, corrected assertion P282 fixed UTC-CLOSED synthetic calendar validation. P284 SIM M15 seed/trigger identity continuity."
     },
     {
       "path": "tests/test_a04_p21_source_parameter_review.py",
@@ -4418,6 +4418,12 @@
       "change": "added",
       "expected_current_sha": "055618497b780a0592f2a7bf148abca5a0b0f106",
       "reason": "P283 synthetic candidate timing correctness; no market authority."
+    },
+    {
+      "path": "docs/MFX_P284_SIM_M15_SEED_STREAM_CONTINUITY.md",
+      "change": "added",
+      "expected_current_sha": "0e855272f4e56981b0e06fb4c5572b52f929cf91",
+      "reason": "P284 synthetic M15 identity correctness; no signal authority."
     }
   ]
 }

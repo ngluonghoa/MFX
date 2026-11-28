@@ -210,6 +210,10 @@ def derive_and_evaluate_b2_s2(
         raise ValueError("P019_MICRO_PIVOT_NOT_CAUSALLY_KNOWN_AT_START")
     if m15[0].key.bar_end_utc != m15[1].key.bar_start_utc:
         raise ValueError("P019_M15_TRIGGER_DISCONTINUITY")
+    if any(x.observation.stream_id != seed.observation.stream_id
+           or x.key.aggregation_version != seed.key.aggregation_version
+           for x in m15):
+        raise ValueError("P019_M15_SEED_TRIGGER_STREAM_DRIFT")
 
     h1 = bars.hourly
     atr_periods = derivation.atr_h1_periods
