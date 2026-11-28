@@ -906,8 +906,8 @@
     {
       "path": "mfx_research/p033_asof_sim_replay.py",
       "change": "added",
-      "expected_current_sha": "fdfd00e51156b335547da3325055d8428a10c139",
-      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release."
+      "expected_current_sha": "e10952f2b2d583dad671d46d5f5d1666cb87bd09",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. P287 nested SIM replay receipt consistency."
     },
     {
       "path": "mfx_research/p034_sim_adversarial_review.py",
@@ -1230,8 +1230,8 @@
     {
       "path": "tests/test_a04_p33_asof_sim_replay.py",
       "change": "added",
-      "expected_current_sha": "707e1f5022d6c0a5f4c59d0331c577ec54b8144e",
-      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. P286 computed SIM B2/S2 router and replay availability."
+      "expected_current_sha": "47e3574c57aa5f87b978872e709524a706398da3",
+      "reason": "A04/P0.33 independent SIM-only chronological as-of B2/S2 CLOSED OHLC replay, deterministic append-only in-memory hash-linked evidence, future-prefix invariance and duplicate-origin rejection; 24 preregistered tests, Cloud CI demo and strict mypy. Original frozen Forex src/ untouched; 0 approved numeric/real vendor/Drive market cache/alerts/broker/release. P286 computed SIM B2/S2 router and replay availability. P287 nested SIM replay receipt consistency."
     },
     {
       "path": "tests/test_a04_p34_sim_adversarial_review.py",
@@ -4436,6 +4436,12 @@
       "change": "added",
       "expected_current_sha": "c23a71e7ff9db37844793e7797cba4a23be53cb8",
       "reason": "P286 synthetic router computed availability; no market authority."
+    },
+    {
+      "path": "docs/MFX_P287_SIM_REPLAY_NESTED_CONSISTENCY.md",
+      "change": "added",
+      "expected_current_sha": "8f0fbe2124091390987e2f11628ea35922d0e1f6",
+      "reason": "P287 SIM replay nested consistency; no market authority."
     }
   ]
 }

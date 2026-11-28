@@ -170,6 +170,42 @@ def _verify_entry_invariants(entry: ResearchReplayEntry) -> None:
             or report.broker_orders != 0
             or entry.decision_utc != receipt.decision_utc):
         raise ValueError("P033_RESEARCH_ONLY_SOURCE_APPROVAL_GATE")
+    # Compact V1 hash payload does not serialize all nested receipt fields.
+    derived = receipt.actual_ohlc_computation
+    signal = derived.signal
+    context = derived.derived_context
+    _exact_utc(receipt.first_known_utc, "receipt.first_known_utc")
+    _exact_utc(derived.known_at_start_utc, "derived.known_at_start_utc")
+    if (receipt.actual_market_data_verified or receipt.verified_position
+            or derived.structural_calibration_approved
+            or derived.original_forex_source_signal_parity
+            or derived.source_verified_for_market
+            or derived.may_send_confirmed_signal or derived.can_trade
+            or derived.provider_requests != 0 or derived.drive_market_cache_writes != 0
+            or signal.stage is not SignalStage.UNVERIFIED
+            or signal.original_forex_numerical_parity
+            or signal.source_verified_for_market
+            or signal.may_send_confirmed_signal or signal.can_trade
+            or signal.provider_requests != 0 or signal.drive_market_cache_writes != 0
+            or report.may_auto_exit or report.release_ready
+            or report.live_provider_calls != 0
+            or report.real_drive_quote_cache_writes != 0):
+        raise ValueError("P033_NESTED_RESEARCH_ONLY_GATE")
+    direction = CandidateAction.BUY if receipt.pilot_rule_id == "B2" else CandidateAction.SELL
+    if (receipt.experimental_numeric_action not in (direction, CandidateAction.NO_SIGNAL)
+            or signal.action is not receipt.experimental_numeric_action
+            or signal.rule_id != receipt.pilot_rule_id
+            or signal.origin_event_id != receipt.origin_event_id
+            or signal.reason != receipt.research_reason
+            or signal.first_known_utc != receipt.first_known_utc
+            or signal.decision_utc != entry.decision_utc
+            or context.rule_id != signal.rule_id
+            or context.origin_event_id != signal.origin_event_id
+            or context.instrument_version != signal.instrument_version
+            or context.context_first_known_utc != derived.known_at_start_utc
+            or context.known_atr != derived.h1_true_range_atr
+            or not derived.known_at_start_utc <= receipt.first_known_utc <= entry.decision_utc):
+        raise ValueError("P033_NESTED_COMPUTED_RECEIPT_DRIFT")
     expected = (
         (receipt.pilot_rule_id,)
         if receipt.experimental_numeric_action is not CandidateAction.NO_SIGNAL
@@ -180,6 +216,24 @@ def _verify_entry_invariants(entry: ResearchReplayEntry) -> None:
             or any(event.action != "NO_SIGNAL" or event.conflict
                    for event in report.events)):
         raise ValueError("P033_COMPUTED_PATTERN_ROUTING_INCONSISTENCY")
+    if expected:
+        row, event = report.classified[0], report.events[0]
+        if (row.action != "NO_SIGNAL" or row.stage != "UNVERIFIED"
+                or row.actual_source_signal_confirmed or row.position_verified
+                or row.may_publish or row.may_open_new_position or row.may_auto_exit
+                or event.may_publish_alert or event.actual_numeric_signal_count != 0
+                or row.origin_event_id != receipt.origin_event_id
+                or event.origin_event_id != receipt.origin_event_id
+                or row.instrument_version != signal.instrument_version
+                or event.instrument_version != signal.instrument_version
+                or row.research_opportunity_id != event.research_opportunity_id
+                or row.first_known_utc != receipt.first_known_utc
+                or event.first_known_utc != receipt.first_known_utc
+                or event.matched_labels != expected
+                or event.entry_long_labels != (expected if direction is CandidateAction.BUY else ())
+                or event.entry_short_labels != (expected if direction is CandidateAction.SELL else ())
+                or event.watch_only_labels or event.exit_long_labels or event.exit_short_labels):
+            raise ValueError("P033_NESTED_ROUTED_RECEIPT_DRIFT")
 
 
 def verify_sim_replay_chain(report: ResearchReplayReport) -> bool:

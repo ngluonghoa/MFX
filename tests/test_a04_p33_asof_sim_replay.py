@@ -78,6 +78,78 @@ def shifted_changed(window: SyntheticReplayWindow) -> SyntheticReplayWindow:
 
 
 class P033AsOfSyntheticReplayTests(unittest.TestCase):
+    def test_reject_nested_authority_drift_even_with_original_chain(self) -> None:
+        for rule in ("B2", "S2"):
+            r = report(w(rule))
+            entry = r.entries[0]
+            receipt = entry.computed_receipt
+            derived = receipt.actual_ohlc_computation
+            for modified in (
+                replace(receipt, actual_market_data_verified=True),
+                replace(receipt, verified_position=True),
+                replace(receipt, actual_ohlc_computation=replace(derived, can_trade=True)),
+                replace(receipt, actual_ohlc_computation=replace(
+                    derived, signal=replace(derived.signal, may_send_confirmed_signal=True))),
+                replace(receipt, classified_output=replace(
+                    receipt.classified_output, may_auto_exit=True)),
+            ):
+                with self.subTest(rule=rule), self.assertRaisesRegex(
+                    ValueError, "P033_NESTED_RESEARCH_ONLY_GATE"
+                ):
+                    verify_sim_replay_chain(replace(r, entries=(
+                        replace(entry, computed_receipt=modified),)))
+
+    def test_reject_nested_signal_clock_or_direction_drift(self) -> None:
+        for rule in ("B2", "S2"):
+            r = report(w(rule))
+            entry = r.entries[0]
+            receipt = entry.computed_receipt
+            derived = receipt.actual_ohlc_computation
+            for signal in (
+                replace(derived.signal, first_known_utc=entry.decision_utc + ONE_SECOND),
+                replace(derived.signal, action=CandidateAction.NO_SIGNAL),
+                replace(derived.signal, origin_event_id="SIM:OTHER"),
+            ):
+                with self.subTest(rule=rule), self.assertRaisesRegex(
+                    ValueError, "P033_NESTED_COMPUTED_RECEIPT_DRIFT"
+                ):
+                    changed = replace(receipt, actual_ohlc_computation=replace(
+                        derived, signal=signal))
+                    verify_sim_replay_chain(replace(r, entries=(
+                        replace(entry, computed_receipt=changed),)))
+
+    def test_reject_nested_router_clock_or_authority_drift(self) -> None:
+        for rule in ("B2", "S2"):
+            r = report(w(rule))
+            entry = r.entries[0]
+            receipt = entry.computed_receipt
+            routed = receipt.classified_output
+            row, event = routed.classified[0], routed.events[0]
+            for changed in (
+                replace(routed, classified=(replace(row, may_publish=True),)),
+                replace(routed, events=(replace(event, may_publish_alert=True),)),
+                replace(routed, classified=(replace(row, first_known_utc=row.first_known_utc-ONE_SECOND),)),
+                replace(routed, events=(replace(event, first_known_utc=event.first_known_utc-ONE_SECOND),)),
+            ):
+                with self.subTest(rule=rule), self.assertRaisesRegex(
+                    ValueError, "P033_NESTED_ROUTED_RECEIPT_DRIFT"
+                ):
+                    verify_sim_replay_chain(replace(r, entries=(
+                        replace(entry, computed_receipt=replace(receipt, classified_output=changed)),)))
+
+    def test_no_pattern_receipt_still_rejects_nested_promotion(self) -> None:
+        base = w("B2")
+        first, last = base.bars.trigger_m15
+        r = report(replace(base, bars=replace(
+            base.bars, trigger_m15=(first, replace(last, close=first.close)))))
+        entry = r.entries[0]
+        receipt = entry.computed_receipt
+        self.assertIs(entry.experimental_pattern, CandidateAction.NO_SIGNAL)
+        changed = replace(receipt, verified_position=True)
+        with self.assertRaisesRegex(ValueError, "P033_NESTED_RESEARCH_ONLY_GATE"):
+            verify_sim_replay_chain(replace(r, entries=(
+                replace(entry, computed_receipt=changed),)))
+
     def test_01_frozen_forex18_and_approved_mfx22(self) -> None:
         validate_catalog(ZONES)
         self.assertEqual(len(ZONES), 18)
